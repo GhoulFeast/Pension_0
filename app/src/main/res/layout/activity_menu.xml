@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <TextView
+        android:paddingLeft="20dp"
+        android:id="@+id/title_text"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:textColor="@color/white"
+        android:background="@color/blue"
+        android:textSize="18sp"
+        android:gravity="center_vertical"
+        android:text="@string/ylyxt"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <LinearLayout
+        android:id="@+id/main_ll"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toTopOf="@+id/main_rg"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/title_text" />
+
+
+    <RadioGroup
+        android:id="@+id/main_rg"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@color/white"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <RadioButton
+            android:id="@+id/main_rb_homepage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:button="@null"
+            android:checked="false"
+            android:drawablePadding="5dp"
+            android:drawableTop="@mipmap/ic_launcher"
+            android:gravity="center"
+            android:padding="5dp"
+            android:text="@string/today_task"
+            android:background="@drawable/selector_tab_color"
+            android:textSize="13sp" />
+
+        <RadioButton
+            android:id="@+id/main_rb_class"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:button="@null"
+            android:checked="false"
+            android:drawablePadding="5dp"
+            android:drawableTop="@mipmap/ic_launcher"
+            android:gravity="center"
+            android:padding="5dp"
+            android:text="@string/change_shifts"
+            android:background="@drawable/selector_tab_color"
+            android:textSize="13sp" />
+
+        <RadioButton
+            android:id="@+id/main_rb_msg"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:button="@null"
+            android:checked="false"
+            android:drawablePadding="5dp"
+            android:drawableTop="@mipmap/ic_launcher"
+            android:gravity="center"
+            android:padding="5dp"
+            android:text="@string/message"
+            android:background="@drawable/selector_tab_color"
+            android:textSize="13sp" />
+
+        <RadioButton
+            android:id="@+id/main_rb_mine"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:button="@null"
+            android:checked="false"
+            android:drawablePadding="5dp"
+            android:drawableTop="@mipmap/ic_launcher"
+            android:gravity="center"
+            android:padding="5dp"
+            android:text="@string/mine"
+            android:background="@drawable/selector_tab_color"
+            android:textSize="13sp" />
+    </RadioGroup>
+
+
+</android.support.constraint.ConstraintLayout>

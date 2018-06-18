@@ -1,3 +1,18 @@
 <resources>
     <string name="app_name">Pension</string>
+    <string name="login">登录</string>
+    <string name="today_task">今日任务</string>
+    <string name="change_shifts">交接班</string>
+    <string name="message">消息</string>
+    <string name="mine">我的</string>
+    <string name="start_job">开始工作</string>
+    <string name="come_room">进房间</string>
+    <string name="ylyxt">智能养老系统</string>
+    <string name="lrxx">老人信息</string>
+    <string name="qhl">去护理</string>
+    <string name="wdxx">我的消息</string>
+    <string name="m_task">明日任务</string>
+    <string name="exit_user">退出账户</string>
+    <string name="nil"> </string>
+    
 </resources>

@@ -8,6 +8,7 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
+import android.widget.Toast
 
 import com.aisino.tool.R
 import com.aisino.tool.dip2px
@@ -18,7 +19,7 @@ import com.aisino.tool.getScreenWidth
  * 自定义 Toast
  * 不重复显示
  */
-object Toast {
+object ToastAdd {
 
 
     private var mToast: android.widget.Toast? = null
@@ -35,7 +36,7 @@ object Toast {
      * @param context 上下文
      * @param text 显示的文本
      */
-    fun showToast_w(context: Context, text: String) {//,int iconid
+     fun showToast_w(context: Context, text: String) {//,int iconid
         val view = View.inflate(context, R.layout.toast_warning, null)
 
         val ll = view.findViewById<View>(R.id.ll_toast_warning) as LinearLayout

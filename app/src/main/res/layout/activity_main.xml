@@ -5,5 +5,67 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.overwork.pension.MainActivity">
+    <ImageView
+        android:id="@+id/lg_gg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="100dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@mipmap/ic_launcher" />
+
+
+    <EditText
+        android:id="@+id/lg_name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginStart="32dp"
+        android:drawableLeft="@mipmap/ic_launcher"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text=""
+        android:textColorLink="@color/mainColor"
+        android:maxLines="1"
+        app:layout_constraintBottom_toTopOf="@+id/lg_pwd"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent" />
+
+
+    <EditText
+        android:id="@+id/lg_pwd"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:drawableLeft="@mipmap/ic_launcher"
+        android:ems="10"
+        android:inputType="textPassword"
+        android:text=""
+        android:textColorLink="@color/mainColor"
+        android:maxLines="1"
+        app:layout_constraintBottom_toTopOf="@+id/lg_login"
+        app:layout_constraintEnd_toEndOf="@+id/lg_name"
+        app:layout_constraintStart_toStartOf="@+id/lg_name" />
+
+    <TextView
+        android:gravity="center"
+        android:id="@+id/lg_login"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="48dp"
+        android:background="@drawable/text_green_raid"
+        android:paddingBottom="16dp"
+        android:paddingTop="16dp"
+        android:text="@string/login"
+        android:textSize="18sp"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/lg_pwd"
+        app:layout_constraintStart_toStartOf="@+id/lg_pwd" />
 
 </android.support.constraint.ConstraintLayout>
