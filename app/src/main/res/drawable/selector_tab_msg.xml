@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- 默认时的图片 -->
+    <item  android:state_checked="true"  >
+        <color android:color="@color/dBlue"/>
+        <bitmap android:src="@mipmap/msg"/>
+    </item>
+    <!-- 选择时的图片 -->
+    <item  android:state_checked="false" >
+        <color android:color="@color/blue"/>
+        <bitmap android:src="@mipmap/msg_s"/>
+    </item>
+
+</selector>

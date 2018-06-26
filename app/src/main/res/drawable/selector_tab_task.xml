@@ -4,10 +4,12 @@
     <!-- 默认时的图片 -->
     <item  android:state_checked="true"  >
         <color android:color="@color/dBlue"/>
+        <bitmap android:src="@mipmap/task"/>
     </item>
     <!-- 选择时的图片 -->
     <item  android:state_checked="false" >
         <color android:color="@color/blue"/>
+        <bitmap android:src="@mipmap/task_s"/>
     </item>
 
 </selector>

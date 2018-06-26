@@ -51,11 +51,12 @@
             android:button="@null"
             android:checked="false"
             android:drawablePadding="5dp"
-            android:drawableTop="@mipmap/ic_launcher"
+            android:drawableTop="@mipmap/task"
             android:gravity="center"
             android:padding="5dp"
             android:text="@string/today_task"
-            android:background="@drawable/selector_tab_color"
+            android:textColor="@color/white"
+            android:background="@drawable/selector_tab_task"
             android:textSize="13sp" />
 
         <RadioButton
@@ -66,11 +67,12 @@
             android:button="@null"
             android:checked="false"
             android:drawablePadding="5dp"
-            android:drawableTop="@mipmap/ic_launcher"
+            android:drawableTop="@mipmap/jjb"
             android:gravity="center"
             android:padding="5dp"
             android:text="@string/change_shifts"
-            android:background="@drawable/selector_tab_color"
+            android:textColor="@color/white"
+            android:background="@drawable/selector_tab_jjb"
             android:textSize="13sp" />
 
         <RadioButton
@@ -81,11 +83,12 @@
             android:button="@null"
             android:checked="false"
             android:drawablePadding="5dp"
-            android:drawableTop="@mipmap/ic_launcher"
+            android:drawableTop="@mipmap/msg"
             android:gravity="center"
             android:padding="5dp"
             android:text="@string/message"
-            android:background="@drawable/selector_tab_color"
+            android:textColor="@color/white"
+            android:background="@drawable/selector_tab_msg"
             android:textSize="13sp" />
 
         <RadioButton
@@ -96,11 +99,12 @@
             android:button="@null"
             android:checked="false"
             android:drawablePadding="5dp"
-            android:drawableTop="@mipmap/ic_launcher"
+            android:drawableTop="@mipmap/mine"
             android:gravity="center"
             android:padding="5dp"
             android:text="@string/mine"
-            android:background="@drawable/selector_tab_color"
+            android:textColor="@color/white"
+            android:background="@drawable/selector_tab_mine"
             android:textSize="13sp" />
     </RadioGroup>
 

@@ -1,11 +1,8 @@
 package com.hq.kbase.network
 
-import android.content.Context
-import android.net.ConnectivityManager
 import android.util.JsonToken
 import okhttp3.*
 import android.util.Xml
-import com.aisino.tool.discreteness.StreamActivity
 import com.google.gson.stream.JsonReader
 import org.xmlpull.v1.XmlPullParser
 import java.io.*
@@ -13,6 +10,8 @@ import okhttp3.RequestBody
 import okhttp3.MultipartBody
 import okhttp3.OkHttpClient
 import okhttp3.Cookie
+import android.R.attr.host
+import android.util.Log
 import java.util.concurrent.TimeUnit
 
 
@@ -25,10 +24,9 @@ class Submit {
     var tag = ""
     var method = Method.GET
     var returnType = ReturnType.JSON
-    lateinit var jsonClass: Class<*>
     var isDebug = true
-    var downloadPath=System.currentTimeMillis().toString()+".jpg"
-    var outTime=5L//单位为秒
+    var downloadPath = System.currentTimeMillis().toString() + ".jpg"
+    var outTime = 5L//单位为秒
 
     val _params: MutableMap<String, Any> = mutableMapOf()
     val _fileParams: MutableMap<String, String> = mutableMapOf()
@@ -40,11 +38,11 @@ class Submit {
     private var _fail: (String) -> Unit = {}
 
     private var isError = false
-    private var cookjar:CookieJar
-    private val cookieStore = HashMap<String, List<Cookie>>()//cookie缓存
+    var cookjar: CookieJar
+    val cookieStore = HashMap<String, List<Cookie>>()//cookie缓存
 
     init {
-        cookjar= object : CookieJar {
+        cookjar = object : CookieJar {
             override fun saveFromResponse(url: HttpUrl, cookies: List<Cookie>) {
                 cookieStore.put(url.host(), cookies)
             }
@@ -62,7 +60,11 @@ class Submit {
 
     }
 
-    fun tryInit(): Unit {//检查配置单
+    fun tryInit(): Unit { //检查配置单
+        _params.clear()
+        _response.clear()
+        _fileParams.clear()
+        _headers.clear()
         when (returnType) {
             ReturnType.JSON -> {
             }
@@ -77,7 +79,7 @@ class Submit {
 
     fun start(start: () -> Unit): Unit {//检查参数
         _start = start
-        if(url=="")return
+        if (url == "") return
         when (method) {//分类请求
             Method.GET -> get()
 
@@ -85,7 +87,7 @@ class Submit {
 
             Method.IMAGE -> upLoad()
 
-            Method.DOWNLOAD-> download()
+            Method.DOWNLOAD -> download()
         }
     }
 
@@ -99,6 +101,7 @@ class Submit {
 
     fun get(): Unit {
         val okHttpClient = OkHttpClient.Builder().cookieJar(cookjar).connectTimeout(outTime, TimeUnit.SECONDS)
+
         for (p in _params) {
             url = url + p.key + "=" + p.value + "&"
         }
@@ -177,12 +180,12 @@ class Submit {
 
             override fun onResponse(call: Call, response: Response) {
                 val inputStream = response.body().byteStream()
-                var fileOutputStream=  FileOutputStream(File(downloadPath))
+                var fileOutputStream = FileOutputStream(File(downloadPath))
                 val buffer = ByteArray(2048)
                 var len = 0
-                while (len  != -1) {
+                while (len != -1) {
                     fileOutputStream.write(buffer, 0, len)
-                    len=inputStream.read(buffer)
+                    len = inputStream.read(buffer)
                 }
                 fileOutputStream.flush()
                 fileOutputStream.close()
@@ -199,6 +202,11 @@ class Submit {
 
     fun successCall(response: Response): Unit {
         kotlin.run {
+            if (response.code() != 200) {
+                _fail("请求失败:" + response.code())
+                return
+            }
+
             when (returnType) {
                 ReturnType.JSON -> {
                     pullJson(response.body().string())
@@ -218,6 +226,11 @@ class Submit {
 
     //- 入参
     operator fun String.minus(value: String) {
+        _params.put(this, value)
+    }
+
+    //- 入参
+    operator fun String.minus(value: Long) {
         _params.put(this, value)
     }
 
@@ -316,34 +329,25 @@ class Submit {
         }
     }
 
-
-    fun getString(string: String): String {
-        return _response[string].toString()
+    fun <E> getAny(string: String): E? {
+        return loopAny<E>(string,_response) as E
     }
 
-    fun getMap(string: String): MutableMap<String, Any> {
-        return _response[string] as MutableMap<String, Any>
-    }
 
-    fun getArr(string: String): ArrayList<MutableMap<String, Any>> {
-        return _response[string] as ArrayList<MutableMap<String, Any>>
-    }
+    private fun <E> loopAny (key: String,target: MutableMap<String, Any>): E? {
+        var result:E?
+        if (target.containsKey(key)) {
+            return target[key] as E
+        }//第一层
+        for (res in target) {
+            if (res.value is MutableMap<*, *>) {
+                result= loopAny<E>(key, res.value as MutableMap<String, Any>)
+                if (result!=null){
+                    return result
+                }
+            }
+        }
 
-    /**
-     * 检测网络是否可用
-     *
-     * @param context
-     * @return
-     */
-//    fun isNetWorkConnected(): Boolean {
-//        if (StreamActivity.app.mApplication != null) {
-//            val mConnectivityManager = StreamActivity.app.mApplication.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-//            val mNetworkInfo = mConnectivityManager.activeNetworkInfo
-//            if (mNetworkInfo != null) {
-//                return mNetworkInfo.isAvailable
-//            }
-//        }
-//
-//        return false
-//    }
+        return null
+    }
 }
