@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+
     <ImageView
         android:id="@+id/imageView"
         android:layout_width="0dp"
@@ -10,7 +11,9 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_launcher_background" />
+        app:srcCompat="@mipmap/img_xin"
+        android:background="@color/blue"
+        android:padding="12dp"/>
 
     <TextView
         android:id="@+id/start_job"

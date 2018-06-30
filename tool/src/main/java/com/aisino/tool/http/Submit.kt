@@ -277,8 +277,8 @@ class Submit {
                     val ba: MutableMap<String, Any> = mutableMapOf()
                     while (reader.hasNext()) {
                         loopJson(reader.nextName(), reader, ba)
-                        al.add(ba)
                     }
+                    al.add(ba)
                     reader.endObject()
                 }
                 reader.endArray()
