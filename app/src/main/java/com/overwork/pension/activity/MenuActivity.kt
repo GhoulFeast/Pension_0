@@ -67,4 +67,10 @@ class MenuActivity :AppCompatActivity(){
     fun setTextView(title: Int): Unit {
         title_text.setText(title)
     }
+
+    fun showFragment(initFragment: Fragment): Unit {
+        UseFragmentManager.displayFragment(showFragment, initFragment,
+                supportFragmentManager, R.id.main_ll)
+        showFragment=initFragment
+    }
 }
