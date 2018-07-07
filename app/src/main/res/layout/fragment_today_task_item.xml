@@ -6,14 +6,19 @@
     android:gravity="center_vertical">
 
     <LinearLayout
-        android:layout_margin="24dp"
+        android:gravity="center_vertical"
+        android:layout_margin="16dp"
         android:background="@drawable/border_white"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
         <TextView
-            android:padding="8dp"
+            android:gravity="center"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:paddingTop="8dp"
+            android:textSize="16sp"
             android:id="@+id/item_todaytask_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -22,8 +27,9 @@
             android:textStyle="bold" />
 
         <TextView
-            android:paddingLeft="8dp"
-            android:paddingRight="8dp"
+            android:gravity="center"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
             android:paddingBottom="8dp"
             android:id="@+id/item_todaytask_room"
             android:layout_width="match_parent"
@@ -33,7 +39,6 @@
     </LinearLayout>
 
     <TextView
-
         android:id="@+id/item_todaytask_task"
         android:layout_marginLeft="6dp"
         android:layout_width="wrap_content"
@@ -41,14 +46,15 @@
         android:text="text"
         android:textColor="@android:color/black"
         android:textSize="16sp" />
-    <view
+    <View
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_weight="1"/>
 
     <TextView
-        android:paddingLeft="16dp"
-        android:paddingRight="16dp"
+        android:textSize="16sp"
+        android:paddingLeft="24dp"
+        android:paddingRight="24dp"
         android:paddingBottom="5dp"
         android:paddingTop="5dp"
         android:background="@drawable/text_green_raid"

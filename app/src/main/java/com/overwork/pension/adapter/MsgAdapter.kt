@@ -18,7 +18,7 @@ class MsgAdapter(context: Context, list: List<MsgM>) : BaseAdapter() {
     }
 
     override fun getView(p0: Int, p1: View?, p2: ViewGroup?): View {
-        var view = LayoutInflater.from(context).inflate(R.layout.fragment_msg_item, p2)
+        var view = LayoutInflater.from(context).inflate(R.layout.fragment_msg_item, null)
         var job = view.findViewById<TextView>(R.id.item_job)
         var jobTitle = view.findViewById<TextView>(R.id.item_job_title)
         var jobText = view.findViewById<TextView>(R.id.item_job_text)

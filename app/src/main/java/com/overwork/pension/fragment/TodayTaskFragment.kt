@@ -5,8 +5,10 @@ import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.aisino.tool.log
 import com.hq.kbase.network.Http
 import com.overwork.pension.R
+import com.overwork.pension.activity.MenuActivity
 import com.overwork.pension.adapter.TodayTaskAdapter
 import com.overwork.pension.other.*
 import kotlinx.android.synthetic.main.fragment_today_task.*
@@ -28,6 +30,22 @@ class TodayTaskFragment : Fragment(){
             }
         }
 
+        (activity as MenuActivity).style {
+
+        }
+
         return view
+    }
+
+    override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        taskList= ArrayList<MutableMap<String,Any>>()
+        val c:MutableMap<String,Any> = mutableMapOf()
+        c.put("name","张三")
+        c.put("wardNumber","301")
+        taskList.add(c)
+
+        todaytask_list.adapter= TodayTaskAdapter(activity,taskList)
+
     }
 }
