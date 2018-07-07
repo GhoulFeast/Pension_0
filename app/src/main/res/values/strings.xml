@@ -14,5 +14,6 @@
     <string name="m_task">明日任务</string>
     <string name="exit_user">退出账户</string>
     <string name="nil"> </string>
+    <string name="complete">完成</string>
     
 </resources>

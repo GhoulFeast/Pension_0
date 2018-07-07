@@ -75,11 +75,6 @@ class Submit {
             return
         }
         _start()
-    }
-
-    fun start(start: () -> Unit): Unit {//检查参数
-        _start = start
-        if (url == "") return
         when (method) {//分类请求
             Method.GET -> get()
 
@@ -89,6 +84,12 @@ class Submit {
 
             Method.DOWNLOAD -> download()
         }
+    }
+
+    fun start(start: () -> Unit): Unit {//检查参数
+        _start = start
+        if (url == "") return
+
     }
 
     fun success(success: () -> Unit): Unit {
@@ -240,9 +241,9 @@ class Submit {
     }
 
     // .. 复杂取参
-    operator fun String.rangeTo(tag: String): String {
+    operator fun <E>String.rangeTo(tag: String): E {
         val c = _response[this] as MutableMap<String, Any>
-        return c[tag].toString()
+        return c[tag] as E
     }
 
 
