@@ -74,8 +74,8 @@ class MenuActivity :AppCompatActivity(){
     fun showFragment(initFragment: Fragment): Unit {
         UseFragmentManager.displayFragment(showFragment, initFragment,
                 supportFragmentManager, R.id.main_ll)
+        fragments.add(showFragment!!)
         showFragment=initFragment
-        fragments.add(initFragment)
         nowState++
     }
 
@@ -126,7 +126,7 @@ class MenuActivity :AppCompatActivity(){
             showFragment(fragments[nowState-1])
             nowState--
         }else{
-
+            fragments.clear()
         }
     }
 
