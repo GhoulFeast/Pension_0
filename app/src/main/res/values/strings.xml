@@ -16,5 +16,9 @@
     <string name="nil"> </string>
     <string name="complete">完成</string>
     <string name="back">返回</string>
-    
+    <string name="temperature">体温</string>
+    <string name="blood_pressure">血压</string>
+    <string name="record_success">记录成功</string>
+    <string name="need_to_see">需关注</string>
+    <string name="have_serious_abnormality">有严重异常</string>
 </resources>
