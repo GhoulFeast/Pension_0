@@ -6,16 +6,6 @@
     android:background="@color/page_bg"
     android:orientation="vertical">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:background="@color/title_blue"
-        android:gravity="center_vertical"
-        android:paddingLeft="15dp"
-        android:text="核对信息"
-        android:textColor="@color/white"
-        android:textSize="18sp" />
-
     <ListView
         android:id="@+id/class_rlv"
         android:layout_width="match_parent"

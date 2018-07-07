@@ -7,4 +7,6 @@
     <color name="white">#ffffff</color>
     <color name="blue">#0e8dd0</color>
     <color name="dBlue">#0b6aa2</color>
+    <color name="title_blue">#22a3e6</color>
+    <color name="page_bg">#f0f0f0</color>
 </resources>
