@@ -1,9 +1,5 @@
 package com.hq.kbase.network
 
-import android.content.Context
-import android.net.ConnectivityManager
-import com.aisino.tool.discreteness.StreamActivity.app.mApplication
-
 /**
  * Created by lenovo on 2017/11/14.
  */

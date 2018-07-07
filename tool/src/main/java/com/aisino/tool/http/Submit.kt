@@ -74,7 +74,9 @@ class Submit {
         if (isError) {
             return
         }
+        if (url == "") return
         _start()
+
         when (method) {//分类请求
             Method.GET -> get()
 
@@ -88,7 +90,7 @@ class Submit {
 
     fun start(start: () -> Unit): Unit {//检查参数
         _start = start
-        if (url == "") return
+
 
     }
 

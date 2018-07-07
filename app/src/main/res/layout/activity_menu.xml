@@ -1,25 +1,70 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
 
-    <TextView
-        android:paddingLeft="20dp"
-        android:id="@+id/title_text"
+    <LinearLayout
+        android:id="@+id/title_bar"
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        android:textColor="@color/white"
         android:background="@color/blue"
-        android:textSize="18sp"
         android:gravity="center_vertical"
-        android:text="@string/ylyxt"
+        android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/title_text"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:gravity="center_vertical"
+            android:paddingLeft="20dp"
+            android:text="@string/ylyxt"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            android:visibility="gone"
+             />
+
+        <LinearLayout
+            android:id="@+id/title_back"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            >
+
+            <TextView
+                android:layout_marginLeft="16dp"
+                android:padding="8dp"
+                android:id="@+id/bar_back"
+                android:drawableLeft="@mipmap/bank"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/back"
+                android:textColor="@color/white"
+                android:textSize="18sp" />
+
+            <View
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+
+            <ImageView
+                android:id="@+id/bar_more"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="8dp"
+                android:layout_marginRight="16dp"
+                app:srcCompat="@mipmap/more" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
 
     <LinearLayout
         android:id="@+id/main_ll"
@@ -29,7 +74,7 @@
         app:layout_constraintBottom_toTopOf="@+id/main_rg"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/title_text" />
+        app:layout_constraintTop_toBottomOf="@+id/title_bar" />
 
 
     <RadioGroup
@@ -48,6 +93,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:background="@drawable/selector_tab_task"
             android:button="@null"
             android:checked="false"
             android:drawablePadding="5dp"
@@ -56,7 +102,6 @@
             android:padding="5dp"
             android:text="@string/today_task"
             android:textColor="@color/white"
-            android:background="@drawable/selector_tab_task"
             android:textSize="13sp" />
 
         <RadioButton
@@ -64,6 +109,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:background="@drawable/selector_tab_jjb"
             android:button="@null"
             android:checked="false"
             android:drawablePadding="5dp"
@@ -72,7 +118,6 @@
             android:padding="5dp"
             android:text="@string/change_shifts"
             android:textColor="@color/white"
-            android:background="@drawable/selector_tab_jjb"
             android:textSize="13sp" />
 
         <RadioButton
@@ -80,6 +125,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:background="@drawable/selector_tab_msg"
             android:button="@null"
             android:checked="false"
             android:drawablePadding="5dp"
@@ -88,7 +134,6 @@
             android:padding="5dp"
             android:text="@string/message"
             android:textColor="@color/white"
-            android:background="@drawable/selector_tab_msg"
             android:textSize="13sp" />
 
         <RadioButton
@@ -96,6 +141,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:background="@drawable/selector_tab_mine"
             android:button="@null"
             android:checked="false"
             android:drawablePadding="5dp"
@@ -104,7 +150,6 @@
             android:padding="5dp"
             android:text="@string/mine"
             android:textColor="@color/white"
-            android:background="@drawable/selector_tab_mine"
             android:textSize="13sp" />
     </RadioGroup>
 
