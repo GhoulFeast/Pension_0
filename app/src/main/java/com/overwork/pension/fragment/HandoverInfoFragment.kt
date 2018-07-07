@@ -5,52 +5,59 @@ import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.RadioGroup
 import com.hq.kbase.network.Http
 import com.overwork.pension.R
 import com.overwork.pension.activity.MenuActivity
 import com.overwork.pension.adapter.ClassAdapter
-import com.overwork.pension.adapter.TodayTaskAdapter
-import com.overwork.pension.other.*
-import kotlinx.android.synthetic.main.activity_menu.*
+import com.overwork.pension.adapter.HandoverInfoAdapter
+import com.overwork.pension.other.BASEURL
+import com.overwork.pension.other.T_ABNORMAL
+import com.overwork.pension.other.T_HANDOVERINFO
+import com.overwork.pension.other.userId
 import kotlinx.android.synthetic.main.fragment_class.*
-import kotlinx.android.synthetic.main.fragment_today_task.*
 
-class ClassFragment : Fragment() {
-    lateinit var classAdapter: ClassAdapter
-    var classBeans: ArrayList<MutableMap<String, Any>> = ArrayList()
+/**
+ * Created by feima on 2018/7/7.
+ */
+
+class HandoverInfoFragment : Fragment() {
+    lateinit var handoverInfoAdapter: HandoverInfoAdapter
+    var handoverInfos: ArrayList<MutableMap<String, Any>> = ArrayList()
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view = inflater?.inflate(R.layout.fragment_class, null, false)
+        val view = inflater?.inflate(R.layout.fragment_handover, null, false)
+        initViewAndEvent()
         return view
     }
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        initViewAndEvent()
         getData()
+        super.onViewCreated(view, savedInstanceState)
     }
 
     fun getData(): Unit {
         Http.get{
-            url= BASEURL + T_ABNORMAL
+            url= BASEURL + T_HANDOVERINFO
             "userId"- userId
             success {
-                classBeans="result".."abnormalList"
-                classAdapter.notifyDataSetChanged()
+                handoverInfos="result".."handoverList"
+                handoverInfoAdapter.notifyDataSetChanged()
             }
         }
-
     }
 
     fun initViewAndEvent(): Unit {
         (activity as MenuActivity).setTextView(R.string.checking_information)
-        classAdapter = ClassAdapter(classBeans)
-        class_rlv.adapter=classAdapter
+        handoverInfoAdapter = HandoverInfoAdapter(handoverInfos)
+        class_rlv.adapter=handoverInfoAdapter
         class_handover_tv.setOnClickListener(object : View.OnClickListener {
             override fun onClick(p0: View?) {
                 (activity as MenuActivity).showFragment(HandoverInfoFragment())
             }
         })
+        handoverInfoAdapter.setHandover(object :HandoverInfoAdapter.OnHandover{
+            override fun OnHandoverClick(id: String) {
+                (activity as MenuActivity).showFragment(HandoverInfoFragment())
+            }
+        })
     }
-
 }
