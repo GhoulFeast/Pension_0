@@ -5,6 +5,7 @@ import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
 import com.aisino.tool.log
 import com.hq.kbase.network.Http
 import com.overwork.pension.R
@@ -31,7 +32,7 @@ class TodayTaskFragment : Fragment(){
         }
 
         (activity as MenuActivity).style {
-
+            textBar=""
         }
 
         return view
@@ -46,6 +47,9 @@ class TodayTaskFragment : Fragment(){
         taskList.add(c)
 
         todaytask_list.adapter= TodayTaskAdapter(activity,taskList)
+        todaytask_list.setOnItemClickListener{ adapterView: AdapterView<*>, view1: View, i: Int, l: Long ->
+            (activity as MenuActivity).showFragment(TaskDetailsFragment())
+        }
 
     }
 }

@@ -20,7 +20,7 @@ object UseFragmentManager {
         val ft = fm.beginTransaction()
         if (from!=null){
             ft.hide(from)
-            ft.remove(from)
+//            ft.remove(from)
         }
         if (to.isAdded) {
             ft.show(to)

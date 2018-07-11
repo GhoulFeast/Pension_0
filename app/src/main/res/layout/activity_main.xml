@@ -12,37 +12,40 @@
         android:id="@+id/lg_name"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginStart="32dp"
         android:drawableLeft="@mipmap/user"
         android:ems="10"
         android:inputType="textPersonName"
         android:maxLines="1"
         android:text=""
         android:textColorLink="@color/mainColor"
-        app:layout_constraintBottom_toTopOf="parent"
-        app:layout_constraintEnd_toStartOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintBottom_toTopOf="@+id/lg_pwd"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 
     <EditText
         android:id="@+id/lg_pwd"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
         android:drawableLeft="@mipmap/password"
         android:ems="10"
         android:inputType="textPassword"
         android:maxLines="1"
         android:text=""
         android:textColorLink="@color/mainColor"
-        app:layout_constraintBottom_toTopOf="parent"
-        app:layout_constraintEnd_toStartOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintBottom_toTopOf="@+id/lg_login"
+        app:layout_constraintEnd_toEndOf="@+id/lg_name"
+        app:layout_constraintStart_toStartOf="@+id/lg_name" />
 
     <TextView
         android:id="@+id/lg_login"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="128dp"
         android:background="@drawable/text_green_raid"
         android:gravity="center"
         android:paddingBottom="16dp"
@@ -50,9 +53,8 @@
         android:text="@string/login"
         android:textColor="@color/white"
         android:textSize="18sp"
-        app:layout_constraintBottom_toTopOf="parent"
-        app:layout_constraintEnd_toStartOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/lg_pwd"
+        app:layout_constraintStart_toStartOf="@+id/lg_pwd" />
 
 </android.support.constraint.ConstraintLayout>

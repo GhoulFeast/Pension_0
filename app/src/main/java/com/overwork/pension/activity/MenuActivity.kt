@@ -60,6 +60,8 @@ class MenuActivity :AppCompatActivity(){
 
                 }
             }
+            fragments.clear()
+            nowState=0
         })
         main_rb_homepage.performClick()
         title_back.setOnClickListener{
@@ -79,6 +81,7 @@ class MenuActivity :AppCompatActivity(){
         nowState++
     }
 
+
     fun putData(key:String,data:Any): Unit {
         enety.put(key,data)
     }
@@ -88,12 +91,14 @@ class MenuActivity :AppCompatActivity(){
     }
 
     fun setBar(bar:Bar): Unit {
-        if (bar.textBar==""){
+        if (bar.textBar.equals("")){
             title_text.visibility= View.GONE
+            title_back.visibility= View.VISIBLE
             if (bar.isLeft)bar_back.visibility= View.VISIBLE else bar_back.visibility= View.GONE
             if (bar.isRight)bar_more.visibility= View.VISIBLE else bar_more.visibility= View.GONE
         }else{
             title_back.visibility= View.GONE
+            title_text.visibility= View.VISIBLE
         }
     }
 
@@ -123,7 +128,9 @@ class MenuActivity :AppCompatActivity(){
 
     fun backFragment(): Unit {
         if (nowState>0){
-            showFragment(fragments[nowState-1])
+            UseFragmentManager.displayFragment(showFragment, fragments[nowState-1],
+                    supportFragmentManager, R.id.main_ll)
+            showFragment=fragments[nowState-1]
             nowState--
         }else{
             fragments.clear()
