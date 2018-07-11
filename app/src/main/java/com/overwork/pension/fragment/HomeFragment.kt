@@ -12,8 +12,10 @@ import kotlinx.android.synthetic.main.fragment_home.*
 class HomeFragment :Fragment() {
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater?.inflate(R.layout.fragment_home, container, false)
-        (activity as MenuActivity).setTextView(R.string.ylyxt)
-
+//        (activity as MenuActivity).setTextView(R.string.ylyxt)
+        (activity as MenuActivity).style {
+            textBar=activity.resources.getString(R.string.ylyxt)
+        }
         return view
 
     }

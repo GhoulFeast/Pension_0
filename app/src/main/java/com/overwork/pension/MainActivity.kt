@@ -9,6 +9,7 @@ import com.hq.kbase.network.Http
 import com.overwork.pension.activity.MenuActivity
 import com.overwork.pension.other.BASEURL
 import com.overwork.pension.other.LOGIN
+import com.overwork.pension.other.*
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
@@ -47,6 +48,15 @@ class MainActivity : AppCompatActivity() {
 
             success {
                 if ((!"code").toInt()==2000){
+                    userId= "result".."userId"
+                    userType="result".."userType"
+                    userName="result".."userName"
+                    userLevel="result".."userLevel"
+                    userLevelName="result".."userLevelName"
+                    entryTime="result".."entryTime"
+                    workingYears="result".."workingYears"
+                    superiorName="result".."superiorName"
+                    userPortrait="result".."userPortrait"
                     startActivity(Intent(this@MainActivity,MenuActivity::class.java))
                 }
             }
