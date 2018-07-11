@@ -118,7 +118,7 @@
             android:id="@+id/mine_task_list"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:numColumns="2"
+            android:numColumns="4"
             android:scrollbars="none" />
     </LinearLayout>
 

@@ -41,11 +41,8 @@ class MainActivity : AppCompatActivity() {
         }
         Http.get{
             url= BASEURL+ LOGIN
-
             "yhmc"-lg_name.text.toString()
-
             "yhmm"-lg_pwd.text.toString()
-
             success {
                 if ((!"code").toInt()==2000){
                     userId= "result".."userId"
