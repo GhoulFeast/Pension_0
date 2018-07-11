@@ -23,4 +23,8 @@
     <string name="record_success">记录成功</string>
     <string name="need_to_see">需关注</string>
     <string name="have_serious_abnormality">有严重异常</string>
+    <string name="handover_end">交班完成，恭喜你!\n又完成了一天有意义的工作！</string>
+    <string name="text_entryTime">%1s 入职</string>
+    <string name="text_workingyears">工龄:%1s</string>
+    <string name="text_superiorName">上级名称:%1s</string>
 </resources>
