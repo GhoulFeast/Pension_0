@@ -7,12 +7,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.baoyachi.stepview.bean.StepBean
+import com.hq.kbase.network.Http
 import com.overwork.pension.R
 import com.overwork.pension.activity.MenuActivity
+import com.overwork.pension.other.*
 import kotlinx.android.synthetic.main.fragment_task_details.*
 import java.util.*
 
-class TaskDetailsFragment : Fragment() {
+class TaskDetailsFragment :Fragment(){
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater?.inflate(R.layout.fragment_task_details, null, false)
         return view
@@ -21,12 +23,32 @@ class TaskDetailsFragment : Fragment() {
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         (activity as MenuActivity).style {
-            textBar = ""
+            textBar=""
         }
+        task_details_photograph.setOnClickListener{
+
+        }
+        task_details_sound.setOnClickListener{
+
+        }
+        task_details_save.setOnClickListener{
+            Http.get{
+                url= BASEURL+ABNORMALITY
+
+
+            }
+            task_details_context.text.toString()
+        }
+        intoStepview()
+//        Glide.with(this).load("http://pic9/258/a2.jpg").into(iv);
+//        Glide.with(this).load("file:///xxx.jpg").into(iv);
+//        Glide.with(this).load(R.mipmap.ic_launcher).into(iv);
+//        Glide.with(this).load(file).into(iv);
+//        Glide.with(this).load(uri).into(iv);
+//        Glide.with(this).load(byte[]).into(iv);
     }
 
     fun intoStepview() {
-        task_details_stepview
         var stepViews: ArrayList<StepBean> = ArrayList<StepBean>()
         System.currentTimeMillis()
         var calendar: Calendar = Calendar.getInstance()
