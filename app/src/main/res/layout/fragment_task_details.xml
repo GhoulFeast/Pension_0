@@ -56,6 +56,12 @@
             android:minHeight="64dp"
             android:orientation="vertical">
 
+            <com.baoyachi.stepview.HorizontalStepView
+                android:id="@+id/task_details_stepview"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_centerInParent="true"
+                android:textColor="@android:color/white" />
         </LinearLayout>
 
         <LinearLayout
@@ -198,9 +204,9 @@
                 android:minHeight="64dp" />
 
             <LinearLayout
-                android:gravity="center"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:gravity="center"
                 android:orientation="horizontal"
                 android:paddingBottom="8dp"
                 android:paddingTop="8dp">
@@ -228,9 +234,9 @@
             </LinearLayout>
 
             <LinearLayout
-                android:gravity="center"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:gravity="center"
                 android:orientation="horizontal"
                 android:paddingBottom="8dp"
                 android:paddingTop="8dp">
@@ -261,11 +267,11 @@
                 android:id="@+id/task_details_save"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center"
+                android:layout_marginBottom="6dp"
                 android:layout_marginLeft="32dp"
                 android:layout_marginRight="32dp"
-                android:layout_marginBottom="6dp"
                 android:background="@drawable/text_green_raid"
+                android:gravity="center"
                 android:text="@string/save"
                 android:textColor="@color/white"
                 android:textSize="16sp" />

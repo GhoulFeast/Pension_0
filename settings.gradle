@@ -1,1 +1,1 @@
-include ':app',':tool', ':qrcode'
+include ':app', ':tool', ':qrcode', ':stepview'

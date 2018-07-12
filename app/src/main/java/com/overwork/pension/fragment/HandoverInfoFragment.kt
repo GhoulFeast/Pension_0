@@ -25,11 +25,11 @@ class HandoverInfoFragment : Fragment() {
     var handoverInfos: ArrayList<MutableMap<String, Any>> = ArrayList()
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater?.inflate(R.layout.fragment_handover, null, false)
-        initViewAndEvent()
         return view
     }
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
+        initViewAndEvent()
         getData()
         super.onViewCreated(view, savedInstanceState)
     }
