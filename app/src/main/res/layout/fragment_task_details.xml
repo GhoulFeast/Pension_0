@@ -223,11 +223,12 @@
                     android:layout_weight="1"
                     android:orientation="horizontal">
 
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="16dp"
-                        app:srcCompat="@mipmap/picture" />
+                    <!--<ImageView-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:layout_marginLeft="16dp"-->
+                        <!--app:srcCompat="@mipmap/picture"-->
+                        <!--/>-->
                 </LinearLayout>
 
                 <ImageView
@@ -253,11 +254,11 @@
                     android:layout_weight="1"
                     android:orientation="horizontal">
 
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="16dp"
-                        app:srcCompat="@mipmap/voice" />
+                    <!--<ImageView-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:layout_marginLeft="16dp"-->
+                        <!--app:srcCompat="@mipmap/voice" />-->
                 </LinearLayout>
 
                 <ImageView

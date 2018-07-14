@@ -35,8 +35,9 @@ fun Activity.openCameraAndGalleryWindow() {
     // 将布局文件转换成View对象，popupview 内容视图
     val mPopView = this.layoutInflater.inflate(R.layout.camera_gallery_window, null)
     // 将转换的View放置到 新建一个popuwindow对象中
+
     val mPopupWindow = PopupWindow(mPopView,
-            LinearLayout.LayoutParams.WRAP_CONTENT,
+            this.windowManager.defaultDisplay.width-128,
             LinearLayout.LayoutParams.WRAP_CONTENT)
     // 点击popuwindow外让其消失
     mPopupWindow.setOutsideTouchable(true)
@@ -45,9 +46,15 @@ fun Activity.openCameraAndGalleryWindow() {
     var cancel = mPopView.findViewById<Button>(R.id.btn_cancel)
     openCamera.setOnClickListener{
         this.openCamera()
+        if (mPopupWindow.isShowing()) {
+            mPopupWindow.dismiss();
+        }
     }
     openGallery.setOnClickListener{
         this.openGallery()
+        if (mPopupWindow.isShowing()) {
+            mPopupWindow.dismiss();
+        }
     }
     cancel.setOnClickListener{
         if (mPopupWindow.isShowing()) {
