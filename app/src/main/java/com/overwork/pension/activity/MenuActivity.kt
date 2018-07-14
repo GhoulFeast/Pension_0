@@ -1,26 +1,25 @@
 package com.overwork.pension.activity
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
 import android.view.View
+import com.aisino.qrcode.activity.CaptureActivity
 import com.overwork.pension.R
-import com.overwork.pension.fragment.ClassFragment
-import com.overwork.pension.fragment.HomeFragment
-import com.overwork.pension.fragment.MineFragment
-import com.overwork.pension.fragment.MsgFragment
+import com.overwork.pension.fragment.*
 import com.overwork.pension.other.UseFragmentManager
+import com.overwork.pension.other.userType
 import kotlinx.android.synthetic.main.activity_menu.*
 
 
-class MenuActivity :AppCompatActivity(){
+class MenuActivity : AppCompatActivity() {
 
     private var showFragment: Fragment? = null
-    private val enety:MutableMap<String,Any> = mutableMapOf()
-    private val fragments=ArrayList<Fragment>()
-    private var nowState=0;
-
-
+    private val enety: MutableMap<String, Any> = mutableMapOf()
+    private val fragments = ArrayList<Fragment>()
+    private var nowState = 0;
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -33,40 +32,60 @@ class MenuActivity :AppCompatActivity(){
         main_rg.setOnCheckedChangeListener({ radioGroup, i ->
             when (i) {
                 R.id.main_rb_homepage -> {
-                     var homeFragment = HomeFragment()
+                    var homeFragment = HomeFragment()
                     UseFragmentManager.displayFragment(showFragment, homeFragment,
                             supportFragmentManager, R.id.main_ll)
-                    showFragment=homeFragment
+                    showFragment = homeFragment
                 }
                 R.id.main_rb_class -> {
-                    var classFragment= ClassFragment()
-                    UseFragmentManager.displayFragment(showFragment, classFragment,
-                            supportFragmentManager, R.id.main_ll)
-                    showFragment=classFragment
+                    if (userType == 2) {
+                        startActivityForResult(Intent(this, CaptureActivity::class.java), -1)
+                    } else {
+                        var classFragment = ClassFragment()
+                        UseFragmentManager.displayFragment(showFragment, classFragment,
+                                supportFragmentManager, R.id.main_ll)
+                        showFragment = classFragment
+                    }
+
 
                 }
                 R.id.main_rb_msg -> {
-                    var msgFragment=MsgFragment()
+                    var msgFragment = MsgFragment()
                     UseFragmentManager.displayFragment(showFragment, msgFragment,
                             supportFragmentManager, R.id.main_ll)
-                    showFragment=msgFragment
+                    showFragment = msgFragment
 
                 }
-                R.id.main_rb_mine ->{
-                    var mineFragment=MineFragment()
+                R.id.main_rb_mine -> {
+                    var mineFragment = MineFragment()
                     UseFragmentManager.displayFragment(showFragment, mineFragment,
                             supportFragmentManager, R.id.main_ll)
-                    showFragment=mineFragment
+                    showFragment = mineFragment
 
                 }
             }
             fragments.clear()
-            nowState=0
+            nowState = 0
         })
         main_rb_homepage.performClick()
-        title_back.setOnClickListener{
+        title_back.setOnClickListener {
             backFragment()
         }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        if (data != null) {
+            if (requestCode == -1 && resultCode == Activity.RESULT_OK) {
+                var handoverDiretor = HandoverDirectorFragment()
+                var bd = Bundle()
+                bd.putString("id", data.getStringExtra("result"))
+                handoverDiretor.arguments = bd
+                UseFragmentManager.displayFragment(showFragment, handoverDiretor,
+                        supportFragmentManager, R.id.main_ll)
+                showFragment = handoverDiretor
+            }
+        }
+        super.onActivityResult(requestCode, resultCode, data)
     }
 
     fun setTextView(title: Int): Unit {
@@ -77,62 +96,62 @@ class MenuActivity :AppCompatActivity(){
         UseFragmentManager.displayFragment(showFragment, initFragment,
                 supportFragmentManager, R.id.main_ll)
         fragments.add(showFragment!!)
-        showFragment=initFragment
+        showFragment = initFragment
         nowState++
     }
 
 
-    fun putData(key:String,data:Any): Unit {
-        enety.put(key,data)
+    fun putData(key: String, data: Any): Unit {
+        enety.put(key, data)
     }
 
-    fun <E>getData(key:String): E {
-       return enety[key] as E
+    fun <E> getData(key: String): E {
+        return enety[key] as E
     }
 
-    fun setBar(bar:Bar): Unit {
-        if (bar.textBar.equals("")){
-            title_text.visibility= View.GONE
-            title_back.visibility= View.VISIBLE
-            if (bar.isLeft)bar_back.visibility= View.VISIBLE else bar_back.visibility= View.GONE
-            if (bar.isRight)bar_more.visibility= View.VISIBLE else bar_more.visibility= View.GONE
-        }else{
-            title_back.visibility= View.GONE
-            title_text.visibility= View.VISIBLE
+    fun setBar(bar: Bar): Unit {
+        if (bar.textBar.equals("")) {
+            title_text.visibility = View.GONE
+            title_back.visibility = View.VISIBLE
+            if (bar.isLeft) bar_back.visibility = View.VISIBLE else bar_back.visibility = View.GONE
+            if (bar.isRight) bar_more.visibility = View.VISIBLE else bar_more.visibility = View.GONE
+        } else {
+            title_back.visibility = View.GONE
+            title_text.visibility = View.VISIBLE
         }
     }
 
 
     fun style(function: Bar.() -> Unit): Unit {
-        val bar=Bar()
+        val bar = Bar()
         bar.function()
         setBar(bar)
     }
 
-    class Bar{
-        var textBar=""
-        var isLeft=true
-        var isRight=true
+    class Bar {
+        var textBar = ""
+        var isLeft = true
+        var isRight = true
 
     }
 
     override fun onBackPressed() {
 //        super.onBackPressed()
-       if (showFragment is HomeFragment||showFragment is ClassFragment||showFragment is MsgFragment||showFragment is MineFragment){
-           finish()
-       }else{
-           backFragment()
-       }
+        if (showFragment is HomeFragment || showFragment is ClassFragment || showFragment is MsgFragment || showFragment is MineFragment) {
+            finish()
+        } else {
+            backFragment()
+        }
 
     }
 
     fun backFragment(): Unit {
-        if (nowState>0){
-            UseFragmentManager.displayFragment(showFragment, fragments[nowState-1],
+        if (nowState > 0) {
+            UseFragmentManager.displayFragment(showFragment, fragments[nowState - 1],
                     supportFragmentManager, R.id.main_ll)
-            showFragment=fragments[nowState-1]
+            showFragment = fragments[nowState - 1]
             nowState--
-        }else{
+        } else {
             fragments.clear()
         }
     }
