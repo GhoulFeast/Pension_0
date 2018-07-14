@@ -11,18 +11,74 @@ import android.os.Build
 import android.provider.DocumentsContract
 import android.provider.MediaStore
 import android.support.v4.content.FileProvider
+import android.view.Gravity
+import android.widget.Button
+import android.widget.LinearLayout
+import android.widget.PopupWindow
+import com.aisino.tool.R
 import com.aisino.tool.bitmap.drawable2Bitmap
 import java.io.File
 import java.io.IOException
 import java.io.InputStream
 import java.util.*
 
+
+
 /**
  * Created by lenovo on 2017/12/5.
  */
-val CAMERA_REQUEST = 100;
-val GALLERY_REQUEST = 200;
+val CAMERA_REQUEST = 1000
+val GALLERY_REQUEST = 2000
 
+
+fun Activity.openCameraAndGalleryWindow() {
+    // 将布局文件转换成View对象，popupview 内容视图
+    val mPopView = this.layoutInflater.inflate(R.layout.camera_gallery_window, null)
+    // 将转换的View放置到 新建一个popuwindow对象中
+
+    val mPopupWindow = PopupWindow(mPopView,
+            this.windowManager.defaultDisplay.width-128,
+            LinearLayout.LayoutParams.WRAP_CONTENT)
+    // 点击popuwindow外让其消失
+    mPopupWindow.setOutsideTouchable(true)
+    var openCamera = mPopView.findViewById<Button>(R.id.btn_take_photo)
+    var openGallery = mPopView.findViewById<Button>(R.id.btn_pick_photo)
+    var cancel = mPopView.findViewById<Button>(R.id.btn_cancel)
+    openCamera.setOnClickListener{
+        this.openCamera()
+        if (mPopupWindow.isShowing()) {
+            mPopupWindow.dismiss();
+        }
+    }
+    openGallery.setOnClickListener{
+        this.openGallery()
+        if (mPopupWindow.isShowing()) {
+            mPopupWindow.dismiss();
+        }
+    }
+    cancel.setOnClickListener{
+        if (mPopupWindow.isShowing()) {
+            mPopupWindow.dismiss();
+        }
+    }
+    mPopupWindow.setOnDismissListener {
+        val params = this.getWindow().getAttributes()
+        params.alpha = 1f
+        this.getWindow().setAttributes(params)
+    }
+    if (mPopupWindow.isShowing()) {
+        mPopupWindow.dismiss();
+    } else {
+        val params = this.getWindow().getAttributes()
+        params.alpha = 0.7f
+        this.getWindow().setAttributes(params)
+        // 设置PopupWindow 显示的形式 底部或者下拉等
+        // 在某个位置显示
+        mPopupWindow.showAtLocation(mPopView, Gravity.BOTTOM, 0, 0);
+        // 作为下拉视图显示
+        // mPopupWindow.showAsDropDown(mPopView, Gravity.CENTER, 200, 300);
+    }
+}
 
 fun Activity.openGallery() {
     val intent = Intent()
@@ -31,7 +87,7 @@ fun Activity.openGallery() {
     this.startActivityForResult(intent, GALLERY_REQUEST)
 }
 
-fun Activity.openCamera(): Uri {
+fun Activity.openCamera() {
     val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
     val c = Calendar.getInstance()
     val year = c.get(Calendar.YEAR)
@@ -49,7 +105,6 @@ fun Activity.openCamera(): Uri {
     intent.putExtra(MediaStore.EXTRA_OUTPUT, contentUri);
     intent.putExtra("return-data", false);
     this.startActivityForResult(intent, CAMERA_REQUEST)
-    return contentUri
 }
 
 
