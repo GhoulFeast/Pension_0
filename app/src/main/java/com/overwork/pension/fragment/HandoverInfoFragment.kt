@@ -5,6 +5,7 @@ import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.aisino.qrcode.encoding.EncodingUtils
 import com.hq.kbase.network.Http
 import com.overwork.pension.R
 import com.overwork.pension.activity.MenuActivity
@@ -14,7 +15,7 @@ import com.overwork.pension.other.BASEURL
 import com.overwork.pension.other.T_ABNORMAL
 import com.overwork.pension.other.T_HANDOVERINFO
 import com.overwork.pension.other.userId
-import kotlinx.android.synthetic.main.fragment_class.*
+import kotlinx.android.synthetic.main.fragment_handover.*
 
 /**
  * Created by feima on 2018/7/7.
@@ -31,30 +32,34 @@ class HandoverInfoFragment : Fragment() {
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         initViewAndEvent()
         getData()
+
         super.onViewCreated(view, savedInstanceState)
     }
 
     fun getData(): Unit {
-        Http.get{
-            url= BASEURL + T_HANDOVERINFO
-            "userId"- userId
+        Http.get {
+            url = BASEURL + T_HANDOVERINFO
+            "userId" - userId
             success {
-                handoverInfos="result".."handoverList"
+                handoverInfos = "result".."handoverList"
                 handoverInfoAdapter.notifyDataSetChanged()
             }
         }
     }
 
     fun initViewAndEvent(): Unit {
+        class_qrcode_iv.viewTreeObserver.addOnDrawListener({
+            class_qrcode_iv.setImageBitmap(EncodingUtils.createQRCode(userId, class_qrcode_iv.width, class_qrcode_iv.height, null))
+        })
         (activity as MenuActivity).setTextView(R.string.checking_information)
         handoverInfoAdapter = HandoverInfoAdapter(handoverInfos)
-        class_rlv.adapter=handoverInfoAdapter
+        class_rlv.adapter = handoverInfoAdapter
         class_handover_tv.setOnClickListener(object : View.OnClickListener {
             override fun onClick(p0: View?) {
                 (activity as MenuActivity).showFragment(HandoverInfoFragment())
             }
         })
-        handoverInfoAdapter.setHandover(object :HandoverInfoAdapter.OnHandover{
+        handoverInfoAdapter.setHandover(object : HandoverInfoAdapter.OnHandover {
             override fun OnHandoverClick(id: String) {
                 (activity as MenuActivity).showFragment(HandoverInfoFragment())
             }

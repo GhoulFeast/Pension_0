@@ -11,3 +11,5 @@ val T_HANDOVERINFO = ""//交班——交班信息
 val OVER_TASK = ""//完成任务
 val TOMORROW_TASK = ""//明日任务
 val ABNORMALITY = ""//异常情况提交
+
+val T_HANDOVERDIRECTOR = ""//交班-主管
