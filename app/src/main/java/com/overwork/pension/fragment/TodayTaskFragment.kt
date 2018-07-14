@@ -14,8 +14,9 @@ import com.overwork.pension.adapter.TodayTaskAdapter
 import com.overwork.pension.other.*
 import kotlinx.android.synthetic.main.fragment_today_task.*
 
-class TodayTaskFragment : Fragment(){
+val TodayTaskID="TodayTaskID"
 
+class TodayTaskFragment : Fragment(){
     var time=""
     lateinit var taskList:ArrayList<MutableMap<String,Any>>
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -49,6 +50,7 @@ class TodayTaskFragment : Fragment(){
         todaytask_list.adapter= TodayTaskAdapter(activity,taskList)
         todaytask_list.setOnItemClickListener{ adapterView: AdapterView<*>, view1: View, i: Int, l: Long ->
             (activity as MenuActivity).showFragment(TaskDetailsFragment())
+            (activity as MenuActivity).putData(TodayTaskID,taskList[i]["id"]!!)
         }
 
     }
