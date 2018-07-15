@@ -8,8 +8,8 @@ import android.widget.BaseAdapter
 import android.widget.TextView
 import com.overwork.pension.R
 
-class MsgAdapter(context: Context, list: List<MsgM>) : BaseAdapter() {
-    private var list: List<MsgM>? = null
+class MsgAdapter(context: Context, list: List<MutableMap<String, Any>>) : BaseAdapter() {
+    private var list: List<MutableMap<String, Any>>
     private var context: Context? = null
 
     init {
@@ -22,9 +22,13 @@ class MsgAdapter(context: Context, list: List<MsgM>) : BaseAdapter() {
         var job = view.findViewById<TextView>(R.id.item_job)
         var jobTitle = view.findViewById<TextView>(R.id.item_job_title)
         var jobText = view.findViewById<TextView>(R.id.item_job_text)
-        job.setText(list!![p0].job)
-        jobTitle.setText(list!![p0].title)
-        jobText.setText(list!![p0].text )
+        if (list.get(p0).get("type") == 1) {
+            job.setText("护")
+        } else {
+            job.setText("通")
+        }
+        jobTitle.setText(list.get(p0).get("messageTitle").toString())
+        jobText.setText(list.get(p0).get("messageContent").toString())
         return view
     }
 
@@ -40,9 +44,5 @@ class MsgAdapter(context: Context, list: List<MsgM>) : BaseAdapter() {
         return list?.size!!
     }
 
-    class MsgM {
-        var job = "护"
-        var title = "张三1"
-        var text = "工作中"
-    }
+
 }
