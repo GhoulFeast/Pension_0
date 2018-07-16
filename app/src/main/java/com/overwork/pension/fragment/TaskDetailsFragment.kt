@@ -20,12 +20,18 @@ import android.widget.ImageView
 import com.aisino.tool.system.CAMERA_REQUEST
 import com.aisino.tool.system.GALLERY_REQUEST
 import com.aisino.tool.system.openCameraAndGalleryWindow
+import com.overwork.pension.adapter.ProjectAdapter
+import com.overwork.pension.adapter.SmallTaskAdapter
+import kotlin.collections.ArrayList
 
 
 val IMAGE=100
 val SOUND=200
 
 class TaskDetailsFragment :Fragment(){
+
+    lateinit var taskList:MutableMap<String,Any>
+
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater?.inflate(R.layout.fragment_task_details, null, false)
         return view
@@ -60,6 +66,33 @@ class TaskDetailsFragment :Fragment(){
 //        Glide.with(this).load(uri).into(iv);
 //        Glide.with(this).load(byte[]).into(iv);
     }
+
+    fun initList(): Unit {
+        Http.get{
+            url= BASEURL+THIS_TIME_TASK
+            "id"-(activity as MenuActivity).getData<String>(TodayTaskID)
+            "userId"- userId
+            success {
+                val name:String="result".."name"
+                task_details_name.setText(name)
+                val sex:String="result".."sex"
+                task_details_sex.setText(sex)
+                val romeNo:String="result".."romeNo"
+                task_details_room.setText(romeNo)
+                val age:String="result".."age"
+                task_details_age.setText(age)
+                taskList= "result".."nursingsAxis"
+                task_details_nursing_time.setText(taskList["time"].toString())
+                task_details_task.setText(taskList["meal"].toString())
+                task_details_task_details.setText(taskList["abnormal"].toString())
+                task_details_list.adapter=SmallTaskAdapter(activity,taskList["nursings"] as ArrayList<MutableMap<String, Any>>)
+                task_details_project_list.adapter=ProjectAdapter(activity,taskList["measurementProject"] as ArrayList<MutableMap<String, Any>>)
+
+            }
+        }
+
+    }
+
 
     fun intoStepview() {
         var stepViews: ArrayList<StepBean> = ArrayList<StepBean>()
@@ -113,8 +146,11 @@ class TaskDetailsFragment :Fragment(){
                 task_details_picll.addView(newImg)
             }
             SOUND->{
-
+                val newImg= ImageView(activity)
+                newImg.setImageResource(R.mipmap.sound_recording)
+                task_details_picll.addView(newImg)
             }
         }
     }
 }
+

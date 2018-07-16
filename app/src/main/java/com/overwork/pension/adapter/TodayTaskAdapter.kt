@@ -41,18 +41,7 @@ class TodayTaskAdapter(activity: FragmentActivity, taskList: ArrayList<MutableMa
         }else{
             state.background=context?.resources?.getDrawable(R.drawable.border_white)
             state.setTextColor(context?.resources?.getColor(R.color.mainColor)!!)
-            state.setOnClickListener {
-                Http.get{
-                    url= BASEURL+OVER_TASK
-                    "userId"-userId
-                    "id"-list!![p0]["id"].toString()
-                    success {
-                        if (!"code"=="2000"){
-                            ToastAdd.showToast_r(context!!,"已完成任务")
-                        }
-                    }
-                }
-            }
+
         }
 
         add.setOnClickListener {
