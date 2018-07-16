@@ -13,3 +13,5 @@ val TOMORROW_TASK = ""//明日任务
 val ABNORMALITY = ""//异常情况提交
 
 val T_HANDOVERDIRECTOR = ""//交班-主管
+
+val MSGLIST_READ = ""//消息——读
