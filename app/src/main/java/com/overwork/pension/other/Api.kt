@@ -13,3 +13,7 @@ val TOMORROW_TASK = ""//明日任务
 val ABNORMALITY = ""//异常情况提交
 val THIS_TIME_TASK = ""//某一时段护理任务
 val T_HANDOVERDIRECTOR = ""//交班-主管
+
+val MSGLIST_READ = ""//消息——读
+
+val ROOM_LIST = ""//房间列表

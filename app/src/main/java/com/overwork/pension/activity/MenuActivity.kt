@@ -73,6 +73,10 @@ class MenuActivity : AppCompatActivity() {
         }
     }
 
+    public fun toHomePage() {
+        main_rb_homepage.performClick()
+    }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (data != null) {
             if (requestCode == -1 && resultCode == Activity.RESULT_OK) {

@@ -26,7 +26,7 @@ class HomeFragment :Fragment() {
             (activity as MenuActivity).showFragment(TodayTaskFragment())
         }
         come_room.setOnClickListener{
-
+            (activity as MenuActivity).showFragment(RoomListFragment())
         }
     }
 

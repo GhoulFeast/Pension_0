@@ -20,6 +20,7 @@ class ClassFragment : Fragment() {
     lateinit var classAdapter: ClassAdapter
     var classBeans: ArrayList<MutableMap<String, Any>> = ArrayList()
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        (activity as MenuActivity).setTextView(R.string.checking_information)
         val view = inflater?.inflate(R.layout.fragment_class, null, false)
         return view
     }

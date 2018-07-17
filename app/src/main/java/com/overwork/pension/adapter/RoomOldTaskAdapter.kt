@@ -12,7 +12,7 @@ import com.overwork.pension.R
 /**
  * Created by feima on 2018/7/11.
  */
-class TomorrowTaskAdapter(taskList: ArrayList<MutableMap<String, Any>>) : BaseAdapter() {
+class RoomOldTaskAdapter(taskList: ArrayList<MutableMap<String, Any>>) : BaseAdapter() {
     var handoverList: List<MutableMap<String, Any>>
 
     init {
@@ -24,24 +24,24 @@ class TomorrowTaskAdapter(taskList: ArrayList<MutableMap<String, Any>>) : BaseAd
         var item_tommorrow_name_tv = p1.findViewById<TextView>(R.id.item_tommorrow_name_tv)
         var item_tommorrow_headimage_iv = p1.findViewById<ImageView>(R.id.item_tommorrow_headimage_iv)
         var mutable: MutableMap<String, Any> = handoverList.get(p0)
-        Glide.with(p2.context).load(mutable["oldPortrait"]).into(item_tommorrow_headimage_iv)
-        item_tommorrow_name_tv.setText(mutable["oldName"].toString())
-        item_tommorrow_headimage_iv.setTag(mutable["oldId"])
+        item_tommorrow_name_tv.setText(mutable["name"].toString())
+        item_tommorrow_headimage_iv.setTag(mutable["id"])
+        Glide.with(p2.context).load(mutable["img"]).into(item_tommorrow_headimage_iv)
         item_tommorrow_headimage_iv.setOnClickListener({ view ->
             var id = view.getTag().toString()
-            onTomorrow.OnHandoverClick(id)
+            onOld.onOldClick(id)
         })
         return p1
     }
 
-    lateinit var onTomorrow: OnTomorrow
+    lateinit var onOld: OnOld
 
-    fun setTomorrow(onHandov: OnTomorrow) {
-        onTomorrow = onHandov
+    fun setTomorrow(onHandov: OnOld) {
+        onOld = onHandov
     }
 
-    interface OnTomorrow {
-        fun OnHandoverClick(id: String)
+    interface OnOld {
+        fun onOldClick(id: String)
     }
 
     override fun getItem(p0: Int): Any {

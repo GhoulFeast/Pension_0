@@ -33,6 +33,11 @@ class MineFragment : Fragment() {
         mine_user_overtime.setText(String.format(resources.getString(R.string.text_entryTime, workingYears)))
         mine_user_ld.setText(String.format(resources.getString(R.string.text_entryTime, superiorName)))
         mine_exit_user.setOnClickListener { }
+        tomorrowTaskAdp.setTomorrow(object : TomorrowTaskAdapter.OnTomorrow {
+            override fun OnHandoverClick(id: String) {
+
+            }
+        })
         mine_task_list.setOnItemClickListener({ adapterView, view, position, long ->
 
         })

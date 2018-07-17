@@ -31,7 +31,11 @@ class MsgFragment : Fragment() {
         (activity as MenuActivity).setTextView(R.string.wdxx)
         msgAdapter = MsgAdapter(context, msgBeans)
         msg_list.adapter = msgAdapter
-        msg_list.setOnItemClickListener({ adapterView: AdapterView<*>, view1: View, i: Int, l: Long -> })
+        msg_list.setOnItemClickListener({ adapterView: AdapterView<*>, view1: View, i: Int, l: Long ->
+            var msgFragment = MsgDetalisFragment();
+            msgFragment.enety = msgBeans.get(i)
+            (activity as MenuActivity).showFragment(msgFragment)
+        })
         getData()
     }
 
