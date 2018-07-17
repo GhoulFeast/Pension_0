@@ -33,4 +33,8 @@
     <string name="msg_title_other">消息</string>
 
     <string name="msg_title_task">去护理</string>
+
+    <string name="old_info_title">老人信息</string>
+
+    <string name="room_title">房间列表</string>
 </resources>

@@ -31,15 +31,17 @@ class MsgDetalisFragment : Fragment() {
         setUI()
         readMsg();
     }
-fun readMsg(){
-    Http.get {
-        url = BASEURL + MSGLIST_READ
-        "userId" - userId
-        success {
 
+    fun readMsg() {
+        Http.get {
+            url = BASEURL + MSGLIST_READ
+            "userId" - userId
+            success {
+
+            }
         }
     }
-}
+
     fun setUI() {
         if (enety.get("type") as Int == 1) {
             msg_details_context_ll.visibility = View.GONE
