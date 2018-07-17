@@ -13,9 +13,9 @@ import java.io.ByteArrayOutputStream
  * Created by lenovo on 2017/12/4.
  */
 
-object ACacheTool {
+class ACacheTool {
 
-    internal val mSeparator = ' '
+      val mSeparator = ' '
 
 
     /**
@@ -24,7 +24,7 @@ object ACacheTool {
      * @param str
      * @return true：到期了 false：还没有到期
      */
-    internal fun isDue(str: String): Boolean {
+      fun isDue(str: String): Boolean {
         return isDue(str.toByteArray())
     }
 
@@ -34,7 +34,7 @@ object ACacheTool {
      * @param data
      * @return true：到期了 false：还没有到期
      */
-    internal fun isDue(data: ByteArray): Boolean {
+      fun isDue(data: ByteArray): Boolean {
         val strs = getDateInfoFromDate(data)
         if (strs != null && strs.size == 2) {
             var saveTimeStr = strs[0]
@@ -51,11 +51,11 @@ object ACacheTool {
         return false
     }
 
-    internal fun newStringWithDateInfo(second: Int, strInfo: String): String {
+      fun newStringWithDateInfo(second: Int, strInfo: String): String {
         return createDateInfo(second) + strInfo
     }
 
-    internal fun newByteArrayWithDateInfo(second: Int, data2: ByteArray): ByteArray {
+      fun newByteArrayWithDateInfo(second: Int, data2: ByteArray): ByteArray {
         val data1 = createDateInfo(second).toByteArray()
         val retdata = ByteArray(data1.size + data2.size)
         System.arraycopy(data1, 0, retdata, 0, data1.size)
@@ -63,7 +63,7 @@ object ACacheTool {
         return retdata
     }
 
-    internal fun clearDateInfo(strInfo: String?): String? {
+      fun clearDateInfo(strInfo: String?): String? {
         var strInfo = strInfo
         if (strInfo != null && hasDateInfo(strInfo.toByteArray())) {
             strInfo = strInfo.substring(strInfo.indexOf(mSeparator) + 1, strInfo.length)
@@ -71,19 +71,19 @@ object ACacheTool {
         return strInfo
     }
 
-    internal fun clearDateInfo(data: ByteArray): ByteArray {
+      fun clearDateInfo(data: ByteArray): ByteArray {
         return if (hasDateInfo(data)) {
             copyOfRange(data, indexOf(data, mSeparator) + 1,
                     data.size)
         } else data
     }
 
-    internal fun hasDateInfo(data: ByteArray?): Boolean {
+      fun hasDateInfo(data: ByteArray?): Boolean {
         return (data != null && data.size > 15 && data[13].toChar() == '-'
                 && indexOf(data, mSeparator) > 14)
     }
 
-    internal fun getDateInfoFromDate(data: ByteArray): Array<String>? {
+      fun getDateInfoFromDate(data: ByteArray): Array<String>? {
         if (hasDateInfo(data)) {
             val saveDate = String(copyOfRange(data, 0, 13))
             val deleteAfter = String(copyOfRange(data, 14,
@@ -93,7 +93,7 @@ object ACacheTool {
         return null
     }
 
-    internal fun indexOf(data: ByteArray, c: Char): Int {
+      fun indexOf(data: ByteArray, c: Char): Int {
         for (i in data.indices) {
             if (data[i] == c.toByte()) {
                 return i
@@ -102,7 +102,7 @@ object ACacheTool {
         return -1
     }
 
-    internal fun copyOfRange(original: ByteArray, from: Int, to: Int): ByteArray {
+      fun copyOfRange(original: ByteArray, from: Int, to: Int): ByteArray {
         val newLength = to - from
         if (newLength < 0)
             throw IllegalArgumentException(from.toString() + " > " + to)
@@ -112,7 +112,7 @@ object ACacheTool {
         return copy
     }
 
-    internal fun createDateInfo(second: Int): String {
+      fun createDateInfo(second: Int): String {
         var currentTime = System.currentTimeMillis().toString() + ""
         while (currentTime.length < 13) {
             currentTime = "0" + currentTime
@@ -123,7 +123,7 @@ object ACacheTool {
     /*
      * Bitmap → byte[]
      */
-    internal fun Bitmap2Bytes(bm: Bitmap): ByteArray {
+      fun Bitmap2Bytes(bm: Bitmap): ByteArray {
         val baos = ByteArrayOutputStream()
         bm.compress(Bitmap.CompressFormat.PNG, 100, baos)
         return baos.toByteArray()
@@ -132,7 +132,7 @@ object ACacheTool {
     /*
      * byte[] → Bitmap
      */
-    internal fun Bytes2Bimap(b: ByteArray?): Bitmap? {
+      fun Bytes2Bimap(b: ByteArray?): Bitmap? {
         return if (b?.size == 0) {
             null
         } else BitmapFactory.decodeByteArray(b, 0, b!!.size)
@@ -141,7 +141,7 @@ object ACacheTool {
     /*
      * Drawable → Bitmap
      */
-    internal fun drawable2Bitmap(drawable: Drawable): Bitmap {
+      fun drawable2Bitmap(drawable: Drawable): Bitmap {
         // 取 drawable 的长宽
         val w = drawable.intrinsicWidth
         val h = drawable.intrinsicHeight
@@ -163,7 +163,7 @@ object ACacheTool {
     /*
      * Bitmap → Drawable
      */
-    internal fun bitmap2Drawable(bm: Bitmap?): Drawable? {
+      fun bitmap2Drawable(bm: Bitmap?): Drawable? {
         return if (bm == null) {
             null
         } else BitmapDrawable(bm)

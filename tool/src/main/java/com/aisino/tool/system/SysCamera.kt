@@ -2,6 +2,7 @@ package com.aisino.tool.system
 
 import android.app.Activity
 import android.content.ContentUris
+import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
@@ -162,6 +163,51 @@ fun Uri.getCameraImg(activity: Activity): Bitmap? {
             }
 
         }
+    }
+    return null
+}
+
+fun Uri.toFile(context: Context): File? {
+    var path: String? = null
+    if ("file" == this.scheme) {
+        path = this.encodedPath
+        if (path != null) {
+            path = Uri.decode(path)
+            val cr = context.getContentResolver()
+            val buff = StringBuffer()
+            buff.append("(").append(MediaStore.Images.ImageColumns.DATA).append("=").append("'$path'").append(")")
+            val cur = cr.query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, arrayOf(MediaStore.Images.ImageColumns._ID, MediaStore.Images.ImageColumns.DATA), buff.toString(), null, null)
+            var index = 0
+            var dataIdx = 0
+            cur.moveToFirst()
+            while (!cur.isAfterLast()) {
+                index = cur.getColumnIndex(MediaStore.Images.ImageColumns._ID)
+                index = cur.getInt(index)
+                dataIdx = cur.getColumnIndex(MediaStore.Images.ImageColumns.DATA)
+                path = cur.getString(dataIdx)
+                cur.moveToNext()
+            }
+            cur.close()
+            if (index == 0) {
+            } else {
+                val u = Uri.parse("content://media/external/images/media/$index")
+                println("temp uri is :$u")
+            }
+        }
+        if (path != null) {
+            return File(path)
+        }
+    } else if ("content" == this.scheme) {
+        // 4.2.2以后
+        val proj = arrayOf(MediaStore.Images.Media.DATA)
+        val cursor = context.getContentResolver().query(this, proj, null, null, null)
+        if (cursor.moveToFirst()) {
+            val columnIndex = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA)
+            path = cursor.getString(columnIndex)
+        }
+        cursor.close()
+
+        return File(path!!)
     }
     return null
 }

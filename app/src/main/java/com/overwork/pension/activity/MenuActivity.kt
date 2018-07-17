@@ -90,6 +90,7 @@ class MenuActivity : AppCompatActivity() {
             }
         }
         super.onActivityResult(requestCode, resultCode, data)
+        showFragment?.onActivityResult(requestCode,resultCode,data)
     }
 
     fun setTextView(title: Int): Unit {

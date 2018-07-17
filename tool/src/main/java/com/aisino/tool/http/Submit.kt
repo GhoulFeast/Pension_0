@@ -10,8 +10,6 @@ import okhttp3.RequestBody
 import okhttp3.MultipartBody
 import okhttp3.OkHttpClient
 import okhttp3.Cookie
-import android.R.attr.host
-import android.util.Log
 import java.util.concurrent.TimeUnit
 
 
@@ -82,9 +80,11 @@ class Submit {
 
             Method.POST -> post()
 
-            Method.IMAGE -> upLoad()
+            Method.IMAGE -> upImage()
 
             Method.DOWNLOAD -> download()
+
+            Method.FILE->upFile()
         }
     }
 
@@ -143,12 +143,42 @@ class Submit {
         })
     }
 
-    fun upLoad(): Unit {
+    fun upImage(): Unit {
         val mOkHttpClient = OkHttpClient.Builder().cookieJar(cookjar).connectTimeout(outTime, TimeUnit.SECONDS)
         val build = MultipartBody.Builder().setType(MultipartBody.FORM)
         for (p in _params) {
             if (p.value is File) {
                 build.addFormDataPart(p.key, (p.value as File).name, RequestBody.create(MediaType.parse("image/png"), p.value as File))
+            } else {
+                build.addFormDataPart(p.key, p.value.toString())
+            }
+
+        }
+        val requestBody = build.build()
+
+        val request = Request.Builder()
+//                .header("Authorization", "Client-ID " + "...")
+                .url(url)
+                .post(requestBody)
+                .build()
+
+        mOkHttpClient.build().newCall(request).enqueue(object : Callback {
+            override fun onFailure(call: Call, e: IOException) {
+                failCall(e.toString())
+            }
+
+            override fun onResponse(call: Call, response: Response) {
+                successCall(response)
+            }
+        })
+    }
+
+    fun upFile(): Unit {
+        val mOkHttpClient = OkHttpClient.Builder().cookieJar(cookjar).connectTimeout(outTime, TimeUnit.SECONDS)
+        val build = MultipartBody.Builder().setType(MultipartBody.FORM)
+        for (p in _params) {
+            if (p.value is File) {
+                build.addFormDataPart(p.key, (p.value as File).name, RequestBody.create(MediaType.parse("file/*"), p.value as File))
             } else {
                 build.addFormDataPart(p.key, p.value.toString())
             }
