@@ -45,7 +45,7 @@ fun Activity.openCameraAndGalleryWindow() {
     var openGallery = mPopView.findViewById<Button>(R.id.btn_pick_photo)
     var cancel = mPopView.findViewById<Button>(R.id.btn_cancel)
     openCamera.setOnClickListener{
-        this.openCamera()
+        val uri= this.openCamera()
         if (mPopupWindow.isShowing()) {
             mPopupWindow.dismiss();
         }
