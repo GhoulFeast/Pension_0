@@ -263,7 +263,7 @@ class Submit {
     }
 
     //- 入参
-    operator fun String.minus(value: Long) {
+    operator fun String.minus(value: File) {
         _params.put(this, value)
     }
 

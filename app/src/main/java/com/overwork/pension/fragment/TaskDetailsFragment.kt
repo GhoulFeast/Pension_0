@@ -2,6 +2,7 @@ package com.overwork.pension.fragment
 
 import android.content.Intent
 import android.graphics.Bitmap
+import android.media.MediaPlayer
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
@@ -29,6 +30,7 @@ import com.overwork.pension.adapter.SmallTaskAdapter
 import kotlin.collections.ArrayList
 import com.bumptech.glide.request.animation.GlideAnimation
 import java.io.File
+import java.io.IOException
 
 
 val SOUND = 200
@@ -41,7 +43,7 @@ class TaskDetailsFragment : Fragment() {
     val soundList = ArrayList<File?>()
     val images = ArrayList<String>()
     val sounds = ArrayList<String>()
-    var abnormalType=""
+    var abnormalType = ""
     lateinit var measurementProjects: ArrayList<MutableMap<String, Any>>
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater?.inflate(R.layout.fragment_task_details, null, false)
@@ -60,11 +62,11 @@ class TaskDetailsFragment : Fragment() {
             val intent = Intent(MediaStore.Audio.Media.RECORD_SOUND_ACTION)
             startActivityForResult(intent, SOUND)
         }
-        task_details_record_needhelp.setOnClickListener{
-            abnormalType="1"
+        task_details_record_needhelp.setOnClickListener {
+            abnormalType = "1"
         }
-        task_details_record_have.setOnClickListener{
-            abnormalType="2"
+        task_details_record_have.setOnClickListener {
+            abnormalType = "2"
         }
 
         task_details_save.setOnClickListener {
@@ -86,7 +88,7 @@ class TaskDetailsFragment : Fragment() {
             }
             if (measurementProjects.size > 0) {
                 for (project in measurementProjects) {
-                    measurementString=measurementString+","+ project["id"].toString() + "=" + project["num"].toString()
+                    measurementString = measurementString + "," + project["id"].toString() + "=" + project["num"].toString()
                 }
                 measurementString = measurementString.substring(1, imageString.length)
             }
@@ -97,11 +99,11 @@ class TaskDetailsFragment : Fragment() {
                 "userId" - userId
                 "images" - imageString
                 "sounds" - soundString
-                "measurementProject" -measurementString
-                "abnormal"-task_details_context.text.toString()
-                "abnormalType"-abnormalType
+                "measurementProject" - measurementString
+                "abnormal" - task_details_context.text.toString()
+                "abnormalType" - abnormalType
                 success {
-                    ToastAdd.showToast_r(activity,"保存成功")
+                    ToastAdd.showToast_r(activity, "保存成功")
                 }
             }
         }
@@ -151,40 +153,16 @@ class TaskDetailsFragment : Fragment() {
                 }
                 task_details_context.setText(taskList["abnormal"].toString())
                 for (img in taskList["imageUrl"] as ArrayList<String>) {
-                    val newImg = ImageView(activity)
-                    val lp = ViewGroup.LayoutParams(task_details_photograph.width, task_details_photograph.height)
-                    newImg.setLayoutParams(lp);
-                    newImg.setPadding(18, 0, 0, 0)
-                    newImg.left = 24
-                    newImg.scaleType = ImageView.ScaleType.CENTER_CROP
-                    newImg.setOnClickListener {
-                        if (isDelete) {
-                            newImg.visibility = View.GONE
-                            imageList.remove(it.tag)
-                        }
-                    }
                     Glide.with(activity).load(img).asBitmap().into(object : SimpleTarget<Bitmap>() {
                         override fun onResourceReady(resource: Bitmap, glideAnimation: GlideAnimation<in Bitmap>) {
-                            newImg.setImageBitmap(resource)
-                            newImg.tag = imageList.size
-//                            imageList.add(resource)
-                            task_details_picll.addView(newImg)
+                            addImage().setImageBitmap(resource)
                         }
                     })
+                    images.add(img)
                 }
 
-                for (img in taskList["soundUrl"] as ArrayList<String>) {
-                    val newImg = ImageView(activity)
-                    newImg.setImageResource(R.mipmap.sound_recording)
-                    newImg.left = 24
-                    newImg.setOnClickListener {
-                        if (isDelete) {
-                            newImg.visibility = View.GONE
-
-                        }
-                    }
-                    task_details_soull.addView(newImg)
-
+                for (sound in taskList["soundUrl"] as ArrayList<String>) {
+                    addSound(null,sound)
                 }
             }
         }
@@ -234,59 +212,83 @@ class TaskDetailsFragment : Fragment() {
         super.onActivityResult(requestCode, resultCode, data)
         when (requestCode) {
             CAMERA_REQUEST -> {
-                val newImg = ImageView(activity)
-                val uri = data?.getParcelableExtra<Uri>(MediaStore.EXTRA_OUTPUT)
-                newImg.setImageBitmap(uri?.getCameraImg(activity))
-                val lp = ViewGroup.LayoutParams(task_details_photograph.width, task_details_photograph.height)
-                newImg.setLayoutParams(lp);
-                newImg.setPadding(18, 0, 0, 0)
-                newImg.left = 24
-                newImg.scaleType = ImageView.ScaleType.CENTER_CROP
-                newImg.tag = imageList.size
+                val uri=data?.getParcelableExtra<Uri>(MediaStore.EXTRA_OUTPUT)
+                addImage().setImageBitmap( uri?.getCameraImg(activity))
                 imageList.add(uri?.toFile(activity))
-                newImg.setOnClickListener {
-                    if (isDelete) {
-                        it.visibility = View.GONE
-                        imageList.remove(it.tag)
-                    }
-                }
-                task_details_picll.addView(newImg)
             }
             GALLERY_REQUEST -> {
-                val newImg = ImageView(activity)
-                val uri = data?.data
-                newImg.setImageBitmap(uri?.handleImageOnKitKat(activity))
-                val lp = ViewGroup.LayoutParams(task_details_photograph.width, task_details_photograph.height)
-                newImg.setLayoutParams(lp);
-                newImg.left = 24
-                newImg.scaleType = ImageView.ScaleType.CENTER_CROP
-                newImg.tag = imageList.size
-                imageList.add(uri?.toFile(activity))
-                newImg.setOnClickListener {
-                    if (isDelete) {
-                        it.visibility = View.GONE
-                        imageList.remove(it.tag)
-                    }
-                }
-                task_details_picll.addView(newImg)
+                addImage().setImageBitmap(data?.data?.handleImageOnKitKat(activity))
+                imageList.add(data?.data?.toFile(activity))
+
             }
             SOUND -> {
-                val newImg = ImageView(activity)
-                newImg.setImageResource(R.mipmap.sound_recording)
-                newImg.left = 24
-                newImg.setOnClickListener {
-                    if (isDelete) {
-                        it.visibility = View.GONE
-                        soundList.remove(it.tag)
-                    }
-                }
-                newImg.tag = soundList.size
-                soundList.add(data?.data?.toFile(activity))
-                task_details_soull.addView(newImg)
+                addSound(data?.data,null)
             }
         }
     }
+
+    fun addSound(uri: Uri?, soundUrl: String?): Unit {
+        val newImg = ImageView(activity)
+        newImg.setImageResource(R.mipmap.sound_recording)
+        newImg.left = 24
+        newImg.setOnClickListener {
+            if (isDelete) {
+                it.visibility = View.GONE
+                soundList.remove(it.tag)
+            } else {
+                val mediaPlayer = MediaPlayer()
+                mediaPlayer.reset()
+                if (uri == null) {
+                    mediaPlayer.setDataSource(soundUrl)
+                } else {
+                    mediaPlayer.setDataSource(activity, uri)
+                }
+                mediaPlayer.prepare()
+            }
+        }
+        newImg.tag = soundList.size
+        if (uri == null) {
+            sounds.add(soundUrl!!)
+        } else {
+            soundList.add(uri?.toFile(activity))
+        }
+        task_details_soull.addView(newImg)
+    }
+
+    fun addImage(): ImageView {
+        val newImg = ImageView(activity)
+        val lp = ViewGroup.LayoutParams(task_details_photograph.width, task_details_photograph.height)
+        newImg.setLayoutParams(lp);
+        newImg.left = 24
+        newImg.scaleType = ImageView.ScaleType.CENTER_CROP
+        newImg.tag = imageList.size
+        newImg.setOnClickListener {
+            if (isDelete) {
+                it.visibility = View.GONE
+                imageList.remove(it.tag)
+            }
+        }
+        task_details_picll.addView(newImg)
+        return newImg
+    }
+
+    fun upImages(): Unit {
+        for (image in imageList){
+            Http.upfile{
+                url= BASEURL
+                ""- image!!
+                success { upSounds() }
+            }
+        }
+    }
+    fun upSounds(): Unit {
+        for (sound in soundList){
+            Http.upfile{
+                url= BASEURL
+                ""- sound!!
+                success {  }
+            }
+        }
+
+    }
 }
-
-
-
