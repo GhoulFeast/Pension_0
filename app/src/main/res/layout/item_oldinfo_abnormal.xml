@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:orientation="vertical">
+
+
+        <LinearLayout
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:background="@drawable/text_rea_fffffff_raid"
+                android:gravity="center"
+                android:text="!"
+                android:textColor="@color/redPrimary"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/item_old_info_room"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:gravity="center_vertical"
+                android:text="asdasdasdadad"
+                android:textColor="@color/mainColor"
+                android:textSize="16sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/item_old_info_times"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="30dp"
+                android:layout_marginTop="5dp"
+                android:text="asdas"
+                android:textColor="@color/color_8d8d8d"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/item_old_info_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="5dp"
+                android:text="asdas"
+                android:textColor="@color/color_8d8d8d"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/item_old_info_submit_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="5dp"
+                android:text="asdas"
+                android:textColor="@color/color_8d8d8d"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/item_old_info_submit_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="5dp"
+                android:text="asdas"
+                android:textColor="@color/color_8d8d8d"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/item_old_info_content"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="5dp"
+            android:text="asdsad"
+            android:textColor="@color/text_black" />
+
+        <com.overwork.pension.other.MyGridView
+            android:id="@+id/item_old_info_image_gv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:numColumns="5" />
+
+        <com.overwork.pension.other.MyGridView
+            android:id="@+id/item_old_info_sound_gv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:numColumns="5" />
+    </LinearLayout>
+</LinearLayout>
