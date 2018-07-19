@@ -18,6 +18,7 @@ import android.widget.LinearLayout
 import android.widget.PopupWindow
 import com.aisino.tool.R
 import com.aisino.tool.bitmap.drawable2Bitmap
+import com.aisino.tool.log
 import java.io.File
 import java.io.IOException
 import java.io.InputStream
@@ -30,7 +31,7 @@ import java.util.*
  */
 val CAMERA_REQUEST = 1000
 val GALLERY_REQUEST = 2000
-
+private var cameraUri:Uri? = null
 
 fun Activity.openCameraAndGalleryWindow() {
     // 将布局文件转换成View对象，popupview 内容视图
@@ -46,7 +47,7 @@ fun Activity.openCameraAndGalleryWindow() {
     var openGallery = mPopView.findViewById<Button>(R.id.btn_pick_photo)
     var cancel = mPopView.findViewById<Button>(R.id.btn_cancel)
     openCamera.setOnClickListener{
-        val uri= this.openCamera()
+        cameraUri= this.openCamera()
         if (mPopupWindow.isShowing()) {
             mPopupWindow.dismiss();
         }
@@ -88,7 +89,7 @@ fun Activity.openGallery() {
     this.startActivityForResult(intent, GALLERY_REQUEST)
 }
 
-fun Activity.openCamera() {
+fun Activity.openCamera() :Uri{
     val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
     val c = Calendar.getInstance()
     val year = c.get(Calendar.YEAR)
@@ -103,9 +104,10 @@ fun Activity.openCamera() {
     } else {
         contentUri = Uri.fromFile(f)
     }
-    intent.putExtra(MediaStore.EXTRA_OUTPUT, contentUri);
-    intent.putExtra("return-data", false);
+    intent.putExtra(MediaStore.EXTRA_OUTPUT, contentUri)
+    intent.putExtra("return-data", false)
     this.startActivityForResult(intent, CAMERA_REQUEST)
+    return  contentUri
 }
 
 
@@ -167,47 +169,26 @@ fun Uri.getCameraImg(activity: Activity): Bitmap? {
     return null
 }
 
+fun Intent.getCameraUri(): Uri? {
+    return cameraUri
+}
+
 fun Uri.toFile(context: Context): File? {
     var path: String? = null
-    if ("file" == this.scheme) {
-        path = this.encodedPath
-        if (path != null) {
-            path = Uri.decode(path)
-            val cr = context.getContentResolver()
-            val buff = StringBuffer()
-            buff.append("(").append(MediaStore.Images.ImageColumns.DATA).append("=").append("'$path'").append(")")
-            val cur = cr.query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, arrayOf(MediaStore.Images.ImageColumns._ID, MediaStore.Images.ImageColumns.DATA), buff.toString(), null, null)
-            var index = 0
-            var dataIdx = 0
-            cur.moveToFirst()
-            while (!cur.isAfterLast()) {
-                index = cur.getColumnIndex(MediaStore.Images.ImageColumns._ID)
-                index = cur.getInt(index)
-                dataIdx = cur.getColumnIndex(MediaStore.Images.ImageColumns.DATA)
-                path = cur.getString(dataIdx)
-                cur.moveToNext()
-            }
-            cur.close()
-            if (index == 0) {
-            } else {
-                val u = Uri.parse("content://media/external/images/media/$index")
-                println("temp uri is :$u")
-            }
+    if (DocumentsContract.isDocumentUri(context, this)) {
+        val docId = DocumentsContract.getDocumentId(this)
+        if ("com.android.providers.media.documents" == this.authority) {
+            val id = docId.split(":".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()[1]
+            val selection = MediaStore.Images.Media._ID + "=" + id
+            path = getImagePath(context as Activity, MediaStore.Images.Media.EXTERNAL_CONTENT_URI, selection)
+        } else if ("com.android.providers.downloads.documents" == this.authority) {
+            val contentUri = ContentUris.withAppendedId(
+                    Uri.parse("content://downloads/public_downloads"),
+                    java.lang.Long.valueOf(docId)!!)
+            path = getImagePath(context as Activity, contentUri, null)
         }
-        if (path != null) {
-            return File(path)
-        }
-    } else if ("content" == this.scheme) {
-        // 4.2.2以后
-        val proj = arrayOf(MediaStore.Images.Media.DATA)
-        val cursor = context.getContentResolver().query(this, proj, null, null, null)
-        if (cursor.moveToFirst()) {
-            val columnIndex = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA)
-            path = cursor.getString(columnIndex)
-        }
-        cursor.close()
-
-        return File(path!!)
+    } else if ("content".equals(this.scheme, ignoreCase = true)) {
+        path = getImagePath(context as Activity, this, null)
     }
-    return null
+    return File(path)
 }

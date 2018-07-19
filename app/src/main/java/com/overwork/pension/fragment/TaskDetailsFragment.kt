@@ -212,14 +212,15 @@ class TaskDetailsFragment : Fragment() {
         super.onActivityResult(requestCode, resultCode, data)
         when (requestCode) {
             CAMERA_REQUEST -> {
-                val uri=data?.getParcelableExtra<Uri>(MediaStore.EXTRA_OUTPUT)
+                val uri=data?.getCameraUri()
                 addImage().setImageBitmap( uri?.getCameraImg(activity))
-                imageList.add(uri?.toFile(activity))
+                imageList.add(File(uri?.path))
             }
             GALLERY_REQUEST -> {
-                addImage().setImageBitmap(data?.data?.handleImageOnKitKat(activity))
-                imageList.add(data?.data?.toFile(activity))
-
+                val uri=data?.data
+                addImage().setImageBitmap(uri?.handleImageOnKitKat(activity))
+                imageList.add(uri?.toFile(activity))
+                imageList[0]?.name?.log()
             }
             SOUND -> {
                 addSound(data?.data,null)
