@@ -112,10 +112,13 @@ class MenuActivity : AppCompatActivity() , ServiceConnection {
         auBinder = p1 as AutoUpdateService.Binder
         auBinder?.setRun(true)
         auBinder?.setCallBack(object : AutoUpdateService.AutoUpdateCall {
-            override fun setMsgNum(num: Int) {
+            override fun setMsgNum(num: String) {
                 runOnUiThread {
-
-                    //                        LogUtil.i(prePosition+"");
+                    if (num.toBoolean()){
+                        main_rb_msg.setButtonDrawable(R.mipmap.msg)
+                    }else{
+                        main_rb_msg.setButtonDrawable(R.mipmap.msg)
+                    }
                 }
             }
         })

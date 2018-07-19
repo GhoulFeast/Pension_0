@@ -31,7 +31,7 @@ class AutoUpdateService :Service() {
                         "userId"- userId
 
                         success {
-//                                wcCall.setMsgNum(("result".."newMsgNum").toInt())
+                                wcCall.setMsgNum(("result".."hasNew"))
 
                         }
 
@@ -67,7 +67,7 @@ class AutoUpdateService :Service() {
     }
 
     interface AutoUpdateCall {
-        fun setMsgNum(num:Int)
+        fun setMsgNum(num:String)
     }
 
 }
