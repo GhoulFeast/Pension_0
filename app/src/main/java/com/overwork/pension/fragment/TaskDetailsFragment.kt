@@ -11,7 +11,6 @@ import android.support.v4.content.ContextCompat
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.baoyachi.stepview.bean.StepBean
 import com.hq.kbase.network.Http
 import com.overwork.pension.R
 import com.overwork.pension.activity.MenuActivity
@@ -81,7 +80,6 @@ class TaskDetailsFragment : Fragment() {
                 isDelete = true
             }
         }
-        intoStepview()
         initList()
 //        Glide.with(this).load("http://pic9/258/a2.jpg").into(iv);
 //        Glide.with(this).load("file:///xxx.jpg").into(iv);
@@ -136,36 +134,6 @@ class TaskDetailsFragment : Fragment() {
     }
 
 
-    fun intoStepview() {
-        var stepViews: ArrayList<StepBean> = ArrayList<StepBean>()
-        System.currentTimeMillis()
-        var calendar: Calendar = Calendar.getInstance()
-        if (calendar.get(Calendar.MINUTE) >= 30) {
-            calendar.set(Calendar.MINUTE, 30)
-        } else {
-            calendar.set(Calendar.MINUTE, 0)
-        }
-        calendar.set(Calendar.MINUTE, calendar.get(Calendar.MINUTE) - 60)
-        stepViews.add(StepBean(calendar.get(Calendar.HOUR_OF_DAY).toString() + ":" + calendar.get(Calendar.MINUTE).toString(), 1))
-        calendar.set(Calendar.MINUTE, calendar.get(Calendar.MINUTE) + 30)
-        stepViews.add(StepBean(calendar.get(Calendar.HOUR_OF_DAY).toString() + ":" + calendar.get(Calendar.MINUTE).toString(), 1))
-        calendar.set(Calendar.MINUTE, calendar.get(Calendar.MINUTE) + 60)
-        stepViews.add(StepBean(calendar.get(Calendar.HOUR_OF_DAY).toString() + ":" + calendar.get(Calendar.MINUTE).toString(), 0))
-        calendar.set(Calendar.MINUTE, calendar.get(Calendar.MINUTE) + 90)
-        stepViews.add(StepBean(calendar.get(Calendar.HOUR_OF_DAY).toString() + ":" + calendar.get(Calendar.MINUTE).toString(), -1))
-        calendar.set(Calendar.MINUTE, calendar.get(Calendar.MINUTE) + 120)
-        stepViews.add(StepBean(calendar.get(Calendar.HOUR_OF_DAY).toString() + ":" + calendar.get(Calendar.MINUTE).toString(), -1))
-        task_details_stepview.setStepViewTexts(stepViews)
-                .setTextSize(16)//set textSize
-                .setStepsViewIndicatorCompletedLineColor(ContextCompat.getColor(activity, android.R.color.white))//设置StepsViewIndicator完成线的颜色
-                .setStepsViewIndicatorUnCompletedLineColor(ContextCompat.getColor(activity, R.color.uncompleted_text_color))//设置StepsViewIndicator未完成线的颜色
-                .setStepViewComplectedTextColor(ContextCompat.getColor(activity, android.R.color.white))//设置StepsView text完成线的颜色
-                .setStepViewUnComplectedTextColor(ContextCompat.getColor(activity, R.color.uncompleted_text_color))//设置StepsView text未完成线的颜色
-                .setStepsViewIndicatorCompleteIcon(ContextCompat.getDrawable(activity, R.drawable.complted))//设置StepsViewIndicator CompleteIcon
-                .setStepsViewIndicatorDefaultIcon(ContextCompat.getDrawable(activity, R.drawable.default_icon))//设置StepsViewIndicator DefaultIcon
-                .setStepsViewIndicatorAttentionIcon(ContextCompat.getDrawable(activity, R.drawable.attention))//设置StepsViewIndicator AttentionIcon
-
-    }
 
     fun setSimple() {
         task_details_ll_1.visibility = View.GONE
