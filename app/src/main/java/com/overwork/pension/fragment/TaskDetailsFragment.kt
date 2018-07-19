@@ -70,42 +70,8 @@ class TaskDetailsFragment : Fragment() {
         }
 
         task_details_save.setOnClickListener {
-            var imageString = ""
-            var soundString = ""
-            var measurementString = ""
-            if (images.size > 0) {
-                for (image in images) {
-                    imageString = imageString + "," + image
-                }
-                imageString = imageString.substring(1, imageString.length)
-            }
+            upImages()
 
-            if (sounds.size > 0) {
-                for (sound in sounds) {
-                    soundString = soundString + "," + sound
-                }
-                soundString = soundString.substring(1, imageString.length)
-            }
-            if (measurementProjects.size > 0) {
-                for (project in measurementProjects) {
-                    measurementString = measurementString + "," + project["id"].toString() + "=" + project["num"].toString()
-                }
-                measurementString = measurementString.substring(1, imageString.length)
-            }
-
-            Http.get {
-                url = BASEURL + ABNORMALITY
-                "id" - (activity as MenuActivity).getData<String>(TodayTaskID)
-                "userId" - userId
-                "images" - imageString
-                "sounds" - soundString
-                "measurementProject" - measurementString
-                "abnormal" - task_details_context.text.toString()
-                "abnormalType" - abnormalType
-                success {
-                    ToastAdd.showToast_r(activity, "保存成功")
-                }
-            }
         }
         task_details_record_delete.setOnClickListener {
             ToastAdd.showToast_e(activity, "点击图片或音频删除")
@@ -287,9 +253,47 @@ class TaskDetailsFragment : Fragment() {
             Http.upfile{
                 url= BASEURL
                 ""- sound!!
-                success {  }
+                success { saveAll() }
             }
         }
+    }
 
+    fun saveAll(): Unit {
+        var imageString = ""
+        var soundString = ""
+        var measurementString = ""
+        if (images.size > 0) {
+            for (image in images) {
+                imageString = imageString + "," + image
+            }
+            imageString = imageString.substring(1, imageString.length)
+        }
+
+        if (sounds.size > 0) {
+            for (sound in sounds) {
+                soundString = soundString + "," + sound
+            }
+            soundString = soundString.substring(1, imageString.length)
+        }
+        if (measurementProjects.size > 0) {
+            for (project in measurementProjects) {
+                measurementString = measurementString + "," + project["id"].toString() + "=" + project["num"].toString()
+            }
+            measurementString = measurementString.substring(1, imageString.length)
+        }
+
+        Http.get {
+            url = BASEURL + ABNORMALITY
+            "id" - (activity as MenuActivity).getData<String>(TodayTaskID)
+            "userId" - userId
+            "images" - imageString
+            "sounds" - soundString
+            "measurementProject" - measurementString
+            "abnormal" - task_details_context.text.toString()
+            "abnormalType" - abnormalType
+            success {
+                ToastAdd.showToast_r(activity, "保存成功")
+            }
+        }
     }
 }

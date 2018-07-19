@@ -45,6 +45,7 @@ class TodayTaskFragment : Fragment(){
         val c:MutableMap<String,Any> = mutableMapOf()
         c.put("name","张三")
         c.put("wardNumber","301")
+        c.put("id","301")
         taskList.add(c)
 
         todaytask_list.adapter= TodayTaskAdapter(activity,taskList)
