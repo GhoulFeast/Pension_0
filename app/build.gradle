@@ -34,6 +34,5 @@ dependencies {
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:2.2.2'
     implementation 'com.github.bumptech.glide:glide:3.7.0'
     implementation project(path: ':tool')
-    implementation project(path: ':stepview')
     implementation project(path: ':qrcode')
 }
