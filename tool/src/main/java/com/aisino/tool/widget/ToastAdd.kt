@@ -8,11 +8,9 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
-import android.widget.Toast
-
 import com.aisino.tool.R
-import com.aisino.tool.dip2px
-import com.aisino.tool.getScreenWidth
+import com.aisino.tool.system.dip2px
+import com.aisino.tool.system.getScreenWidth
 
 
 /**

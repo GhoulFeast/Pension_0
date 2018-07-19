@@ -4,6 +4,10 @@ import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
+import com.aisino.tool.cache.ACache
+import com.aisino.tool.cache.getCache
+import com.aisino.tool.system.getAllPermissions
+import com.aisino.tool.system.signPermissions
 import com.aisino.tool.widget.ToastAdd
 import com.hq.kbase.network.Http
 import com.overwork.pension.activity.MenuActivity
@@ -18,6 +22,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         initViewAndEvent()
+
     }
 
     fun initViewAndEvent(): Unit {
@@ -26,6 +31,7 @@ class MainActivity : AppCompatActivity() {
             startActivity(Intent(this@MainActivity,MenuActivity::class.java))
 
         }
+        signPermissions(getAllPermissions(this)!!)
     }
 
     fun toLogin(): Unit {
@@ -55,10 +61,10 @@ class MainActivity : AppCompatActivity() {
                     superiorName="result".."superiorName"
                     userPortrait="result".."userPortrait"
                     startActivity(Intent(this@MainActivity,MenuActivity::class.java))
+                    getCache().put("yhmc",lg_name.text.toString())
+                    getCache().put("yhmm",lg_pwd.text.toString())
                 }
             }
-
-
 
         }
     }

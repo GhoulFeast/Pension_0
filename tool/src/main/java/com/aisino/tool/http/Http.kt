@@ -21,10 +21,17 @@ object Http {
         sub.run()
     }
 
-    var upload = fun(function: Submit.() -> Unit) {
+    var upimage = fun(function: Submit.() -> Unit) {
 //        val sub= Submit()
         sub.function()
         sub.method=Method.IMAGE
+        sub.run()
+    }
+
+    var upfile = fun(function: Submit.() -> Unit) {
+//        val sub= Submit()
+        sub.function()
+        sub.method=Method.FILE
         sub.run()
     }
 
