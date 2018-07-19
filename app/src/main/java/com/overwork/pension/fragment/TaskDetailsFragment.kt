@@ -22,6 +22,7 @@ import android.widget.ImageView
 import com.aisino.tool.log
 import com.aisino.tool.system.*
 import com.aisino.tool.widget.ToastAdd
+import com.aisino.tool.widget.showFullWindow
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.SimpleTarget
 import com.overwork.pension.adapter.ProjectAdapter
@@ -178,7 +179,11 @@ class TaskDetailsFragment : Fragment() {
                 } else {
                     mediaPlayer.setDataSource(activity, uri)
                 }
-                mediaPlayer.prepare()
+                if (mediaPlayer.isPlaying){
+                    mediaPlayer.stop()
+                }else{
+                    mediaPlayer.prepare()
+                }
             }
         }
         newImg.tag = soundList.size
@@ -201,6 +206,8 @@ class TaskDetailsFragment : Fragment() {
             if (isDelete) {
                 it.visibility = View.GONE
                 imageList.remove(it.tag)
+            }else{
+                (it as ImageView).showFullWindow()
             }
         }
         task_details_picll.addView(newImg)
