@@ -29,6 +29,7 @@ import com.overwork.pension.adapter.ProjectAdapter
 import com.overwork.pension.adapter.SmallTaskAdapter
 import kotlin.collections.ArrayList
 import com.bumptech.glide.request.animation.GlideAnimation
+import com.overwork.pension.adapter.TaskStepViewRvAdapter
 import java.io.File
 import java.io.IOException
 
@@ -37,7 +38,8 @@ val SOUND = 200
 
 class TaskDetailsFragment : Fragment() {
 
-    lateinit var taskList: MutableMap<String, Any>
+     var taskList: MutableMap<String, Any> = mutableMapOf()
+     var taskStepList: ArrayList<MutableMap<String, Any>> =ArrayList<MutableMap<String, Any>>()
     var isDelete = false
     val imageList = ArrayList<File?>()
     val soundList = ArrayList<File?>()
@@ -45,6 +47,7 @@ class TaskDetailsFragment : Fragment() {
     val sounds = ArrayList<String>()
     var abnormalType = ""
     lateinit var measurementProjects: ArrayList<MutableMap<String, Any>>
+    lateinit var taskStepViewRvAdapter: TaskStepViewRvAdapter
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater?.inflate(R.layout.fragment_task_details, null, false)
         return view
@@ -52,6 +55,8 @@ class TaskDetailsFragment : Fragment() {
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        taskStepViewRvAdapter = TaskStepViewRvAdapter(activity, taskStepList)
+        todaytask_rv.adapter = taskStepViewRvAdapter;
         (activity as MenuActivity).style {
             textBar = ""
         }
@@ -95,6 +100,7 @@ class TaskDetailsFragment : Fragment() {
             url = BASEURL + THIS_TIME_TASK
             "id" - (activity as MenuActivity).getData<String>(TodayTaskID)
             "userId" - userId
+            "time" - arguments.getString("time")
             success {
                 val name: String = "result".."name"
                 task_details_name.setText(name)
@@ -105,6 +111,8 @@ class TaskDetailsFragment : Fragment() {
                 val age: String = "result".."age"
                 task_details_age.setText(age)
                 taskList = "result".."nursingsAxis"
+                taskStepList.addAll("result".."todayTasks")
+                taskStepViewRvAdapter.notifyDataSetChanged()
                 task_details_nursing_time.setText(taskList["time"].toString())
                 task_details_task.setText(taskList["meal"].toString())
                 task_details_task_details.setText(taskList["consideration"].toString())
@@ -127,13 +135,12 @@ class TaskDetailsFragment : Fragment() {
                 }
 
                 for (sound in taskList["soundUrl"] as ArrayList<String>) {
-                    addSound(null,sound)
+                    addSound(null, sound)
                 }
             }
         }
 
     }
-
 
 
     fun setSimple() {
@@ -147,18 +154,18 @@ class TaskDetailsFragment : Fragment() {
         super.onActivityResult(requestCode, resultCode, data)
         when (requestCode) {
             CAMERA_REQUEST -> {
-                val uri=data?.getCameraUri()
-                addImage().setImageBitmap( uri?.getCameraImg(activity))
+                val uri = data?.getCameraUri()
+                addImage().setImageBitmap(uri?.getCameraImg(activity))
                 imageList.add(File(uri?.path))
             }
             GALLERY_REQUEST -> {
-                val uri=data?.data
+                val uri = data?.data
                 addImage().setImageBitmap(uri?.handleImageOnKitKat(activity))
                 imageList.add(uri?.toFile(activity))
                 imageList[0]?.name?.log()
             }
             SOUND -> {
-                addSound(data?.data,null)
+                addSound(data?.data, null)
             }
         }
     }
@@ -179,9 +186,9 @@ class TaskDetailsFragment : Fragment() {
                 } else {
                     mediaPlayer.setDataSource(activity, uri)
                 }
-                if (mediaPlayer.isPlaying){
+                if (mediaPlayer.isPlaying) {
                     mediaPlayer.stop()
-                }else{
+                } else {
                     mediaPlayer.prepare()
                 }
             }
@@ -206,7 +213,7 @@ class TaskDetailsFragment : Fragment() {
             if (isDelete) {
                 it.visibility = View.GONE
                 imageList.remove(it.tag)
-            }else{
+            } else {
                 (it as ImageView).showFullWindow()
             }
         }
@@ -215,19 +222,20 @@ class TaskDetailsFragment : Fragment() {
     }
 
     fun upImages(): Unit {
-        for (image in imageList){
-            Http.upfile{
-                url= BASEURL
-                ""- image!!
+        for (image in imageList) {
+            Http.upfile {
+                url = BASEURL
+                "" - image!!
                 success { upSounds() }
             }
         }
     }
+
     fun upSounds(): Unit {
-        for (sound in soundList){
-            Http.upfile{
-                url= BASEURL
-                ""- sound!!
+        for (sound in soundList) {
+            Http.upfile {
+                url = BASEURL
+                "" - sound!!
                 success { saveAll() }
             }
         }
