@@ -84,7 +84,7 @@ class Submit {
 
             Method.DOWNLOAD -> download()
 
-            Method.FILE->upFile()
+            Method.FILE -> upFile()
         }
     }
 
@@ -268,12 +268,12 @@ class Submit {
     }
 
     // ！ 简单取参 单key
-    operator fun <E>String.not(): E {
-        return _response[this] as E
+    operator fun  String.not():String {
+        return _response[this] as String
     }
 
     // .. 复杂取参
-    operator fun <E>String.rangeTo(tag: String): E {
+    operator fun <E> String.rangeTo(tag: String): E {
         val c = _response[this] as MutableMap<String, Any>
         return c[tag] as E
     }
@@ -362,20 +362,20 @@ class Submit {
         }
     }
 
-    fun <E> getAny(string: String): MutableMap<String, Any> {
-        return loopAny<E>(string,_response) as E
+    fun <E> getAny(string: String): E {
+        return loopAny<E>(string, _response) as E
     }
 
 
-    private fun <E> loopAny (key: String,target: MutableMap<String, Any>): E? {
-        var result:E?
+    private fun <E> loopAny(key: String, target: MutableMap<String, Any>): E? {
+        var result: E?
         if (target.containsKey(key)) {
             return target[key] as E
         }//第一层
         for (res in target) {
             if (res.value is MutableMap<*, *>) {
-                result= loopAny<E>(key, res.value as MutableMap<String, Any>)
-                if (result!=null){
+                result = loopAny<E>(key, res.value as MutableMap<String, Any>)
+                if (result != null) {
                     return result
                 }
             }
