@@ -268,8 +268,8 @@ class Submit {
     }
 
     // ！ 简单取参 单key
-    operator fun String.not(): String {
-        return _response[this].toString()
+    operator fun <E>String.not(): E {
+        return _response[this] as E
     }
 
     // .. 复杂取参
@@ -362,7 +362,7 @@ class Submit {
         }
     }
 
-    fun <E> getAny(string: String): E? {
+    fun <E> getAny(string: String): MutableMap<String, Any> {
         return loopAny<E>(string,_response) as E
     }
 

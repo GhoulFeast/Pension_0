@@ -8,9 +8,11 @@ import android.view.ViewGroup
 import com.hq.kbase.network.Http
 import com.overwork.pension.R
 import com.overwork.pension.activity.MenuActivity
+import com.overwork.pension.adapter.OldInfoAdapter
 import com.overwork.pension.adapter.TomorrowTaskAdapter
 import com.overwork.pension.other.*
 import kotlinx.android.synthetic.main.fragment_oldinfo.*
+import kotlinx.android.synthetic.main.item_oldinfo_abnormal.*
 import kotlinx.android.synthetic.main.item_room.*
 
 class OldInfoFragment : Fragment() {
@@ -36,7 +38,7 @@ class OldInfoFragment : Fragment() {
             url = BASEURL + TOMORROW_TASK
             "userId" - userId
             success {
-                oldInfo = "result".."result"
+                oldInfo = getAny<MutableMap<String, Any>>("result")
                 oldInfos = oldInfo.get("abnormal") as ArrayList<MutableMap<String, Any>>
                 setUI()
             }
@@ -78,5 +80,7 @@ class OldInfoFragment : Fragment() {
             emergencyBuffer.append("\\n")
         }
         old_info_emergency.setText(emergencyBuffer.toString())
+        old_info_mlv.adapter=OldInfoAdapter(activity,oldInfos)
     }
+    
 }
