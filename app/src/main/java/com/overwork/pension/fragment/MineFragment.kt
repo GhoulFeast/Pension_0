@@ -20,7 +20,6 @@ class MineFragment : Fragment() {
     var tomorrowTasks: ArrayList<MutableMap<String, Any>> = ArrayList()
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater?.inflate(R.layout.fragment_mine, container, false)
-        (activity as MenuActivity).setTextView(R.string.nil)
         return view
     }
 
@@ -44,6 +43,9 @@ class MineFragment : Fragment() {
 
         })
         getData()
+        (activity as MenuActivity).style {
+            textBar=activity.resources.getString(R.string.nil)
+        }
     }
 
     override fun onStart() {

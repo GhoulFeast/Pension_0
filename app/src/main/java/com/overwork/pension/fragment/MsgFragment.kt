@@ -28,7 +28,9 @@ class MsgFragment : Fragment() {
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        (activity as MenuActivity).setTextView(R.string.wdxx)
+        (activity as MenuActivity).style {
+            textBar=activity.resources.getString(R.string.wdxx)
+        }
         msgAdapter = MsgAdapter(context, msgBeans)
         msg_list.adapter = msgAdapter
         msg_list.setOnItemClickListener({ adapterView: AdapterView<*>, view1: View, i: Int, l: Long ->

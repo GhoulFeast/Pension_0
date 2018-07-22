@@ -44,7 +44,9 @@ class MsgDetalisFragment : Fragment() {
 
     fun setUI() {
         if (enety["type"].toString().toInt() == 1) {
-            (activity as MenuActivity).setTextView(R.string.msg_title_task)
+            (activity as MenuActivity).style {
+                textBar=activity.resources.getString(R.string.msg_title_task)
+            }
             msg_details_context_ll.visibility = View.VISIBLE
             msg_details_other_context_ll.visibility = View.GONE
             msg_details_handover_tv.visibility = View.VISIBLE
@@ -76,7 +78,9 @@ class MsgDetalisFragment : Fragment() {
             msg_details_other_context_ll.visibility = View.VISIBLE
             msg_details_handover_tv.visibility = View.GONE
             msg_details_other_context_tv.setText(enety.get("messageContent").toString())
-            (activity as MenuActivity).setTextView(R.string.msg_title_other)
+            (activity as MenuActivity).style {
+                textBar=activity.resources.getString(R.string.msg_title_other)
+            }
         }
 
     }

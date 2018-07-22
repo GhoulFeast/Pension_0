@@ -23,7 +23,6 @@ class HandoverDirectorFragment : Fragment() {
     lateinit var classAdapter: ClassAdapter
     var classBeans: ArrayList<MutableMap<String, Any>> = ArrayList()
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        (activity as MenuActivity).setTextView(R.string.checking_information)
         val view = inflater?.inflate(R.layout.fragment_handoverdirector, null, false)
         return view
     }
@@ -59,7 +58,9 @@ class HandoverDirectorFragment : Fragment() {
     }
 
     fun initViewAndEvent(): Unit {
-        (activity as MenuActivity).setTextView(R.string.checking_information)
+        (activity as MenuActivity).style {
+            textBar=activity.resources.getString(R.string.checking_information)
+        }
         classAdapter = ClassAdapter(classBeans)
         director_rlv.adapter = classAdapter
         director_handover_tv.setOnClickListener(object : View.OnClickListener {
