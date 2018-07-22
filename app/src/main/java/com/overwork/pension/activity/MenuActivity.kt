@@ -50,7 +50,7 @@ class MenuActivity : AppCompatActivity() , ServiceConnection {
                     showFragment = homeFragment
                 }
                 R.id.main_rb_class -> {
-                    if (userType == 2) {
+                    if (userType.toInt() == 2) {
                         startActivityForResult(Intent(this, CaptureActivity::class.java), -1)
                     } else {
                         var classFragment = ClassFragment()
@@ -89,8 +89,8 @@ class MenuActivity : AppCompatActivity() , ServiceConnection {
                 startActivityForResult(Intent(this@MenuActivity,CaptureActivity::class.java),QRCODE)
             }
         }
-        val intent=Intent(this, AutoUpdateService::class.java)
-        bindService(intent, this, Context.BIND_AUTO_CREATE)
+        val intent=Intent(this@MenuActivity, AutoUpdateService::class.java)
+        bindService(intent, this@MenuActivity, Context.BIND_AUTO_CREATE)
         startService(intent)
     }
 
