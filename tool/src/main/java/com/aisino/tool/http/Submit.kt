@@ -4,6 +4,7 @@ import android.util.JsonToken
 import android.util.Log
 import okhttp3.*
 import android.util.Xml
+import com.aisino.tool.log
 import com.google.gson.stream.JsonReader
 import org.xmlpull.v1.XmlPullParser
 import java.io.*
@@ -322,17 +323,26 @@ class Submit {
             JsonToken.BEGIN_ARRAY.name -> {
                 reader.beginArray()
                 val al = ArrayList<MutableMap<String, Any>>()
+                val als = ArrayList<String>()
                 while (reader.hasNext()) {
-                    reader.beginObject()
-                    val ba: MutableMap<String, Any> = mutableMapOf()
-                    while (reader.hasNext()) {
-                        loopJson(reader.nextName(), reader, ba)
+                    if (reader.peek().name.equals(JsonToken.STRING.name)){
+                        als.add(reader.nextString())
+                    }else{
+                        reader.beginObject()
+                        val ba: MutableMap<String, Any> = mutableMapOf()
+                        while (reader.hasNext()) {
+                            loopJson(reader.nextName(), reader, ba)
+                        }
+                        al.add(ba)
+                        reader.endObject()
                     }
-                    al.add(ba)
-                    reader.endObject()
                 }
                 reader.endArray()
-                target.put(loopName, al)
+                if (als.size>0){
+                    target.put(loopName, als)
+                }else{
+                    target.put(loopName, al)
+                }
             }
             JsonToken.BOOLEAN.name->{
                 target.put(loopName, reader.nextBoolean())
