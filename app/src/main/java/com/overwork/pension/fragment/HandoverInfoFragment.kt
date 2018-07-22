@@ -71,7 +71,7 @@ class HandoverInfoFragment : Fragment(), ServiceConnection {
                 val intent = Intent(activity, IsHandoverService::class.java)
                 activity.bindService(intent, this@HandoverInfoFragment, Context.BIND_AUTO_CREATE)
                 activity.startService(intent)
-                ToastAdd.showToast_w(activity,"检查是否交班成功中。。。")
+                ToastAdd.showToast_w(activity, "检查是否交班成功中。。。")
             }
         })
         handoverInfoAdapter.setHandover(object : HandoverInfoAdapter.OnHandover {
@@ -100,6 +100,9 @@ class HandoverInfoFragment : Fragment(), ServiceConnection {
 
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+    }
 
     override fun onServiceConnected(p0: ComponentName?, p1: IBinder?) {
         auBinder = p1 as IsHandoverService.Binder
