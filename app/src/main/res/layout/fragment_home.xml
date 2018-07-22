@@ -15,33 +15,40 @@
         android:background="@color/blue"
         android:padding="12dp"/>
 
-    <TextView
-        android:id="@+id/start_job"
+    <LinearLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="48dp"
-        android:layout_marginStart="48dp"
-        android:layout_marginTop="96dp"
-        android:background="@drawable/text_green_raid"
         android:gravity="center"
-        android:text="@string/start_job"
-        android:textColor="@color/white"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView" />
+        app:layout_constraintTop_toBottomOf="@+id/imageView">
 
-    <TextView
-        android:id="@+id/come_room"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="48dp"
-        android:layout_marginStart="48dp"
-        android:layout_marginTop="24dp"
-        android:background="@drawable/text_green_raid"
-        android:gravity="center"
-        android:text="@string/come_room"
-        android:textColor="@color/white"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/start_job" />
+        <TextView
+            android:id="@+id/start_job"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="48dp"
+            android:layout_marginStart="48dp"
+            android:background="@drawable/text_green_raid"
+            android:gravity="center"
+            android:text="@string/start_job"
+            android:textColor="@color/white" />
+
+        <TextView
+            android:id="@+id/come_room"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="48dp"
+            android:layout_marginStart="48dp"
+            android:layout_marginTop="24dp"
+            android:background="@drawable/text_green_raid"
+            android:gravity="center"
+            android:text="@string/come_room"
+            android:textColor="@color/white" />
+    </LinearLayout>
+
+
+
 </android.support.constraint.ConstraintLayout>
