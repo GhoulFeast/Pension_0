@@ -334,6 +334,9 @@ class Submit {
                 reader.endArray()
                 target.put(loopName, al)
             }
+            JsonToken.BOOLEAN.name->{
+                target.put(loopName, reader.nextBoolean())
+            }
             else -> {
                 target.put(loopName, reader.nextString())
             }
