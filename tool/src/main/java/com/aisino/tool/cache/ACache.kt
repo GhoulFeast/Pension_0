@@ -522,11 +522,11 @@ class ACache (cacheDir: File, max_size: Long, max_count: Int) {
 //        }
 //    }
 }
-lateinit var cache:ACache
+var cache:ACache?=null
 
 fun Activity.getCache(): ACache {
     if (cache==null){
         cache= ACache(this.cacheDir, Long.MAX_VALUE, Int.MAX_VALUE)
     }
-        return cache
+        return cache!!
 }

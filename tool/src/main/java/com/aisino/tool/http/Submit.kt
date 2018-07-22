@@ -248,9 +248,6 @@ class Submit {
     }
 
     fun successCall(response: Response): Unit {
-        var response1: Response = response
-        Log.i("successCall", "url" + response1.body().string())
-        Log.i("successCall", "url" + response1.request().url())
         kotlin.run {
             if (response.code() != 200) {
                 _fail("请求失败:" + response.code())

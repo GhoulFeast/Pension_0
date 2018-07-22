@@ -2,7 +2,7 @@ package com.overwork.pension.other
 
 
 var userId=""
-var userType:Int=-1
+var userType=""
 var userName=""
 var userLevel=""
 var userLevelName=""
