@@ -38,8 +38,8 @@ val SOUND = 200
 
 class TaskDetailsFragment : Fragment() {
 
-     var taskList: MutableMap<String, Any> = mutableMapOf()
-     var taskStepList: ArrayList<MutableMap<String, Any>> =ArrayList<MutableMap<String, Any>>()
+    var taskList: MutableMap<String, Any> = mutableMapOf()
+    var taskStepList: ArrayList<MutableMap<String, Any>> = ArrayList<MutableMap<String, Any>>()
     var isDelete = false
     val imageList = ArrayList<File?>()
     val soundList = ArrayList<File?>()
@@ -102,42 +102,45 @@ class TaskDetailsFragment : Fragment() {
             "userId" - userId
             "time" - arguments.getString("time")
             success {
-                val name: String = "result".."name"
-                task_details_name.setText(name)
-                val sex: String = "result".."sex"
-                task_details_sex.setText(sex)
-                val romeNo: String = "result".."romeNo"
-                task_details_room.setText(romeNo)
-                val age: String = "result".."age"
-                task_details_age.setText(age)
-                taskList = "result".."nursingsAxis"
-                taskStepList.addAll("result".."todayTasks")
-                taskStepViewRvAdapter.notifyDataSetChanged()
-                task_details_nursing_time.setText(taskList["time"].toString())
-                task_details_task.setText(taskList["meal"].toString())
-                task_details_task_details.setText(taskList["consideration"].toString())
-                task_details_list.adapter = SmallTaskAdapter(activity, taskList["nursings"] as ArrayList<MutableMap<String, Any>>)
-                measurementProjects = taskList["measurementProject"] as ArrayList<MutableMap<String, Any>>
-                task_details_project_list.adapter = ProjectAdapter(activity, measurementProjects)
-                if (taskList["abnormalType"].toString().equals("1")) {
-                    task_details_record_needhelp.performClick()
-                } else {
-                    task_details_record_have.performClick()
-                }
-                task_details_context.setText(taskList["abnormal"].toString())
-                for (img in taskList["imageUrl"] as ArrayList<String>) {
-                    Glide.with(activity).load(img).asBitmap().into(object : SimpleTarget<Bitmap>() {
-                        override fun onResourceReady(resource: Bitmap, glideAnimation: GlideAnimation<in Bitmap>) {
-                            addImage().setImageBitmap(resource)
-                        }
-                    })
-                    images.add(img)
-                }
+                activity.runOnUiThread {
+                    val name: String = "result".."name"
+                    task_details_name.setText(name)
+                    val sex: String = "result".."sex"
+                    task_details_sex.setText(sex)
+                    val romeNo: String = "result".."romeNo"
+                    task_details_room.setText(romeNo)
+                    val age: String = "result".."age"
+                    task_details_age.setText(age)
+                    taskList = "result".."nursingsAxis"
+                    taskStepList.addAll("result".."todayTasks")
+                    taskStepViewRvAdapter.notifyDataSetChanged()
+                    task_details_nursing_time.setText(taskList["time"].toString())
+                    task_details_task.setText(taskList["meal"].toString())
+                    task_details_task_details.setText(taskList["consideration"].toString())
+                    task_details_list.adapter = SmallTaskAdapter(activity, taskList["nursings"] as ArrayList<MutableMap<String, Any>>)
+                    measurementProjects = taskList["measurementProject"] as ArrayList<MutableMap<String, Any>>
+                    task_details_project_list.adapter = ProjectAdapter(activity, measurementProjects)
+                    if (taskList["abnormalType"].toString().equals("1")) {
+                        task_details_record_needhelp.performClick()
+                    } else {
+                        task_details_record_have.performClick()
+                    }
+                    task_details_context.setText(taskList["abnormal"].toString())
+                    for (img in taskList["imageUrl"] as ArrayList<String>) {
+                        Glide.with(activity).load(img).asBitmap().into(object : SimpleTarget<Bitmap>() {
+                            override fun onResourceReady(resource: Bitmap, glideAnimation: GlideAnimation<in Bitmap>) {
+                                addImage().setImageBitmap(resource)
+                            }
+                        })
+                        images.add(img)
+                    }
 
-                for (sound in taskList["soundUrl"] as ArrayList<String>) {
-                    addSound(null, sound)
+                    for (sound in taskList["soundUrl"] as ArrayList<String>) {
+                        addSound(null, sound)
+                    }
                 }
             }
+
         }
 
     }
