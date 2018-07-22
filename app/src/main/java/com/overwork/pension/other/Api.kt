@@ -30,6 +30,6 @@ val THIS_TIME_TASK = "https://raw.githubusercontent.com/wwan12/AnalogInterface/m
 val T_HANDOVERDIRECTOR = "https://raw.githubusercontent.com/wwan12/AnalogInterface/master/supervisorSummary.json"//交班-主管https://github.com/wwan12/AnalogInterface/blob/master/supervisorSummary.json
 val AUTO_UPDATE_MSG="https://raw.githubusercontent.com/wwan12/AnalogInterface/master/isNewMsg.json"//新消息https://github.com/wwan12/AnalogInterface/blob/master/isNewMsg.json
 val MSGLIST_READ = "https://raw.githubusercontent.com/wwan12/AnalogInterface/master/completeTheNursing.json"//消息——读
-
+val IS_HANDOVER=""//是否交班成功
 val ROOM_LIST = "https://raw.githubusercontent.com/wwan12/AnalogInterface/master/roomList.json"//房间列表
 val OLDMAN_INFO="https://raw.githubusercontent.com/wwan12/AnalogInterface/master/InformationOfTheOldMan.json"//老人信息https://github.com/wwan12/AnalogInterface/blob/master/InformationOfTheOldMan.json

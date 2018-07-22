@@ -3,6 +3,7 @@ package com.overwork.pension
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import com.aisino.tool.cache.ACache
 import com.aisino.tool.cache.getCache
@@ -28,7 +29,7 @@ class MainActivity : AppCompatActivity() {
     fun initViewAndEvent(): Unit {
         lg_login.setOnClickListener{
             toLogin()
-            startActivity(Intent(this@MainActivity,MenuActivity::class.java))
+//            startActivity(Intent(this@MainActivity,MenuActivity::class.java))
 
         }
         signPermissions(getAllPermissions(this)!!)
