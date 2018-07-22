@@ -11,16 +11,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.aisino.qrcode.encoding.EncodingUtils
+import com.aisino.tool.widget.ToastAdd
 import com.hq.kbase.network.Http
 import com.overwork.pension.R
 import com.overwork.pension.activity.MenuActivity
-import com.overwork.pension.adapter.ClassAdapter
 import com.overwork.pension.adapter.HandoverInfoAdapter
 import com.overwork.pension.other.BASEURL
 import com.overwork.pension.other.T_ABNORMAL
 import com.overwork.pension.other.T_HANDOVERINFO
 import com.overwork.pension.other.userId
-import com.overwork.pension.service.AutoUpdateService
 import com.overwork.pension.service.IsHandoverService
 import kotlinx.android.synthetic.main.activity_menu.*
 import kotlinx.android.synthetic.main.fragment_handover.*
@@ -69,9 +68,10 @@ class HandoverInfoFragment : Fragment(), ServiceConnection {
         class_rlv.adapter = handoverInfoAdapter
         class_handover_tv.setOnClickListener(object : View.OnClickListener {
             override fun onClick(p0: View?) {
-                val intent = Intent(activity, AutoUpdateService::class.java)
+                val intent = Intent(activity, IsHandoverService::class.java)
                 activity.bindService(intent, this@HandoverInfoFragment, Context.BIND_AUTO_CREATE)
                 activity.startService(intent)
+                ToastAdd.showToast_w(activity,"检查是否交班成功中。。。")
             }
         })
         handoverInfoAdapter.setHandover(object : HandoverInfoAdapter.OnHandover {

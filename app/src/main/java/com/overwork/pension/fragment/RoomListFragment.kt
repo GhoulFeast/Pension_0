@@ -48,7 +48,6 @@ class RoomListFragment : Fragment() {
     }
 
     fun initViewAndEvent(): Unit {
-        (activity as MenuActivity).setTextView(R.string.checking_information)
         roomList = RoomListAdapter(roomListBeans)
         roomlist_lv.adapter = roomList
         roomList.setTomorrow(object : RoomListAdapter.OnOld {

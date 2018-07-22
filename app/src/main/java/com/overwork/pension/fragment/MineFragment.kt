@@ -5,6 +5,7 @@ import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.bumptech.glide.Glide
 import com.hq.kbase.network.Http
 import com.overwork.pension.R
 import com.overwork.pension.activity.MenuActivity
@@ -28,10 +29,11 @@ class MineFragment : Fragment() {
         tomorrowTaskAdp = TomorrowTaskAdapter(activity, tomorrowTasks)
         mine_task_list.adapter = tomorrowTaskAdp
         mine_user_name.setText(userName)
-        mine_user_job.setText(userPortrait)
+        mine_user_job.setText(userLevelName)
         mine_user_starttime.setText(String.format(resources.getString(R.string.text_entryTime, entryTime)))
         mine_user_overtime.setText(String.format(resources.getString(R.string.text_entryTime, workingYears)))
         mine_user_ld.setText(String.format(resources.getString(R.string.text_entryTime, superiorName)))
+        Glide.with(activity).load(userPortrait).into(mine_user_icon)
         mine_exit_user.setOnClickListener { }
         tomorrowTaskAdp.setTomorrow(object : TomorrowTaskAdapter.OnTomorrow {
             override fun OnHandoverClick(id: String) {
@@ -46,7 +48,6 @@ class MineFragment : Fragment() {
 
     override fun onStart() {
         super.onStart()
-        mine_user_name.setText("张三")
     }
 
     fun getData() {
