@@ -17,6 +17,19 @@ import java.util.concurrent.TimeUnit
 /**
  * Created by lenovo on 2017/11/14.
  */
+
+var cookjar: CookieJar=object : CookieJar {
+    override fun saveFromResponse(url: HttpUrl, cookies: List<Cookie>) {
+        cookieStore.put(url.host(), cookies)
+    }
+
+    override fun loadForRequest(url: HttpUrl): List<Cookie> {
+        val cookies = cookieStore[url.host()]
+        return cookies ?: ArrayList()
+    }
+}
+val cookieStore = HashMap<String, List<Cookie>>()//cookie缓存
+
 class Submit {
     //可配置属性
     var url = ""
@@ -37,21 +50,21 @@ class Submit {
     private var _fail: (String) -> Unit = {}
 
     private var isError = false
-    var cookjar: CookieJar
-    val cookieStore = HashMap<String, List<Cookie>>()//cookie缓存
-
-    init {
-        cookjar = object : CookieJar {
-            override fun saveFromResponse(url: HttpUrl, cookies: List<Cookie>) {
-                cookieStore.put(url.host(), cookies)
-            }
-
-            override fun loadForRequest(url: HttpUrl): List<Cookie> {
-                val cookies = cookieStore[url.host()]
-                return cookies ?: ArrayList()
-            }
-        }
-    }
+//    var cookjar: CookieJar
+//    val cookieStore = HashMap<String, List<Cookie>>()//cookie缓存
+//
+//    init {
+//        cookjar = object : CookieJar {
+//            override fun saveFromResponse(url: HttpUrl, cookies: List<Cookie>) {
+//                cookieStore.put(url.host(), cookies)
+//            }
+//
+//            override fun loadForRequest(url: HttpUrl): List<Cookie> {
+//                val cookies = cookieStore[url.host()]
+//                return cookies ?: ArrayList()
+//            }
+//        }
+//    }
 
 
     fun run() {
@@ -60,10 +73,6 @@ class Submit {
     }
 
     fun tryInit(): Unit { //检查配置单
-        _params.clear()
-        _response.clear()
-        _fileParams.clear()
-        _headers.clear()
         when (returnType) {
             ReturnType.JSON -> {
             }

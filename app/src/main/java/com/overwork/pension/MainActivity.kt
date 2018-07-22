@@ -51,7 +51,7 @@ class MainActivity : AppCompatActivity() {
             "yhmc"-lg_name.text.toString()
             "yhmm"-lg_pwd.text.toString()
             success {
-                if ((!"code").toInt()==2000){
+                if ((!"state").toInt()==2000){
                     userId= "result".."userId"
                     userType="result".."userType"
                     userName="result".."userName"
