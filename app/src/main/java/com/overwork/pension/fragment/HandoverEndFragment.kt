@@ -12,7 +12,7 @@ import com.overwork.pension.R
  */
 class HandoverEndFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view = inflater?.inflate(R.layout.fragment_handoverend, null, false)
+        val view = inflater?.inflate(R.layout.fragment_handoverend, container, false)
         return view
     }
 }
