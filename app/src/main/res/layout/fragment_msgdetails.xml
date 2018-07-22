@@ -155,7 +155,7 @@
                 android:paddingLeft="55dp"
                 android:paddingRight="55dp"
                 android:paddingTop="15dp"
-                android:text="交班"
+                android:text="去护理"
                 android:textColor="@color/white"
                 android:textSize="16sp" />
         </LinearLayout>

@@ -39,7 +39,7 @@ class RoomListFragment : Fragment() {
             success {
                 activity.runOnUiThread {
                     roomListBeans.clear()
-                    roomListBeans .addAll( "result".."links")
+                    roomListBeans.addAll("result".."links")
                     roomList.notifyDataSetChanged()
                 }
             }
@@ -53,7 +53,9 @@ class RoomListFragment : Fragment() {
         roomlist_lv.adapter = roomList
         roomList.setTomorrow(object : RoomListAdapter.OnOld {
             override fun onOldClick(id: String) {
-                (activity as MenuActivity).showFragment(TaskDetailsFragment())
+                var taskDetailsFragment = TaskDetailsFragment();
+                (activity as MenuActivity).showFragment(taskDetailsFragment)
+                (activity as MenuActivity).putData(TodayTaskID, id)
             }
         })
     }

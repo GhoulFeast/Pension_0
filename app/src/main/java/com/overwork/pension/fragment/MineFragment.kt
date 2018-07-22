@@ -25,7 +25,7 @@ class MineFragment : Fragment() {
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        tomorrowTaskAdp = TomorrowTaskAdapter(tomorrowTasks)
+        tomorrowTaskAdp = TomorrowTaskAdapter(activity, tomorrowTasks)
         mine_task_list.adapter = tomorrowTaskAdp
         mine_user_name.setText(userName)
         mine_user_job.setText(userPortrait)
@@ -55,8 +55,9 @@ class MineFragment : Fragment() {
             "userId" - userId
             success {
                 activity.runOnUiThread {
-                    tomorrowTasks .clear()
-                    tomorrowTasks.addAll( "result".."tomorrow")
+                    tomorrowTasks.clear()
+                    var tomorrows: ArrayList<MutableMap<String, Any>> = "result".."tomorrow"
+                    tomorrows.let { tomorrowTasks.addAll(tomorrows) }
                     tomorrowTaskAdp.notifyDataSetChanged()
                 }
             }

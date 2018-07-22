@@ -19,7 +19,7 @@ class RoomOldTaskAdapter(taskList: ArrayList<MutableMap<String, Any>>) : BaseAda
         handoverList = taskList
     }
 
-    override fun getView(p0: Int, p1: View, p2: ViewGroup): View {
+    override fun getView(p0: Int, p1: View?, p2: ViewGroup): View {
         var p1 = LayoutInflater.from(p2.context).inflate(R.layout.item_tomorrowtask, p2, false)
         var item_tommorrow_name_tv = p1.findViewById<TextView>(R.id.item_tommorrow_name_tv)
         var item_tommorrow_headimage_iv = p1.findViewById<ImageView>(R.id.item_tommorrow_headimage_iv)
