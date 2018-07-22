@@ -21,11 +21,11 @@ class AutoUpdateService :Service() {
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        val intevalPeriod: Long = 10000
+        val intevalPeriod: Long = 20000
         val timerTask = object : TimerTask() {
             override fun run() {
                 if (isRun){
-                    Http.post{
+                    Http.get{
                         url=BASEURL+ AUTO_UPDATE_MSG
 
                         "userId"- userId

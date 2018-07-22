@@ -25,7 +25,7 @@ class IsHandoverService : Service() {
         val timerTask = object : TimerTask() {
             override fun run() {
                 if (isRun){
-                    Http.post {
+                    Http.get {
                         url = BASEURL + IS_HANDOVER
 
                         "userId" - userId

@@ -22,6 +22,8 @@
         </activity>
         <activity android:name=".activity.MenuActivity"/>
 
+        <service android:name=".service.AutoUpdateService" />
+        <service android:name=".service.IsHandoverService" />
     </application>
 
 </manifest>

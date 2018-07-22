@@ -115,9 +115,11 @@ class MenuActivity : AppCompatActivity() , ServiceConnection {
             override fun setMsgNum(num: String) {
                 runOnUiThread {
                     if (num.toBoolean()){
-                        main_rb_msg.setButtonDrawable(R.mipmap.msg)
+                        var dra= resources.getDrawable(R.mipmap.msg_s)
+                        dra.setBounds( 0, 0, dra.getMinimumWidth(),dra.getMinimumHeight());
+                        main_rb_msg.setCompoundDrawables(main_rb_msg.getCompoundDrawables()[0], dra, main_rb_msg.getCompoundDrawables()[2], main_rb_msg.getCompoundDrawables()[3])
                     }else{
-                        main_rb_msg.setButtonDrawable(R.mipmap.msg)
+                        main_rb_msg.setCompoundDrawables(null,resources.getDrawable(R.mipmap.msg),null,null)
                     }
                 }
             }
