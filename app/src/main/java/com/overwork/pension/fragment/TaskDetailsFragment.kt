@@ -100,7 +100,11 @@ class TaskDetailsFragment : Fragment() {
             url = BASEURL + THIS_TIME_TASK
             "id" - (activity as MenuActivity).getData<String>(TodayTaskID)
             "userId" - userId
-            "time" - arguments.getString("time")
+            if(arguments==null){
+                "time" - ""
+            }else{
+                "time" - arguments.getString("time")
+            }
             success {
                 activity.runOnUiThread {
                     val name: String = "result".."name"
