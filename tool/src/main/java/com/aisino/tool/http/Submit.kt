@@ -114,11 +114,15 @@ class Submit {
 
     fun get(): Unit {
         val okHttpClient = OkHttpClient.Builder().cookieJar(cookjar).connectTimeout(outTime, TimeUnit.SECONDS)
-
+        if (url.length>0&&!url.substring(url.length-1,url.length).equals("?")){
+            url=url+"?"
+        }
         for (p in _params) {
             url = url + p.key + "=" + p.value + "&"
         }
-        url = url.substring(0, url.length - 1)
+        if(_params.size>0){
+            url = url.substring(0, url.length - 1)
+        }
         val request = Request.Builder().url(url).build()
         val call = okHttpClient.build().newCall(request)
         call.enqueue(object : Callback {
