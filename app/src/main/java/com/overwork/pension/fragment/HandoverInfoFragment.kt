@@ -113,6 +113,8 @@ class HandoverInfoFragment : Fragment(), ServiceConnection {
                 activity.runOnUiThread {
                     if (num.toBoolean()) {
                         (activity as MenuActivity).showFragment(HandoverEndFragment())
+                        auBinder?.setRun(false)
+                        auBinder=null
                     } else {
 
                     }

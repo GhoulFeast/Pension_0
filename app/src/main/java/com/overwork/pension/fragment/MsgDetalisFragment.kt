@@ -54,8 +54,8 @@ class MsgDetalisFragment : Fragment() {
             msg_details_sex_tv.setText(enety.get("sex").toString())
             msg_details_age_tv.setText(enety.get("age").toString() + "周岁")
             msg_details_room_tv.setText(enety.get("romeNo").toString())
-            msg_details_time_tv.setText(enety.get("timeSlot ").toString() + "周岁")
-            for (map: MutableMap<String, Any> in (enety.get("tasks") as List<MutableMap<String, Any>>)) {
+            msg_details_time_tv.setText(enety.get("timeSlot ").toString())
+            for (map: MutableMap<String, Any> in (enety.get("tasks") as ArrayList<MutableMap<String, Any>>)) {
                 var taskLl: LinearLayout = LinearLayout(activity)
                 taskLl.orientation = LinearLayout.HORIZONTAL
                 taskLl.gravity = Gravity.CENTER_VERTICAL
