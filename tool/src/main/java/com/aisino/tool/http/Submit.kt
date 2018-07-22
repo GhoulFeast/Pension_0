@@ -1,6 +1,7 @@
 package com.hq.kbase.network
 
 import android.util.JsonToken
+import android.util.Log
 import okhttp3.*
 import android.util.Xml
 import com.google.gson.stream.JsonReader
@@ -234,6 +235,9 @@ class Submit {
     }
 
     fun successCall(response: Response): Unit {
+        var response1: Response = response
+        Log.i("successCall", "url" + response1.body().string())
+        Log.i("successCall", "url" + response1.request().url())
         kotlin.run {
             if (response.code() != 200) {
                 _fail("请求失败:" + response.code())
@@ -242,7 +246,9 @@ class Submit {
 
             when (returnType) {
                 ReturnType.JSON -> {
-                    pullJson(response.body().string())
+                    var jsonString = response.body().string()
+                    Log.i("successCall",  jsonString)
+                    pullJson(jsonString)
                 }
                 ReturnType.XML -> {
 //                    val s = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<ROOT><RESULT><CODE>9999</CODE><POS><PO>1111</PO><PO>2222</PO></POS><CONTENT>java.lang.NullPointerException\ncom.aisino.heb.xlg.web.servlet.XlgServlet.doPost(XlgServlet.java:135)</CONTENT></RESULT></ROOT>".byteInputStream()
@@ -268,7 +274,7 @@ class Submit {
     }
 
     // ！ 简单取参 单key
-    operator fun  String.not():String {
+    operator fun String.not(): String {
         return _response[this] as String
     }
 

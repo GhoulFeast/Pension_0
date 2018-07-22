@@ -35,7 +35,7 @@ class OldInfoFragment : Fragment() {
 
     fun getData() {
         Http.get {
-            url = BASEURL + TOMORROW_TASK
+            url = BASEURL + OLDMAN_INFO
             "userId" - userId
             success {
                 oldInfo = getAny<MutableMap<String, Any>>("result")
