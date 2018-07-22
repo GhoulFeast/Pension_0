@@ -51,8 +51,11 @@ class HandoverInfoFragment : Fragment(), ServiceConnection {
             url = BASEURL + T_HANDOVERINFO
             "userId" - userId
             success {
-                handoverInfos = "result".."handoverList"
-                handoverInfoAdapter.notifyDataSetChanged()
+                activity.runOnUiThread {
+                    handoverInfos.clear()
+                    handoverInfos.addAll("result".."handoverList")
+                    handoverInfoAdapter.notifyDataSetChanged()
+                }
             }
         }
     }

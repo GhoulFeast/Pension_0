@@ -13,7 +13,7 @@ import com.overwork.pension.R
 
 
 class ProjectAdapter (activity: FragmentActivity, taskList: ArrayList<MutableMap<String, Any>>) : BaseAdapter(){
-    private var list: List<MutableMap<String,Any>>? = null
+    private var list: ArrayList<MutableMap<String,Any>>? = null
     private var context: Context? = null
 
     init {

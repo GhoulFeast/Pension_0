@@ -45,8 +45,11 @@ class MsgFragment : Fragment() {
             url = BASEURL + MSGLIST
             "userId" - userId
             success {
-                msgBeans = "result".."messageList"
-                msgAdapter.notifyDataSetChanged()
+                activity.runOnUiThread {
+                    msgBeans.clear()
+                    msgBeans.addAll("result".."messageList")
+                    msgAdapter.notifyDataSetChanged()
+                }
             }
         }
 

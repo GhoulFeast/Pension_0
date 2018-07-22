@@ -37,8 +37,11 @@ class RoomListFragment : Fragment() {
             url = BASEURL + ROOM_LIST
             "userId" - userId
             success {
-                roomListBeans = "result".."links"
-                roomList.notifyDataSetChanged()
+                activity.runOnUiThread {
+                    roomListBeans.clear()
+                    roomListBeans .addAll( "result".."links")
+                    roomList.notifyDataSetChanged()
+                }
             }
         }
 
@@ -47,7 +50,7 @@ class RoomListFragment : Fragment() {
     fun initViewAndEvent(): Unit {
         (activity as MenuActivity).setTextView(R.string.checking_information)
         roomList = RoomListAdapter(roomListBeans)
-        roomlist_lv.adapter=roomList
+        roomlist_lv.adapter = roomList
         roomList.setTomorrow(object : RoomListAdapter.OnOld {
             override fun onOldClick(id: String) {
                 (activity as MenuActivity).showFragment(TaskDetailsFragment())

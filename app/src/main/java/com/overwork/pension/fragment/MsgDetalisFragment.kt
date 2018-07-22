@@ -43,7 +43,7 @@ class MsgDetalisFragment : Fragment() {
     }
 
     fun setUI() {
-        if (enety.get("type") as Int == 1) {
+        if (enety.get("type") .toString().toInt() == 1) {
             msg_details_context_ll.visibility = View.GONE
             msg_details_other_context_ll.visibility = View.VISIBLE
             msg_details_handover_tv.visibility = View.GONE
