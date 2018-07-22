@@ -32,12 +32,15 @@ class ClassFragment : Fragment() {
     }
 
     fun getData(): Unit {
-        Http.get{
-            url= BASEURL + T_ABNORMAL
-            "userId"- userId
+        Http.get {
+            url = BASEURL + T_ABNORMAL
+            "userId" - userId
             success {
-                classBeans="result".."abnormalList"
-                classAdapter.notifyDataSetChanged()
+                activity.runOnUiThread {
+                    classBeans.clear()
+                    classBeans.addAll("result".."abnormalList")
+                    classAdapter.notifyDataSetChanged()
+                }
             }
         }
 
@@ -46,7 +49,7 @@ class ClassFragment : Fragment() {
     fun initViewAndEvent(): Unit {
         (activity as MenuActivity).setTextView(R.string.checking_information)
         classAdapter = ClassAdapter(classBeans)
-        class_rlv.adapter=classAdapter
+        class_rlv.adapter = classAdapter
         class_handover_tv.setOnClickListener(object : View.OnClickListener {
             override fun onClick(p0: View?) {
                 (activity as MenuActivity).showFragment(HandoverInfoFragment())

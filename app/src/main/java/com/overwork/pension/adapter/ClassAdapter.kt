@@ -24,8 +24,8 @@ class ClassAdapter(taskList: ArrayList<MutableMap<String, Any>>) : BaseAdapter()
         abnormalList = taskList
     }
 
-    override fun getView(p0: Int, p1: View, p2: ViewGroup): View {
-        p1 != LayoutInflater.from(p2.context).inflate(R.layout.item_class_abnormal, p2, false)
+    override fun getView(p0: Int, p1: View?, p2: ViewGroup): View {
+       var p1 = LayoutInflater.from(p2.context).inflate(R.layout.item_class_abnormal, p2, false)
         var item_class_abnormal_name_tv = p1.findViewById<TextView>(R.id.item_class_abnormal_name_tv)
         var item_class_abnormal_age_tv = p1.findViewById<TextView>(R.id.item_class_abnormal_age_tv)
         var item_class_abnormal_sex_tv = p1.findViewById<TextView>(R.id.item_class_abnormal_sex_tv)
@@ -45,7 +45,7 @@ class ClassAdapter(taskList: ArrayList<MutableMap<String, Any>>) : BaseAdapter()
                     , p2.context.resources.getDimension(R.dimen.dp_5).toInt())
             textView.setText(String.format(p2.context.resources.getString(R.string.needfollow),map["messageContent"].toString()))
             textView.setTextColor(p2.context.resources.getColor(R.color.text_black))
-            if (map["type"] as Int == INFORMATIONTYPE_NEEDFOLLOW) {
+            if (map["type"] .toString().toInt() == INFORMATIONTYPE_NEEDFOLLOW) {
                 item_class_abnormal_needfollow_ll.addView(textView)
             } else {
                 item_class_abnormal_serious_ll.addView(textView)

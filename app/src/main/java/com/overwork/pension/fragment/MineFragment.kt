@@ -54,8 +54,11 @@ class MineFragment : Fragment() {
             url = BASEURL + TOMORROW_TASK
             "userId" - userId
             success {
-                tomorrowTasks = "result".."result"
-                tomorrowTaskAdp.notifyDataSetChanged()
+                activity.runOnUiThread {
+                    tomorrowTasks .clear()
+                    tomorrowTasks.addAll( "result".."tomorrow")
+                    tomorrowTaskAdp.notifyDataSetChanged()
+                }
             }
         }
     }

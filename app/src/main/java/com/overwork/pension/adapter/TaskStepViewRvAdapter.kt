@@ -20,7 +20,7 @@ class TaskStepViewRvAdapter(var context: Context, var timeArrayList: ArrayList<M
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         var mut = timeArrayList.get(position)
-        var type = mut["taskState"] as Int
+        var type = mut["taskState"].toString().toInt()
         holder.item_stepview_time.setText(mut["taskTime"].toString())
         when (type) {
             1 -> {
@@ -44,7 +44,7 @@ class TaskStepViewRvAdapter(var context: Context, var timeArrayList: ArrayList<M
                     holder.item_stepview_right.setBackgroundColor(context.resources.getColor(R.color.color_8d8d8d))
                 } else {
                     var mutPrevious = timeArrayList.get(position - 1)
-                    var typePrevious = mutPrevious["taskState"] as Int
+                    var typePrevious = mutPrevious["taskState"] .toString().toInt()
                     when (typePrevious) {
                         1 -> {
                             holder.item_stepview_left.setBackgroundColor(context.resources.getColor(R.color.title_blue))
@@ -57,7 +57,7 @@ class TaskStepViewRvAdapter(var context: Context, var timeArrayList: ArrayList<M
                         }
                     }
                     var mutNext = timeArrayList.get(position + 1)
-                    var typeNext = mutNext["taskState"] as Int
+                    var typeNext = mutNext["taskState"] .toString().toInt()
                     when (typeNext) {
                         1 -> {
                             holder.item_stepview_right.setBackgroundColor(context.resources.getColor(R.color.title_blue))
@@ -80,7 +80,7 @@ class TaskStepViewRvAdapter(var context: Context, var timeArrayList: ArrayList<M
                     holder.item_stepview_right.setBackgroundColor(context.resources.getColor(R.color.title_blue))
                 } else {
                     var mutPrevious = timeArrayList.get(position - 1)
-                    var typePrevious = mutPrevious["taskState"] as Int
+                    var typePrevious = mutPrevious["taskState"] .toString().toInt()
                     when (typePrevious) {
                         1 -> {
                             holder.item_stepview_left.setBackgroundColor(context.resources.getColor(R.color.title_blue))
@@ -93,7 +93,7 @@ class TaskStepViewRvAdapter(var context: Context, var timeArrayList: ArrayList<M
                         }
                     }
                     var mutNext = timeArrayList.get(position + 1)
-                    var typeNext = mutNext["taskState"] as Int
+                    var typeNext = mutNext["taskState"].toString().toInt()
                     when (typeNext) {
                         1 -> {
                             holder.item_stepview_right.setBackgroundColor(context.resources.getColor(R.color.title_blue))

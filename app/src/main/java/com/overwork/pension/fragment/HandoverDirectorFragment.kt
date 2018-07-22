@@ -39,8 +39,11 @@ class HandoverDirectorFragment : Fragment() {
             url = BASEURL + T_HANDOVERDIRECTOR
             "userId" - userId
             success {
-                classBeans = "result".."abnormalList"
-                classAdapter.notifyDataSetChanged()
+                activity.runOnUiThread {
+                    classBeans.clear()
+                    classBeans.addAll("result".."abnormalList")
+                    classAdapter.notifyDataSetChanged()
+                }
             }
         }
 

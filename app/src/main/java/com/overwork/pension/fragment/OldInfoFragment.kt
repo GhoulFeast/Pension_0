@@ -38,9 +38,11 @@ class OldInfoFragment : Fragment() {
             url = BASEURL + OLDMAN_INFO
             "userId" - userId
             success {
+                activity.runOnUiThread {
                 oldInfo = getAny<MutableMap<String, Any>>("result")
                 oldInfos = oldInfo.get("abnormal") as ArrayList<MutableMap<String, Any>>
                 setUI()
+            }
             }
         }
     }

@@ -33,7 +33,8 @@ class TodayTaskFragment : Fragment() {
             "userId" - userId
             success {
                 time = "result".."time"
-                taskList = "result".."timeTasks"
+                taskList.clear()
+                taskList .addAll( "result".."timeTasks")
                 for (mut: MutableMap<String, Any> in taskList) {
                     if (mut["taskState"] == 3) {
                         showTime = mut["taskTime"].toString()

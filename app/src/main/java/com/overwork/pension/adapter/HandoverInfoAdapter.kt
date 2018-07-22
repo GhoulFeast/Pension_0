@@ -30,7 +30,7 @@ class HandoverInfoAdapter(taskList: ArrayList<MutableMap<String, Any>>) : BaseAd
         var item_handover_additional_iv = p1.findViewById<ImageView>(R.id.item_handover_additional_iv)
         var mutable: MutableMap<String, Any> = handoverList.get(p0)
         item_handover_name_tv.setText(mutable["name"].toString())
-        if (mutable["oldType"] as Int == OLDTYPE_NORMAL) {
+        if (mutable["oldType"] .toString().toInt() == OLDTYPE_NORMAL) {
             item_handover_type_tv.setText("正常")
             item_handover_type_tv.setTextColor(p2.context.resources.getColor(R.color.text_black))
         } else {

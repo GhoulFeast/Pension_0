@@ -19,7 +19,7 @@ val BASEURL=""//基本
 
 
 val LOGIN = "https://raw.githubusercontent.com/wwan12/AnalogInterface/master/login.json"//登陆
-val MSGLIST = "https://raw.githubusercontent.com/wwan12/AnalogInterface/master/msgList.json"//消息列表
+val MSGLIST = "https://raw.githubusercontent.com/wwan12/AnalogInterface/master/nsgList.json"//消息列表
 val T_TASK = "https://raw.githubusercontent.com/wwan12/AnalogInterface/master/todayTask.json"//今天任务
 val T_ABNORMAL = "https://raw.githubusercontent.com/wwan12/AnalogInterface/master/abnormalShift.json"//交班——异常信息https://github.com/wwan12/AnalogInterface/blob/master/abnormalShift.json
 val T_HANDOVERINFO = "https://raw.githubusercontent.com/wwan12/AnalogInterface/master/shiftContent.json"//交班——交班信息https://github.com/wwan12/AnalogInterface/blob/master/shiftContent.json
