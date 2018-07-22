@@ -36,14 +36,16 @@ class TodayTaskFragment : Fragment() {
                 taskList.clear()
                 taskList .addAll( "result".."timeTasks")
                 for (mut: MutableMap<String, Any> in taskList) {
-                    if (mut["taskState"] == 3) {
+                    if (mut["taskState"].toString().toInt()== 3) {
                         showTime = mut["taskTime"].toString()
                         thisTaskList.clear()
                         thisTaskList.addAll(mut["links"] as ArrayList<MutableMap<String, Any>>)
                     }
                 }
-                todayTaskAdapter.notifyDataSetChanged()
-                taskStepViewRvAdapter.notifyDataSetChanged()
+                activity.runOnUiThread{
+                    todayTaskAdapter.notifyDataSetChanged()
+                    taskStepViewRvAdapter.notifyDataSetChanged()
+                }
             }
         }
         (activity as MenuActivity).style {
