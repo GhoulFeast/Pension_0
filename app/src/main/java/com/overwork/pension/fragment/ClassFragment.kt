@@ -20,7 +20,6 @@ class ClassFragment : Fragment() {
     lateinit var classAdapter: ClassAdapter
     var classBeans: ArrayList<MutableMap<String, Any>> = ArrayList()
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        (activity as MenuActivity).setTextView(R.string.checking_information)
         val view = inflater?.inflate(R.layout.fragment_class, null, false)
         return view
     }
@@ -47,7 +46,9 @@ class ClassFragment : Fragment() {
     }
 
     fun initViewAndEvent(): Unit {
-        (activity as MenuActivity).setTextView(R.string.checking_information)
+        (activity as MenuActivity).style {
+            textBar=activity.resources.getString(R.string.checking_information)
+        }
         classAdapter = ClassAdapter(classBeans)
         class_rlv.adapter = classAdapter
         class_handover_tv.setOnClickListener(object : View.OnClickListener {

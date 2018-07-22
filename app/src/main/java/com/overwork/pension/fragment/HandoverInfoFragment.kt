@@ -33,7 +33,6 @@ class HandoverInfoFragment : Fragment(), ServiceConnection {
     lateinit var handoverInfoAdapter: HandoverInfoAdapter
     var handoverInfos: ArrayList<MutableMap<String, Any>> = ArrayList()
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        (activity as MenuActivity).setTextView(R.string.checking_information)
         val view = inflater?.inflate(R.layout.fragment_handover, null, false)
         return view
     }
@@ -63,7 +62,9 @@ class HandoverInfoFragment : Fragment(), ServiceConnection {
         class_qrcode_iv.viewTreeObserver.addOnDrawListener({
             class_qrcode_iv.setImageBitmap(EncodingUtils.createQRCode(userId, class_qrcode_iv.width, class_qrcode_iv.height, null))
         })
-        (activity as MenuActivity).setTextView(R.string.checking_information)
+        (activity as MenuActivity).style {
+            textBar=activity.resources.getString(R.string.checking_information)
+        }
         handoverInfoAdapter = HandoverInfoAdapter(handoverInfos)
         class_rlv.adapter = handoverInfoAdapter
         class_handover_tv.setOnClickListener(object : View.OnClickListener {

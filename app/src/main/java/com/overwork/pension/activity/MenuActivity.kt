@@ -152,9 +152,9 @@ class MenuActivity : AppCompatActivity() , ServiceConnection {
         showFragment?.onActivityResult(requestCode,resultCode,data)
     }
 
-    fun setTextView(title: Int): Unit {
-        title_text.setText(title)
-    }
+//    fun setTextView(title: Int): Unit {
+//        title_text.setText(title)
+//    }
 
     fun showFragment(initFragment: Fragment): Unit {
         UseFragmentManager.displayFragment(showFragment, initFragment,
@@ -182,6 +182,7 @@ class MenuActivity : AppCompatActivity() , ServiceConnection {
         } else {
             title_back.visibility = View.GONE
             title_text.visibility = View.VISIBLE
+            title_text.setText(bar.textBar)
         }
     }
 

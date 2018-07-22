@@ -20,12 +20,14 @@ class OldInfoFragment : Fragment() {
     var oldInfo = mutableMapOf<String, Any>()
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater?.inflate(R.layout.fragment_oldinfo, container, false)
-        (activity as MenuActivity).setTextView(R.string.old_info_title)
         return view
     }
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        (activity as MenuActivity).style {
+            textBar=activity.resources.getString(R.string.old_info_title)
+        }
         getData()
     }
 

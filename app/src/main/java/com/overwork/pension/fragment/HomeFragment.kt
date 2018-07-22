@@ -13,9 +13,6 @@ class HomeFragment :Fragment() {
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater?.inflate(R.layout.fragment_home, container, false)
 //        (activity as MenuActivity).setTextView(R.string.ylyxt)
-        (activity as MenuActivity).style {
-            textBar=activity.resources.getString(R.string.ylyxt)
-        }
         return view
 
     }
@@ -27,6 +24,9 @@ class HomeFragment :Fragment() {
         }
         come_room.setOnClickListener{
             (activity as MenuActivity).showFragment(RoomListFragment())
+        }
+        (activity as MenuActivity).style {
+            textBar=activity.resources.getString(R.string.ylyxt)
         }
     }
 

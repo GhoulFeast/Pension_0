@@ -21,7 +21,6 @@ class RoomListFragment : Fragment() {
     lateinit var roomList: RoomListAdapter
     var roomListBeans: ArrayList<MutableMap<String, Any>> = ArrayList()
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        (activity as MenuActivity).setTextView(R.string.room_title)
         val view = inflater?.inflate(R.layout.fragment_room, null, false)
         return view
     }
@@ -57,6 +56,9 @@ class RoomListFragment : Fragment() {
                 (activity as MenuActivity).putData(TodayTaskID, id)
             }
         })
+        (activity as MenuActivity).style {
+            textBar=activity.resources.getString(R.string.room_title)
+        }
     }
 
 }
