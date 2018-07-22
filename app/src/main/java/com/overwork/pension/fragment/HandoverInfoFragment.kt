@@ -77,6 +77,7 @@ class HandoverInfoFragment : Fragment(), ServiceConnection {
         handoverInfoAdapter.setHandover(object : HandoverInfoAdapter.OnHandover {
             override fun OnHandoverClick(id: String) {
                 var taslDetalis = TaskDetailsFragment()
+                (activity as MenuActivity).putData(TodayTaskID, id)
                 (activity as MenuActivity).showFragment(taslDetalis)
                 taslDetalis.setSimple()
             }

@@ -22,7 +22,7 @@ class RoomListAdapter(taskList: ArrayList<MutableMap<String, Any>>) : BaseAdapte
         links = taskList
     }
 
-    override fun getView(p0: Int, p1: View, p2: ViewGroup): View {
+    override fun getView(p0: Int, p1: View?, p2: ViewGroup): View {
         var p1 = LayoutInflater.from(p2.context).inflate(R.layout.item_room, p2, false)
         var item_room_tv = p1.findViewById<TextView>(R.id.item_room_tv)
         var item_room_old_mgv = p1.findViewById<MyGridView>(R.id.item_room_old_mgv)

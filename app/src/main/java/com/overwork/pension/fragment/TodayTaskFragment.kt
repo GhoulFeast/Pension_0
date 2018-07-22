@@ -3,6 +3,8 @@ package com.overwork.pension.fragment
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
+import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -58,6 +60,7 @@ class TodayTaskFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         todayTaskAdapter = TodayTaskAdapter(activity, thisTaskList)
         taskStepViewRvAdapter = TaskStepViewRvAdapter(activity, taskList)
+        todaytask_rv.layoutManager=LinearLayoutManager(activity,LinearLayoutManager.HORIZONTAL,false)
         todaytask_rv.adapter = taskStepViewRvAdapter;
         todaytask_list.adapter = todayTaskAdapter
         todaytask_list.setOnItemClickListener { adapterView: AdapterView<*>, view1: View, i: Int, l: Long ->
@@ -66,7 +69,7 @@ class TodayTaskFragment : Fragment() {
             bd.putString("time", showTime)
             taskDetailsFragment.arguments = bd
             (activity as MenuActivity).showFragment(taskDetailsFragment)
-            (activity as MenuActivity).putData(TodayTaskID, taskList[i]["id"]!!)
+            (activity as MenuActivity).putData(TodayTaskID, thisTaskList[i]["id"]!!)
         }
         taskStepViewRvAdapter.setStepItemClick(object : TaskStepViewRvAdapter.TaskStepItemClick {
             override fun OnItem(postion: Int) {

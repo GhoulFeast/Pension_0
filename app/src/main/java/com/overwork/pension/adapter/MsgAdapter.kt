@@ -1,6 +1,7 @@
 package com.overwork.pension.adapter
 
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -22,7 +23,7 @@ class MsgAdapter(context: Context, list: List<MutableMap<String, Any>>) : BaseAd
         var job = view.findViewById<TextView>(R.id.item_job)
         var jobTitle = view.findViewById<TextView>(R.id.item_job_title)
         var jobText = view.findViewById<TextView>(R.id.item_job_text)
-        if (list.get(p0).get("type").toString().toInt() == 1) {
+        if (list.get(p0)["type"].toString().toInt() == 1) {
             job.setText("护")
         } else {
             job.setText("通")

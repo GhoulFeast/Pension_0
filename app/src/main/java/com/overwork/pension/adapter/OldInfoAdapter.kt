@@ -9,7 +9,6 @@ import android.widget.*
 import com.aisino.tool.widget.ToastAdd
 import com.overwork.pension.R
 import com.overwork.pension.activity.MenuActivity
-import com.overwork.pension.fragment.TaskDetailsFragment
 
 class OldInfoAdapter(val context: FragmentActivity, val list: ArrayList<MutableMap<String, Any>>):BaseAdapter() {
 
