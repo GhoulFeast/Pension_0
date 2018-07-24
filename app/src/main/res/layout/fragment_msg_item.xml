@@ -14,7 +14,8 @@
         android:layout_height="wrap_content"
         android:background="@drawable/text_green_cir"
         android:text="护"
-        android:textColor="@color/white" />
+        android:textColor="@color/white"
+        android:textSize="18sp" />
 
     <LinearLayout
         android:layout_width="match_parent"
