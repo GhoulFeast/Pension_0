@@ -111,10 +111,10 @@ class TaskDetailsFragment : Fragment() {
                     task_details_name.setText(name)
                     val sex: String = "result".."sex"
                     task_details_sex.setText(sex)
-                    val romeNo: String ="房间 "+ "result".."romeNo"
-                    task_details_room.setText(romeNo)
-                    val age: String = "result".."age"+"周岁"
-                    task_details_age.setText(age)
+                    val romeNo: String ="result".."romeNo"
+                    task_details_room.setText("房间 "+ romeNo)
+                    val age: String = "result".."age"
+                    task_details_age.setText(age+"周岁")
                     taskList = "result".."nursingsAxis"
                     taskStepList.addAll("result".."todayTasks")
                     taskStepViewRvAdapter.notifyDataSetChanged()
@@ -163,7 +163,9 @@ class TaskDetailsFragment : Fragment() {
             CAMERA_REQUEST -> {
                 val uri = data?.getCameraUri()
                 addImage().setImageBitmap(uri?.getCameraImg(activity))
-                imageList.add(File(uri?.path))
+                if(uri?.path!=null){
+                    imageList.add(File(uri.path))
+                }
             }
             GALLERY_REQUEST -> {
                 val uri = data?.data
