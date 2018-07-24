@@ -45,7 +45,7 @@ class MsgDetalisFragment : Fragment() {
     fun setUI() {
         if (enety["type"].toString().toInt() == 1) {
             (activity as MenuActivity).style {
-                textBar=activity.resources.getString(R.string.msg_title_task)
+                textBar = activity.resources.getString(R.string.msg_title_task)
             }
             msg_details_context_ll.visibility = View.VISIBLE
             msg_details_other_context_ll.visibility = View.GONE
@@ -53,7 +53,7 @@ class MsgDetalisFragment : Fragment() {
             msg_details_name_tv.setText(enety.get("name").toString())
             msg_details_sex_tv.setText(enety.get("sex").toString())
             msg_details_age_tv.setText(enety.get("age").toString() + "周岁")
-            msg_details_room_tv.setText(enety.get("romeNo").toString())
+            msg_details_room_tv.setText("房间号"+enety.get("romeNo").toString())
             msg_details_time_tv.setText(enety.get("timeSlot ").toString())
             for (map: MutableMap<String, Any> in (enety.get("tasks") as ArrayList<MutableMap<String, Any>>)) {
                 var taskLl: LinearLayout = LinearLayout(activity)
@@ -71,7 +71,9 @@ class MsgDetalisFragment : Fragment() {
                 msg_details_serious_ll.addView(taskLl)
             }
             msg_details_handover_tv.setOnClickListener({
-                (activity as MenuActivity).toHomePage()
+                var taskDetailsFragment = TaskDetailsFragment();
+                (activity as MenuActivity).showFragment(taskDetailsFragment)
+                (activity as MenuActivity).putData(TodayTaskID, enety["id"].toString())
             })
         } else {
             msg_details_context_ll.visibility = View.GONE
@@ -79,7 +81,7 @@ class MsgDetalisFragment : Fragment() {
             msg_details_handover_tv.visibility = View.GONE
             msg_details_other_context_tv.setText(enety.get("messageContent").toString())
             (activity as MenuActivity).style {
-                textBar=activity.resources.getString(R.string.msg_title_other)
+                textBar = activity.resources.getString(R.string.msg_title_other)
             }
         }
 

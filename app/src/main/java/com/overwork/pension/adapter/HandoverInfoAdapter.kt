@@ -3,10 +3,7 @@ package com.overwork.pension.adapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.BaseAdapter
-import android.widget.ImageView
-import android.widget.LinearLayout
-import android.widget.TextView
+import android.widget.*
 import com.overwork.pension.R
 
 /**
@@ -25,9 +22,10 @@ class HandoverInfoAdapter(taskList: ArrayList<MutableMap<String, Any>>) : BaseAd
     override fun getView(p0: Int, view: View?, p2: ViewGroup): View {
         var p1 = LayoutInflater.from(p2.context).inflate(R.layout.item_handover_info, p2, false)
         var item_handover_name_tv = p1.findViewById<TextView>(R.id.item_handover_name_tv)
-        var item_handover_complete_iv = p1.findViewById<ImageView>(R.id.item_handover_complete_iv)
+        var item_handover_complete_iv = p1.findViewById<CheckBox>(R.id.item_handover_complete_iv)
+        item_handover_complete_iv.isClickable = false
         var item_handover_type_tv = p1.findViewById<TextView>(R.id.item_handover_type_tv)
-        var item_handover_additional_iv = p1.findViewById<ImageView>(R.id.item_handover_additional_iv)
+        var item_handover_additional_iv = p1.findViewById<TextView>(R.id.item_handover_additional_iv)
         var mutable: MutableMap<String, Any> = handoverList.get(p0)
         item_handover_name_tv.setText(mutable["oldName"].toString())
         if (mutable["oldType"].toString().toInt() == OLDTYPE_NORMAL) {
@@ -38,9 +36,9 @@ class HandoverInfoAdapter(taskList: ArrayList<MutableMap<String, Any>>) : BaseAd
             item_handover_type_tv.setTextColor(p2.context.resources.getColor(R.color.color_f8120c))
         }
         if (mutable["isRecheck"].toString().toBoolean()) {
-            item_handover_complete_iv.setImageResource(R.drawable.text_green_5_r)
+            item_handover_complete_iv.isChecked = true
         } else {
-            item_handover_complete_iv.setImageResource(R.drawable.text_ffffff_frame_bule_5_r)
+            item_handover_complete_iv.isChecked = false
         }
         item_handover_additional_iv.setTag(mutable["oldId"])
         item_handover_additional_iv.setOnClickListener({ view ->

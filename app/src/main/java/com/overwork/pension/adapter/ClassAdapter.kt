@@ -33,9 +33,15 @@ class ClassAdapter(taskList: ArrayList<MutableMap<String, Any>>) : BaseAdapter()
         var item_class_abnormal_needfollow_ll = p1.findViewById<LinearLayout>(R.id.item_class_abnormal_needfollow_ll)
         var item_class_abnormal_serious_ll = p1.findViewById<LinearLayout>(R.id.item_class_abnormal_serious_ll)
         item_class_abnormal_name_tv.setText(abnormalList.get(p0)["name"].toString())
-        item_class_abnormal_age_tv.setText(abnormalList.get(p0)["sex"].toString())
-        item_class_abnormal_sex_tv.setText(abnormalList.get(p0)["age"].toString())
-        item_class_abnormal_room_tv.setText(abnormalList.get(p0)["romeNo"].toString())
+        var stringB=StringBuilder();
+        stringB.append(abnormalList.get(p0)["age"].toString())
+        stringB.append("周岁")
+        item_class_abnormal_age_tv.setText(stringB)
+        item_class_abnormal_sex_tv.setText(abnormalList.get(p0)["sex"].toString())
+        var stringRoom=StringBuilder();
+        stringRoom.append("房间号")
+        stringRoom.append(abnormalList.get(p0)["romeNo"].toString())
+        item_class_abnormal_room_tv.setText(stringRoom)
         var mutables: List<MutableMap<String, Any>> = abnormalList.get(p0)["informationList"] as List<MutableMap<String, Any>>
         for (map: MutableMap<String, Any> in mutables) {
             var textView = TextView(p2.context)

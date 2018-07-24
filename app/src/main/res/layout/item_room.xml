@@ -25,6 +25,7 @@
         <com.overwork.pension.other.MyGridView
             android:id="@+id/item_room_old_mgv"
             android:layout_width="match_parent"
+            android:listSelector="@android:color/transparent"
             android:layout_height="match_parent"
             android:numColumns="4" />
     </LinearLayout>

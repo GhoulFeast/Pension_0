@@ -36,7 +36,11 @@ class MineFragment : Fragment() {
         mine_exit_user.setOnClickListener { }
         tomorrowTaskAdp.setTomorrow(object : TomorrowTaskAdapter.OnTomorrow {
             override fun OnHandoverClick(id: String) {
-
+                var old = OldInfoFragment()
+                var bd = Bundle();
+                bd.putString("id", id)
+                old.arguments = bd
+                (activity as MenuActivity).showFragment(old)
             }
         })
         mine_task_list.setOnItemClickListener({ adapterView, view, position, long ->
@@ -44,7 +48,7 @@ class MineFragment : Fragment() {
         })
         getData()
         (activity as MenuActivity).style {
-            textBar=activity.resources.getString(R.string.nil)
+            textBar = activity.resources.getString(R.string.nil)
         }
     }
 
