@@ -180,7 +180,7 @@ class TaskDetailsFragment : Fragment() {
     fun addSound(uri: Uri?, soundUrl: String?): Unit {
         val newImg = ImageView(activity)
         newImg.setImageResource(R.mipmap.sound_recording)
-        newImg.left = 24
+        newImg.setPadding(24,24,24,24)
         newImg.setOnClickListener {
             if (isDelete) {
                 it.visibility = View.GONE
@@ -213,7 +213,7 @@ class TaskDetailsFragment : Fragment() {
         val newImg = ImageView(activity)
         val lp = ViewGroup.LayoutParams(task_details_photograph.width, task_details_photograph.height)
         newImg.setLayoutParams(lp);
-        newImg.left = 24
+        newImg.setPadding(24,24,24,24)
         newImg.scaleType = ImageView.ScaleType.CENTER_CROP
         newImg.tag = imageList.size
         newImg.setOnClickListener {
