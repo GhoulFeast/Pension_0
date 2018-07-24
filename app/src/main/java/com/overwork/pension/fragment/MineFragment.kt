@@ -30,8 +30,8 @@ class MineFragment : Fragment() {
         mine_user_name.setText(userName)
         mine_user_job.setText(userLevelName)
         mine_user_starttime.setText(String.format(resources.getString(R.string.text_entryTime, entryTime)))
-        mine_user_overtime.setText(String.format(resources.getString(R.string.text_entryTime, workingYears)))
-        mine_user_ld.setText(String.format(resources.getString(R.string.text_entryTime, superiorName)))
+        mine_user_overtime.setText(String.format(resources.getString(R.string.text_workingyears, workingYears)))
+        mine_user_ld.setText(String.format(resources.getString(R.string.text_superiorName, superiorName)))
         Glide.with(activity).load(userPortrait).into(mine_user_icon)
         mine_exit_user.setOnClickListener { }
         tomorrowTaskAdp.setTomorrow(object : TomorrowTaskAdapter.OnTomorrow {

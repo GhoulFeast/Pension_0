@@ -111,14 +111,14 @@ class TaskDetailsFragment : Fragment() {
                     task_details_name.setText(name)
                     val sex: String = "result".."sex"
                     task_details_sex.setText(sex)
-                    val romeNo: String = "result".."romeNo"
+                    val romeNo: String ="房间 "+ "result".."romeNo"
                     task_details_room.setText(romeNo)
-                    val age: String = "result".."age"
+                    val age: String = "result".."age"+"周岁"
                     task_details_age.setText(age)
                     taskList = "result".."nursingsAxis"
                     taskStepList.addAll("result".."todayTasks")
                     taskStepViewRvAdapter.notifyDataSetChanged()
-                    task_details_nursing_time.setText(taskList["time"].toString())
+                    task_details_nursing_time.setText(taskList["taskTime"].toString())
                     task_details_task.setText(taskList["meal"].toString())
                     task_details_task_details.setText(taskList["consideration"].toString())
                     task_details_list.adapter = SmallTaskAdapter(activity, taskList["nursings"] as ArrayList<MutableMap<String, Any>>)

@@ -7,7 +7,10 @@
 
     <LinearLayout
         android:gravity="center_vertical"
-        android:layout_margin="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
         android:background="@drawable/border_white"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -15,8 +18,8 @@
 
         <TextView
             android:gravity="center"
-            android:paddingLeft="16dp"
-            android:paddingRight="16dp"
+            android:paddingLeft="12dp"
+            android:paddingRight="12dp"
             android:paddingTop="8dp"
             android:textSize="16sp"
             android:id="@+id/item_todaytask_name"
@@ -28,9 +31,9 @@
 
         <TextView
             android:gravity="center"
-            android:paddingLeft="16dp"
-            android:paddingRight="16dp"
-            android:paddingBottom="8dp"
+            android:paddingLeft="12dp"
+            android:paddingRight="12dp"
+            android:paddingBottom="6dp"
             android:id="@+id/item_todaytask_room"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -40,7 +43,6 @@
 
     <TextView
         android:id="@+id/item_todaytask_task"
-        android:layout_marginLeft="6dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="text"
@@ -53,8 +55,8 @@
 
     <TextView
         android:textSize="16sp"
-        android:paddingLeft="24dp"
-        android:paddingRight="24dp"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
         android:paddingBottom="5dp"
         android:paddingTop="5dp"
         android:background="@drawable/text_green_raid"
@@ -65,7 +67,7 @@
         android:text="@string/complete" />
 
     <TextView
-        android:layout_marginLeft="12dp"
+        android:layout_marginLeft="10dp"
         android:layout_marginRight="16dp"
         android:id="@+id/item_todaytask_add"
         android:layout_width="wrap_content"

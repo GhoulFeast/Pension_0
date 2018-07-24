@@ -115,7 +115,7 @@ class MenuActivity : AppCompatActivity() , ServiceConnection {
             override fun setMsgNum(num: String) {
                 runOnUiThread {
                     if (num.toBoolean()){
-                        var dra= resources.getDrawable(R.mipmap.msg_s)
+                        var dra= resources.getDrawable(R.mipmap.msg_red)
                         dra.setBounds( 0, 0, dra.getMinimumWidth(),dra.getMinimumHeight())
                         main_rb_msg.setCompoundDrawables(main_rb_msg.getCompoundDrawables()[0], dra, main_rb_msg.getCompoundDrawables()[2], main_rb_msg.getCompoundDrawables()[3])
                     }else{
