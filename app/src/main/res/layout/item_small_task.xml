@@ -11,6 +11,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="16dp"
         android:text="TextView"
+        android:textColor="@color/blackPrimary"
         android:textSize="16sp" />
     <View
         android:layout_width="wrap_content"
@@ -24,11 +25,11 @@
         android:background="@drawable/text_green_raid"
         android:text="@string/complete"
         android:textSize="16sp"
-        android:paddingLeft="24dp"
-        android:paddingRight="24dp"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
         android:paddingBottom="5dp"
         android:paddingTop="5dp"
-        android:layout_margin="16dp"
+        android:layout_margin="4dp"
         android:textColor="@color/white" />
 
     <TextView
@@ -36,11 +37,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="+"
-        android:layout_margin="16dp"
+        android:layout_margin="12dp"
         android:background="@drawable/border_white"
         android:textColor="@color/mainColor"
-        android:paddingLeft="16dp"
-        android:paddingRight="16dp"
+        android:paddingLeft="14dp"
+        android:paddingRight="14dp"
         android:textSize="18sp"
         android:textStyle="bold" />
 </LinearLayout>
