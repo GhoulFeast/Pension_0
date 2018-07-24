@@ -1,5 +1,6 @@
 package com.overwork.pension.fragment
 
+import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater
@@ -7,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.bumptech.glide.Glide
 import com.hq.kbase.network.Http
+import com.overwork.pension.MainActivity
 import com.overwork.pension.R
 import com.overwork.pension.activity.MenuActivity
 import com.overwork.pension.adapter.HandoverInfoAdapter
@@ -43,9 +45,11 @@ class MineFragment : Fragment() {
                 (activity as MenuActivity).showFragment(old)
             }
         })
-        mine_task_list.setOnItemClickListener({ adapterView, view, position, long ->
 
-        })
+        mine_exit_user.setOnClickListener{
+            startActivity(Intent(activity,MainActivity::class.java) )
+            activity.finish()
+        }
         getData()
         (activity as MenuActivity).style {
             textBar = activity.resources.getString(R.string.nil)

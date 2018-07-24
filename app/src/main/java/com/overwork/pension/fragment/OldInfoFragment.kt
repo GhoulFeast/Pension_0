@@ -70,7 +70,7 @@ class OldInfoFragment : Fragment() {
                         emergencyBuffer.append(emergency["relationship"])
                         emergencyBuffer.append("：")
                         emergencyBuffer.append(emergency["name"])
-                        if (emergency["sex"].toString().toInt() == 1) {
+                        if (emergency["sex"].toString().equals("男")) {
                             emergencyBuffer.append("先生")
                         } else {
                             emergencyBuffer.append("女士")
