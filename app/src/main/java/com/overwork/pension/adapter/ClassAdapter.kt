@@ -2,13 +2,16 @@ package com.overwork.pension.adapter
 
 
 import android.content.Context
+import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
+import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import com.overwork.pension.R
+import com.overwork.pension.other.userType
 import kotlinx.android.synthetic.main.item_class_abnormal.*
 
 /**
@@ -32,6 +35,7 @@ class ClassAdapter(taskList: ArrayList<MutableMap<String, Any>>) : BaseAdapter()
         var item_class_abnormal_room_tv = p1.findViewById<TextView>(R.id.item_class_abnormal_room_tv)
         var item_class_abnormal_needfollow_ll = p1.findViewById<LinearLayout>(R.id.item_class_abnormal_needfollow_ll)
         var item_class_abnormal_serious_ll = p1.findViewById<LinearLayout>(R.id.item_class_abnormal_serious_ll)
+        var item_class_add_abnormal_tv = p1.findViewById<TextView>(R.id.item_class_add_abnormal_tv)
         item_class_abnormal_name_tv.setText(abnormalList.get(p0)["name"].toString())
         var stringB=StringBuilder();
         stringB.append(abnormalList.get(p0)["age"].toString())
@@ -56,6 +60,21 @@ class ClassAdapter(taskList: ArrayList<MutableMap<String, Any>>) : BaseAdapter()
             } else {
                 item_class_abnormal_serious_ll.addView(textView)
             }
+        }
+        if (userType.toInt()==1){
+            item_class_abnormal_age_tv.setTextColor(p2.context.resources.getColor(R.color.text_black))
+            item_class_abnormal_sex_tv.setTextColor(p2.context.resources.getColor(R.color.text_black))
+            item_class_abnormal_age_tv.setTextSize(TypedValue.COMPLEX_UNIT_SP,14f)
+            item_class_abnormal_sex_tv.setTextSize(TypedValue.COMPLEX_UNIT_SP,14f)
+            item_class_add_abnormal_tv.visibility=View.GONE
+            item_class_abnormal_room_tv.visibility=View.VISIBLE
+        }else{
+            item_class_abnormal_age_tv.setTextColor(p2.context.resources.getColor(R.color.mainColor))
+            item_class_abnormal_sex_tv.setTextColor(p2.context.resources.getColor(R.color.mainColor))
+            item_class_abnormal_age_tv.setTextSize(TypedValue.COMPLEX_UNIT_SP,18f)
+            item_class_abnormal_age_tv.setTextSize(TypedValue.COMPLEX_UNIT_SP,18f)
+            item_class_add_abnormal_tv.visibility=View.VISIBLE
+            item_class_abnormal_room_tv.visibility=View.GONE
         }
         return p1
     }
