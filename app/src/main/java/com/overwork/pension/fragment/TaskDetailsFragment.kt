@@ -93,10 +93,11 @@ class TaskDetailsFragment : Fragment() {
             }
         }
         task_details_record_delete.setOnClickListener {
-            ToastAdd.showToast_e(activity, "点击图片或音频删除")
             if (isDelete) {
+                ToastAdd.showToast_r(activity, "点击图片或音频查看或播放")
                 isDelete = false
             } else {
+                ToastAdd.showToast_e(activity, "点击图片或音频删除")
                 isDelete = true
             }
         }
