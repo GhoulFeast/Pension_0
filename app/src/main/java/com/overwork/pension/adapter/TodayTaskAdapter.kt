@@ -51,9 +51,6 @@ class TodayTaskAdapter(val activity: FragmentActivity, val taskList: ArrayList<M
 
 
         }
-        add.setOnClickListener {
-            (activity as MenuActivity).showFragment(TaskDetailsFragment())
-        }
         return view
     }
 
