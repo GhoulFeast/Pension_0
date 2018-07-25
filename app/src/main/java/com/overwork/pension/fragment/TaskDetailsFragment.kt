@@ -147,7 +147,7 @@ class TaskDetailsFragment : Fragment() {
                     }
                     task_details_context.setText(taskList["abnormal"].toString())
                     for (img in taskList["imageUrl"] as ArrayList<String>) {
-                        Glide.with(activity).load(img).asBitmap().into(object : SimpleTarget<Bitmap>() {
+                        Glide.with(activity).load(img).asBitmap().error(R.mipmap.picture).into(object : SimpleTarget<Bitmap>() {
                             override fun onResourceReady(resource: Bitmap, glideAnimation: GlideAnimation<in Bitmap>) {
                                 addImage().setImageBitmap(resource)
                             }

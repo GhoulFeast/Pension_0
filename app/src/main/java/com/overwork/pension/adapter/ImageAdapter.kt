@@ -27,7 +27,7 @@ class ImageAdapter(activity: Context, taskList: ArrayList<String>, val type: Int
         var view = LayoutInflater.from(context).inflate(R.layout.item_image, null)
         var image = view.findViewById<ImageView>(R.id.show_image)
         if (type==0){
-            Glide.with(context).load(list!![p0]).into(image)
+            Glide.with(context).load(list!![p0]).error(R.mipmap.picture).into(image)
         }
         image.setOnClickListener {
             if (type == 0) {

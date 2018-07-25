@@ -29,7 +29,7 @@ class TomorrowTaskAdapter(context: Context, taskList: ArrayList<MutableMap<Strin
         var item_tommorrow_name_tv = p1.findViewById<TextView>(R.id.item_tommorrow_name_tv)
         var item_tommorrow_headimage_iv = p1.findViewById<ImageView>(R.id.item_tommorrow_headimage_iv)
         var mutable: MutableMap<String, Any> = handoverList.get(p0)
-        Glide.with(mContext).load(mutable["oldPortrait"].toString()).into(item_tommorrow_headimage_iv)
+        Glide.with(mContext).load(mutable["oldPortrait"].toString()).error(R.mipmap.hs).into(item_tommorrow_headimage_iv)
         item_tommorrow_name_tv.setText(mutable["oldName"].toString())
         item_tommorrow_headimage_iv.setTag(mutable["oldId"])
         item_tommorrow_headimage_iv.setOnClickListener({ view ->
