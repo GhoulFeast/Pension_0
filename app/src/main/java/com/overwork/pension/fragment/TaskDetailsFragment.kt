@@ -18,6 +18,8 @@ import com.overwork.pension.other.*
 import kotlinx.android.synthetic.main.fragment_task_details.*
 import java.util.*
 import android.provider.MediaStore.Audio.Media.RECORD_SOUND_ACTION
+import android.support.v7.widget.LinearLayoutManager
+import android.util.Log
 import android.widget.ImageView
 import com.aisino.tool.log
 import com.aisino.tool.system.*
@@ -43,6 +45,8 @@ class TaskDetailsFragment : Fragment() {
     var isDelete = false
     val imageList = ArrayList<File?>()
     val soundList = ArrayList<File?>()
+    val imageUpLoadList = ArrayList<File?>()
+    val soundUpLoadList = ArrayList<File?>()
     val images = ArrayList<String>()
     val sounds = ArrayList<String>()
     var abnormalType = ""
@@ -56,6 +60,7 @@ class TaskDetailsFragment : Fragment() {
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         taskStepViewRvAdapter = TaskStepViewRvAdapter(activity, taskStepList)
+        todaytask_rv.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
         todaytask_rv.adapter = taskStepViewRvAdapter;
         (activity as MenuActivity).style {
             textBar = ""
@@ -75,8 +80,17 @@ class TaskDetailsFragment : Fragment() {
         }
 
         task_details_save.setOnClickListener {
-            upImages()
-
+            imageUpLoadList.clear()
+            imageUpLoadList.addAll(imageList)
+            soundUpLoadList.clear()
+            soundUpLoadList.addAll(soundList)
+            images.clear()
+            sounds.clear()
+            if (imageUpLoadList.size > 0) {
+                upLoadImage(1)
+            } else if (soundUpLoadList.size > 0) {
+                upLoadImage(2)
+            }
         }
         task_details_record_delete.setOnClickListener {
             ToastAdd.showToast_e(activity, "点击图片或音频删除")
@@ -100,9 +114,9 @@ class TaskDetailsFragment : Fragment() {
             url = BASEURL + THIS_TIME_TASK
             "id" - (activity as MenuActivity).getData<String>(TodayTaskID)
             "userId" - userId
-            if(arguments==null){
+            if (arguments == null) {
                 "time" - ""
-            }else{
+            } else {
                 "time" - arguments.getString("time")
             }
             success {
@@ -111,12 +125,13 @@ class TaskDetailsFragment : Fragment() {
                     task_details_name.setText(name)
                     val sex: String = "result".."sex"
                     task_details_sex.setText(sex)
-                    val romeNo: String ="result".."romeNo"
-                    task_details_room.setText("房间 "+ romeNo)
+                    val romeNo: String = "result".."romeNo"
+                    task_details_room.setText("房间 " + romeNo)
                     val age: String = "result".."age"
-                    task_details_age.setText(age+"周岁")
+                    task_details_age.setText(age + "周岁")
                     taskList = "result".."nursingsAxis"
                     taskStepList.addAll("result".."todayTasks")
+                    Log.i("1223", taskStepList.size.toString())
                     taskStepViewRvAdapter.notifyDataSetChanged()
                     task_details_nursing_time.setText(taskList["taskTime"].toString())
                     task_details_task.setText(taskList["meal"].toString())
@@ -163,7 +178,7 @@ class TaskDetailsFragment : Fragment() {
             CAMERA_REQUEST -> {
                 val uri = data?.getCameraUri()
                 addImage().setImageBitmap(uri?.getCameraImg(activity))
-                if(uri?.path!=null){
+                if (uri?.path != null) {
                     imageList.add(File(uri.path))
                 }
             }
@@ -182,7 +197,7 @@ class TaskDetailsFragment : Fragment() {
     fun addSound(uri: Uri?, soundUrl: String?): Unit {
         val newImg = ImageView(activity)
         newImg.setImageResource(R.mipmap.sound_recording)
-        newImg.setPadding(24,24,24,24)
+        newImg.setPadding(24, 24, 24, 24)
         newImg.setOnClickListener {
             if (isDelete) {
                 it.visibility = View.GONE
@@ -215,7 +230,7 @@ class TaskDetailsFragment : Fragment() {
         val newImg = ImageView(activity)
         val lp = ViewGroup.LayoutParams(task_details_photograph.width, task_details_photograph.height)
         newImg.setLayoutParams(lp);
-        newImg.setPadding(24,24,24,24)
+        newImg.setPadding(24, 24, 24, 24)
         newImg.scaleType = ImageView.ScaleType.CENTER_CROP
         newImg.tag = imageList.size
         newImg.setOnClickListener {
@@ -230,22 +245,38 @@ class TaskDetailsFragment : Fragment() {
         return newImg
     }
 
-    fun upImages(): Unit {
-        for (image in imageList) {
-            Http.upfile {
-                url = BASEURL
-                "" - image!!
-                success { upSounds() }
-            }
-        }
-    }
 
-    fun upSounds(): Unit {
-        for (sound in soundList) {
-            Http.upfile {
-                url = BASEURL
-                "" - sound!!
-                success { saveAll() }
+    fun upLoadImage(type: Int): Unit {
+        Http.upfile {
+            url = BASEURL
+            if (type == 1) {
+                "file" - imageUpLoadList.get(0)!!
+            } else if (type == 2) {
+                "file" - soundUpLoadList.get(0)!!
+            }
+            success {
+                if (type == 1) {
+                    images.add("result".."url")
+                    imageUpLoadList.removeAt(0)
+                    if (imageUpLoadList.size == 0) {
+                        if (soundUpLoadList.size==0){
+                            upLoadImage(2)
+                        }else{
+                            saveAll()
+                        }
+                    } else {
+                        upLoadImage(1)
+                    }
+                } else if (type == 2) {
+                    sounds.add("result".."url")
+                    soundUpLoadList.removeAt(0)
+                    if (soundUpLoadList.size == 0) {
+                        saveAll()
+                    } else {
+                        upLoadImage(2)
+                    }
+                }
+
             }
         }
     }
