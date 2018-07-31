@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Pension</string>
+    <string name="app_name">智慧寸草</string>
     <string name="login">登录</string>
     <string name="today_task">今日任务</string>
     <string name="change_shifts">交接班</string>
