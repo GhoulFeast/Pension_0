@@ -1,6 +1,6 @@
 package com.overwork.pension.other
 
-val BASEURL=""//基本
+val BASEURL = ""//基本
 
 //val LOGIN = "/denglu.action?"//登陆
 //val MSGLIST = "/xxlb.action?"//消息列表
@@ -28,11 +28,12 @@ val TOMORROW_TASK = "https://raw.githubusercontent.com/wwan12/AnalogInterface/ma
 val ABNORMALITY = "https://raw.githubusercontent.com/wwan12/AnalogInterface/master/completeTheNursing.json"//异常情况提交
 val THIS_TIME_TASK = "https://raw.githubusercontent.com/wwan12/AnalogInterface/master/nursingContent.json"//护理内容
 val T_HANDOVERDIRECTOR = "https://raw.githubusercontent.com/wwan12/AnalogInterface/master/supervisorSummary.json"//交班-主管https://github.com/wwan12/AnalogInterface/blob/master/supervisorSummary.json
-val AUTO_UPDATE_MSG="https://raw.githubusercontent.com/wwan12/AnalogInterface/master/isNewMsg.json"//新消息https://github.com/wwan12/AnalogInterface/blob/master/isNewMsg.json
+val AUTO_UPDATE_MSG = "https://raw.githubusercontent.com/wwan12/AnalogInterface/master/isNewMsg.json"//新消息https://github.com/wwan12/AnalogInterface/blob/master/isNewMsg.json
 val MSGLIST_READ = "https://raw.githubusercontent.com/wwan12/AnalogInterface/master/completeTheNursing.json"//消息——读
-val IS_HANDOVER="https://raw.githubusercontent.com/wwan12/AnalogInterface/master/ishandover.json"//是否交班成功
+val IS_HANDOVER = "https://raw.githubusercontent.com/wwan12/AnalogInterface/master/ishandover.json"//是否交班成功
 val ROOM_LIST = "https://raw.githubusercontent.com/wwan12/AnalogInterface/master/RoomList.json"//房间列表
-val OLDMAN_INFO="https://raw.githubusercontent.com/wwan12/AnalogInterface/master/InformationOfTheOldMan.json"//老人信息https://github.com/wwan12/AnalogInterface/blob/master/InformationOfTheOldMan.json
+//val OLDMAN_INFO="https://raw.githubusercontent.com/wwan12/AnalogInterface/master/InformationOfTheOldMan.json"//老人信息https://github.com/wwan12/AnalogInterface/blob/master/InformationOfTheOldMan.json
+val OLDMAN_INFO = "https://raw.githubusercontent.com/GhoulFeast/AnalogInterface/master/InformationOfTheOldMan.json"//老人信息https://github.com/wwan12/AnalogInterface/blob/master/InformationOfTheOldMan.json
 
 //今日任务	http://localhost:8081/yly/appall/jrrw.action?后面是参数
 //明日任务	http://localhost:8081/yly/appall/mrrw.action?后面是参数
