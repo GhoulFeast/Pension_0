@@ -11,6 +11,7 @@ import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
 import android.view.View
 import android.widget.AdapterView
+import android.widget.RadioButton
 import com.aisino.qrcode.activity.CaptureActivity
 import com.aisino.tool.toast
 import com.aisino.tool.widget.openUnterTheViewListWindow
@@ -48,6 +49,7 @@ class MenuActivity : AppCompatActivity() , ServiceConnection {
                     UseFragmentManager.displayFragment(showFragment, homeFragment,
                             supportFragmentManager, R.id.main_ll)
                     showFragment = homeFragment
+                    main_rb_homepage.setRadioTopBitmp(R.mipmap.task_s)
                 }
                 R.id.main_rb_class -> {
                     if (userType.toInt() == 2) {
@@ -57,6 +59,7 @@ class MenuActivity : AppCompatActivity() , ServiceConnection {
                         UseFragmentManager.displayFragment(showFragment, classFragment,
                                 supportFragmentManager, R.id.main_ll)
                         showFragment = classFragment
+                        main_rb_class.setRadioTopBitmp(R.mipmap.jjb_s)
                     }
 
 
@@ -66,6 +69,7 @@ class MenuActivity : AppCompatActivity() , ServiceConnection {
                     UseFragmentManager.displayFragment(showFragment, msgFragment,
                             supportFragmentManager, R.id.main_ll)
                     showFragment = msgFragment
+                    main_rb_msg.setRadioTopBitmp(R.mipmap.msg_s)
 
                 }
                 R.id.main_rb_mine -> {
@@ -73,6 +77,7 @@ class MenuActivity : AppCompatActivity() , ServiceConnection {
                     UseFragmentManager.displayFragment(showFragment, mineFragment,
                             supportFragmentManager, R.id.main_ll)
                     showFragment = mineFragment
+                    main_rb_mine.setRadioTopBitmp(R.mipmap.mine_s)
 
                 }
             }
@@ -92,6 +97,12 @@ class MenuActivity : AppCompatActivity() , ServiceConnection {
         val intent=Intent(this@MenuActivity, AutoUpdateService::class.java)
         bindService(intent, this@MenuActivity, Context.BIND_AUTO_CREATE)
         startService(intent)
+    }
+
+    fun RadioButton.setRadioTopBitmp(resid:Int): Unit {
+        var dra= resources.getDrawable(resid)
+        dra.setBounds( 0, 0, dra.getMinimumWidth(),dra.getMinimumHeight())
+        this.setCompoundDrawables(main_rb_msg.getCompoundDrawables()[0], dra, main_rb_msg.getCompoundDrawables()[2], main_rb_msg.getCompoundDrawables()[3])
     }
 
     public fun toHomePage() {
@@ -114,10 +125,13 @@ class MenuActivity : AppCompatActivity() , ServiceConnection {
         auBinder?.setCallBack(object : AutoUpdateService.AutoUpdateCall {
             override fun setMsgNum(num: String) {
                 runOnUiThread {
+                    if (showFragment is MsgFragment){
+                        return@runOnUiThread
+                    }
                     if (num.toBoolean()){
-                        var dra= resources.getDrawable(R.mipmap.msg_red)
-                        dra.setBounds( 0, 0, dra.getMinimumWidth(),dra.getMinimumHeight())
-                        main_rb_msg.setCompoundDrawables(main_rb_msg.getCompoundDrawables()[0], dra, main_rb_msg.getCompoundDrawables()[2], main_rb_msg.getCompoundDrawables()[3])
+                            var dra= resources.getDrawable(R.mipmap.msg_red)
+                            dra.setBounds( 0, 0, dra.getMinimumWidth(),dra.getMinimumHeight())
+                            main_rb_msg.setCompoundDrawables(main_rb_msg.getCompoundDrawables()[0], dra, main_rb_msg.getCompoundDrawables()[2], main_rb_msg.getCompoundDrawables()[3])
                     }else{
                         var dra= resources.getDrawable(R.mipmap.msg)
                         dra.setBounds( 0, 0, dra.getMinimumWidth(),dra.getMinimumHeight());

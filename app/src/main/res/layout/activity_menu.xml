@@ -44,13 +44,16 @@
                 android:drawableLeft="@mipmap/bank"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/back"
+                android:text="@string/nil"
                 android:textColor="@color/white"
                 android:textSize="18sp" />
 
-            <View
+            <TextView
+                android:id="@+id/bar_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textSize="18sp"
+                android:textColor="@color/white"
                 android:layout_weight="1" />
 
             <ImageView

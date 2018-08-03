@@ -51,7 +51,7 @@ class MineFragment : Fragment() {
         }
         getData()
         (activity as MenuActivity).style {
-            textBar = activity.resources.getString(R.string.nil)
+            textBar = activity.resources.getString(R.string.mine_title)
         }
     }
 
