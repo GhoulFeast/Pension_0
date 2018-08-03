@@ -23,7 +23,6 @@ class HandoverInfoAdapter(taskList: ArrayList<MutableMap<String, Any>>) : BaseAd
         var p1 = LayoutInflater.from(p2.context).inflate(R.layout.item_handover_info, p2, false)
         var item_handover_name_tv = p1.findViewById<TextView>(R.id.item_handover_name_tv)
         var item_handover_complete_iv = p1.findViewById<CheckBox>(R.id.item_handover_complete_iv)
-        item_handover_complete_iv.isClickable = false
         var item_handover_type_tv = p1.findViewById<TextView>(R.id.item_handover_type_tv)
         var item_handover_additional_iv = p1.findViewById<TextView>(R.id.item_handover_additional_iv)
         var mutable: MutableMap<String, Any> = handoverList.get(p0)
@@ -40,12 +39,16 @@ class HandoverInfoAdapter(taskList: ArrayList<MutableMap<String, Any>>) : BaseAd
         } else {
             item_handover_complete_iv.isChecked = false
         }
-        item_handover_additional_iv.setTag(mutable["oldId"])
+        item_handover_complete_iv.setOnCheckedChangeListener { compoundButton, b ->
+            var position = compoundButton.getTag().toString().toInt()
+            onHandover.OnHandoverChangeClick(position, b)
+        }
+        item_handover_additional_iv.setTag(p0)
         item_handover_additional_iv.setOnClickListener({ view ->
-            {
-                var id = view.getTag().toString()
-                onHandover.OnHandoverClick(id)
-            }
+
+            var position = view.getTag().toString().toInt()
+            onHandover.OnHandoverClick(position)
+
         })
         return p1
     }
@@ -57,7 +60,8 @@ class HandoverInfoAdapter(taskList: ArrayList<MutableMap<String, Any>>) : BaseAd
     }
 
     interface OnHandover {
-        fun OnHandoverClick(id: String)
+        fun OnHandoverClick(id: Int)
+        fun OnHandoverChangeClick(id: Int, b: Boolean)
     }
 
     override fun getItem(p0: Int): Any {

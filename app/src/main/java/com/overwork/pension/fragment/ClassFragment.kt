@@ -53,7 +53,7 @@ class ClassFragment : Fragment() {
         class_rlv.adapter = classAdapter
         class_handover_tv.setOnClickListener(object : View.OnClickListener {
             override fun onClick(p0: View?) {
-                (activity as MenuActivity).showFragment(HandoverInfoFragment())
+
             }
         })
     }

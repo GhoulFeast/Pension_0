@@ -17,10 +17,10 @@
             android:orientation="horizontal">
 
             <TextView
-                android:layout_marginLeft="8dp"
                 android:id="@+id/task_details_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
                 android:padding="8dp"
                 android:text="TextView"
                 android:textColor="@color/mainColor"
@@ -51,24 +51,30 @@
                 android:text="TextView" />
         </LinearLayout>
 
-        <LinearLayout
+        <RelativeLayout
             android:id="@+id/task_details_ll_1"
             android:layout_width="match_parent"
             android:layout_height="72dp"
             android:background="@color/white"
-            android:minHeight="64dp"
-            android:paddingLeft="20dp"
             android:gravity="center"
-            android:paddingRight="20dp"
+            android:minHeight="64dp"
             android:orientation="vertical">
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/todaytask_rv"
                 android:layout_width="match_parent"
-                android:gravity="center"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:gravity="center"
                 android:scrollbars="none" />
-        </LinearLayout>
+
+            <ImageView
+                android:layout_width="10dp"
+                android:layout_height="match_parent"
+                android:layout_alignParentRight="true"
+                android:src="@drawable/arraw_b_r" />
+        </RelativeLayout>
 
         <LinearLayout
             android:id="@+id/task_details_ll_2"
@@ -130,9 +136,9 @@
             <com.overwork.pension.other.MyListView
                 android:id="@+id/task_details_list"
                 android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:divider="@color/color_00000000"
                 android:listSelector="@android:color/transparent"
-                android:layout_height="wrap_content"
                 android:scrollbars="none" />
         </LinearLayout>
 
@@ -149,9 +155,9 @@
             <com.overwork.pension.other.MyListView
                 android:id="@+id/task_details_project_list"
                 android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:divider="@color/color_00000000"
-                android:listSelector="@android:color/transparent"
-                android:layout_height="wrap_content" />
+                android:listSelector="@android:color/transparent" />
         </LinearLayout>
 
         <LinearLayout

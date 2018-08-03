@@ -94,20 +94,78 @@ class TaskDetailsFragment : Fragment() {
         }
         task_details_record_delete.setOnClickListener {
             if (isDelete) {
-                ToastAdd.showToast_r(activity, "点击图片或音频查看或播放")
+                ToastAdd.showToast(activity, "点击图片或音频查看或播放")
                 isDelete = false
             } else {
-                ToastAdd.showToast_e(activity, "点击图片或音频删除")
+                ToastAdd.showToast(activity, "点击图片或音频删除")
                 isDelete = true
             }
         }
+        taskStepViewRvAdapter.setStepItemClick(object : TaskStepViewRvAdapter.TaskStepItemClick {
+            override fun OnItem(postion: Int) {
+            }
+        })
+        intoTime()
         initList()
-//        Glide.with(this).load("http://pic9/258/a2.jpg").into(iv);
-//        Glide.with(this).load("file:///xxx.jpg").into(iv);
-//        Glide.with(this).load(R.mipmap.ic_launcher).into(iv);
-//        Glide.with(this).load(file).into(iv);
-//        Glide.with(this).load(uri).into(iv);
-//        Glide.with(this).load(byte[]).into(iv);
+
+    }
+
+    fun intoTime() {
+        var thisTime = Calendar.getInstance()
+        var minute: Int;
+        if (thisTime.get(Calendar.MINUTE) >= 30)
+            minute = 30
+        else
+            minute = 0
+        thisTime.set(Calendar.MINUTE, minute)
+        var time = "";
+        thisTime.set(Calendar.MINUTE, thisTime.get(Calendar.MINUTE) - 60)
+        var muMap_2: MutableMap<String, Any> = mutableMapOf()
+        if (thisTime.get(Calendar.MINUTE) == 0) {
+            time = "00"
+        } else {
+            time = thisTime.get(Calendar.MINUTE).toString()
+        }
+        muMap_2.put("taskTime", thisTime.get(Calendar.HOUR_OF_DAY).toString() + ":" + time)
+        taskStepList.add(muMap_2)
+        thisTime.set(Calendar.MINUTE, thisTime.get(Calendar.MINUTE) + 30)
+        var muMap_1: MutableMap<String, Any> = mutableMapOf()
+        if (thisTime.get(Calendar.MINUTE) == 0) {
+            time = "00"
+        } else {
+            time = thisTime.get(Calendar.MINUTE).toString()
+        }
+        muMap_1.put("taskTime", thisTime.get(Calendar.HOUR_OF_DAY).toString() + ":" + time)
+        taskStepList.add(muMap_1)
+        thisTime.set(Calendar.MINUTE, thisTime.get(Calendar.MINUTE) + 30)
+        var muMap: MutableMap<String, Any> = mutableMapOf()
+        if (thisTime.get(Calendar.MINUTE) == 0) {
+            time = "00"
+        } else {
+            time = thisTime.get(Calendar.MINUTE).toString()
+        }
+        muMap.put("taskTime", thisTime.get(Calendar.HOUR_OF_DAY).toString() + ":" + time)
+        taskStepList.add(muMap)
+        thisTime.set(Calendar.MINUTE, thisTime.get(Calendar.MINUTE) + 30)
+        var muMapA1: MutableMap<String, Any> = mutableMapOf()
+        if (thisTime.get(Calendar.MINUTE) == 0) {
+            time = "00"
+        } else {
+            time = thisTime.get(Calendar.MINUTE).toString()
+        }
+        muMapA1.put("taskTime", thisTime.get(Calendar.HOUR_OF_DAY).toString() + ":" + time)
+        taskStepList.add(muMapA1)
+        thisTime.set(Calendar.MINUTE, thisTime.get(Calendar.MINUTE) + 30)
+        var muMapA2: MutableMap<String, Any> = mutableMapOf()
+        if (thisTime.get(Calendar.MINUTE) == 0) {
+            time = "00"
+        } else {
+            time = thisTime.get(Calendar.MINUTE).toString()
+        }
+        muMapA2.put("taskTime", thisTime.get(Calendar.HOUR_OF_DAY).toString() + ":" + time)
+        taskStepList.add(muMapA2)
+        taskStepViewRvAdapter.selectPosion=2
+        taskStepViewRvAdapter.notifyDataSetChanged()
     }
 
     fun initList(): Unit {
@@ -131,9 +189,6 @@ class TaskDetailsFragment : Fragment() {
                     val age: String = "result".."age"
                     task_details_age.setText(age + "周岁")
                     taskList = "result".."nursingsAxis"
-                    taskStepList.addAll("result".."todayTasks")
-                    Log.i("1223", taskStepList.size.toString())
-                    taskStepViewRvAdapter.notifyDataSetChanged()
                     task_details_nursing_time.setText(taskList["taskTime"].toString())
                     task_details_task.setText(taskList["meal"].toString())
                     task_details_task_details.setText(taskList["consideration"].toString())
@@ -260,9 +315,9 @@ class TaskDetailsFragment : Fragment() {
                     images.add("result".."url")
                     imageUpLoadList.removeAt(0)
                     if (imageUpLoadList.size == 0) {
-                        if (soundUpLoadList.size==0){
+                        if (soundUpLoadList.size == 0) {
                             upLoadImage(2)
-                        }else{
+                        } else {
                             saveAll()
                         }
                     } else {
@@ -316,7 +371,7 @@ class TaskDetailsFragment : Fragment() {
             "abnormal" - task_details_context.text.toString()
             "abnormalType" - abnormalType
             success {
-                ToastAdd.showToast_r(activity, "保存成功")
+                ToastAdd.showToast(activity, "保存成功")
             }
         }
     }

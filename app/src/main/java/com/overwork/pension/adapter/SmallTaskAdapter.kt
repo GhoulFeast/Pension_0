@@ -36,7 +36,7 @@ class SmallTaskAdapter(activity: FragmentActivity, taskList: ArrayList<MutableMa
                 "id"-list!![p0]["id"].toString()
                 success {
                     if (!"status"=="2000"){
-                        ToastAdd.showToast_r(context!!,"已完成任务")
+                        ToastAdd.showToast(context!!,"已完成任务")
                     }
                 }
             }

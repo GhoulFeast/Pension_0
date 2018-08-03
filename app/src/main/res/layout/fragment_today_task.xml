@@ -12,8 +12,6 @@
         android:layout_marginTop="16dp"
         android:background="@color/white"
         android:orientation="vertical"
-        android:paddingLeft="20dp"
-        android:paddingRight="20dp"
         android:gravity="center"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -23,8 +21,14 @@
             android:id="@+id/todaytask_rv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
             android:scrollbars="none" />
-
+        <ImageView
+            android:layout_width="10dp"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/arraw_b_r" />
     </RelativeLayout>
 
     <LinearLayout

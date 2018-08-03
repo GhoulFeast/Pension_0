@@ -34,7 +34,7 @@ class TodayTaskAdapter(val activity: FragmentActivity, val taskList: ArrayList<M
             state.setTextColor(activity.resources?.getColor(R.color.white)!!)
             state.setPadding(activity.dip2px(24F), activity.dip2px(5F), activity.dip2px(24F), activity.dip2px(5F))
             state.setOnClickListener {
-                ToastAdd.showToast_r(activity, "已完成任务")
+                ToastAdd.showToast(activity, "已完成任务")
             }
         } else {
             state.background = activity.resources?.getDrawable(R.drawable.border_white)
