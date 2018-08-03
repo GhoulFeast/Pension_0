@@ -7,26 +7,38 @@
     android:gravity="center"
     android:orientation="horizontal">
 
-    <View
-        android:id="@+id/item_stepview_left"
-        android:layout_width="11dp"
-        android:layout_height="5dp"
-        android:layout_marginRight="-1dp"
-        android:background="@color/color_f88e0c" />
-
-    <TextView
-        android:id="@+id/item_stepview_time"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/item_stepview_ll"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:background="@drawable/text_f88e0c_fffffff_raid"
-        android:gravity="center" />
+        android:background="@color/white"
+        android:gravity="center"
+        android:orientation="horizontal">
 
-    <View
-        android:id="@+id/item_stepview_right"
-        android:layout_width="11dp"
-        android:layout_height="5dp"
-        android:layout_marginLeft="-1dp"
-        android:background="@color/color_f88e0c" />
+        <View
+            android:id="@+id/item_stepview_left"
+            android:layout_width="match_parent"
+            android:layout_height="5dp"
+            android:layout_marginRight="-1dp"
+            android:layout_weight="1"
+            android:background="@color/color_f88e0c" />
 
+        <TextView
+            android:id="@+id/item_stepview_time"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_gravity="center"
+            android:background="@drawable/text_f88e0c_fffffff_raid"
+            android:gravity="center" />
+
+        <View
+            android:id="@+id/item_stepview_right"
+            android:layout_width="match_parent"
+            android:layout_height="5dp"
+            android:layout_marginLeft="-1dp"
+            android:layout_weight="1"
+            android:background="@color/color_f88e0c" />
+
+    </LinearLayout>
 </LinearLayout>

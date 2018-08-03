@@ -34,7 +34,7 @@ class MineFragment : Fragment() {
         mine_user_starttime.setText(String.format(resources.getString(R.string.text_entryTime, entryTime)))
         mine_user_overtime.setText(String.format(resources.getString(R.string.text_workingyears, workingYears)))
         mine_user_ld.setText(String.format(resources.getString(R.string.text_superiorName, superiorName)))
-        Glide.with(activity).load(userPortrait).error(R.mipmap.woman).into(mine_user_icon)
+        Glide.with(activity).load(userPortrait).error(R.mipmap.hs).into(mine_user_icon)
         tomorrowTaskAdp.setTomorrow(object : TomorrowTaskAdapter.OnTomorrow {
             override fun OnHandoverClick(id: String) {
                 var old = OldInfoFragment()

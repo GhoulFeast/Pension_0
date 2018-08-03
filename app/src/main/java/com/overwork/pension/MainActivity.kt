@@ -37,12 +37,12 @@ class MainActivity : AppCompatActivity() {
 
     fun toLogin(): Unit {
         if (lg_name.text.toString().equals("")){
-            ToastAdd.showToast_w(this,"请输入用户名")
+            ToastAdd.showToast(this,"请输入用户名")
 //            Toast.makeText(this,"请输入用户名",Toast.LENGTH_SHORT).show()
             return
         }
         if (lg_pwd.text.toString().equals("")){
-            ToastAdd.showToast_w(this,"请输入密码")
+            ToastAdd.showToast(this,"请输入密码")
 //            Toast.makeText(this,"请输入密码",Toast.LENGTH_SHORT).show()
             return
         }

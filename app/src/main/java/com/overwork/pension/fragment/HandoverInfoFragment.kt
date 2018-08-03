@@ -4,12 +4,14 @@ import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.content.ServiceConnection
+import android.graphics.Color
 import android.os.Bundle
 import android.os.IBinder
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import com.aisino.qrcode.encoding.EncodingUtils
 import com.aisino.tool.widget.ToastAdd
 import com.hq.kbase.network.Http
@@ -23,6 +25,7 @@ import com.overwork.pension.other.userId
 import com.overwork.pension.service.IsHandoverService
 import kotlinx.android.synthetic.main.activity_menu.*
 import kotlinx.android.synthetic.main.fragment_handover.*
+import kotlinx.android.synthetic.main.fragment_handover.view.*
 
 /**
  * Created by feima on 2018/7/7.
@@ -40,8 +43,10 @@ class HandoverInfoFragment : Fragment(), ServiceConnection {
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         initViewAndEvent()
         getData()
-
         super.onViewCreated(view, savedInstanceState)
+        val intent = Intent(activity, IsHandoverService::class.java)
+        activity.bindService(intent, this@HandoverInfoFragment, Context.BIND_AUTO_CREATE)
+        activity.startService(intent)
     }
 
     fun getData(): Unit {
@@ -59,26 +64,31 @@ class HandoverInfoFragment : Fragment(), ServiceConnection {
     }
 
     fun initViewAndEvent(): Unit {
+        var qrcodeParam = class_qrcode_iv.layoutParams as LinearLayout.LayoutParams
+        qrcodeParam.width = resources.displayMetrics.widthPixels / 4 * 3
+        qrcodeParam.height = resources.displayMetrics.widthPixels / 4 * 3
+        class_qrcode_iv.layoutParams = qrcodeParam
         class_qrcode_iv.viewTreeObserver.addOnDrawListener({
             class_qrcode_iv.setImageBitmap(EncodingUtils.createQRCode(userId, class_qrcode_iv.width, class_qrcode_iv.height, null))
         })
         (activity as MenuActivity).style {
-            textBar=activity.resources.getString(R.string.checking_information)
+            textBar = activity.resources.getString(R.string.checking_information)
         }
         handoverInfoAdapter = HandoverInfoAdapter(handoverInfos)
         class_rlv.adapter = handoverInfoAdapter
         class_handover_tv.setOnClickListener(object : View.OnClickListener {
             override fun onClick(p0: View?) {
-                val intent = Intent(activity, IsHandoverService::class.java)
-                activity.bindService(intent, this@HandoverInfoFragment, Context.BIND_AUTO_CREATE)
-                activity.startService(intent)
-                ToastAdd.showToast_w(activity, "检查是否交班成功中。。。")
+                var classFragment = ClassFragment()
+                (activity as MenuActivity).showFragment(classFragment)
             }
         })
         handoverInfoAdapter.setHandover(object : HandoverInfoAdapter.OnHandover {
-            override fun OnHandoverClick(id: String) {
+            override fun OnHandoverChangeClick(id: Int, b: Boolean) {
+
+            }
+            override fun OnHandoverClick(id: Int) {
                 var taslDetalis = TaskDetailsFragment()
-                (activity as MenuActivity).putData(TodayTaskID, id)
+                (activity as MenuActivity).putData(TodayTaskID, handoverInfos[id]["oldId"].toString())
                 (activity as MenuActivity).showFragment(taslDetalis)
                 taslDetalis.setSimple()
             }
@@ -103,6 +113,7 @@ class HandoverInfoFragment : Fragment(), ServiceConnection {
 
     override fun onDestroy() {
         super.onDestroy()
+        auBinder = null
     }
 
     override fun onServiceConnected(p0: ComponentName?, p1: IBinder?) {
@@ -114,7 +125,7 @@ class HandoverInfoFragment : Fragment(), ServiceConnection {
                     if (num.toBoolean()) {
                         (activity as MenuActivity).showFragment(HandoverEndFragment())
                         auBinder?.setRun(false)
-                        auBinder=null
+                        auBinder = null
                     } else {
 
                     }

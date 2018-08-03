@@ -25,6 +25,7 @@ class TodayTaskFragment : Fragment() {
     var time = ""
     var showTime = ""
     var taskList: ArrayList<MutableMap<String, Any>> = ArrayList<MutableMap<String, Any>>()
+    var taskTimeList: ArrayList<MutableMap<String, Any>> = ArrayList<MutableMap<String, Any>>()
     var thisTaskList: ArrayList<MutableMap<String, Any>> = ArrayList<MutableMap<String, Any>>()
     lateinit var taskStepViewRvAdapter: TaskStepViewRvAdapter
     lateinit var todayTaskAdapter: TodayTaskAdapter
@@ -36,15 +37,15 @@ class TodayTaskFragment : Fragment() {
             success {
                 time = "result".."time"
                 taskList.clear()
-                taskList .addAll( "result".."timeTasks")
+                taskList.addAll("result".."timeTasks")
                 for (mut: MutableMap<String, Any> in taskList) {
-                    if (mut["taskState"].toString().toInt()== 3) {
+                    if (mut["taskState"].toString().toInt() == 3) {
                         showTime = mut["taskTime"].toString()
                         thisTaskList.clear()
                         thisTaskList.addAll(mut["links"] as ArrayList<MutableMap<String, Any>>)
                     }
                 }
-                activity.runOnUiThread{
+                activity.runOnUiThread {
                     todayTaskAdapter.notifyDataSetChanged()
                     taskStepViewRvAdapter.notifyDataSetChanged()
                 }
@@ -56,11 +57,45 @@ class TodayTaskFragment : Fragment() {
         return view
     }
 
+    fun intoTime() {
+        var position = 0;
+        var thisTime = Calendar.getInstance()
+        var minute: Int;
+        if (thisTime.get(Calendar.MINUTE) >= 30)
+            minute = 30
+        else
+            minute = 0
+        thisTime.set(Calendar.MINUTE, minute)
+        var tTime = Calendar.getInstance()
+        var i = 0
+        tTime.set(Calendar.HOUR_OF_DAY, 0)
+        tTime.set(Calendar.MINUTE, 0)
+        while (i < 48) {
+            tTime.set(Calendar.MINUTE, tTime.get(Calendar.MINUTE) + 30)
+            var muMap: MutableMap<String, Any> = mutableMapOf()
+            var time = "";
+            if (tTime.get(Calendar.MINUTE) == 0) {
+                time = "00"
+            } else {
+                time = tTime.get(Calendar.MINUTE).toString()
+            }
+            muMap.put("taskTime", tTime.get(Calendar.HOUR_OF_DAY).toString() + ":" + time)
+            if (thisTime.get(Calendar.HOUR_OF_DAY) == tTime.get(Calendar.HOUR_OF_DAY) && thisTime.get(Calendar.MINUTE) == tTime.get(Calendar.MINUTE)) {
+                position = i;
+            }
+            taskTimeList.add(muMap)
+            i++
+        }
+        taskStepViewRvAdapter.selectPosion = position
+        taskStepViewRvAdapter.notifyDataSetChanged()
+        todaytask_rv.scrollToPosition(position - 2)
+    }
+
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         todayTaskAdapter = TodayTaskAdapter(activity, thisTaskList)
-        taskStepViewRvAdapter = TaskStepViewRvAdapter(activity, taskList)
-        todaytask_rv.layoutManager=LinearLayoutManager(activity,LinearLayoutManager.HORIZONTAL,false)
+        taskStepViewRvAdapter = TaskStepViewRvAdapter(activity, taskTimeList)
+        todaytask_rv.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
         todaytask_rv.adapter = taskStepViewRvAdapter;
         todaytask_list.adapter = todayTaskAdapter
         todaytask_list.setOnItemClickListener { adapterView: AdapterView<*>, view1: View, i: Int, l: Long ->
@@ -73,12 +108,16 @@ class TodayTaskFragment : Fragment() {
         }
         taskStepViewRvAdapter.setStepItemClick(object : TaskStepViewRvAdapter.TaskStepItemClick {
             override fun OnItem(postion: Int) {
-                showTime = taskList.get(postion)["taskTime"].toString()
-                thisTaskList.clear()
-                thisTaskList.addAll(taskList.get(postion)["links"] as ArrayList<MutableMap<String, Any>>)
-                todayTaskAdapter.notifyDataSetChanged()
+                taskStepViewRvAdapter.selectPosion = postion
+                todaytask_rv.scrollToPosition(postion - 2)
+                showTime = taskTimeList.get(postion)["taskTime"].toString()
+                taskStepViewRvAdapter.notifyDataSetChanged()
+//                thisTaskList.clear()
+//                thisTaskList.addAll(taskList.get(postion)["links"] as ArrayList<MutableMap<String, Any>>)
+//                todayTaskAdapter.notifyDataSetChanged()
             }
         })
+        intoTime()
     }
 
 }
