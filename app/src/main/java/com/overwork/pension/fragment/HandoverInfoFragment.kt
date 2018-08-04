@@ -64,10 +64,6 @@ class HandoverInfoFragment : Fragment(), ServiceConnection {
     }
 
     fun initViewAndEvent(): Unit {
-        var qrcodeParam = class_qrcode_iv.layoutParams as LinearLayout.LayoutParams
-        qrcodeParam.width = resources.displayMetrics.widthPixels / 4 * 3
-        qrcodeParam.height = resources.displayMetrics.widthPixels / 4 * 3
-        class_qrcode_iv.layoutParams = qrcodeParam
         class_qrcode_iv.viewTreeObserver.addOnDrawListener({
             class_qrcode_iv.setImageBitmap(EncodingUtils.createQRCode(userId, class_qrcode_iv.width, class_qrcode_iv.height, null))
         })

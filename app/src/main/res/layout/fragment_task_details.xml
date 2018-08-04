@@ -140,6 +140,158 @@
                 android:divider="@color/color_00000000"
                 android:listSelector="@android:color/transparent"
                 android:scrollbars="none" />
+
+            <LinearLayout
+                android:id="@+id/task_details_temperature_ll"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="5dp"
+                android:paddingBottom="5dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="体温" />
+
+                <EditText
+                    android:id="@+id/task_details_temperature_et"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:background="@drawable/editview_bg"
+                    android:gravity="start"
+                    android:inputType="text"
+                    android:maxLines="1" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/task_details_bloodPressure_ll"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingBottom="5dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="血压" />
+
+                <EditText
+                    android:id="@+id/task_details_bloodPressure_et"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:background="@drawable/editview_bg"
+                    android:gravity="start"
+                    android:inputType="text"
+                    android:maxLines="1" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/task_details_pulse_ll"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingBottom="5dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="脉搏" />
+
+                <EditText
+                    android:id="@+id/task_details_pulse_et"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:background="@drawable/editview_bg"
+                    android:gravity="start"
+                    android:inputType="text"
+                    android:maxLines="1" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/task_details_entry_ll"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingBottom="5dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="入量" />
+
+                <EditText
+                    android:id="@+id/task_details_entry_et"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:background="@drawable/editview_bg"
+                    android:gravity="start"
+                    android:inputType="text"
+                    android:maxLines="1" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/task_details_output_ll"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingBottom="5dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="出量" />
+
+                <EditText
+                    android:id="@+id/task_details_output_et"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/editview_bg"
+                    android:gravity="start"
+                    android:inputType="text"
+                    android:maxLines="1" />
+
+                <RadioGroup
+                    android:id="@+id/task_details_output_rg"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <RadioButton
+                        android:id="@+id/task_details_output_measurement"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="实测量"
+                        android:textColor="@color/blue"
+                        android:textSize="18sp" />
+
+                    <RadioButton
+                        android:id="@+id/task_details_output_estimate"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="估计量"
+                        android:textColor="@color/blue"
+                        android:textSize="18sp" />
+                </RadioGroup>
+            </LinearLayout>
         </LinearLayout>
 
         <LinearLayout
@@ -186,6 +338,7 @@
                     android:textStyle="bold" />
 
                 <RadioGroup
+                    android:id="@+id/task_details_record_needhelp_rg"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:orientation="horizontal">
@@ -219,75 +372,83 @@
 
             </LinearLayout>
 
-            <EditText
-                android:id="@+id/task_details_context"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="16dp"
-                android:background="@drawable/editview_bg"
-                android:gravity="start"
-                android:inputType="text"
-                android:minHeight="64dp" />
-
             <LinearLayout
+                android:id="@+id/task_details_record_ll"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center"
-                android:orientation="horizontal"
-                android:paddingBottom="8dp"
-                android:paddingTop="8dp">
+                android:visibility="gone"
+                android:orientation="vertical">
+
+                <EditText
+                    android:id="@+id/task_details_context"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="16dp"
+                    android:background="@drawable/editview_bg"
+                    android:gravity="start"
+                    android:inputType="text"
+                    android:minHeight="64dp" />
 
                 <LinearLayout
-                    android:id="@+id/task_details_picll"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="horizontal">
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:paddingBottom="8dp"
+                    android:paddingTop="8dp">
 
-                    <!--<ImageView-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:layout_marginLeft="16dp"-->
-                    <!--app:srcCompat="@mipmap/picture"-->
-                    <!--/>-->
+                    <LinearLayout
+                        android:id="@+id/task_details_picll"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="horizontal">
+
+                        <!--<ImageView-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:layout_marginLeft="16dp"-->
+                        <!--app:srcCompat="@mipmap/picture"-->
+                        <!--/>-->
+                    </LinearLayout>
+
+                    <ImageView
+                        android:id="@+id/task_details_photograph"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="4dp"
+                        app:srcCompat="@mipmap/photograph" />
                 </LinearLayout>
-
-                <ImageView
-                    android:id="@+id/task_details_photograph"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:padding="4dp"
-                    app:srcCompat="@mipmap/photograph" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:orientation="horizontal"
-                android:paddingBottom="8dp"
-                android:paddingTop="8dp">
 
                 <LinearLayout
-                    android:id="@+id/task_details_soull"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="horizontal">
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:paddingBottom="8dp"
+                    android:paddingTop="8dp">
 
-                    <!--<ImageView-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:layout_marginLeft="16dp"-->
-                    <!--app:srcCompat="@mipmap/voice" />-->
+                    <LinearLayout
+                        android:id="@+id/task_details_soull"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="horizontal">
+
+                        <!--<ImageView-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:layout_marginLeft="16dp"-->
+                        <!--app:srcCompat="@mipmap/voice" />-->
+                    </LinearLayout>
+
+                    <ImageView
+                        android:id="@+id/task_details_sound"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="4dp"
+                        app:srcCompat="@mipmap/sound_recording" />
                 </LinearLayout>
-
-                <ImageView
-                    android:id="@+id/task_details_sound"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:padding="4dp"
-                    app:srcCompat="@mipmap/sound_recording" />
             </LinearLayout>
 
             <TextView
