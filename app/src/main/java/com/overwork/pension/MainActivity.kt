@@ -3,6 +3,8 @@ package com.overwork.pension
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.widget.Toast
 import com.aisino.tool.cache.ACache
@@ -19,6 +21,9 @@ import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
 
+    var hasName=false
+    var hasPwd=false
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -28,24 +33,73 @@ class MainActivity : AppCompatActivity() {
 
     fun initViewAndEvent(): Unit {
         lg_login.setOnClickListener{
-            toLogin()
+            if (hasName&&hasPwd){
+                toLogin()
+            }
 //            startActivity(Intent(this@MainActivity,MenuActivity::class.java))
 
         }
+        lg_login.alpha=0.7f
+        lg_name.addTextChangedListener(object: TextWatcher{
+            override fun afterTextChanged(ed: Editable?) {
+                if (ed.isNullOrBlank()){
+                    hasName=false
+                }else{
+                    hasName=true
+                }
+                if (hasPwd){
+                    lg_login.alpha=1.0f
+                }else{
+                    lg_login.alpha=0.7f
+                }
+            }
+
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+            }
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+            }
+        } )
+        lg_pwd.addTextChangedListener(object: TextWatcher{
+            override fun afterTextChanged(ed: Editable?) {
+                if (ed.isNullOrBlank()){
+                    hasPwd=false
+                }else{
+                    hasPwd=true
+                }
+                if (hasName){
+                    lg_login.alpha=1.0f
+                }else{
+                    lg_login.alpha=0.7f
+                }
+            }
+
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+            }
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+            }
+        } )
         signPermissions(getAllPermissions(this)!!)
+        //自动登陆
+        lg_name.setText(getCache().getAsString("yhmc"))
+        lg_pwd.setText(getCache().getAsString("yhmm"))
+        if (!lg_name.text.toString().equals("")){
+            toLogin()
+        }
     }
 
     fun toLogin(): Unit {
-        if (lg_name.text.toString().equals("")){
-            ToastAdd.showToast(this,"请输入用户名")
+//        if (lg_name.text.toString().equals("")){
+////            ToastAdd.showToast(this,"请输入用户名")
 //            Toast.makeText(this,"请输入用户名",Toast.LENGTH_SHORT).show()
-            return
-        }
-        if (lg_pwd.text.toString().equals("")){
-            ToastAdd.showToast(this,"请输入密码")
+//            return
+//        }
+//        if (lg_pwd.text.toString().equals("")){
+////            ToastAdd.showToast(this,"请输入密码")
 //            Toast.makeText(this,"请输入密码",Toast.LENGTH_SHORT).show()
-            return
-        }
+//            return
+//        }
         Http.get{
             url= BASEURL+ LOGIN
             "yhmc"-lg_name.text.toString()
@@ -64,6 +118,9 @@ class MainActivity : AppCompatActivity() {
                     startActivity(Intent(this@MainActivity,MenuActivity::class.java))
                     getCache().put("yhmc",lg_name.text.toString())
                     getCache().put("yhmm",lg_pwd.text.toString())
+                }else{
+                    val msg:String="result".."msg"
+                    runOnUiThread { Toast.makeText(this@MainActivity,msg,Toast.LENGTH_SHORT).show() }
                 }
             }
 
