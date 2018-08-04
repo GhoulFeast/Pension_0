@@ -49,9 +49,12 @@ class TaskDetailsFragment : Fragment() {
     val soundUpLoadList = ArrayList<File?>()
     val images = ArrayList<String>()
     val sounds = ArrayList<String>()
-    var abnormalType = ""
+    var abnormalType = "0"
     lateinit var measurementProjects: ArrayList<MutableMap<String, Any>>
     lateinit var taskStepViewRvAdapter: TaskStepViewRvAdapter
+    val RECORD_TYPE_NON = "0"
+    val RECORD_TYPE_NEEDHELP = "1"
+    val RECORD_TYPE_HAVE = "2"
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater?.inflate(R.layout.fragment_task_details, null, false)
         return view
@@ -72,13 +75,6 @@ class TaskDetailsFragment : Fragment() {
             val intent = Intent(MediaStore.Audio.Media.RECORD_SOUND_ACTION)
             startActivityForResult(intent, SOUND)
         }
-        task_details_record_needhelp.setOnClickListener {
-            abnormalType = "1"
-        }
-        task_details_record_have.setOnClickListener {
-            abnormalType = "2"
-        }
-
         task_details_save.setOnClickListener {
             imageUpLoadList.clear()
             imageUpLoadList.addAll(imageList)
@@ -105,6 +101,48 @@ class TaskDetailsFragment : Fragment() {
             override fun OnItem(postion: Int) {
             }
         })
+        task_details_record_needhelp.setOnClickListener {
+            Log.i("tashelp","--"+abnormalType)
+            when (abnormalType) {
+                RECORD_TYPE_NON -> {
+                    abnormalType = RECORD_TYPE_NEEDHELP
+                    task_details_record_needhelp.isChecked = true
+                    task_details_record_ll.visibility = View.VISIBLE
+                }
+                RECORD_TYPE_NEEDHELP -> {
+                    abnormalType = RECORD_TYPE_NON
+                    task_details_record_ll.visibility = View.GONE
+                    task_details_record_needhelp.isChecked = false
+                }
+                RECORD_TYPE_HAVE -> {
+                    abnormalType = RECORD_TYPE_NEEDHELP
+                    task_details_record_needhelp.isChecked = true
+                    task_details_record_ll.visibility = View.VISIBLE
+                }
+            }
+            Log.i("tashelp","-to-"+abnormalType)
+        }
+        task_details_record_have.setOnClickListener {
+            Log.i("tashelp","--"+abnormalType)
+            when (abnormalType) {
+                RECORD_TYPE_NON -> {
+                    abnormalType = RECORD_TYPE_HAVE
+                    task_details_record_ll.visibility = View.VISIBLE
+                    task_details_record_have.isChecked = true
+                }
+                RECORD_TYPE_NEEDHELP -> {
+                    task_details_record_have.isChecked = true
+                    abnormalType = RECORD_TYPE_HAVE
+                    task_details_record_ll.visibility = View.VISIBLE
+                }
+                RECORD_TYPE_HAVE -> {
+                    abnormalType = RECORD_TYPE_NON
+                    task_details_record_ll.visibility = View.GONE
+                    task_details_record_have.isChecked = false
+                }
+            }
+            Log.i("tashelp","-to-"+abnormalType)
+        }
         intoTime()
         initList()
 
@@ -164,7 +202,7 @@ class TaskDetailsFragment : Fragment() {
         }
         muMapA2.put("taskTime", thisTime.get(Calendar.HOUR_OF_DAY).toString() + ":" + time)
         taskStepList.add(muMapA2)
-        taskStepViewRvAdapter.selectPosion=2
+        taskStepViewRvAdapter.selectPosion = 2
         taskStepViewRvAdapter.notifyDataSetChanged()
     }
 
