@@ -141,6 +141,26 @@
                 android:listSelector="@android:color/transparent"
                 android:scrollbars="none" />
 
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/task_details_ll_4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="24dp"
+            android:layout_marginRight="24dp"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/ll_white_bg"
+            android:orientation="vertical">
+
+            <com.overwork.pension.other.MyListView
+                android:id="@+id/task_details_project_list"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                android:divider="@color/color_00000000"
+                android:listSelector="@android:color/transparent" />
             <LinearLayout
                 android:id="@+id/task_details_temperature_ll"
                 android:layout_width="match_parent"
@@ -292,24 +312,6 @@
                         android:textSize="18sp" />
                 </RadioGroup>
             </LinearLayout>
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/task_details_ll_4"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="24dp"
-            android:layout_marginRight="24dp"
-            android:layout_marginTop="8dp"
-            android:background="@drawable/ll_white_bg"
-            android:orientation="vertical">
-
-            <com.overwork.pension.other.MyListView
-                android:id="@+id/task_details_project_list"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:divider="@color/color_00000000"
-                android:listSelector="@android:color/transparent" />
         </LinearLayout>
 
         <LinearLayout
