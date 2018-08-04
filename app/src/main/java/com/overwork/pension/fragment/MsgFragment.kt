@@ -29,7 +29,7 @@ class MsgFragment : Fragment() {
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         (activity as MenuActivity).style {
-            textBar=activity.resources.getString(R.string.wdxx)
+            textBar=activity.resources.getString(R.string.ylyxt)
         }
         msgAdapter = MsgAdapter(context, msgBeans)
         msg_list.adapter = msgAdapter

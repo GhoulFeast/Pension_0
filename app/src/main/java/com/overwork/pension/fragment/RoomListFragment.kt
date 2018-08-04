@@ -57,7 +57,8 @@ class RoomListFragment : Fragment() {
             }
         })
         (activity as MenuActivity).style {
-            textBar=activity.resources.getString(R.string.room_title)
+            textBar = ""
+            titleBar="房间信息"
         }
     }
 

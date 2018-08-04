@@ -59,7 +59,8 @@ class HandoverDirectorFragment : Fragment() {
 
     fun initViewAndEvent(): Unit {
         (activity as MenuActivity).style {
-            textBar=activity.resources.getString(R.string.checking_information)
+            textBar = ""
+            titleBar="交班"
         }
         classAdapter = ClassAdapter(classBeans)
         director_rlv.adapter = classAdapter

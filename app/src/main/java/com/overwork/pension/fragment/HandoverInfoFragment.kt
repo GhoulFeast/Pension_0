@@ -68,7 +68,7 @@ class HandoverInfoFragment : Fragment(), ServiceConnection {
             class_qrcode_iv.setImageBitmap(EncodingUtils.createQRCode(userId, class_qrcode_iv.width, class_qrcode_iv.height, null))
         })
         (activity as MenuActivity).style {
-            textBar = activity.resources.getString(R.string.checking_information)
+            textBar=activity.resources.getString(R.string.ylyxt)
         }
         handoverInfoAdapter = HandoverInfoAdapter(handoverInfos)
         class_rlv.adapter = handoverInfoAdapter

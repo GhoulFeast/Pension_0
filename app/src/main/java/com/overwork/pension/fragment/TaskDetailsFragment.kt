@@ -67,6 +67,7 @@ class TaskDetailsFragment : Fragment() {
         todaytask_rv.adapter = taskStepViewRvAdapter;
         (activity as MenuActivity).style {
             textBar = ""
+            titleBar="任务详情"
         }
         task_details_photograph.setOnClickListener {
             activity.openCameraAndGalleryWindow()
