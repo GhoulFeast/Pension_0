@@ -47,7 +47,8 @@ class ClassFragment : Fragment() {
 
     fun initViewAndEvent(): Unit {
         (activity as MenuActivity).style {
-            textBar=activity.resources.getString(R.string.checking_information)
+            textBar = ""
+            activity.resources.getString(R.string.checking_information)
         }
         classAdapter = ClassAdapter(classBeans)
         class_rlv.adapter = classAdapter

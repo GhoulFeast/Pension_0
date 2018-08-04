@@ -81,7 +81,8 @@ class MsgDetalisFragment : Fragment() {
             msg_details_handover_tv.visibility = View.GONE
             msg_details_other_context_tv.setText(enety.get("messageContent").toString())
             (activity as MenuActivity).style {
-                textBar = activity.resources.getString(R.string.msg_title_other)
+                textBar = ""
+                titleBar="消息"
             }
         }
 

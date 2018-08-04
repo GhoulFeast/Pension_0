@@ -26,7 +26,8 @@ class OldInfoFragment : Fragment() {
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         (activity as MenuActivity).style {
-            textBar = activity.resources.getString(R.string.old_info_title)
+            textBar = ""
+            titleBar="老人信息"
         }
         getData()
     }

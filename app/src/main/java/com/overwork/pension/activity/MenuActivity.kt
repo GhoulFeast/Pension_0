@@ -56,7 +56,7 @@ class MenuActivity : AppCompatActivity() , ServiceConnection {
                     if (userType.toInt() == 2) {
                         startActivityForResult(Intent(this, CaptureActivity::class.java), -1)
                     } else {
-                        var classFragment = ClassFragment()
+                        var classFragment = HandoverInfoFragment()
                         UseFragmentManager.displayFragment(showFragment, classFragment,
                                 supportFragmentManager, R.id.main_ll)
                         showFragment = classFragment
@@ -222,7 +222,7 @@ class MenuActivity : AppCompatActivity() , ServiceConnection {
 
     override fun onBackPressed() {
 //        super.onBackPressed()
-        if (showFragment is HomeFragment || showFragment is ClassFragment || showFragment is MsgFragment || showFragment is MineFragment) {
+        if (showFragment is HomeFragment || showFragment is HandoverInfoFragment || showFragment is MsgFragment || showFragment is MineFragment) {
             if (System.currentTimeMillis() - backPressTime < 1000) {
                 finish()
             } else {
