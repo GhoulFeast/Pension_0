@@ -13,6 +13,7 @@ import android.view.View
 import android.widget.AdapterView
 import android.widget.RadioButton
 import com.aisino.qrcode.activity.CaptureActivity
+import com.aisino.tool.log
 import com.aisino.tool.toast
 import com.aisino.tool.widget.openUnterTheViewListWindow
 import com.overwork.pension.R
@@ -85,7 +86,7 @@ class MenuActivity : AppCompatActivity() , ServiceConnection {
             nowState = 0
         })
         main_rb_homepage.performClick()
-        title_back.setOnClickListener {
+        bar_back.setOnClickListener {
             backFragment()
         }
         bar_more.setOnClickListener{
@@ -190,14 +191,18 @@ class MenuActivity : AppCompatActivity() , ServiceConnection {
     fun setBar(bar: Bar): Unit {
         if (bar.textBar.equals("")) {
             title_text.visibility = View.GONE
-            title_back.visibility = View.VISIBLE
+//            title_back.visibility = View.VISIBLE
+            bar_title.text=bar.titleBar
             if (bar.isLeft) bar_back.visibility = View.VISIBLE else bar_back.visibility = View.GONE
-            if (bar.isRight) bar_more.visibility = View.VISIBLE else bar_more.visibility = View.GONE
+//            if (bar.isRight) bar_more.visibility = View.VISIBLE else bar_more.visibility = View.GONE
         } else {
-            title_back.visibility = View.GONE
+            bar_back.visibility=View.GONE
+//            title_back.visibility = View.GONE
             title_text.visibility = View.VISIBLE
             title_text.setText(bar.textBar)
+            bar_title.text=""
         }
+        bar.textBar.log()
     }
 
 
@@ -210,7 +215,8 @@ class MenuActivity : AppCompatActivity() , ServiceConnection {
     class Bar {
         var textBar = ""
         var isLeft = true
-        var isRight = true
+//        var isRight = true
+        var titleBar=""
 
     }
 

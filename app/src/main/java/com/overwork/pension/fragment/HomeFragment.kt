@@ -32,5 +32,14 @@ class HomeFragment :Fragment() {
 
 
 
+    override fun onHiddenChanged(hidden: Boolean) {
+        super.onHiddenChanged(hidden)
+        (activity as MenuActivity).style {
+            textBar=activity.resources.getString(R.string.ylyxt)
+        }
+    }
+
+
+
 
 }

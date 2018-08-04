@@ -53,6 +53,7 @@ class TodayTaskFragment : Fragment() {
         }
         (activity as MenuActivity).style {
             textBar = ""
+            titleBar=resources.getString(R.string.today_task)
         }
         return view
     }

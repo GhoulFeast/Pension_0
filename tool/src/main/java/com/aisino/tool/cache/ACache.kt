@@ -116,6 +116,9 @@ class ACache (cacheDir: File, max_size: Long, max_count: Int) {
         } catch (e: IOException) {
             e.printStackTrace()
             return null
+        }catch (e:IllegalStateException){
+            e.printStackTrace()
+            return null
         } finally {
             if (br != null) {
                 try {
