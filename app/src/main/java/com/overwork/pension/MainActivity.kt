@@ -7,12 +7,14 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
 import android.widget.Toast
+import com.aisino.tool.ani.LoadingDialog
 import com.aisino.tool.cache.ACache
 import com.aisino.tool.cache.getCache
 import com.aisino.tool.system.getAllPermissions
 import com.aisino.tool.system.signPermissions
 import com.aisino.tool.widget.ToastAdd
 import com.hq.kbase.network.Http
+import com.hq.kbase.network.isHttpWaitAni
 import com.overwork.pension.activity.MenuActivity
 import com.overwork.pension.other.BASEURL
 import com.overwork.pension.other.LOGIN
@@ -32,6 +34,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun initViewAndEvent(): Unit {
+        isHttpWaitAni=true
+
         lg_login.setOnClickListener{
             if (hasName&&hasPwd){
                 toLogin()
@@ -39,7 +43,7 @@ class MainActivity : AppCompatActivity() {
 //            startActivity(Intent(this@MainActivity,MenuActivity::class.java))
 
         }
-        lg_login.alpha=0.7f
+        lg_login.alpha=0.3f
         lg_name.addTextChangedListener(object: TextWatcher{
             override fun afterTextChanged(ed: Editable?) {
                 if (ed.isNullOrBlank()){
@@ -47,10 +51,10 @@ class MainActivity : AppCompatActivity() {
                 }else{
                     hasName=true
                 }
-                if (hasPwd){
+                if (hasName&&hasPwd){
                     lg_login.alpha=1.0f
                 }else{
-                    lg_login.alpha=0.7f
+                    lg_login.alpha=0.3f
                 }
             }
 
@@ -67,10 +71,10 @@ class MainActivity : AppCompatActivity() {
                 }else{
                     hasPwd=true
                 }
-                if (hasName){
+                if (hasName&&hasPwd){
                     lg_login.alpha=1.0f
                 }else{
-                    lg_login.alpha=0.7f
+                    lg_login.alpha=0.3f
                 }
             }
 
@@ -90,6 +94,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun toLogin(): Unit {
+        val dialog =  LoadingDialog(this);
+        dialog.setCanceledOnTouchOutside(false);
+        dialog.show();
 //        if (lg_name.text.toString().equals("")){
 ////            ToastAdd.showToast(this,"请输入用户名")
 //            Toast.makeText(this,"请输入用户名",Toast.LENGTH_SHORT).show()
@@ -118,12 +125,17 @@ class MainActivity : AppCompatActivity() {
                     startActivity(Intent(this@MainActivity,MenuActivity::class.java))
                     getCache().put("yhmc",lg_name.text.toString())
                     getCache().put("yhmm",lg_pwd.text.toString())
+                    finish()
                 }else{
                     val msg:String="result".."msg"
                     runOnUiThread { Toast.makeText(this@MainActivity,msg,Toast.LENGTH_SHORT).show() }
                 }
+                dialog.dismiss()
             }
-
+fail {
+    dialog.dismiss()
+}
+            get()
         }
     }
 }

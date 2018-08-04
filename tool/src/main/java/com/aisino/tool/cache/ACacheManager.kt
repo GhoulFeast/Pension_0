@@ -124,7 +124,7 @@ class ACacheManager(protected var cacheDir: File, private val sizeLimit: Long, p
         }
 
         val fileSize = calculateSize(mostLongUsedFile)
-        if (mostLongUsedFile!!.delete()) {
+        if (mostLongUsedFile?.delete()!!) {
             lastUsageDates.remove(mostLongUsedFile)
         }
         return fileSize
