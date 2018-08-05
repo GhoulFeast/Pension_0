@@ -19,7 +19,7 @@ import java.util.concurrent.TimeUnit
  * Created by lenovo on 2017/11/14.
  */
 
-var cookjar: CookieJar=object : CookieJar {
+var cookjar: CookieJar = object : CookieJar {
     override fun saveFromResponse(url: HttpUrl, cookies: List<Cookie>) {
         cookieStore.put(url.host(), cookies)
     }
@@ -30,6 +30,8 @@ var cookjar: CookieJar=object : CookieJar {
     }
 }
 val cookieStore = HashMap<String, List<Cookie>>()//cookie缓存
+
+var isHttpWaitAni = false
 
 class Submit {
     //可配置属性
@@ -51,7 +53,8 @@ class Submit {
     private var _fail: (String) -> Unit = {}
 
     private var isError = false
-//    var cookjar: CookieJar
+
+    //    var cookjar: CookieJar
 //    val cookieStore = HashMap<String, List<Cookie>>()//cookie缓存
 //
 //    init {
@@ -66,14 +69,17 @@ class Submit {
 //            }
 //        }
 //    }
-
-
-    fun run() {
+    init {
         tryInit()
-
     }
 
-    fun tryInit(): Unit { //检查配置单
+
+    /*  fun run() {
+         tryInit()
+
+     }*/
+
+    private fun tryInit(): Unit { //检查配置单
         when (returnType) {
             ReturnType.JSON -> {
             }
@@ -85,6 +91,10 @@ class Submit {
         }
         if (url == "") return
         _start()
+
+        if (isHttpWaitAni) {
+
+        }
 
         when (method) {//分类请求
             Method.GET -> get()
@@ -102,7 +112,6 @@ class Submit {
     fun start(start: () -> Unit): Unit {//检查参数
         _start = start
 
-
     }
 
     fun success(success: () -> Unit): Unit {
@@ -113,15 +122,15 @@ class Submit {
         _fail = fail
     }
 
-    fun get(): Unit {
+    private fun get(): Unit {
         val okHttpClient = OkHttpClient.Builder().cookieJar(cookjar).connectTimeout(outTime, TimeUnit.SECONDS)
-        if (url.length>0&&!url.substring(url.length-1,url.length).equals("?")){
-            url=url+"?"
+        if (url.length > 0 && !url.substring(url.length - 1, url.length).equals("?")) {
+            url = url + "?"
         }
         for (p in _params) {
             url = url + p.key + "=" + p.value + "&"
         }
-        if(_params.size>0){
+        if (_params.size > 0) {
             url = url.substring(0, url.length - 1)
         }
         val request = Request.Builder().url(url).build()
@@ -137,7 +146,7 @@ class Submit {
         })
     }
 
-    fun post(): Unit {
+    private fun post(): Unit {
         val okHttpClient = OkHttpClient.Builder().cookieJar(cookjar).connectTimeout(outTime, TimeUnit.SECONDS)
         val build = FormBody.Builder()
         for (p in _params) {
@@ -158,7 +167,7 @@ class Submit {
         })
     }
 
-    fun upImage(): Unit {
+    private fun upImage(): Unit {
         val mOkHttpClient = OkHttpClient.Builder().cookieJar(cookjar).connectTimeout(outTime, TimeUnit.SECONDS)
         val build = MultipartBody.Builder().setType(MultipartBody.FORM)
         for (p in _params) {
@@ -188,7 +197,7 @@ class Submit {
         })
     }
 
-    fun upFile(): Unit {
+    private fun upFile(): Unit {
         val mOkHttpClient = OkHttpClient.Builder().cookieJar(cookjar).connectTimeout(outTime, TimeUnit.SECONDS)
         val build = MultipartBody.Builder().setType(MultipartBody.FORM)
         for (p in _params) {
@@ -218,7 +227,7 @@ class Submit {
         })
     }
 
-    fun download(): Unit {
+    private fun download(): Unit {
         val mOkHttpClient = OkHttpClient.Builder().cookieJar(cookjar).connectTimeout(outTime, TimeUnit.SECONDS)
         val request = Request.Builder().url(url).build()
         mOkHttpClient.build().newCall(request).enqueue(object : Callback {
@@ -242,13 +251,13 @@ class Submit {
     }
 
 
-    fun failCall(failMsg: String): Unit {
+    private fun failCall(failMsg: String): Unit {
         kotlin.run {
             _fail(failMsg)
         }
     }
 
-    fun successCall(response: Response): Unit {
+    private fun successCall(response: Response): Unit {
         Log.i("successCall", response.request().url().toString())
         kotlin.run {
             if (response.code() != 200) {
@@ -259,7 +268,7 @@ class Submit {
             when (returnType) {
                 ReturnType.JSON -> {
                     var jsonString = response.body().string()
-                    Log.i("successCall",  jsonString)
+                    Log.i("successCall", jsonString)
                     pullJson(jsonString)
                 }
                 ReturnType.XML -> {
@@ -297,7 +306,7 @@ class Submit {
     }
 
 
-    fun pullJson(jsonData: String): Unit {
+    private fun pullJson(jsonData: String): Unit {
         val reader = JsonReader(StringReader(jsonData))
         reader.beginObject()
         while (reader.hasNext()) {
@@ -308,7 +317,7 @@ class Submit {
     }
 
 
-    fun loopJson(loopName: String, reader: JsonReader, target: MutableMap<String, Any>): Unit {
+    private fun loopJson(loopName: String, reader: JsonReader, target: MutableMap<String, Any>): Unit {
         when (reader.peek().name) {
             JsonToken.BEGIN_OBJECT.name -> {
                 reader.beginObject()
@@ -325,9 +334,9 @@ class Submit {
                 val al = ArrayList<MutableMap<String, Any>>()
                 val als = ArrayList<String>()
                 while (reader.hasNext()) {
-                    if (reader.peek().name.equals(JsonToken.STRING.name)){
+                    if (reader.peek().name.equals(JsonToken.STRING.name)) {
                         als.add(reader.nextString())
-                    }else{
+                    } else {
                         reader.beginObject()
                         val ba: MutableMap<String, Any> = mutableMapOf()
                         while (reader.hasNext()) {
@@ -338,13 +347,13 @@ class Submit {
                     }
                 }
                 reader.endArray()
-                if (als.size>0){
+                if (als.size > 0) {
                     target.put(loopName, als)
-                }else{
+                } else {
                     target.put(loopName, al)
                 }
             }
-            JsonToken.BOOLEAN.name->{
+            JsonToken.BOOLEAN.name -> {
                 target.put(loopName, reader.nextBoolean())
             }
             else -> {
@@ -354,7 +363,7 @@ class Submit {
     }
 
 
-    fun pullXML(byteStream: InputStream): Unit {
+    private fun pullXML(byteStream: InputStream): Unit {
         val parser = Xml.newPullParser()
         parser.setInput(byteStream, "UTF-8")
         var eventCode = parser.eventType

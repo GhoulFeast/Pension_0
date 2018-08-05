@@ -34,6 +34,8 @@ class MenuActivity : AppCompatActivity() , ServiceConnection {
     private var backPressTime=0L
     private var auBinder: AutoUpdateService.Binder? = null
     private val QRCODE=999
+    lateinit var selectRadio:RadioButton
+    private var selectId=0
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -43,6 +45,7 @@ class MenuActivity : AppCompatActivity() , ServiceConnection {
     }
 
     fun initViewAndEvent(): Unit {
+
         main_rg.setOnCheckedChangeListener({ radioGroup, i ->
             when (i) {
                 R.id.main_rb_homepage -> {
@@ -51,6 +54,8 @@ class MenuActivity : AppCompatActivity() , ServiceConnection {
                             supportFragmentManager, R.id.main_ll)
                     showFragment = homeFragment
                     main_rb_homepage.setRadioTopBitmp(R.mipmap.task_s)
+                    selectRadio=main_rb_homepage
+                    selectId=R.mipmap.task
                 }
                 R.id.main_rb_class -> {
                     if (userType.toInt() == 2) {
@@ -61,6 +66,8 @@ class MenuActivity : AppCompatActivity() , ServiceConnection {
                                 supportFragmentManager, R.id.main_ll)
                         showFragment = classFragment
                         main_rb_class.setRadioTopBitmp(R.mipmap.jjb_s)
+                        selectRadio=main_rb_class
+                        selectId=R.mipmap.jjb
                     }
 
 
@@ -71,7 +78,8 @@ class MenuActivity : AppCompatActivity() , ServiceConnection {
                             supportFragmentManager, R.id.main_ll)
                     showFragment = msgFragment
                     main_rb_msg.setRadioTopBitmp(R.mipmap.msg_s)
-
+                    selectRadio=main_rb_msg
+                    selectId=R.mipmap.msg
                 }
                 R.id.main_rb_mine -> {
                     var mineFragment = MineFragment()
@@ -79,7 +87,8 @@ class MenuActivity : AppCompatActivity() , ServiceConnection {
                             supportFragmentManager, R.id.main_ll)
                     showFragment = mineFragment
                     main_rb_mine.setRadioTopBitmp(R.mipmap.mine_s)
-
+                    selectRadio=main_rb_mine
+                    selectId=R.mipmap.mine
                 }
             }
             fragments.clear()
@@ -90,10 +99,9 @@ class MenuActivity : AppCompatActivity() , ServiceConnection {
             backFragment()
         }
         bar_more.setOnClickListener{
-           val list= openUnterTheViewListWindow(it,ArrayList<String>().apply { add("扫一扫") })
-            list.setOnItemClickListener{ adapterView: AdapterView<*>, view1: View, i: Int, l: Long ->
-                startActivityForResult(Intent(this@MenuActivity,CaptureActivity::class.java),QRCODE)
-            }
+           openUnterTheViewListWindow(it,ArrayList<String>().apply { add("扫一扫") },{
+               startActivityForResult(Intent(this@MenuActivity,CaptureActivity::class.java),QRCODE)
+           })
         }
         val intent=Intent(this@MenuActivity, AutoUpdateService::class.java)
         bindService(intent, this@MenuActivity, Context.BIND_AUTO_CREATE)
@@ -104,6 +112,11 @@ class MenuActivity : AppCompatActivity() , ServiceConnection {
         var dra= resources.getDrawable(resid)
         dra.setBounds( 0, 0, dra.getMinimumWidth(),dra.getMinimumHeight())
         this.setCompoundDrawables(main_rb_msg.getCompoundDrawables()[0], dra, main_rb_msg.getCompoundDrawables()[2], main_rb_msg.getCompoundDrawables()[3])
+        if (selectId!=0){
+            var rdra= resources.getDrawable(selectId)
+            rdra.setBounds( 0, 0, rdra.getMinimumWidth(),rdra.getMinimumHeight())
+            selectRadio.setCompoundDrawables(main_rb_msg.getCompoundDrawables()[0], rdra, main_rb_msg.getCompoundDrawables()[2], main_rb_msg.getCompoundDrawables()[3])
+        }
     }
 
     public fun toHomePage() {
