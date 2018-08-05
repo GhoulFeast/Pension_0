@@ -21,6 +21,7 @@ import android.provider.MediaStore.Audio.Media.RECORD_SOUND_ACTION
 import android.support.v7.widget.LinearLayoutManager
 import android.util.Log
 import android.widget.ImageView
+import com.aisino.tool.ani.LoadingDialog
 import com.aisino.tool.log
 import com.aisino.tool.system.*
 import com.aisino.tool.widget.ToastAdd
@@ -342,6 +343,9 @@ class TaskDetailsFragment : Fragment() {
 
 
     fun upLoadImage(type: Int): Unit {
+        val dialog = LoadingDialog(activity);
+        dialog.setCanceledOnTouchOutside(false);
+        dialog.show();
         Http.upfile {
             url = BASEURL
             if (type == 1) {
@@ -371,7 +375,10 @@ class TaskDetailsFragment : Fragment() {
                         upLoadImage(2)
                     }
                 }
-
+                dialog.dismiss()
+            }
+            fail {
+                dialog.dismiss()
             }
         }
     }

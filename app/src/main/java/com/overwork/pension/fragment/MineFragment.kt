@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.aisino.tool.ani.LoadingDialog
 import com.bumptech.glide.Glide
 import com.hq.kbase.network.Http
 import com.overwork.pension.MainActivity
@@ -60,6 +61,9 @@ class MineFragment : Fragment() {
     }
 
     fun getData() {
+        val dialog = LoadingDialog(activity);
+        dialog.setCanceledOnTouchOutside(false);
+        dialog.show();
         Http.get {
             url = BASEURL + TOMORROW_TASK
             "userId" - userId
@@ -69,7 +73,11 @@ class MineFragment : Fragment() {
                     var tomorrows: ArrayList<MutableMap<String, Any>> = "result".."tomorrow"
                     tomorrows.let { tomorrowTasks.addAll(tomorrows) }
                     tomorrowTaskAdp.notifyDataSetChanged()
+                    dialog.dismiss()
                 }
+            }
+            fail {
+                dialog.dismiss()
             }
         }
     }
