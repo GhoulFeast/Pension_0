@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.aisino.tool.ani.LoadingDialog
 import com.hq.kbase.network.Http
 import com.overwork.pension.R
 import com.overwork.pension.activity.MenuActivity
@@ -27,7 +28,7 @@ class OldInfoFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         (activity as MenuActivity).style {
             textBar = ""
-            titleBar="老人信息"
+            titleBar = "老人信息"
         }
         getData()
     }
@@ -37,6 +38,9 @@ class OldInfoFragment : Fragment() {
     }
 
     fun getData() {
+        val dialog = LoadingDialog(activity);
+        dialog.setCanceledOnTouchOutside(false);
+        dialog.show();
         Http.get {
             url = BASEURL + OLDMAN_INFO
             "userId" - userId
@@ -46,13 +50,13 @@ class OldInfoFragment : Fragment() {
                     oldInfos = "result".."abnormal"
                     var name: String = "result".."name"
                     old_info_name_tv.setText(name)
-                    var sex:String= "result".."sex"
+                    var sex: String = "result".."sex"
                     old_info_sex_tv.setText(sex)
-                    var age:String="result".."age"
-                    old_info_age_tv.setText(age+"周岁")
-                    var romeNo:String="result".."romeNo"
-                    old_info_room_tv.setText("房间号"+romeNo)
-                    var specials=ArrayList<String>()
+                    var age: String = "result".."age"
+                    old_info_age_tv.setText(age + "周岁")
+                    var romeNo: String = "result".."romeNo"
+                    old_info_room_tv.setText("房间号" + romeNo)
+                    var specials = ArrayList<String>()
                     specials = "result".."special"
                     var specialBuffer = StringBuilder()
                     var i = 0
@@ -65,8 +69,8 @@ class OldInfoFragment : Fragment() {
                         specialBuffer.append("\\n")
                     }
                     old_info_special.setText(specialBuffer.toString())
-                    var emergencys =  ArrayList<MutableMap<String, Any>>()
-                    emergencys="result".."emergency"
+                    var emergencys = ArrayList<MutableMap<String, Any>>()
+                    emergencys = "result".."emergency"
                     var emergencyBuffer = StringBuilder()
                     for (emergency: MutableMap<String, Any> in emergencys) {
                         emergencyBuffer.append(emergency["relationship"])
@@ -85,8 +89,9 @@ class OldInfoFragment : Fragment() {
                     }
                     old_info_emergency.setText(emergencyBuffer.toString())
                     old_info_mlv.adapter = OldInfoAdapter(activity, oldInfos)
-
+                    dialog.dismiss()
                 }
+                fail { dialog.dismiss() }
             }
         }
     }

@@ -1,6 +1,8 @@
 package com.overwork.pension
 
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
@@ -23,8 +25,8 @@ import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
 
-    var hasName=false
-    var hasPwd=false
+    var hasName = false
+    var hasPwd = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,27 +36,27 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun initViewAndEvent(): Unit {
-        isHttpWaitAni=true
+        isHttpWaitAni = true
 
-        lg_login.setOnClickListener{
-            if (hasName&&hasPwd){
+        lg_login.setOnClickListener {
+            if (hasName && hasPwd) {
                 toLogin()
             }
 //            startActivity(Intent(this@MainActivity,MenuActivity::class.java))
 
         }
-        lg_login.alpha=0.3f
-        lg_name.addTextChangedListener(object: TextWatcher{
+        lg_login.alpha = 0.3f
+        lg_name.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(ed: Editable?) {
-                if (ed.isNullOrBlank()){
-                    hasName=false
-                }else{
-                    hasName=true
+                if (ed.isNullOrBlank()) {
+                    hasName = false
+                } else {
+                    hasName = true
                 }
-                if (hasName&&hasPwd){
-                    lg_login.alpha=1.0f
-                }else{
-                    lg_login.alpha=0.3f
+                if (hasName && hasPwd) {
+                    lg_login.alpha = 1.0f
+                } else {
+                    lg_login.alpha = 0.3f
                 }
             }
 
@@ -63,18 +65,18 @@ class MainActivity : AppCompatActivity() {
 
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
             }
-        } )
-        lg_pwd.addTextChangedListener(object: TextWatcher{
+        })
+        lg_pwd.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(ed: Editable?) {
-                if (ed.isNullOrBlank()){
-                    hasPwd=false
-                }else{
-                    hasPwd=true
+                if (ed.isNullOrBlank()) {
+                    hasPwd = false
+                } else {
+                    hasPwd = true
                 }
-                if (hasName&&hasPwd){
-                    lg_login.alpha=1.0f
-                }else{
-                    lg_login.alpha=0.3f
+                if (hasName && hasPwd) {
+                    lg_login.alpha = 1.0f
+                } else {
+                    lg_login.alpha = 0.3f
                 }
             }
 
@@ -83,18 +85,20 @@ class MainActivity : AppCompatActivity() {
 
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
             }
-        } )
+        })
         signPermissions(getAllPermissions(this)!!)
         //自动登陆
-        lg_name.setText(getCache().getAsString("yhmc"))
-        lg_pwd.setText(getCache().getAsString("yhmm"))
-        if (!lg_name.text.toString().equals("")){
+        var share = getPreferences(Context.MODE_PRIVATE)
+
+        lg_name.setText(share.getString("yhmc", ""))
+        lg_pwd.setText(share.getString("yhmm", ""))
+        if (!lg_name.text.toString().equals("")) {
             toLogin()
         }
     }
 
     fun toLogin(): Unit {
-        val dialog =  LoadingDialog(this);
+        val dialog = LoadingDialog(this);
         dialog.setCanceledOnTouchOutside(false);
         dialog.show();
 //        if (lg_name.text.toString().equals("")){
@@ -107,35 +111,37 @@ class MainActivity : AppCompatActivity() {
 //            Toast.makeText(this,"请输入密码",Toast.LENGTH_SHORT).show()
 //            return
 //        }
-        Http.get{
-            url= BASEURL+ LOGIN
-            "yhmc"-lg_name.text.toString()
-            "yhmm"-lg_pwd.text.toString()
+        Http.get {
+            url = BASEURL + LOGIN
+            "yhmc" - lg_name.text.toString()
+            "yhmm" - lg_pwd.text.toString()
             success {
-                if ((!"status").toInt()==200){
-                    userId= "result".."userId"
-                    userType="result".."userType"
-                    userName="result".."userName"
-                    userLevel="result".."userLevel"
-                    userLevelName="result".."userLevelName"
-                    entryTime="result".."entryTime"
-                    workingYears="result".."workingYears"
-                    superiorName="result".."superiorName"
-                    userPortrait="result".."userPortrait"
-                    startActivity(Intent(this@MainActivity,MenuActivity::class.java))
-                    getCache().put("yhmc",lg_name.text.toString())
-                    getCache().put("yhmm",lg_pwd.text.toString())
+                if ((!"status").toInt() == 200) {
+                    userId = "result".."userId"
+                    userType = "result".."userType"
+                    userName = "result".."userName"
+                    userLevel = "result".."userLevel"
+                    userLevelName = "result".."userLevelName"
+                    entryTime = "result".."entryTime"
+                    workingYears = "result".."workingYears"
+                    superiorName = "result".."superiorName"
+                    userPortrait = "result".."userPortrait"
+                    startActivity(Intent(this@MainActivity, MenuActivity::class.java))
+                    var share = getPreferences(Context.MODE_PRIVATE)
+                    var edio = share.edit()
+                    edio.putString("yhmc", lg_name.text.toString())
+                    edio.putString("yhmm", lg_pwd.text.toString())
+                    edio.commit()
                     finish()
-                }else{
-                    val msg:String="result".."msg"
-                    runOnUiThread { Toast.makeText(this@MainActivity,msg,Toast.LENGTH_SHORT).show() }
+                } else {
+                    val msg: String = "result".."msg"
+                    runOnUiThread { Toast.makeText(this@MainActivity, msg, Toast.LENGTH_SHORT).show() }
                 }
                 dialog.dismiss()
             }
-fail {
-    dialog.dismiss()
-}
-            get()
+            fail {
+                dialog.dismiss()
+            }
         }
     }
 }

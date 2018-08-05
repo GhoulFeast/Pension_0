@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.RadioGroup
+import com.aisino.tool.ani.LoadingDialog
 import com.hq.kbase.network.Http
 import com.overwork.pension.R
 import com.overwork.pension.activity.MenuActivity
@@ -31,6 +32,9 @@ class ClassFragment : Fragment() {
     }
 
     fun getData(): Unit {
+        val dialog = LoadingDialog(activity);
+        dialog.setCanceledOnTouchOutside(false);
+        dialog.show();
         Http.get {
             url = BASEURL + T_ABNORMAL
             "userId" - userId
@@ -39,7 +43,11 @@ class ClassFragment : Fragment() {
                     classBeans.clear()
                     classBeans.addAll("result".."abnormalList")
                     classAdapter.notifyDataSetChanged()
+                    dialog.dismiss()
                 }
+            }
+            fail {
+                dialog.dismiss()
             }
         }
 
