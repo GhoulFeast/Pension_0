@@ -9,6 +9,7 @@
 
 
     <EditText
+        android:theme="@style/MyEditText"
         android:id="@+id/lg_name"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -28,6 +29,7 @@
 
 
     <EditText
+        android:theme="@style/MyEditText"
         android:id="@+id/lg_pwd"
         android:layout_width="0dp"
         android:layout_height="wrap_content"

@@ -20,37 +20,20 @@ import kotlinx.android.synthetic.main.fragment_today_task.*
 import java.util.*
 
 val TodayTaskID = "TodayTaskID"
+val lrId = "lrid"
+val zbpkId = "zbpkId"
 
 class TodayTaskFragment : Fragment() {
     var time = ""
     var showTime = ""
-    var taskList: ArrayList<MutableMap<String, Any>> = ArrayList<MutableMap<String, Any>>()
+//    var taskList: ArrayList<MutableMap<String, Any>> = ArrayList<MutableMap<String, Any>>()
     var taskTimeList: ArrayList<MutableMap<String, Any>> = ArrayList<MutableMap<String, Any>>()
     var thisTaskList: ArrayList<MutableMap<String, Any>> = ArrayList<MutableMap<String, Any>>()
+    var pkid=""
     lateinit var taskStepViewRvAdapter: TaskStepViewRvAdapter
     lateinit var todayTaskAdapter: TodayTaskAdapter
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater?.inflate(R.layout.fragment_today_task, container, false)
-        Http.get {
-            url = BASEURL + T_TASK
-            "userId" - userId
-            success {
-                time = "result".."time"
-                taskList.clear()
-                taskList.addAll("result".."timeTasks")
-                for (mut: MutableMap<String, Any> in taskList) {
-                    if (mut["taskState"].toString().toInt() == 3) {
-                        showTime = mut["taskTime"].toString()
-                        thisTaskList.clear()
-                        thisTaskList.addAll(mut["links"] as ArrayList<MutableMap<String, Any>>)
-                    }
-                }
-                activity.runOnUiThread {
-                    todayTaskAdapter.notifyDataSetChanged()
-                    taskStepViewRvAdapter.notifyDataSetChanged()
-                }
-            }
-        }
         (activity as MenuActivity).style {
             textBar = ""
             titleBar=resources.getString(R.string.today_task)
@@ -90,6 +73,33 @@ class TodayTaskFragment : Fragment() {
         taskStepViewRvAdapter.selectPosion = position
         taskStepViewRvAdapter.notifyDataSetChanged()
         todaytask_rv.scrollToPosition(position - 2)
+        showTime = taskTimeList.get(position)["taskTime"].toString()
+    }
+
+    fun getTaskList(): Unit {
+        Http.get {
+            url = BASEURL + T_TASK
+            "userId" - userId
+            "kssj" - showTime
+            "lrpkid" - pkid
+            "userType" - userType
+            success {
+                time = "result".."taskTime"
+                thisTaskList.clear()
+                thisTaskList.addAll("result".."links")
+//                for (mut: MutableMap<String, Any> in taskList) {
+//                    if (mut["taskState"].toString().toInt() == 3) {
+//                        showTime = mut["taskTime"].toString()
+//                        thisTaskList.clear()
+//                        thisTaskList.addAll(mut["links"] as ArrayList<MutableMap<String, Any>>)
+//                    }
+//                }
+                activity.runOnUiThread {
+                    todayTaskAdapter.notifyDataSetChanged()
+                    taskStepViewRvAdapter.notifyDataSetChanged()
+                }
+            }
+        }
     }
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
@@ -105,7 +115,10 @@ class TodayTaskFragment : Fragment() {
             bd.putString("time", showTime)
             taskDetailsFragment.arguments = bd
             (activity as MenuActivity).showFragment(taskDetailsFragment)
-            (activity as MenuActivity).putData(TodayTaskID, thisTaskList[i]["id"]!!)
+            (activity as MenuActivity).putData(TodayTaskID, thisTaskList[i]["rwid"]!!)
+            (activity as MenuActivity).putData(lrId, thisTaskList[i]["lrid"]!!)
+            (activity as MenuActivity).putData(zbpkId, thisTaskList[i]["zbpkid"]!!)
+
         }
         taskStepViewRvAdapter.setStepItemClick(object : TaskStepViewRvAdapter.TaskStepItemClick {
             override fun OnItem(postion: Int) {
@@ -113,12 +126,14 @@ class TodayTaskFragment : Fragment() {
                 todaytask_rv.scrollToPosition(postion - 2)
                 showTime = taskTimeList.get(postion)["taskTime"].toString()
                 taskStepViewRvAdapter.notifyDataSetChanged()
+                getTaskList()
 //                thisTaskList.clear()
 //                thisTaskList.addAll(taskList.get(postion)["links"] as ArrayList<MutableMap<String, Any>>)
 //                todayTaskAdapter.notifyDataSetChanged()
             }
         })
         intoTime()
+        getTaskList()
     }
 
 }

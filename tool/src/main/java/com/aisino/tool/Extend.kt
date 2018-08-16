@@ -1,5 +1,6 @@
 package com.aisino.tool
 
+import android.app.Activity
 import android.content.Context
 import android.util.Log
 import android.widget.Toast
@@ -8,10 +9,15 @@ import android.widget.Toast
  * Created by lenovo on 2017/11/14.
  * 开发用
  */
+private var DEBUG = true
+fun Activity.DEBUG(boolean: Boolean): Unit {
+    DEBUG=boolean
+}
 
-
-fun String.log(): Unit {
-    Log.i("tag", "tag\t$this")
+fun String.log(tag:String="tag"): Unit {
+    if (DEBUG){
+        Log.i(tag, this)
+    }
 }
 
 fun String.toast(context: Context): Unit {
@@ -19,25 +25,27 @@ fun String.toast(context: Context): Unit {
 }
 
 fun String.promptError(describe: String): Unit {
-    Log.e("promptError", "File\t" + getFileName() + "\n"
-            + "Class\t" + getClassName() + "\n"
-            + "Method\t" + getMethodName() + "\n" + "Line\t" + getLineNumber() + "\n$this\n$describe")
+    if (DEBUG){
+        Log.e("promptError", "File\t" + getFileName() + "\n"
+                + "Class\t" + getClassName() + "\n"
+                + "Method\t" + getMethodName() + "\n" + "Line\t" + getLineNumber() + "\n$this\n$describe")
+    }
 }
 
 
-fun getFileName(): String {
+private fun getFileName(): String {
     return Thread.currentThread().stackTrace[2].fileName
 }
 
-fun getClassName(): String {
+private fun getClassName(): String {
     return Thread.currentThread().stackTrace[2].className
 }
 
-fun getMethodName(): String {
+private fun getMethodName(): String {
     return Thread.currentThread().stackTrace[2].methodName
 }
 
-fun getLineNumber(): Int {
+private fun getLineNumber(): Int {
     return Thread.currentThread().stackTrace[2].lineNumber
 }
 

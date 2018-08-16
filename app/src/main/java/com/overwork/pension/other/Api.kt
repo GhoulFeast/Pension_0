@@ -8,6 +8,7 @@ val BASEURL = ""//基本
 //val T_ABNORMAL = "/jbycxx.action?"//交班——异常信息
 //val T_HANDOVERINFO = "/jbnrlb.action?"//交班——交班信息
 //val OVER_TASK = "/wchlx.action?"//完成护理项
+//val OVER_EX = "/wchlx.action?"//完成测量项
 //val TOMORROW_TASK = "/mrrw.action?"//明日任务
 //val ABNORMALITY = "/scyc.action?"//异常情况提交
 //val THIS_TIME_TASK = "/hlnr.action?"//护理内容
@@ -34,7 +35,7 @@ val IS_HANDOVER = "https://raw.githubusercontent.com/wwan12/AnalogInterface/mast
 val ROOM_LIST = "https://raw.githubusercontent.com/wwan12/AnalogInterface/master/RoomList.json"//房间列表
 //val OLDMAN_INFO="https://raw.githubusercontent.com/wwan12/AnalogInterface/master/InformationOfTheOldMan.json"//老人信息https://github.com/wwan12/AnalogInterface/blob/master/InformationOfTheOldMan.json
 val OLDMAN_INFO = "https://raw.githubusercontent.com/GhoulFeast/AnalogInterface/master/InformationOfTheOldMan.json"//老人信息https://github.com/wwan12/AnalogInterface/blob/master/InformationOfTheOldMan.json
-
+val OVER_EX = ""//完成测量项
 //今日任务	http://localhost:8081/yly/appall/jrrw.action?后面是参数
 //明日任务	http://localhost:8081/yly/appall/mrrw.action?后面是参数
 //房间列表	http://localhost:8081/yly/appall/fjlb.action?后面是参数

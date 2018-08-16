@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.BaseAdapter
 import android.widget.TextView
 import com.aisino.tool.system.dip2px
+import com.aisino.tool.toast
 import com.aisino.tool.widget.ToastAdd
 import com.hq.kbase.network.Http
 import com.overwork.pension.R
@@ -29,12 +30,12 @@ class TodayTaskAdapter(val activity: FragmentActivity, val taskList: ArrayList<M
         name.setText(taskList[p0]["name"].toString())
         room.setText(taskList[p0]["wardNumber"].toString())
         task.setText(taskList[p0]["task"].toString())
-        if (taskList[p0]["state"].toString() == "0") {
+        if (taskList[p0]["state"].toString() .equals("Y") ) {
             state.background = activity.resources?.getDrawable(R.drawable.text_green_raid)
             state.setTextColor(activity.resources?.getColor(R.color.white)!!)
             state.setPadding(activity.dip2px(24F), activity.dip2px(5F), activity.dip2px(24F), activity.dip2px(5F))
             state.setOnClickListener {
-                ToastAdd.showToast(activity, "已完成任务")
+                "已完成任务".toast(activity)
             }
         } else {
             state.background = activity.resources?.getDrawable(R.drawable.border_white)
@@ -45,7 +46,7 @@ class TodayTaskAdapter(val activity: FragmentActivity, val taskList: ArrayList<M
         name.setOnClickListener {
             var old = OldInfoFragment()
             var bd = Bundle();
-            bd.putString("id", taskList[p0]["id"].toString())
+            bd.putString("id", taskList[p0]["rwid"].toString())
             old.arguments = bd
             (activity as MenuActivity).showFragment(old)
 
