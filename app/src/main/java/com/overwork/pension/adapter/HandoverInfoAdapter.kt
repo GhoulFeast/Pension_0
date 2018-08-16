@@ -11,7 +11,6 @@ import com.overwork.pension.R
  */
 
 class HandoverInfoAdapter(taskList: ArrayList<MutableMap<String, Any>>) : BaseAdapter() {
-    val OLDTYPE_NORMAL = 1
 
     var handoverList: List<MutableMap<String, Any>>
 
@@ -27,14 +26,14 @@ class HandoverInfoAdapter(taskList: ArrayList<MutableMap<String, Any>>) : BaseAd
         var item_handover_additional_iv = p1.findViewById<TextView>(R.id.item_handover_additional_iv)
         var mutable: MutableMap<String, Any> = handoverList.get(p0)
         item_handover_name_tv.setText(mutable["oldName"].toString())
-        if (mutable["oldType"].toString().toInt() == OLDTYPE_NORMAL) {
+        if (mutable["oldType"].toString().equals(INFORMATIONTYPE_NORMAL)) {
             item_handover_type_tv.setText("正常")
             item_handover_type_tv.setTextColor(p2.context.resources.getColor(R.color.text_black))
         } else {
             item_handover_type_tv.setText("异常")
             item_handover_type_tv.setTextColor(p2.context.resources.getColor(R.color.color_f8120c))
         }
-        if (mutable["isRecheck"].toString().toBoolean()) {
+        if (mutable["isRecheck"].toString().equals("Y")) {
             item_handover_complete_iv.isChecked = true
         } else {
             item_handover_complete_iv.isChecked = false

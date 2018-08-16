@@ -54,6 +54,8 @@ class RoomListFragment : Fragment() {
                 var taskDetailsFragment = TaskDetailsFragment();
                 (activity as MenuActivity).showFragment(taskDetailsFragment)
                 (activity as MenuActivity).putData(TodayTaskID, id)
+                (activity as MenuActivity).putData(TodayTaskID, id)
+                (activity as MenuActivity).putData(TodayTaskID, id)
             }
         })
         (activity as MenuActivity).style {

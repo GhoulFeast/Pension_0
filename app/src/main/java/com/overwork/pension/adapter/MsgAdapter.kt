@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
+import android.widget.ImageView
 import android.widget.TextView
 import com.overwork.pension.R
 
@@ -23,6 +24,12 @@ class MsgAdapter(context: Context, list: List<MutableMap<String, Any>>) : BaseAd
         var job = view.findViewById<TextView>(R.id.item_job)
         var jobTitle = view.findViewById<TextView>(R.id.item_job_title)
         var jobText = view.findViewById<TextView>(R.id.item_job_text)
+        var item_isread = view.findViewById<View>(R.id.item_isread)
+        if(list.get(p0).get("isRead").toString().toInt()==1){
+            item_isread.visibility=View.INVISIBLE
+        }else{
+            item_isread.visibility=View.VISIBLE
+        }
         if (list.get(p0)["type"].toString().toInt() == 1) {
             job.setText("护")
         } else {

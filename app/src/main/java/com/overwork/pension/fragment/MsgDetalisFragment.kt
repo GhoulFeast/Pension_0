@@ -36,6 +36,9 @@ class MsgDetalisFragment : Fragment() {
         Http.get {
             url = BASEURL + MSGLIST_READ
             "userId" - userId
+            "zbpkid" - enety.get("zbpkid").toString()
+            "type" - enety.get("type").toString()
+            "messageId" - enety.get("messageId").toString()
             success {
 
             }
@@ -53,9 +56,10 @@ class MsgDetalisFragment : Fragment() {
             msg_details_name_tv.setText(enety.get("name").toString())
             msg_details_sex_tv.setText(enety.get("sex").toString())
             msg_details_age_tv.setText(enety.get("age").toString() + "周岁")
-            msg_details_room_tv.setText("房间号"+enety.get("romeNo").toString())
-            msg_details_time_tv.setText(enety.get("timeSlot ").toString())
-            for (map: MutableMap<String, Any> in (enety.get("tasks") as ArrayList<MutableMap<String, Any>>)) {
+            msg_details_room_tv.setText("房间号" + enety.get("romeNo").toString())
+            msg_details_time_tv.setText(enety.get("kssj ").toString() + "-" + enety.get("jssj").toString())
+            var tasks = enety.get("tasks").toString().split("||")
+            for (map: String in tasks) {
                 var taskLl: LinearLayout = LinearLayout(activity)
                 taskLl.orientation = LinearLayout.HORIZONTAL
                 taskLl.gravity = Gravity.CENTER_VERTICAL
@@ -63,7 +67,7 @@ class MsgDetalisFragment : Fragment() {
                 view.layoutParams = LinearLayout.LayoutParams(resources.getDimension(R.dimen.dp_2).toInt(), resources.getDimension(R.dimen.dp_2).toInt())
                 var taskTv = TextView(activity)
                 taskTv.setTextColor(resources.getColor(R.color.text_black))
-                taskTv.setText(map.get("taskContent").toString())
+                taskTv.setText(map)
                 taskLl.addView(view)
                 taskLl.addView(taskTv)
                 taskLl.setPadding(resources.getDimension(R.dimen.dp_5).toInt(), resources.getDimension(R.dimen.dp_5).toInt(),
@@ -74,6 +78,8 @@ class MsgDetalisFragment : Fragment() {
                 var taskDetailsFragment = TaskDetailsFragment();
                 (activity as MenuActivity).showFragment(taskDetailsFragment)
                 (activity as MenuActivity).putData(TodayTaskID, enety["id"].toString())
+                (activity as MenuActivity).putData(TodayTaskID, enety["id"].toString())
+                (activity as MenuActivity).putData(TodayTaskID, enety["zbpkid"].toString())
             })
         } else {
             msg_details_context_ll.visibility = View.GONE
@@ -82,7 +88,7 @@ class MsgDetalisFragment : Fragment() {
             msg_details_other_context_tv.setText(enety.get("messageContent").toString())
             (activity as MenuActivity).style {
                 textBar = ""
-                titleBar="消息"
+                titleBar = "消息"
             }
         }
 

@@ -44,7 +44,7 @@ class OldInfoFragment : Fragment() {
         Http.get {
             url = BASEURL + OLDMAN_INFO
             "userId" - userId
-            "id" - arguments.getString("id")
+            "lrid" - arguments.getString("id")
             success {
                 activity.runOnUiThread {
                     oldInfos = "result".."abnormal"
@@ -69,23 +69,28 @@ class OldInfoFragment : Fragment() {
                         specialBuffer.append("\\n")
                     }
                     old_info_special.setText(specialBuffer.toString())
-                    var emergencys = ArrayList<MutableMap<String, Any>>()
-                    emergencys = "result".."emergency"
+
+                    var name1: String = "result".."name1"
+                    var phone1: String = "result".."phone1"
+                    var relationship1: String = "result".."relationship1"
                     var emergencyBuffer = StringBuilder()
-                    for (emergency: MutableMap<String, Any> in emergencys) {
-                        emergencyBuffer.append(emergency["relationship"])
-                        emergencyBuffer.append("：")
-                        emergencyBuffer.append(emergency["name"])
-                        if (emergency["sex"].toString().equals("男")) {
-                            emergencyBuffer.append("先生")
-                        } else {
-                            emergencyBuffer.append("女士")
-                        }
-                        if (userType.toInt() == 2) {
-                            emergencyBuffer.append("   ")
-                            emergencyBuffer.append(emergency["phone"])
-                        }
-                        emergencyBuffer.append("\\n")
+                    emergencyBuffer.append(relationship1)
+                    emergencyBuffer.append("：")
+                    emergencyBuffer.append(name1)
+                    if (userType.toInt() == 2) {
+                        emergencyBuffer.append("   ")
+                        emergencyBuffer.append(phone1)
+                    }
+                    emergencyBuffer.append("\\n")
+                    var name2: String = "result".."name2"
+                    var phone2: String = "result".."phone2"
+                    var relationship2: String = "result".."relationship2"
+                    emergencyBuffer.append(relationship2)
+                    emergencyBuffer.append("：")
+                    emergencyBuffer.append(name2)
+                    if (userType.toInt() == 2) {
+                        emergencyBuffer.append("   ")
+                        emergencyBuffer.append(phone2)
                     }
                     old_info_emergency.setText(emergencyBuffer.toString())
                     old_info_mlv.adapter = OldInfoAdapter(activity, oldInfos)
