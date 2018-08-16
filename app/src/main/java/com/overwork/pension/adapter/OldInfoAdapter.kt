@@ -22,9 +22,8 @@ class OldInfoAdapter(val context: FragmentActivity, val list: ArrayList<MutableM
         var icontent = view.findViewById<TextView>(R.id.item_old_info_content)
         var image_gv = view.findViewById<GridView>(R.id.item_old_info_image_gv)
         var sound_gv = view.findViewById<GridView>(R.id.item_old_info_sound_gv)
-
-        room.setText(list[p0]["romeNo"].toString())
-        times.setText(list[p0]["timeSlot"].toString())
+        room.setText(list[p0]["fjh"].toString())
+        times.setText(list[p0]["kssj"].toString()+"-"+list[p0]["Jssj"].toString())
         title.setText(list[p0]["abnormalTitle"].toString() )
         submit_time.setText(list[p0]["submitTime"].toString() )
         submit_name.setText(list[p0]["submitName"].toString() )

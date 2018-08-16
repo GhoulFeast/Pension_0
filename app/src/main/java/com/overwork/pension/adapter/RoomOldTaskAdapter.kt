@@ -26,7 +26,7 @@ class RoomOldTaskAdapter(taskList: ArrayList<MutableMap<String, Any>>) : BaseAda
         var mutable: MutableMap<String, Any> = handoverList.get(p0)
         item_tommorrow_name_tv.setText(mutable["name"].toString())
         Glide.with(p2.context).load(mutable["img"]).error(R.mipmap.woman).into(item_tommorrow_headimage_iv)
-        item_tommorrow_headimage_iv.setTag(mutable["id"])
+        item_tommorrow_headimage_iv.setTag(mutable["lrid"])
         item_tommorrow_headimage_iv.setOnClickListener({ view ->
             var id = view.getTag().toString()
             onOld.onOldClick(id)
