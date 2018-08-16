@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+<item name="room_old_task_id" type="id"/>
+<item name="room_old_task_rwid" type="id"/>
+<item name="room_old_task_zbid" type="id"/>
+</resources>

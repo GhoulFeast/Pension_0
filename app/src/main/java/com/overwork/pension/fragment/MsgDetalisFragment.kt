@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TextView
+import com.aisino.tool.toast
 import com.hq.kbase.network.Http
 import com.overwork.pension.R
 import com.overwork.pension.activity.MenuActivity
@@ -78,8 +79,8 @@ class MsgDetalisFragment : Fragment() {
                 var taskDetailsFragment = TaskDetailsFragment();
                 (activity as MenuActivity).showFragment(taskDetailsFragment)
                 (activity as MenuActivity).putData(TodayTaskID, enety["id"].toString())
-                (activity as MenuActivity).putData(TodayTaskID, enety["id"].toString())
-                (activity as MenuActivity).putData(TodayTaskID, enety["zbpkid"].toString())
+                (activity as MenuActivity).putData(lrId, enety["id"].toString())
+                (activity as MenuActivity).putData(zbpkId, enety["zbpkid"].toString())
             })
         } else {
             msg_details_context_ll.visibility = View.GONE
