@@ -38,6 +38,7 @@ import java.io.IOException
 
 
 val SOUND = 200
+val CZLX="01"
 
 class TaskDetailsFragment : Fragment() {
 
@@ -211,13 +212,16 @@ class TaskDetailsFragment : Fragment() {
     fun initList(): Unit {
         Http.get {
             url = BASEURL + THIS_TIME_TASK
-            "id" - (activity as MenuActivity).getData<String>(TodayTaskID)
+            "hlrwId" - (activity as MenuActivity).getData<String>(TodayTaskID)
+            "zbpkid" - (activity as MenuActivity).getData<String>(zbpkId)
+            "lrid" - (activity as MenuActivity).getData<String>(lrId)
+            "czlx" - CZLX
             "userId" - userId
-            if (arguments == null) {
-                "time" - ""
-            } else {
-                "time" - arguments.getString("time")
-            }
+//            if (arguments == null) {
+//                "time" - ""
+//            } else {
+//                "time" - arguments.getString("time")
+//            }
             success {
                 activity.runOnUiThread {
                     val name: String = "result".."name"
@@ -228,12 +232,17 @@ class TaskDetailsFragment : Fragment() {
                     task_details_room.setText("房间 " + romeNo)
                     val age: String = "result".."age"
                     task_details_age.setText(age + "周岁")
-                    taskList = "result".."nursingsAxis"
-                    task_details_nursing_time.setText(taskList["taskTime"].toString())
-                    task_details_task.setText(taskList["meal"].toString())
-                    task_details_task_details.setText(taskList["consideration"].toString())
+                    val kssj: String = "result".."kssj"
+                    val jssj: String = "result".."Jssj"
+                    task_details_nursing_time.setText( kssj+jssj)
+                    val meal: String = "result".."meal"
+                    task_details_task.setText(meal)
+                    val consideration: String = "result".."consideration"
+                    task_details_task_details.setText(consideration)
+                    taskList = "result".."nursings"
                     task_details_list.adapter = SmallTaskAdapter(activity, taskList["nursings"] as ArrayList<MutableMap<String, Any>>)
-                    measurementProjects = taskList["measurementProject"] as ArrayList<MutableMap<String, Any>>
+                    measurementProjects = "result".."measurementProject"
+
                     task_details_project_list.adapter = ProjectAdapter(activity, measurementProjects)
                     if (taskList["abnormalType"].toString().equals("1")) {
                         task_details_record_needhelp.performClick()

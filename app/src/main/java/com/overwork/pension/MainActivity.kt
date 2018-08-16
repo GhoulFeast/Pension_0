@@ -2,19 +2,14 @@ package com.overwork.pension
 
 import android.content.Context
 import android.content.Intent
-import android.content.SharedPreferences
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.widget.Toast
 import com.aisino.tool.ani.LoadingDialog
-import com.aisino.tool.cache.ACache
-import com.aisino.tool.cache.getCache
 import com.aisino.tool.system.getAllPermissions
 import com.aisino.tool.system.signPermissions
-import com.aisino.tool.widget.ToastAdd
 import com.hq.kbase.network.Http
 import com.hq.kbase.network.isHttpWaitAni
 import com.overwork.pension.activity.MenuActivity
