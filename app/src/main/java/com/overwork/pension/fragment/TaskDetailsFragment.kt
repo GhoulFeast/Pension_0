@@ -24,6 +24,7 @@ import android.widget.ImageView
 import com.aisino.tool.ani.LoadingDialog
 import com.aisino.tool.log
 import com.aisino.tool.system.*
+import com.aisino.tool.toast
 import com.aisino.tool.widget.ToastAdd
 import com.aisino.tool.widget.showFullWindow
 import com.bumptech.glide.Glide
@@ -38,7 +39,7 @@ import java.io.IOException
 
 
 val SOUND = 200
-val CZLX="01"
+val CZLX = "01"
 
 class TaskDetailsFragment : Fragment() {
 
@@ -51,12 +52,12 @@ class TaskDetailsFragment : Fragment() {
     val soundUpLoadList = ArrayList<File?>()
     val images = ArrayList<String>()
     val sounds = ArrayList<String>()
-    var abnormalType = "0"
+    var abnormalType = "00"
     lateinit var measurementProjects: ArrayList<MutableMap<String, Any>>
     lateinit var taskStepViewRvAdapter: TaskStepViewRvAdapter
-    val RECORD_TYPE_NON = "0"
-    val RECORD_TYPE_NEEDHELP = "1"
-    val RECORD_TYPE_HAVE = "2"
+    val RECORD_TYPE_NON = "00"
+    val RECORD_TYPE_NEEDHELP = "01"
+    val RECORD_TYPE_HAVE = "02"
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater?.inflate(R.layout.fragment_task_details, null, false)
         return view
@@ -69,7 +70,7 @@ class TaskDetailsFragment : Fragment() {
         todaytask_rv.adapter = taskStepViewRvAdapter;
         (activity as MenuActivity).style {
             textBar = ""
-            titleBar="任务详情"
+            titleBar = "任务详情"
         }
         task_details_photograph.setOnClickListener {
             activity.openCameraAndGalleryWindow()
@@ -91,21 +92,21 @@ class TaskDetailsFragment : Fragment() {
                 upLoadImage(2)
             }
         }
-        task_details_record_delete.setOnClickListener {
-            if (isDelete) {
-                ToastAdd.showToast(activity, "点击图片或音频查看或播放")
-                isDelete = false
-            } else {
-                ToastAdd.showToast(activity, "点击图片或音频删除")
-                isDelete = true
-            }
-        }
+//        task_details_record_delete.setOnClickListener {
+//            if (isDelete) {
+//                "点击图片或音频查看或播放".toast(activity)
+//                isDelete = false
+//            } else {
+//                 "点击图片或音频删除".toast(activity)
+//                isDelete = true
+//            }
+//        }
         taskStepViewRvAdapter.setStepItemClick(object : TaskStepViewRvAdapter.TaskStepItemClick {
             override fun OnItem(postion: Int) {
             }
         })
         task_details_record_needhelp.setOnClickListener {
-            Log.i("tashelp","--"+abnormalType)
+            Log.i("tashelp", "--" + abnormalType)
             when (abnormalType) {
                 RECORD_TYPE_NON -> {
                     abnormalType = RECORD_TYPE_NEEDHELP
@@ -123,10 +124,10 @@ class TaskDetailsFragment : Fragment() {
                     task_details_record_ll.visibility = View.VISIBLE
                 }
             }
-            Log.i("tashelp","-to-"+abnormalType)
+            Log.i("tashelp", "-to-" + abnormalType)
         }
         task_details_record_have.setOnClickListener {
-            Log.i("tashelp","--"+abnormalType)
+            Log.i("tashelp", "--" + abnormalType)
             when (abnormalType) {
                 RECORD_TYPE_NON -> {
                     abnormalType = RECORD_TYPE_HAVE
@@ -144,7 +145,7 @@ class TaskDetailsFragment : Fragment() {
                     task_details_record_have.isChecked = false
                 }
             }
-            Log.i("tashelp","-to-"+abnormalType)
+            Log.i("tashelp", "-to-" + abnormalType)
         }
         intoTime()
         initList()
@@ -234,7 +235,7 @@ class TaskDetailsFragment : Fragment() {
                     task_details_age.setText(age + "周岁")
                     val kssj: String = "result".."kssj"
                     val jssj: String = "result".."Jssj"
-                    task_details_nursing_time.setText( kssj+jssj)
+                    task_details_nursing_time.setText(kssj + jssj)
                     val meal: String = "result".."meal"
                     task_details_task.setText(meal)
                     val consideration: String = "result".."consideration"
@@ -304,23 +305,24 @@ class TaskDetailsFragment : Fragment() {
         newImg.setImageResource(R.mipmap.sound_recording)
         newImg.setPadding(24, 24, 24, 24)
         newImg.setOnClickListener {
-            if (isDelete) {
-                it.visibility = View.GONE
-                soundList.remove(it.tag)
+            val mediaPlayer = MediaPlayer()
+            mediaPlayer.reset()
+            if (uri == null) {
+                mediaPlayer.setDataSource(soundUrl)
             } else {
-                val mediaPlayer = MediaPlayer()
-                mediaPlayer.reset()
-                if (uri == null) {
-                    mediaPlayer.setDataSource(soundUrl)
-                } else {
-                    mediaPlayer.setDataSource(activity, uri)
-                }
-                if (mediaPlayer.isPlaying) {
-                    mediaPlayer.stop()
-                } else {
-                    mediaPlayer.prepare()
-                }
+                mediaPlayer.setDataSource(activity, uri)
             }
+            if (mediaPlayer.isPlaying) {
+                mediaPlayer.stop()
+            } else {
+                mediaPlayer.prepare()
+            }
+        }
+        newImg.setOnLongClickListener {
+            it.visibility = View.GONE
+            soundList.remove(it.tag)
+            "长按删除语音".toast(activity)
+            return@setOnLongClickListener true
         }
         newImg.tag = soundList.size
         if (uri == null) {
@@ -339,12 +341,13 @@ class TaskDetailsFragment : Fragment() {
         newImg.scaleType = ImageView.ScaleType.CENTER_CROP
         newImg.tag = imageList.size
         newImg.setOnClickListener {
-            if (isDelete) {
-                it.visibility = View.GONE
-                imageList.remove(it.tag)
-            } else {
-                (it as ImageView).showFullWindow()
-            }
+            (it as ImageView).showFullWindow()
+        }
+        newImg.setOnLongClickListener {
+            it.visibility = View.GONE
+            imageList.remove(it.tag)
+            "长按删除图片".toast(activity)
+            return@setOnLongClickListener true
         }
         task_details_picll.addView(newImg)
         return newImg
@@ -418,16 +421,45 @@ class TaskDetailsFragment : Fragment() {
 
         Http.get {
             url = BASEURL + ABNORMALITY
-            "id" - (activity as MenuActivity).getData<String>(TodayTaskID)
+            "hlrwId" - (activity as MenuActivity).getData<String>(TodayTaskID)
             "userId" - userId
+            "zbid" - (activity as MenuActivity).getData<String>(zbpkId)
             "images" - imageString
             "sounds" - soundString
             "measurementProject" - measurementString
             "abnormal" - task_details_context.text.toString()
             "abnormalType" - abnormalType
             success {
-                ToastAdd.showToast(activity, "保存成功")
+                activity.runOnUiThread {
+                    "保存成功".toast(activity)
+                    overDialog.dismiss()
+                }
+
+            }
+            fail {
+                activity.runOnUiThread {
+                    "网络错误，保存失败".toast(activity)
+                    overDialog.dismiss()
+                }
             }
         }
+    }
+
+    val overDialog = LoadingDialog(activity).apply { text = "上传中，请稍等" }
+    override fun onDestroy() {
+        imageUpLoadList.clear()
+        imageUpLoadList.addAll(imageList)
+        soundUpLoadList.clear()
+        soundUpLoadList.addAll(soundList)
+        images.clear()
+        sounds.clear()
+        if (imageUpLoadList.size > 0) {
+            upLoadImage(1)
+        } else if (soundUpLoadList.size > 0) {
+            upLoadImage(2)
+        }
+        overDialog.setCanceledOnTouchOutside(false);
+        overDialog.show();
+        super.onDestroy()
     }
 }

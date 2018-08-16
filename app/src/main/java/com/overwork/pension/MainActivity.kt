@@ -43,11 +43,7 @@ class MainActivity : AppCompatActivity() {
         lg_login.alpha = 0.3f
         lg_name.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(ed: Editable?) {
-                if (ed.isNullOrBlank()) {
-                    hasName = false
-                } else {
-                    hasName = true
-                }
+                hasName=!ed.isNullOrBlank()
                 if (hasName && hasPwd) {
                     lg_login.alpha = 1.0f
                 } else {
@@ -63,11 +59,7 @@ class MainActivity : AppCompatActivity() {
         })
         lg_pwd.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(ed: Editable?) {
-                if (ed.isNullOrBlank()) {
-                    hasPwd = false
-                } else {
-                    hasPwd = true
-                }
+                hasPwd=!ed.isNullOrBlank()
                 if (hasName && hasPwd) {
                     lg_login.alpha = 1.0f
                 } else {
