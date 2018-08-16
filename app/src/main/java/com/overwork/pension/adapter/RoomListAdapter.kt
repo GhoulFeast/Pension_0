@@ -30,8 +30,8 @@ class RoomListAdapter(taskList: ArrayList<MutableMap<String, Any>>) : BaseAdapte
         item_room_tv.setText(links.get(p0)["wardNumber"].toString())
         item_room_old_mgv.adapter = roomOldAdapter
         roomOldAdapter.setTomorrow(object : RoomOldTaskAdapter.OnOld {
-            override fun onOldClick(id: String) {
-                onOld.onOldClick(id)
+            override fun onOldClick(id: String,rwid:String,zbid:String) {
+                onOld.onOldClick(id,rwid,zbid)
             }
         })
         return p1
@@ -43,7 +43,7 @@ class RoomListAdapter(taskList: ArrayList<MutableMap<String, Any>>) : BaseAdapte
     }
 
     interface OnOld {
-        fun onOldClick(id: String)
+        fun onOldClick(id: String,rwid:String,zbid:String)
     }
 
     override fun getItem(p0: Int): Any {

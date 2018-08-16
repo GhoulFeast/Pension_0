@@ -50,12 +50,12 @@ class RoomListFragment : Fragment() {
         roomList = RoomListAdapter(roomListBeans)
         roomlist_lv.adapter = roomList
         roomList.setTomorrow(object : RoomListAdapter.OnOld {
-            override fun onOldClick(id: String) {
+            override fun onOldClick(id: String,rwid:String,zbid:String) {
                 var taskDetailsFragment = TaskDetailsFragment();
                 (activity as MenuActivity).showFragment(taskDetailsFragment)
                 (activity as MenuActivity).putData(TodayTaskID, id)
-                (activity as MenuActivity).putData(TodayTaskID, id)
-                (activity as MenuActivity).putData(TodayTaskID, id)
+                (activity as MenuActivity).putData(lrId, rwid)
+                (activity as MenuActivity).putData(zbpkId, zbid)
             }
         })
         (activity as MenuActivity).style {
