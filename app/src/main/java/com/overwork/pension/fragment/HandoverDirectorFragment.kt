@@ -31,16 +31,18 @@ class HandoverDirectorFragment : Fragment() {
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initViewAndEvent()
-        getData(arguments.getString("id"))
+//        getData(arguments.getString("id"))
+        getData()
     }
 
-    fun getData(userId: String): Unit {
+    fun getData(): Unit {
         val dialog = LoadingDialog(activity);
         dialog.setCanceledOnTouchOutside(false);
         dialog.show();
         Http.get {
             url = BASEURL + T_HANDOVERDIRECTOR
             "userId" - userId
+            "jbrid"-(activity as MenuActivity).getData<String>("jbrid")
             success {
                 activity.runOnUiThread {
                     classBeans.clear()
@@ -57,7 +59,7 @@ class HandoverDirectorFragment : Fragment() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (data != null) {
             if (requestCode == 1) {
-                getData(data.getStringExtra("result"))
+                getData()
             }
         }
         super.onActivityResult(requestCode, resultCode, data)
