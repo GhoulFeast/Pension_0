@@ -45,7 +45,7 @@ class TaskDetailsFragment : Fragment() {
 
     var taskList: MutableMap<String, Any> = mutableMapOf()
     var taskStepList: ArrayList<MutableMap<String, Any>> = ArrayList<MutableMap<String, Any>>()
-    var isDelete = false
+//    var isDelete = false
     val imageList = ArrayList<File?>()
     val soundList = ArrayList<File?>()
     val imageUpLoadList = ArrayList<File?>()
@@ -79,19 +79,19 @@ class TaskDetailsFragment : Fragment() {
             val intent = Intent(MediaStore.Audio.Media.RECORD_SOUND_ACTION)
             startActivityForResult(intent, SOUND)
         }
-        task_details_save.setOnClickListener {
-            imageUpLoadList.clear()
-            imageUpLoadList.addAll(imageList)
-            soundUpLoadList.clear()
-            soundUpLoadList.addAll(soundList)
-            images.clear()
-            sounds.clear()
-            if (imageUpLoadList.size > 0) {
-                upLoadImage(1)
-            } else if (soundUpLoadList.size > 0) {
-                upLoadImage(2)
-            }
-        }
+//        task_details_save.setOnClickListener {
+//            imageUpLoadList.clear()
+//            imageUpLoadList.addAll(imageList)
+//            soundUpLoadList.clear()
+//            soundUpLoadList.addAll(soundList)
+//            images.clear()
+//            sounds.clear()
+//            if (imageUpLoadList.size > 0) {
+//                upLoadImage(1)
+//            } else if (soundUpLoadList.size > 0) {
+//                upLoadImage(2)
+//            }
+//        }
 //        task_details_record_delete.setOnClickListener {
 //            if (isDelete) {
 //                "点击图片或音频查看或播放".toast(activity)
@@ -213,7 +213,9 @@ class TaskDetailsFragment : Fragment() {
     fun initList(): Unit {
         Http.get {
             url = BASEURL + THIS_TIME_TASK
-            "hlrwId" - (activity as MenuActivity).getData<String>(TodayTaskID)
+            if (CZLX.equals("01")){
+                "hlrwId" - (activity as MenuActivity).getData<String>(TodayTaskID)
+            }
             "zbpkid" - (activity as MenuActivity).getData<String>(zbpkId)
             "lrid" - (activity as MenuActivity).getData<String>(lrId)
             "czlx" - CZLX
@@ -235,7 +237,7 @@ class TaskDetailsFragment : Fragment() {
                     task_details_age.setText(age + "周岁")
                     val kssj: String = "result".."kssj"
                     val jssj: String = "result".."Jssj"
-                    task_details_nursing_time.setText(kssj + jssj)
+                    task_details_nursing_time.setText(kssj +" - "+ jssj)
                     val meal: String = "result".."meal"
                     task_details_task.setText(meal)
                     val consideration: String = "result".."consideration"

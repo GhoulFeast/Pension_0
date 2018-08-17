@@ -16,6 +16,7 @@ import com.overwork.pension.activity.MenuActivity
 import com.overwork.pension.other.BASEURL
 import com.overwork.pension.other.LOGIN
 import com.overwork.pension.other.*
+import com.tencent.bugly.crashreport.CrashReport
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
@@ -27,7 +28,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         initViewAndEvent()
-
+        CrashReport.initCrashReport(application, "ce4e77be1a", false);
     }
 
     fun initViewAndEvent(): Unit {
