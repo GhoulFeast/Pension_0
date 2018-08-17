@@ -23,7 +23,7 @@ import com.overwork.pension.other.userType
 import com.overwork.pension.service.AutoUpdateService
 import kotlinx.android.synthetic.main.activity_menu.*
 
-
+val QRCODE=999
 class MenuActivity : AppCompatActivity() , ServiceConnection {
    
 
@@ -33,7 +33,7 @@ class MenuActivity : AppCompatActivity() , ServiceConnection {
     private var nowState = 0
     private var backPressTime=0L
     private var auBinder: AutoUpdateService.Binder? = null
-    val QRCODE=999
+
     lateinit var selectRadio:RadioButton
     private var selectId=0
 
