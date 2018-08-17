@@ -27,7 +27,7 @@ import kotlinx.android.synthetic.main.activity_menu.*
 class MenuActivity : AppCompatActivity() , ServiceConnection {
    
 
-    private var showFragment: Fragment? = null
+    var showFragment: Fragment? = null
     private val enety: MutableMap<String, Any> = mutableMapOf()
     private val fragments = ArrayList<Fragment>()
     private var nowState = 0

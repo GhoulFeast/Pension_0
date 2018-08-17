@@ -12,6 +12,8 @@ import com.aisino.tool.toast
 import com.aisino.tool.widget.ToastAdd
 import com.hq.kbase.network.Http
 import com.overwork.pension.R
+import com.overwork.pension.activity.MenuActivity
+import com.overwork.pension.fragment.TaskDetailsFragment
 import com.overwork.pension.other.BASEURL
 import com.overwork.pension.other.OVER_TASK
 import com.overwork.pension.other.userId
@@ -48,10 +50,13 @@ class SmallTaskAdapter(val activity: FragmentActivity,val taskList: ArrayList<Mu
                     "userId"- userId
                     "zhrwId"-taskList[p0]["zhid"].toString()
                     success {
-                        if ("status".equals("200")){
-                            "已完成任务".toast(activity)
-                        }else{
-                            getAny<String>("message").toast(activity)
+                        activity.runOnUiThread {
+                            if ("status".equals("200")){
+                                "已完成任务".toast(activity)
+                            }else{
+                                getAny<String>("message").toast(activity)
+                            }
+                            ((activity as MenuActivity).showFragment as TaskDetailsFragment).initList()
                         }
                     }
                 }

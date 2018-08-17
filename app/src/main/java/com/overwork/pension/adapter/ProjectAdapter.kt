@@ -14,6 +14,8 @@ import android.widget.TextView
 import com.aisino.tool.toast
 import com.hq.kbase.network.Http
 import com.overwork.pension.R
+import com.overwork.pension.activity.MenuActivity
+import com.overwork.pension.fragment.TaskDetailsFragment
 import com.overwork.pension.other.BASEURL
 import com.overwork.pension.other.OVER_EX
 import com.overwork.pension.other.userId
@@ -76,6 +78,11 @@ class ProjectAdapter (val activity: FragmentActivity,val taskList: ArrayList<Mut
                     "lx"-taskList[index]["lx"].toString()
                     "clbz"-ifEstimate.toString()
                     "sjz"- (v as EditText).text.toString()
+                    success {
+                        activity.runOnUiThread {
+                            ((activity as MenuActivity).showFragment as TaskDetailsFragment).initList()
+                        }
+                    }
                 }
             })
         }

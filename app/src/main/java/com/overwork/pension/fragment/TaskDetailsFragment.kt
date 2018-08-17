@@ -243,16 +243,26 @@ class TaskDetailsFragment : Fragment() {
                     val consideration: String = "result".."consideration"
                     task_details_task_details.setText(consideration)
                     taskList = "result".."nursings"
-                    task_details_list.adapter = SmallTaskAdapter(activity, taskList["nursings"] as ArrayList<MutableMap<String, Any>>)
-                    measurementProjects = "result".."measurementProject"
-
-                    task_details_project_list.adapter = ProjectAdapter(activity, measurementProjects)
-                    if (taskList["abnormalType"].toString().equals("1")) {
-                        task_details_record_needhelp.performClick()
-                    } else {
-                        task_details_record_have.performClick()
+                    if (task_details_list.adapter==null){
+                        task_details_list.adapter = SmallTaskAdapter(activity, taskList["nursings"] as ArrayList<MutableMap<String, Any>>)
+                    }else{
+                        (task_details_list.adapter as SmallTaskAdapter).notifyDataSetChanged()
                     }
+                    measurementProjects = "result".."measurementProject"
+                    if (task_details_project_list.adapter==null){
+                        task_details_project_list.adapter = ProjectAdapter(activity, measurementProjects)
+                    }else{
+                        (task_details_project_list.adapter as ProjectAdapter).notifyDataSetChanged()
+                    }
+                    when(taskList["abnormalType"].toString()){
+                        "1"->task_details_record_needhelp.performClick()
+                        "2"->task_details_record_have.performClick()
+                    }
+
                     task_details_context.setText(taskList["abnormal"].toString())
+                    task_details_picll.removeAllViews()//重置图片数据
+                    images.clear()
+                    imageList.clear()
                     for (img in taskList["imageUrl"] as ArrayList<String>) {
                         Glide.with(activity).load(img).asBitmap().error(R.mipmap.picture).into(object : SimpleTarget<Bitmap>() {
                             override fun onResourceReady(resource: Bitmap, glideAnimation: GlideAnimation<in Bitmap>) {
@@ -261,7 +271,9 @@ class TaskDetailsFragment : Fragment() {
                         })
                         images.add(img)
                     }
-
+                    task_details_soull.removeAllViews()
+                    sounds.clear()
+                    soundList.clear()
                     for (sound in taskList["soundUrl"] as ArrayList<String>) {
                         addSound(null, sound)
                     }
