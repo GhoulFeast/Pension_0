@@ -85,7 +85,6 @@ class HandoverInfoFragment : Fragment(), ServiceConnection {
             override fun OnHandoverClick(id: Int) {
                 var taslDetalis = TaskDetailsFragment()
                 (activity as MenuActivity).putData(TodayTaskID, handoverInfos[id]["oldId"].toString())
-                (activity as MenuActivity).putData(lrId, handoverInfos[id]["zbpkid"].toString())
                 (activity as MenuActivity).putData(zbpkId, handoverInfos[id]["zbpkid"].toString())
                 (activity as MenuActivity).showFragment(taslDetalis)
                 taslDetalis.setSimple()

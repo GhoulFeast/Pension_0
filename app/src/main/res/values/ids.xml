@@ -3,4 +3,5 @@
 <item name="room_old_task_id" type="id"/>
 <item name="room_old_task_rwid" type="id"/>
 <item name="room_old_task_zbid" type="id"/>
+<item name="image_id" type="id"/>
 </resources>

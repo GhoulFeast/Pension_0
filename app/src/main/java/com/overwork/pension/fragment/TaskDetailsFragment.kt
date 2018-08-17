@@ -1,5 +1,7 @@
 package com.overwork.pension.fragment
 
+import android.app.AlertDialog
+import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.Bitmap
 import android.media.MediaPlayer
@@ -45,19 +47,16 @@ class TaskDetailsFragment : Fragment() {
 
     var taskList: MutableMap<String, Any> = mutableMapOf()
     var taskStepList: ArrayList<MutableMap<String, Any>> = ArrayList<MutableMap<String, Any>>()
-//    var isDelete = false
-    val imageList = ArrayList<File?>()
-    val soundList = ArrayList<File?>()
-    val imageUpLoadList = ArrayList<File?>()
-    val soundUpLoadList = ArrayList<File?>()
-    val images = ArrayList<String>()
-    val sounds = ArrayList<String>()
+    //    var isDelete = false
+    val imageList = ArrayList<FileInfo>()
+    val soundList = ArrayList<FileInfo>()
     var abnormalType = "00"
     lateinit var measurementProjects: ArrayList<MutableMap<String, Any>>
     lateinit var taskStepViewRvAdapter: TaskStepViewRvAdapter
     val RECORD_TYPE_NON = "00"
     val RECORD_TYPE_NEEDHELP = "01"
     val RECORD_TYPE_HAVE = "02"
+    var fjxxpkid = ""
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater?.inflate(R.layout.fragment_task_details, null, false)
         return view
@@ -213,7 +212,7 @@ class TaskDetailsFragment : Fragment() {
     fun initList(): Unit {
         Http.get {
             url = BASEURL + THIS_TIME_TASK
-            if (CZLX.equals("01")){
+            if (CZLX.equals("01")) {
                 "hlrwId" - (activity as MenuActivity).getData<String>(TodayTaskID)
             }
             "zbpkid" - (activity as MenuActivity).getData<String>(zbpkId)
@@ -237,45 +236,44 @@ class TaskDetailsFragment : Fragment() {
                     task_details_age.setText(age + "周岁")
                     val kssj: String = "result".."kssj"
                     val jssj: String = "result".."Jssj"
-                    task_details_nursing_time.setText(kssj +" - "+ jssj)
+                    task_details_nursing_time.setText(kssj + " - " + jssj)
                     val meal: String = "result".."meal"
                     task_details_task.setText(meal)
                     val consideration: String = "result".."consideration"
+                    fjxxpkid = "result".."fjxxpkid"
                     task_details_task_details.setText(consideration)
                     taskList = "result".."nursings"
-                    if (task_details_list.adapter==null){
+                    if (task_details_list.adapter == null) {
                         task_details_list.adapter = SmallTaskAdapter(activity, taskList["nursings"] as ArrayList<MutableMap<String, Any>>)
-                    }else{
+                    } else {
                         (task_details_list.adapter as SmallTaskAdapter).notifyDataSetChanged()
                     }
                     measurementProjects = "result".."measurementProject"
-                    if (task_details_project_list.adapter==null){
+                    if (task_details_project_list.adapter == null) {
                         task_details_project_list.adapter = ProjectAdapter(activity, measurementProjects)
-                    }else{
+                    } else {
                         (task_details_project_list.adapter as ProjectAdapter).notifyDataSetChanged()
                     }
-                    when(taskList["abnormalType"].toString()){
-                        "1"->task_details_record_needhelp.performClick()
-                        "2"->task_details_record_have.performClick()
+                    when (taskList["abnormalType"].toString()) {
+                        "1" -> task_details_record_needhelp.performClick()
+                        "2" -> task_details_record_have.performClick()
                     }
 
                     task_details_context.setText(taskList["abnormal"].toString())
                     task_details_picll.removeAllViews()//重置图片数据
-                    images.clear()
                     imageList.clear()
-                    for (img in taskList["imageUrl"] as ArrayList<String>) {
+                    for (img in taskList["imageUrl"] as List<MutableMap<String, Any>>) {
+
                         Glide.with(activity).load(img).asBitmap().error(R.mipmap.picture).into(object : SimpleTarget<Bitmap>() {
                             override fun onResourceReady(resource: Bitmap, glideAnimation: GlideAnimation<in Bitmap>) {
-                                addImage().setImageBitmap(resource)
+                                addImage(null, img["wjmc"].toString(), img["fb1id"].toString()).setImageBitmap(resource)
                             }
                         })
-                        images.add(img)
                     }
                     task_details_soull.removeAllViews()
-                    sounds.clear()
                     soundList.clear()
-                    for (sound in taskList["soundUrl"] as ArrayList<String>) {
-                        addSound(null, sound)
+                    for (sound in taskList["soundUrl"] as List<MutableMap<String, Any>>) {
+                        addSound(null, sound["wjmc"].toString(), sound["fb1id"].toString())
                     }
                 }
             }
@@ -297,24 +295,24 @@ class TaskDetailsFragment : Fragment() {
         when (requestCode) {
             CAMERA_REQUEST -> {
                 val uri = data?.getCameraUri()
-                addImage().setImageBitmap(uri?.getCameraImg(activity))
                 if (uri?.path != null) {
-                    imageList.add(File(uri.path))
+                    addImage(File(uri.path), "", "").setImageBitmap(uri?.getCameraImg(activity))
+                    upLoadImage(File(uri.path), 1)
                 }
             }
             GALLERY_REQUEST -> {
                 val uri = data?.data
-                addImage().setImageBitmap(uri?.handleImageOnKitKat(activity))
-                imageList.add(uri?.toFile(activity))
-                imageList[0]?.name?.log()
+                addImage(uri?.toFile(activity), "", "").setImageBitmap(uri?.handleImageOnKitKat(activity))
+                upLoadImage(uri?.toFile(activity), 1)
             }
             SOUND -> {
-                addSound(data?.data, null)
+                addSound(data?.data, null, "")
+                upLoadImage(data?.data?.toFile(activity), 1)
             }
         }
     }
 
-    fun addSound(uri: Uri?, soundUrl: String?): Unit {
+    fun addSound(uri: Uri?, soundUrl: String?, id: String): Unit {
         val newImg = ImageView(activity)
         newImg.setImageResource(R.mipmap.sound_recording)
         newImg.setPadding(24, 24, 24, 24)
@@ -334,77 +332,104 @@ class TaskDetailsFragment : Fragment() {
         }
         newImg.setOnLongClickListener {
             it.visibility = View.GONE
+            removeFile(soundList.get(it.getTag(R.id.image_id).toString().toInt()))
             soundList.remove(it.tag)
             "长按删除语音".toast(activity)
             return@setOnLongClickListener true
         }
         newImg.tag = soundList.size
         if (uri == null) {
-            sounds.add(soundUrl!!)
+            soundList.add(FileInfo(null, soundUrl!!, id))
         } else {
-            soundList.add(uri?.toFile(activity))
+            soundList.add(FileInfo(uri?.toFile(activity), "", id))
         }
         task_details_soull.addView(newImg)
     }
 
-    fun addImage(): ImageView {
+    fun addImage(file: File?, imageURL: String?, id: String): ImageView {
         val newImg = ImageView(activity)
         val lp = ViewGroup.LayoutParams(task_details_photograph.width, task_details_photograph.height)
         newImg.setLayoutParams(lp);
         newImg.setPadding(24, 24, 24, 24)
         newImg.scaleType = ImageView.ScaleType.CENTER_CROP
-        newImg.tag = imageList.size
+        newImg.setTag(R.id.image_id, imageList.size)
         newImg.setOnClickListener {
             (it as ImageView).showFullWindow()
         }
         newImg.setOnLongClickListener {
             it.visibility = View.GONE
-            imageList.remove(it.tag)
+            removeFile(imageList.get(it.getTag(R.id.image_id).toString().toInt()))
+            imageList.remove(it.getTag(R.id.image_id))
             "长按删除图片".toast(activity)
             return@setOnLongClickListener true
         }
         task_details_picll.addView(newImg)
+        if (file == null) {
+            imageList.add(FileInfo(null, imageURL!!, id))
+        } else {
+            imageList.add(FileInfo(file, "", id))
+        }
         return newImg
     }
 
+    fun removeFile(string: FileInfo) {
+        Http.upfile {
+            url = BASEURL
+            "fb1pkid" - string.fileId
+            "userId" - userId
+            success {
 
-    fun upLoadImage(type: Int): Unit {
+            }
+            fail {
+
+            }
+        }
+    }
+
+    fun upLoadImage(path: File?, type: Int): Unit {
         val dialog = LoadingDialog(activity);
         dialog.setCanceledOnTouchOutside(false);
         dialog.show();
         Http.upfile {
             url = BASEURL
-            if (type == 1) {
-                "file" - imageUpLoadList.get(0)!!
-            } else if (type == 2) {
-                "file" - soundUpLoadList.get(0)!!
-            }
+            "file" - path!!
+            "zbpkid" - (activity as MenuActivity).getData<String>(zbpkId)
+            "fjxxpkid" - fjxxpkid
+            "wjlx" - path.name.substring(path.name.indexOf("."), path.name.length)
+            "userId" - userId
             success {
                 if (type == 1) {
-                    images.add("result".."url")
-                    imageUpLoadList.removeAt(0)
-                    if (imageUpLoadList.size == 0) {
-                        if (soundUpLoadList.size == 0) {
-                            upLoadImage(2)
-                        } else {
-                            saveAll()
-                        }
-                    } else {
-                        upLoadImage(1)
-                    }
-                } else if (type == 2) {
-                    sounds.add("result".."url")
-                    soundUpLoadList.removeAt(0)
-                    if (soundUpLoadList.size == 0) {
-                        saveAll()
-                    } else {
-                        upLoadImage(2)
-                    }
+                    theFileInfoData(path, imageList, "result".."url", "result".."fb1pkid")
+                } else {
+                    theFileInfoData(path, soundList, "result".."url", "result".."fb1pkid")
                 }
                 dialog.dismiss()
             }
             fail {
+                uploadFail()
                 dialog.dismiss()
+            }
+        }
+    }
+
+    fun uploadFail() {
+        var uploadDialog: AlertDialog.Builder = AlertDialog.Builder(activity)
+        uploadDialog.setTitle("上传图片失败")
+        uploadDialog.setMessage("是否要重新上传")
+        uploadDialog.setNegativeButton("是", { dialogInterface: DialogInterface, i: Int ->
+
+        })
+        uploadDialog.setPositiveButton("否", { dialogInterface: DialogInterface, i: Int ->
+
+        })
+    }
+
+    fun theFileInfoData(page: File, fileInfos: List<FileInfo>, url: String, id: String): Unit {
+        for (fileInfo in fileInfos) {
+            if (fileInfo.filePath == page) {
+                fileInfo.fileId = id
+                fileInfo.fileUrl = url
+                return
             }
         }
     }
@@ -413,16 +438,16 @@ class TaskDetailsFragment : Fragment() {
         var imageString = ""
         var soundString = ""
         var measurementString = ""
-        if (images.size > 0) {
-            for (image in images) {
-                imageString = imageString + "," + image
+        if (imageList.size > 0) {
+            for (image in imageList) {
+                imageString = imageString + "," + image.fileUrl
             }
             imageString = imageString.substring(1, imageString.length)
         }
 
-        if (sounds.size > 0) {
-            for (sound in sounds) {
-                soundString = soundString + "," + sound
+        if (soundList.size > 0) {
+            for (sound in soundList) {
+                soundString = soundString + "," + sound.fileUrl
             }
             soundString = soundString.substring(1, imageString.length)
         }
@@ -461,17 +486,7 @@ class TaskDetailsFragment : Fragment() {
 
     val overDialog = LoadingDialog(activity).apply { text = "上传中，请稍等" }
     override fun onDestroy() {
-        imageUpLoadList.clear()
-        imageUpLoadList.addAll(imageList)
-        soundUpLoadList.clear()
-        soundUpLoadList.addAll(soundList)
-        images.clear()
-        sounds.clear()
-        if (imageUpLoadList.size > 0) {
-            upLoadImage(1)
-        } else if (soundUpLoadList.size > 0) {
-            upLoadImage(2)
-        }
+        saveAll()
         overDialog.setCanceledOnTouchOutside(false);
         overDialog.show();
         super.onDestroy()
