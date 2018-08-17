@@ -23,7 +23,7 @@ import com.overwork.pension.other.userType
 import com.overwork.pension.service.AutoUpdateService
 import kotlinx.android.synthetic.main.activity_menu.*
 
-
+val QRCODE=999
 class MenuActivity : AppCompatActivity() , ServiceConnection {
    
 
@@ -33,7 +33,7 @@ class MenuActivity : AppCompatActivity() , ServiceConnection {
     private var nowState = 0
     private var backPressTime=0L
     private var auBinder: AutoUpdateService.Binder? = null
-    private val QRCODE=999
+
     lateinit var selectRadio:RadioButton
     private var selectId=0
 
@@ -162,17 +162,40 @@ class MenuActivity : AppCompatActivity() , ServiceConnection {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (data != null) {
-            if (requestCode == -1 && resultCode == Activity.RESULT_OK) {
-                var handoverDiretor = HandoverDirectorFragment()
-                var bd = Bundle()
-                bd.putString("id", data.getStringExtra("result"))
-                handoverDiretor.arguments = bd
-                UseFragmentManager.displayFragment(showFragment, handoverDiretor,
+//            if (requestCode == -1 && resultCode == Activity.RESULT_OK) {
+//                var handoverDiretor = HandoverDirectorFragment()
+//                var bd = Bundle()
+//                bd.putString("id", data.getStringExtra("result"))
+//                handoverDiretor.arguments = bd
+//                UseFragmentManager.displayFragment(showFragment, handoverDiretor,
+//                        supportFragmentManager, R.id.main_ll)
+//                showFragment = handoverDiretor
+//            }
+            if (requestCode==QRCODE){//二维码处理
+                var qr=data.extras.get("result").toString()
+                val code=qr.substring(4,qr.length)
+                var qrFrgment:Fragment?=null
+                when(qr.substring(0,1)){
+                    "F"->{
+                        putData("fjpkid",code)
+                        qrFrgment=RoomListFragment()
+                    }
+                    "C"->{
+                        putData(zbpkId,code)
+                        qrFrgment=TaskDetailsFragment()
+                    }
+                    "Z"->{
+                        if (userType.equals("2")){
+                            putData("jbrid",code)
+                            qrFrgment=HandoverDirectorFragment()
+                        }else{
+                            "只有主管才能交接班".toast(this)
+                        }
+                    }
+                }
+                UseFragmentManager.displayFragment(showFragment, qrFrgment!!,
                         supportFragmentManager, R.id.main_ll)
-                showFragment = handoverDiretor
-            }
-            if (requestCode==QRCODE){
-
+                showFragment = qrFrgment
             }
         }
 
@@ -199,6 +222,10 @@ class MenuActivity : AppCompatActivity() , ServiceConnection {
 
     fun <E> getData(key: String): E {
         return enety[key] as E
+    }
+
+    fun removeData(key: String): Unit {
+        enety.remove(key)
     }
 
     fun setBar(bar: Bar): Unit {

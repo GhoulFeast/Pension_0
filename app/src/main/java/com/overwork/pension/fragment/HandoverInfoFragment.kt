@@ -65,7 +65,7 @@ class HandoverInfoFragment : Fragment(), ServiceConnection {
 
     fun initViewAndEvent(): Unit {
         class_qrcode_iv.viewTreeObserver.addOnDrawListener({
-            class_qrcode_iv.setImageBitmap(EncodingUtils.createQRCode(userId, class_qrcode_iv.width, class_qrcode_iv.height, null))
+            class_qrcode_iv.setImageBitmap(EncodingUtils.createQRCode("ZY||"+userId, class_qrcode_iv.width, class_qrcode_iv.height, null))
         })
         (activity as MenuActivity).style {
             textBar=activity.resources.getString(R.string.ylyxt)

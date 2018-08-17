@@ -11,6 +11,7 @@ import com.aisino.tool.ani.LoadingDialog
 import com.hq.kbase.network.Http
 import com.overwork.pension.R
 import com.overwork.pension.activity.MenuActivity
+import com.overwork.pension.activity.QRCODE
 import com.overwork.pension.adapter.ClassAdapter
 import com.overwork.pension.adapter.HandoverInfoAdapter
 import com.overwork.pension.other.*
@@ -31,16 +32,18 @@ class HandoverDirectorFragment : Fragment() {
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initViewAndEvent()
-        getData(arguments.getString("id"))
+//        getData(arguments.getString("id"))
+        getData()
     }
 
-    fun getData(userId: String): Unit {
+    fun getData(): Unit {
         val dialog = LoadingDialog(activity);
         dialog.setCanceledOnTouchOutside(false);
         dialog.show();
         Http.get {
             url = BASEURL + T_HANDOVERDIRECTOR
             "userId" - userId
+            "jbrid"-(activity as MenuActivity).getData<String>("jbrid")
             success {
                 activity.runOnUiThread {
                     classBeans.clear()
@@ -57,7 +60,7 @@ class HandoverDirectorFragment : Fragment() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (data != null) {
             if (requestCode == 1) {
-                getData(data.getStringExtra("result"))
+                getData()
             }
         }
         super.onActivityResult(requestCode, resultCode, data)
@@ -72,7 +75,7 @@ class HandoverDirectorFragment : Fragment() {
         director_rlv.adapter = classAdapter
         director_handover_tv.setOnClickListener(object : View.OnClickListener {
             override fun onClick(p0: View?) {
-                startActivityForResult(Intent(activity, CaptureActivity::class.java), 1)
+                startActivityForResult(Intent(activity, CaptureActivity::class.java), QRCODE)
             }
         })
     }

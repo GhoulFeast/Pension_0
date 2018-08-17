@@ -35,6 +35,11 @@ class RoomListFragment : Fragment() {
         Http.get {
             url = BASEURL + ROOM_LIST
             "userId" - userId
+            val fjpkid= (activity as MenuActivity).getData<String>("fjpkid")
+            if (fjpkid!=null){
+                "fjpkid"-fjpkid
+                (activity as MenuActivity).removeData("fjpkid")
+            }
             success {
                 activity.runOnUiThread {
                     roomListBeans.clear()
