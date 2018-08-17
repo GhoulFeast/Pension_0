@@ -13,6 +13,7 @@ import com.aisino.tool.R;
 
 public class LoadingDialog extends Dialog {
     private TextView tv;
+    public String text="请稍等";
     /**
      * style很关键
      */
@@ -24,7 +25,7 @@ public class LoadingDialog extends Dialog {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.wxdialog_loading);
         tv =  findViewById(R.id.wxloading_text);
-        tv.setText("请稍等");
+        tv.setText(text);
         LinearLayout linearLayout = (LinearLayout) this.findViewById(R.id.LinearLayout);
         linearLayout.getBackground().setAlpha(210);
     }

@@ -16,6 +16,7 @@ import com.overwork.pension.activity.MenuActivity
 import com.overwork.pension.other.BASEURL
 import com.overwork.pension.other.LOGIN
 import com.overwork.pension.other.*
+import com.tencent.bugly.crashreport.CrashReport
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
@@ -27,7 +28,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         initViewAndEvent()
-
+        CrashReport.initCrashReport(application, "ce4e77be1a", false);
     }
 
     fun initViewAndEvent(): Unit {
@@ -43,11 +44,7 @@ class MainActivity : AppCompatActivity() {
         lg_login.alpha = 0.3f
         lg_name.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(ed: Editable?) {
-                if (ed.isNullOrBlank()) {
-                    hasName = false
-                } else {
-                    hasName = true
-                }
+                hasName=!ed.isNullOrBlank()
                 if (hasName && hasPwd) {
                     lg_login.alpha = 1.0f
                 } else {
@@ -63,11 +60,7 @@ class MainActivity : AppCompatActivity() {
         })
         lg_pwd.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(ed: Editable?) {
-                if (ed.isNullOrBlank()) {
-                    hasPwd = false
-                } else {
-                    hasPwd = true
-                }
+                hasPwd=!ed.isNullOrBlank()
                 if (hasName && hasPwd) {
                     lg_login.alpha = 1.0f
                 } else {

@@ -8,11 +8,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
+import android.widget.EditText
 import android.widget.RadioGroup
 import android.widget.TextView
 import com.aisino.tool.toast
 import com.hq.kbase.network.Http
 import com.overwork.pension.R
+import com.overwork.pension.activity.MenuActivity
+import com.overwork.pension.fragment.TaskDetailsFragment
 import com.overwork.pension.other.BASEURL
 import com.overwork.pension.other.OVER_EX
 import com.overwork.pension.other.userId
@@ -29,7 +32,7 @@ class ProjectAdapter (val activity: FragmentActivity,val taskList: ArrayList<Mut
             view.visibility=View.GONE
         }
         val task = view.findViewById<TextView>(R.id.item_project_name)
-        val num = view.findViewById<TextView>(R.id.item_project_num)
+        val num = view.findViewById<EditText>(R.id.item_project_num)
         when(taskList[index]["lx"].toString()){
             "xy"->{
                 task.setText("血压")
@@ -50,6 +53,11 @@ class ProjectAdapter (val activity: FragmentActivity,val taskList: ArrayList<Mut
                 task.setText("出量")
                 val rg = view.findViewById<RadioGroup>(R.id.item_project_rg)
                 rg.visibility=View.VISIBLE
+                if (taskList[index]["clbz"]!!.equals("0")){
+                    rg.check(R.id.item_project_rb0)
+                }else{
+                    rg.check(R.id.item_project_rb1)
+                }
                 rg.setOnCheckedChangeListener{ radioGroup: RadioGroup, i: Int ->
                     ifEstimate=i
                 }
@@ -67,6 +75,14 @@ class ProjectAdapter (val activity: FragmentActivity,val taskList: ArrayList<Mut
                     url=BASEURL+OVER_EX
                     "hlrwId"- taskList[index]["hlrwpkid"].toString()
                     "userId"- userId
+                    "lx"-taskList[index]["lx"].toString()
+                    "clbz"-ifEstimate.toString()
+                    "sjz"- (v as EditText).text.toString()
+                    success {
+                        activity.runOnUiThread {
+                            ((activity as MenuActivity).showFragment as TaskDetailsFragment).initList()
+                        }
+                    }
                 }
             })
         }
