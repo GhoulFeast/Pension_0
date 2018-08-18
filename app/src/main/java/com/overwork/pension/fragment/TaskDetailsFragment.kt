@@ -210,13 +210,19 @@ class TaskDetailsFragment : Fragment() {
         taskStepViewRvAdapter.notifyDataSetChanged()
     }
 
-    fun initList(): Unit {
+    fun initList(zbpkid:String="-1",hlrwpkid:String="-1"): Unit {
+
         Http.get {
             url = BASEURL + THIS_TIME_TASK
             if (CZLX.equals("01")) {
                 "hlrwId" - (activity as MenuActivity).getData<String>(TodayTaskID)
             }
-            "zbpkid" - (activity as MenuActivity).getData<String>(zbpkId)
+            if (zbpkid.equals("-1")){
+                "zbpkid" - (activity as MenuActivity).getData<String>(zbpkId)
+            }else{
+                "hlrwId" - hlrwpkid
+                "zbpkid" - zbpkid
+            }
             "lrid" - (activity as MenuActivity).getData<String>(lrId)
             "czlx" - CZLX
             "userId" - userId
@@ -436,6 +442,7 @@ class TaskDetailsFragment : Fragment() {
                 goneViewTo(task_details_soull, path, soundList);
             }
         })
+        uploadDialog.show()
     }
 
     fun goneViewTo(view: LinearLayout, page: File?, list: ArrayList<FileInfo>) {

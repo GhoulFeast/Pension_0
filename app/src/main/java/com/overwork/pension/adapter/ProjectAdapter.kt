@@ -22,79 +22,78 @@ import com.overwork.pension.other.userId
 import com.overwork.pension.other.userName
 
 
-class ProjectAdapter (val activity: FragmentActivity,val taskList: ArrayList<MutableMap<String, Any>>) : BaseAdapter(){
+class ProjectAdapter(val activity: FragmentActivity, val taskList: ArrayList<MutableMap<String, Any>>) : BaseAdapter() {
 
-    var ifEstimate=0//0实测，1估测
+    var ifEstimate = 0//0实测，1估测
 
     override fun getView(index: Int, p1: View?, p2: ViewGroup?): View {
         val view = LayoutInflater.from(activity).inflate(R.layout.item_measurement_project, null)
-        if (taskList[index]["zt"].toString().equals("1")){
-            view.visibility=View.GONE
+        if (taskList[index]["zt"].toString().equals("1")) {
+            view.visibility = View.GONE
         }
         val task = view.findViewById<TextView>(R.id.item_project_name)
         val num = view.findViewById<EditText>(R.id.item_project_num)
-        when(taskList[index]["lx"].toString()){
-            "xy"->{
+        when (taskList[index]["lx"].toString()) {
+            "xy" -> {
                 task.setText("血压")
 
             }
-            "mb"->{
+            "mb" -> {
                 task.setText("脉搏")
 
             }
-            "tw"->{
+            "tw" -> {
                 task.setText("体温")
 
             }
-            "rl"->{
+            "rl" -> {
                 task.setText("入量")
             }
-            "cl"->{
+            "cl" -> {
                 task.setText("出量")
                 val rg = view.findViewById<RadioGroup>(R.id.item_project_rg)
-                rg.visibility=View.VISIBLE
-                if (taskList[index]["clbz"]!!.equals("0")){
+                rg.visibility = View.VISIBLE
+                if (taskList[index]["clbz"]!!.equals("0")) {
                     rg.check(R.id.item_project_rb0)
-                }else{
+                } else {
                     rg.check(R.id.item_project_rb1)
                 }
-                rg.setOnCheckedChangeListener{ radioGroup: RadioGroup, i: Int ->
-                    ifEstimate=i
+                rg.setOnCheckedChangeListener { radioGroup: RadioGroup, i: Int ->
+                    ifEstimate = i
                 }
             }
         }
         num.setText(taskList[index]["sjz"].toString())
-        if (!taskList[index]["txr"]!!.equals(userName)&&!taskList[index]["txr"]!!.equals("")){
-            num.isEnabled=false
-            num.setOnClickListener{
-                "该项已被别的用户修改，数据已锁定".toast(activity)
-            }
-        }else{
-            num.setOnFocusChangeListener({ v, hasFocus ->
-                Http.get{
-                    url=BASEURL+OVER_EX
-                    "hlrwId"- taskList[index]["hlrwpkid"].toString()
-                    "userId"- userId
-                    "lx"-taskList[index]["lx"].toString()
-                    "clbz"-ifEstimate.toString()
-                    "sjz"- (v as EditText).text.toString()
-                    success {
-                        activity.runOnUiThread {
+
+        num.setOnFocusChangeListener({ v, hasFocus ->
+            Http.get {
+                url = BASEURL + OVER_EX
+                "cgjlpkid" - taskList[index]["hlrwpkid"].toString()
+                "userId" - userId
+                "lx" - taskList[index]["lx"].toString()
+                "clbz" - ifEstimate.toString()
+                "sjz" - (v as EditText).text.toString()
+                success {
+                    activity.runOnUiThread {
+                        if (getAny<String>("status").equals("200")) {
+                            ((activity as MenuActivity).showFragment as TaskDetailsFragment).initList()
+                        } else {
+                            getAny<String>("message").toast(activity)
                             ((activity as MenuActivity).showFragment as TaskDetailsFragment).initList()
                         }
                     }
                 }
-            })
-        }
+            }
+        })
         return view
     }
 
     override fun getItem(p0: Int): Any {
-        return  p0
+        return p0
     }
 
     override fun getItemId(p0: Int): Long {
-        return  p0.toLong()
+        return p0.toLong()
     }
 
     override fun getCount(): Int {
