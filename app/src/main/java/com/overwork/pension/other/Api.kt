@@ -1,6 +1,6 @@
 package com.overwork.pension.other
 
-val BASEURL = ""//基本
+val BASEURL = "http://localhost:8081/yly/appall"//基本
 
 //val LOGIN = "/denglu.action?"//登陆
 //val MSGLIST = "/xxlb.action?"//消息列表
