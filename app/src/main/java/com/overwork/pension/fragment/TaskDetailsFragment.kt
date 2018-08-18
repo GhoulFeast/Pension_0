@@ -23,6 +23,7 @@ import android.provider.MediaStore.Audio.Media.RECORD_SOUND_ACTION
 import android.support.v7.widget.LinearLayoutManager
 import android.util.Log
 import android.widget.ImageView
+import android.widget.LinearLayout
 import com.aisino.tool.ani.LoadingDialog
 import com.aisino.tool.log
 import com.aisino.tool.system.*
@@ -331,13 +332,12 @@ class TaskDetailsFragment : Fragment() {
             }
         }
         newImg.setOnLongClickListener {
-            it.visibility = View.GONE
-            removeFile(soundList.get(it.getTag(R.id.image_id).toString().toInt()))
-            soundList.remove(it.tag)
+            removeFile(it as ImageView, soundList.get(it.getTag(R.id.image_id).toString().toInt()), 2)
+            soundList.removeAt(it.getTag(R.id.image_id).toString().toInt())
             "长按删除语音".toast(activity)
             return@setOnLongClickListener true
         }
-        newImg.tag = soundList.size
+        newImg.setTag(R.id.image_id, soundList.size)
         if (uri == null) {
             soundList.add(FileInfo(null, soundUrl!!, id))
         } else {
@@ -357,9 +357,7 @@ class TaskDetailsFragment : Fragment() {
             (it as ImageView).showFullWindow()
         }
         newImg.setOnLongClickListener {
-            it.visibility = View.GONE
-            removeFile(imageList.get(it.getTag(R.id.image_id).toString().toInt()))
-            imageList.remove(it.getTag(R.id.image_id))
+            removeFile(it as ImageView, imageList.get(it.getTag(R.id.image_id).toString().toInt()), 1)
             "长按删除图片".toast(activity)
             return@setOnLongClickListener true
         }
@@ -372,16 +370,27 @@ class TaskDetailsFragment : Fragment() {
         return newImg
     }
 
-    fun removeFile(string: FileInfo) {
+    fun removeFile(view: ImageView, string: FileInfo, type: Int) {
+        val dialog = LoadingDialog(activity);
+        dialog.setCanceledOnTouchOutside(false);
+        dialog.show()
         Http.upfile {
-            url = BASEURL
+            url = DELET_FILE
             "fb1pkid" - string.fileId
             "userId" - userId
             success {
-
+                "删除成功".toast(activity)
+                dialog.dismiss()
+                view.visibility = View.GONE
+                if (type == 1) {
+                    imageList.removeAt(view.getTag(R.id.image_id).toString().toInt())
+                } else {
+                    soundList.removeAt(view.getTag(R.id.image_id).toString().toInt())
+                }
             }
             fail {
-
+                "删除失败".toast(activity)
+                dialog.dismiss()
             }
         }
     }
@@ -391,13 +400,14 @@ class TaskDetailsFragment : Fragment() {
         dialog.setCanceledOnTouchOutside(false);
         dialog.show();
         Http.upfile {
-            url = BASEURL
+            url = UP_FILE
             "file" - path!!
             "zbpkid" - (activity as MenuActivity).getData<String>(zbpkId)
             "fjxxpkid" - fjxxpkid
             "wjlx" - path.name.substring(path.name.indexOf("."), path.name.length)
             "userId" - userId
             success {
+                "上传成功".toast(activity)
                 if (type == 1) {
                     theFileInfoData(path, imageList, "result".."url", "result".."fb1pkid")
                 } else {
@@ -406,22 +416,38 @@ class TaskDetailsFragment : Fragment() {
                 dialog.dismiss()
             }
             fail {
-                uploadFail()
+                uploadFail(path, type)
                 dialog.dismiss()
             }
         }
     }
 
-    fun uploadFail() {
+    fun uploadFail(path: File?, type: Int) {
         var uploadDialog: AlertDialog.Builder = AlertDialog.Builder(activity)
         uploadDialog.setTitle("上传图片失败")
         uploadDialog.setMessage("是否要重新上传")
         uploadDialog.setNegativeButton("是", { dialogInterface: DialogInterface, i: Int ->
-
+            upLoadImage(path, type)
         })
         uploadDialog.setPositiveButton("否", { dialogInterface: DialogInterface, i: Int ->
-
+            if (type == 1) {
+                goneViewTo(task_details_picll, path, imageList);
+            } else {
+                goneViewTo(task_details_soull, path, soundList);
+            }
         })
+    }
+
+    fun goneViewTo(view: LinearLayout, page: File?, list: ArrayList<FileInfo>) {
+        var i = 0
+        while (i < view.childCount) {
+            if (view.getChildAt(i).visibility == View.VISIBLE) {
+                if (list.get(view.getChildAt(i).getTag(R.id.image_id).toString().toInt()).filePath == page) {
+                    view.getChildAt(i).visibility = View.GONE
+                    list.removeAt(view.getChildAt(i).getTag(R.id.image_id).toString().toInt())
+                }
+            }
+        }
     }
 
     fun theFileInfoData(page: File, fileInfos: List<FileInfo>, url: String, id: String): Unit {
