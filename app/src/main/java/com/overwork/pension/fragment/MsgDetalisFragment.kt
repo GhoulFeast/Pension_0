@@ -78,8 +78,8 @@ class MsgDetalisFragment : Fragment() {
             msg_details_handover_tv.setOnClickListener({
                 var taskDetailsFragment = TaskDetailsFragment();
                 (activity as MenuActivity).showFragment(taskDetailsFragment)
-                (activity as MenuActivity).putData(TodayTaskID, enety["id"].toString())
-//                (activity as MenuActivity).putData(lrId, enety["hlrwid"].toString())
+                (activity as MenuActivity).putData(TodayTaskID, enety["hlrwid"].toString())
+                (activity as MenuActivity).putData(lrId, enety["id"].toString())
                 (activity as MenuActivity).putData(zbpkId, enety["zbpkid"].toString())
             })
         } else {

@@ -28,7 +28,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         initViewAndEvent()
-        CrashReport.initCrashReport(application, "ce4e77be1a", false);
+        CrashReport.initCrashReport(application, "ce4e77be1a", true);
     }
 
     fun initViewAndEvent(): Unit {
