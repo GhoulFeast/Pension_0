@@ -79,7 +79,7 @@ class MsgDetalisFragment : Fragment() {
                 var taskDetailsFragment = TaskDetailsFragment();
                 (activity as MenuActivity).showFragment(taskDetailsFragment)
                 (activity as MenuActivity).putData(TodayTaskID, enety["id"].toString())
-                (activity as MenuActivity).putData(lrId, enety["hlrwid"].toString())
+//                (activity as MenuActivity).putData(lrId, enety["hlrwid"].toString())
                 (activity as MenuActivity).putData(zbpkId, enety["zbpkid"].toString())
             })
         } else {
