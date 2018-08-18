@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.widget.Toast
+import com.aisino.tool.DEBUG
 import com.aisino.tool.ani.LoadingDialog
 import com.aisino.tool.system.getAllPermissions
 import com.aisino.tool.system.signPermissions
@@ -29,6 +30,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         initViewAndEvent()
         CrashReport.initCrashReport(application, "ce4e77be1a", true);
+        DEBUG(true)
     }
 
     fun initViewAndEvent(): Unit {

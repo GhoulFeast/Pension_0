@@ -258,17 +258,16 @@ class Submit {
     }
 
     private fun successCall(response: Response): Unit {
-        Log.i("successCall", response.request().url().toString())
         kotlin.run {
             if (response.code() != 200) {
                 _fail("请求失败:" + response.code())
                 return
             }
-
+            response.request().url().toString().log("successCall")
             when (returnType) {
                 ReturnType.JSON -> {
                     var jsonString = response.body().string()
-                    Log.i("successCall", jsonString)
+                    jsonString.log("successCall")
                     pullJson(jsonString)
                 }
                 ReturnType.XML -> {
