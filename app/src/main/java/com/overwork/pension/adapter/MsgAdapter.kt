@@ -30,7 +30,7 @@ class MsgAdapter(context: Context, list: List<MutableMap<String, Any>>) : BaseAd
         }else{
             item_isread.visibility=View.VISIBLE
         }
-        if (list.get(p0)["type"].toString().toInt() == 1) {
+        if (list.get(p0)["type"].toString().toInt() == 0) {
             job.setText("护")
         } else {
             job.setText("通")
