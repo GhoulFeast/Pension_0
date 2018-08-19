@@ -77,10 +77,12 @@ class MineFragment : Fragment() {
             "userId" - userId
             success {
                 activity.runOnUiThread {
-                    tomorrowTasks.clear()
-                    var tomorrows: ArrayList<MutableMap<String, Any>> = "result".."tomorrow"
-                    tomorrows.let { tomorrowTasks.addAll(tomorrows) }
-                    tomorrowTaskAdp.notifyDataSetChanged()
+                    if((!"status").equals("200")){
+                        tomorrowTasks.clear()
+                        var tomorrows: ArrayList<MutableMap<String, Any>> = "result".."tomorrow"
+                        tomorrows.let { tomorrowTasks.addAll(tomorrows) }
+                        tomorrowTaskAdp.notifyDataSetChanged()
+                    }
                     dialog.dismiss()
                 }
             }
