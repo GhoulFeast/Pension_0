@@ -65,6 +65,7 @@ class MsgDetalisFragment : Fragment() {
                 taskLl.orientation = LinearLayout.HORIZONTAL
                 taskLl.gravity = Gravity.CENTER_VERTICAL
                 var view = View(activity)
+                view.setBackgroundResource(R.color.mainColor)
                 view.layoutParams = LinearLayout.LayoutParams(resources.getDimension(R.dimen.dp_2).toInt(), resources.getDimension(R.dimen.dp_2).toInt())
                 var taskTv = TextView(activity)
                 taskTv.setTextColor(resources.getColor(R.color.text_black))

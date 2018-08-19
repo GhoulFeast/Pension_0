@@ -326,7 +326,7 @@ class TaskDetailsFragment : Fragment() {
             }
             SOUND -> {
                 addSound(data?.data, null, "")
-                upLoadImage(data?.data?.toFile(activity), 1)
+                upLoadImage(data?.data?.toFile(activity), 2)
             }
         }
     }
@@ -351,7 +351,6 @@ class TaskDetailsFragment : Fragment() {
         }
         newImg.setOnLongClickListener {
             removeFile(it as ImageView, soundList.get(it.getTag(R.id.image_id).toString().toInt()), 2)
-            soundList.removeAt(it.getTag(R.id.image_id).toString().toInt())
             "长按删除语音".toast(activity)
             return@setOnLongClickListener true
         }

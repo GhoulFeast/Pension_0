@@ -81,6 +81,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/item_class_abnormal_needfollow_ll_ll"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/ll_page_bg"
@@ -102,6 +103,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/item_class_abnormal_serious_ll_ll"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
