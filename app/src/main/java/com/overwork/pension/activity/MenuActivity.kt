@@ -46,9 +46,9 @@ class MenuActivity : AppCompatActivity() , ServiceConnection {
 
     fun initViewAndEvent(): Unit {
 
-        main_rg.setOnCheckedChangeListener({ radioGroup, i ->
-            when (i) {
-                R.id.main_rb_homepage -> {
+//        main_rg.setOnCheckedChangeListener({ radioGroup, i ->
+//            when (i) {
+                main_rb_homepage.setOnClickListener {
                     var homeFragment = HomeFragment()
                     UseFragmentManager.displayFragment(showFragment, homeFragment,
                             supportFragmentManager, R.id.main_ll)
@@ -57,7 +57,7 @@ class MenuActivity : AppCompatActivity() , ServiceConnection {
                     selectRadio=main_rb_homepage
                     selectId=R.mipmap.task
                 }
-                R.id.main_rb_class -> {
+                main_rb_class .setOnClickListener{
                     if (userType.toInt() == 2) {
                         var classFragment = HandoverDirectorFragment()
                         isZJ=true
@@ -80,7 +80,7 @@ class MenuActivity : AppCompatActivity() , ServiceConnection {
 
 
                 }
-                R.id.main_rb_msg -> {
+                main_rb_msg .setOnClickListener {
                     var msgFragment = MsgFragment()
                     UseFragmentManager.displayFragment(showFragment, msgFragment,
                             supportFragmentManager, R.id.main_ll)
@@ -89,7 +89,7 @@ class MenuActivity : AppCompatActivity() , ServiceConnection {
                     selectRadio=main_rb_msg
                     selectId=R.mipmap.msg
                 }
-                R.id.main_rb_mine -> {
+               main_rb_mine.setOnClickListener{
                     var mineFragment = MineFragment()
                     UseFragmentManager.displayFragment(showFragment, mineFragment,
                             supportFragmentManager, R.id.main_ll)
@@ -98,10 +98,10 @@ class MenuActivity : AppCompatActivity() , ServiceConnection {
                     selectRadio=main_rb_mine
                     selectId=R.mipmap.mine
                 }
-            }
+//            }
             fragments.clear()
             nowState = 0
-        })
+//        })
         main_rb_homepage.performClick()
         bar_back.setOnClickListener {
             backFragment()

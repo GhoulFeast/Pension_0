@@ -1,6 +1,5 @@
 package com.overwork.pension.fragment
 
-import android.graphics.Color
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater
@@ -11,11 +10,9 @@ import com.hq.kbase.network.Http
 import com.overwork.pension.R
 import com.overwork.pension.activity.MenuActivity
 import com.overwork.pension.adapter.OldInfoAdapter
-import com.overwork.pension.adapter.TomorrowTaskAdapter
 import com.overwork.pension.other.*
 import kotlinx.android.synthetic.main.fragment_oldinfo.*
-import kotlinx.android.synthetic.main.item_oldinfo_abnormal.*
-import kotlinx.android.synthetic.main.item_room.*
+
 
 class OldInfoFragment : Fragment() {
     var oldInfos: ArrayList<MutableMap<String, Any>> = ArrayList()
