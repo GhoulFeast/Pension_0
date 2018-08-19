@@ -55,9 +55,9 @@ class HandoverInfoFragment : Fragment(), ServiceConnection {
 
             success {
                 activity.runOnUiThread {
-                    if ((!"status").equals("200")){
-                        val isJ:Boolean="result".."isHandove"
-                        if (isJ){
+                    if ((!"status").equals("200")) {
+                        val isJ: Boolean = "result".."isHandove"
+                        if (isJ) {
                             (activity as MenuActivity).showFragment(HandoverEndFragment())
                             auBinder?.setRun(false)
                             auBinder = null
@@ -73,15 +73,15 @@ class HandoverInfoFragment : Fragment(), ServiceConnection {
             "userId" - userId
             success {
                 activity.runOnUiThread {
-                    if ((!"status").equals("200")){
+                    if ((!"status").equals("200")) {
                         handoverInfos.clear()
                         handoverInfos.addAll("result".."handoverList")
                         handoverInfoAdapter.notifyDataSetChanged()
-                        class_handover_tv.isEnabled=true
+                        class_handover_tv.isEnabled = true
                         class_handover_tv.alpha = 1.0f
-                    }else{
+                    } else {
                         (!"message").toast(activity)
-                        class_handover_tv.isEnabled=false
+                        class_handover_tv.isEnabled = false
                         class_handover_tv.alpha = 0.3f
                     }
                 }
@@ -92,7 +92,7 @@ class HandoverInfoFragment : Fragment(), ServiceConnection {
     override fun onHiddenChanged(hidden: Boolean) {
         super.onHiddenChanged(hidden)
         (activity as MenuActivity).style {
-            textBar=activity.resources.getString(R.string.ylyxt)
+            textBar = activity.resources.getString(R.string.ylyxt)
         }
     }
 
@@ -100,7 +100,7 @@ class HandoverInfoFragment : Fragment(), ServiceConnection {
 
 
         (activity as MenuActivity).style {
-            textBar=activity.resources.getString(R.string.ylyxt)
+            textBar = activity.resources.getString(R.string.ylyxt)
         }
         handoverInfoAdapter = HandoverInfoAdapter(handoverInfos)
         class_rlv.adapter = handoverInfoAdapter
@@ -111,9 +111,28 @@ class HandoverInfoFragment : Fragment(), ServiceConnection {
             }
         })
         handoverInfoAdapter.setHandover(object : HandoverInfoAdapter.OnHandover {
-            override fun OnHandoverChangeClick(id: Int, b: Boolean) {
-
+            override fun OnHandoverChangeClick(position: Int, b: Boolean) {
+                if (b) {
+                    handoverInfos.get(position)["isRecheck"] = "Y"
+                } else {
+                    handoverInfos.get(position)["isRecheck"] = "N"
+                }
+                var isAll = true
+                for (map: MutableMap<String, Any> in handoverInfos) {
+                    if (map.get("isRecheck").toString().equals("N")) {
+                        isAll = false
+                        break
+                    }
+                }
+                if (isAll) {
+                    class_handover_tv.isEnabled = true
+                    class_handover_tv.alpha = 1.0f
+                } else {
+                    class_handover_tv.isEnabled = false
+                    class_handover_tv.alpha = 0.3f
+                }
             }
+
             override fun OnHandoverClick(id: Int) {
                 var taslDetalis = TaskDetailsFragment()
                 (activity as MenuActivity).putData(TodayTaskID, handoverInfos[id]["oldId"].toString())

@@ -38,7 +38,9 @@ class ClassAdapter(taskList: ArrayList<MutableMap<String, Any>>) : BaseAdapter()
         var item_class_abnormal_sex_tv = p1.findViewById<TextView>(R.id.item_class_abnormal_sex_tv)
         var item_class_abnormal_room_tv = p1.findViewById<TextView>(R.id.item_class_abnormal_room_tv)
         var item_class_abnormal_needfollow_ll = p1.findViewById<LinearLayout>(R.id.item_class_abnormal_needfollow_ll)
+        var item_class_abnormal_needfollow_ll_ll = p1.findViewById<LinearLayout>(R.id.item_class_abnormal_needfollow_ll_ll)
         var item_class_abnormal_serious_ll = p1.findViewById<LinearLayout>(R.id.item_class_abnormal_serious_ll)
+        var item_class_abnormal_serious_ll_ll = p1.findViewById<LinearLayout>(R.id.item_class_abnormal_serious_ll_ll)
         var item_class_add_abnormal_tv = p1.findViewById<TextView>(R.id.item_class_add_abnormal_tv)
         item_class_abnormal_name_tv.setText(abnormalList.get(p0)["name"].toString())
         var stringB = StringBuilder();
@@ -64,6 +66,12 @@ class ClassAdapter(taskList: ArrayList<MutableMap<String, Any>>) : BaseAdapter()
             } else if (map["type"].toString().equals(INFORMATIONTYPE_SERIOUS)) {
                 item_class_abnormal_serious_ll.addView(textView)
             }
+        }
+        if (item_class_abnormal_needfollow_ll.childCount == 0) {
+            item_class_abnormal_needfollow_ll_ll.visibility = View.GONE
+        }
+        if (item_class_abnormal_serious_ll.childCount == 0) {
+            item_class_abnormal_serious_ll_ll.visibility = View.GONE
         }
         if (userType.toInt() == 1) {
             item_class_abnormal_age_tv.setTextColor(p2.context.resources.getColor(R.color.text_black))
