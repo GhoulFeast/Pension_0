@@ -32,7 +32,7 @@ class RoomListFragment : Fragment() {
     }
 
     fun getData(): Unit {
-        Http.get {
+        Http.post {
             url = BASEURL + ROOM_LIST
             "userId" - userId
             val fjpkid= (activity as MenuActivity).getData<String>("fjpkid")
@@ -43,7 +43,7 @@ class RoomListFragment : Fragment() {
             success {
                 activity.runOnUiThread {
                     roomListBeans.clear()
-                    roomListBeans.addAll("result".."links")
+                    roomListBeans.addAll(getAny<ArrayList<MutableMap<String,Any>>>("result"))
                     roomList.notifyDataSetChanged()
                 }
             }
@@ -56,11 +56,11 @@ class RoomListFragment : Fragment() {
         roomlist_lv.adapter = roomList
         roomList.setTomorrow(object : RoomListAdapter.OnOld {
             override fun onOldClick(id: String,rwid:String,zbid:String) {
-                var taskDetailsFragment = TaskDetailsFragment();
-                (activity as MenuActivity).showFragment(taskDetailsFragment)
-                (activity as MenuActivity).putData(TodayTaskID, id)
+                var toadyTaskFragment = TodayTaskFragment()
+                (activity as MenuActivity).showFragment(toadyTaskFragment)
+//                (activity as MenuActivity).putData(TodayTaskID, id)
                 (activity as MenuActivity).putData(lrId, rwid)
-                (activity as MenuActivity).putData(zbpkId, zbid)
+//                (activity as MenuActivity).putData(zbpkId, zbid)
             }
         })
         (activity as MenuActivity).style {

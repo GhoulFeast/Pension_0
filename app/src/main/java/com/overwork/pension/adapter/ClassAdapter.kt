@@ -10,6 +10,7 @@ import android.widget.BaseAdapter
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
+import com.aisino.tool.log
 import com.overwork.pension.R
 import com.overwork.pension.other.userType
 import kotlinx.android.synthetic.main.item_class_abnormal.*
@@ -50,7 +51,7 @@ class ClassAdapter(taskList: ArrayList<MutableMap<String, Any>>) : BaseAdapter()
         stringRoom.append(abnormalList.get(p0)["romeNo"].toString())
         item_class_abnormal_room_tv.setText(stringRoom)
         var mutables: List<MutableMap<String, Any>> = abnormalList.get(p0)["informationList"] as List<MutableMap<String, Any>>
-        for (map: MutableMap<String, Any> in mutables) {
+        for (map: MutableMap<String, Any> in mutables) {//方法多调用一次
             var textView = TextView(p2.context)
             textView.setPadding(p2.context.resources.getDimension(R.dimen.dp_5).toInt()
                     , p2.context.resources.getDimension(R.dimen.dp_5).toInt()

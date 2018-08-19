@@ -25,14 +25,14 @@ class AutoUpdateService :Service() {
         val timerTask = object : TimerTask() {
             override fun run() {
                 if (isRun){
-                    Http.get{
+                    Http.post{
                         url=BASEURL+ AUTO_UPDATE_MSG
 
                         "userId"- userId
 
                         success {
-                                wcCall.setMsgNum(("result".."hasNew"))
-
+                                val boolean:Boolean="result".."hasNew"
+                                wcCall.setMsgNum(boolean)
                         }
 
                         fail {  }
@@ -67,7 +67,7 @@ class AutoUpdateService :Service() {
     }
 
     interface AutoUpdateCall {
-        fun setMsgNum(num:String)
+        fun setMsgNum(num:Boolean)
     }
 
 }

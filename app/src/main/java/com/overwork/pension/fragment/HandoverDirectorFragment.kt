@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.aisino.qrcode.activity.CaptureActivity
 import com.aisino.tool.ani.LoadingDialog
+import com.aisino.tool.toast
 import com.hq.kbase.network.Http
 import com.overwork.pension.R
 import com.overwork.pension.activity.MenuActivity
@@ -21,6 +22,8 @@ import kotlinx.android.synthetic.main.fragment_handoverdirector.*
 /**
  * Created by feima on 2018/7/14.
  */
+var isZJ=false
+
 class HandoverDirectorFragment : Fragment() {
     lateinit var classAdapter: ClassAdapter
     var classBeans: ArrayList<MutableMap<String, Any>> = ArrayList()
@@ -33,27 +36,81 @@ class HandoverDirectorFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         initViewAndEvent()
 //        getData(arguments.getString("id"))
-        getData()
+        if (isZJ){
+          getZG()
+        }else{
+            getData()
+        }
+
+    }
+
+    fun getZG(): Unit {
+        Http.post {
+            url = BASEURL + T_HANDOVERDIRECTOR
+            "userId" - userId
+
+            success {
+                activity.runOnUiThread {
+                    classBeans.clear()
+                    classBeans.addAll("result".."abnormalList")
+                    classAdapter.notifyDataSetChanged()
+//                    dialog.dismiss()
+                }
+            }
+            fail {
+                activity.runOnUiThread {
+//                    dialog.dismiss()
+                }
+            }
+        }
     }
 
     fun getData(): Unit {
         val dialog = LoadingDialog(activity);
         dialog.setCanceledOnTouchOutside(false);
         dialog.show();
-        Http.get {
-            url = BASEURL + T_HANDOVERDIRECTOR
-            "userId" - userId
-            "jbrid"-(activity as MenuActivity).getData<String>("jbrid")
+        Http.post {
+            url = BASEURL + J_HANDOVERDIRECTOR
+
+            "userId" - (activity as MenuActivity).getData<String>("jbrid")
+            "jbrId" - userId
             success {
                 activity.runOnUiThread {
-                    classBeans.clear()
-                    classBeans.addAll("result".."abnormalList")
-                    classAdapter.notifyDataSetChanged()
-                    dialog.dismiss()
+                    if ((!"status").equals("200")) {
+                        val isJ: String = "result".."isHandove"
+                        if (isJ.toBoolean()) {
+                            Http.post {
+                                url = BASEURL + T_HANDOVERDIRECTOR
+                                "userId" - userId
+
+                                success {
+                                    activity.runOnUiThread {
+                                        classBeans.clear()
+                                        classBeans.addAll("result".."abnormalList")
+                                        classAdapter.notifyDataSetChanged()
+                                        dialog.dismiss()
+                                    }
+                                }
+                                fail {
+                                    activity.runOnUiThread {
+                                        dialog.dismiss()
+                                    }
+                                }
+                            }
+
+                        }
+                    }
                 }
             }
-            fail { dialog.dismiss() }
+
+            fail {
+                activity.runOnUiThread {
+                    dialog.dismiss()
+                    it.toast(activity)
+                }
+            }
         }
+
 
     }
 
@@ -69,7 +126,7 @@ class HandoverDirectorFragment : Fragment() {
     fun initViewAndEvent(): Unit {
         (activity as MenuActivity).style {
             textBar = ""
-            titleBar="交班"
+            titleBar = "交班"
         }
         classAdapter = ClassAdapter(classBeans)
         director_rlv.adapter = classAdapter

@@ -48,7 +48,7 @@ class SmallTaskAdapter(val activity: FragmentActivity, val taskList: ArrayList<M
                 complete.setPadding(activity.dip2px(24F), activity.dip2px(5F), activity.dip2px(24F), activity.dip2px(5F))
             }
             complete.setOnClickListener {
-                Http.get {
+                Http.post {
                     url = BASEURL + OVER_TASK
                     "userId" - userId
                     "zhrwId" - taskList[p0]["zhid"].toString()

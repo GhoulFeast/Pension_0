@@ -10,7 +10,7 @@ object Http {
         val sub= Submit()
         sub.method=Method.GET
         sub.function()
-//        sub.run()
+        sub.run()
 
     }
 
@@ -18,28 +18,28 @@ object Http {
         val sub= Submit()
         sub.method=Method.POST
         sub.function()
-//        sub.run()
+        sub.run()
     }
 
     var upimage = fun(function: Submit.() -> Unit) {
         val sub= Submit()
         sub.function()
         sub.method=Method.IMAGE
-//        sub.run()
+        sub.run()
     }
 
     var upfile = fun(function: Submit.() -> Unit) {
         val sub= Submit()
         sub.function()
         sub.method=Method.FILE
-//        sub.run()
+        sub.run()
     }
 
     var download = fun(function: Submit.() -> Unit) {
         val sub= Submit()
         sub.function()
         sub.method=Method.DOWNLOAD
-//        sub.run()
+        sub.run()
     }
 
 }

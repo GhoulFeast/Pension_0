@@ -118,18 +118,28 @@
             android:paddingLeft="15dp"
             android:paddingRight="15dp"
             android:paddingTop="10dp">
-
+            <TextView
+                android:id="@+id/msg_details_other_title_tv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="6dp"
+                android:gravity="center"
+                android:text="asdasdasdadasdad"
+                android:textSize="18sp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/ll_page_bg"
-                android:orientation="horizontal">
+                android:orientation="vertical">
+
+
 
                 <TextView
                     android:id="@+id/msg_details_other_context_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
                     android:padding="6dp"
                     android:text="asdasdasdadasdad"
                     android:textSize="15sp" />

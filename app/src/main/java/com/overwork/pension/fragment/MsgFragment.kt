@@ -40,10 +40,15 @@ class MsgFragment : Fragment() {
         })
         getData()
     }
-
+    override fun onHiddenChanged(hidden: Boolean) {
+        super.onHiddenChanged(hidden)
+        (activity as MenuActivity).style {
+            textBar=activity.resources.getString(R.string.ylyxt)
+        }
+    }
 
     fun getData(): Unit {
-        Http.get {
+        Http.post {
             url = BASEURL + MSGLIST
             "userId" - userId
             success {

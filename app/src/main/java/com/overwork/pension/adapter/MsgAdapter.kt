@@ -35,7 +35,7 @@ class MsgAdapter(context: Context, list: List<MutableMap<String, Any>>) : BaseAd
         } else {
             job.setText("通")
         }
-        jobTitle.setText(list.get(p0).get("messageTitle").toString())
+        jobTitle.setText(list.get(p0).get("name").toString()+"\t"+list.get(p0).get("kssj").toString()+"-"+list.get(p0).get("jssj").toString()+list.get(p0).get("messageTitle").toString())
         jobText.setText(list.get(p0).get("messageContent").toString())
         return view
     }

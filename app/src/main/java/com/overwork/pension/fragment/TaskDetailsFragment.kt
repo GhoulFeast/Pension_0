@@ -7,6 +7,7 @@ import android.graphics.Bitmap
 import android.media.MediaPlayer
 import android.net.Uri
 import android.os.Bundle
+import android.os.Handler
 import android.provider.MediaStore
 import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
@@ -41,12 +42,13 @@ import java.io.File
 import java.io.IOException
 
 
+
 val SOUND = 200
 val CZLX = "01"
 
 class TaskDetailsFragment : Fragment() {
 
-    var taskList: MutableMap<String, Any> = mutableMapOf()
+    lateinit var taskList: ArrayList<MutableMap<String, Any>>
     var taskStepList: ArrayList<MutableMap<String, Any>> = ArrayList<MutableMap<String, Any>>()
     //    var isDelete = false
     val imageList = ArrayList<FileInfo>()
@@ -58,6 +60,7 @@ class TaskDetailsFragment : Fragment() {
     val RECORD_TYPE_NEEDHELP = "01"
     val RECORD_TYPE_HAVE = "02"
     var fjxxpkid = ""
+    lateinit var overDialog: LoadingDialog
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater?.inflate(R.layout.fragment_task_details, null, false)
         return view
@@ -65,6 +68,7 @@ class TaskDetailsFragment : Fragment() {
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        overDialog = LoadingDialog(activity).apply { text = "上传中，请稍等" }
         taskStepViewRvAdapter = TaskStepViewRvAdapter(activity, taskStepList)
         todaytask_rv.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
         todaytask_rv.adapter = taskStepViewRvAdapter;
@@ -106,7 +110,7 @@ class TaskDetailsFragment : Fragment() {
             }
         })
         task_details_record_needhelp.setOnClickListener {
-            Log.i("tashelp", "--" + abnormalType)
+
             when (abnormalType) {
                 RECORD_TYPE_NON -> {
                     abnormalType = RECORD_TYPE_NEEDHELP
@@ -116,7 +120,7 @@ class TaskDetailsFragment : Fragment() {
                 RECORD_TYPE_NEEDHELP -> {
                     abnormalType = RECORD_TYPE_NON
                     task_details_record_ll.visibility = View.GONE
-                    task_details_record_needhelp.isChecked = false
+                    task_details_record_needhelp.isChecked = true
                 }
                 RECORD_TYPE_HAVE -> {
                     abnormalType = RECORD_TYPE_NEEDHELP
@@ -145,7 +149,6 @@ class TaskDetailsFragment : Fragment() {
                     task_details_record_have.isChecked = false
                 }
             }
-            Log.i("tashelp", "-to-" + abnormalType)
         }
         intoTime()
         initList()
@@ -210,13 +213,18 @@ class TaskDetailsFragment : Fragment() {
         taskStepViewRvAdapter.notifyDataSetChanged()
     }
 
-    fun initList(): Unit {
-        Http.get {
+    fun initList(zbpkid: String = "-1", hlrwpkid: String = "-1"): Unit {
+        Http.post {
             url = BASEURL + THIS_TIME_TASK
             if (CZLX.equals("01")) {
                 "hlrwId" - (activity as MenuActivity).getData<String>(TodayTaskID)
             }
-            "zbpkid" - (activity as MenuActivity).getData<String>(zbpkId)
+            if (zbpkid.equals("-1")) {
+                "zbpkid" - (activity as MenuActivity).getData<String>(zbpkId)
+            } else {
+                "hlrwId" - hlrwpkid
+                "zbpkid" - zbpkid
+            }
             "lrid" - (activity as MenuActivity).getData<String>(lrId)
             "czlx" - CZLX
             "userId" - userId
@@ -227,55 +235,61 @@ class TaskDetailsFragment : Fragment() {
 //            }
             success {
                 activity.runOnUiThread {
-                    val name: String = "result".."name"
-                    task_details_name.setText(name)
-                    val sex: String = "result".."sex"
-                    task_details_sex.setText(sex)
-                    val romeNo: String = "result".."romeNo"
-                    task_details_room.setText("房间 " + romeNo)
-                    val age: String = "result".."age"
-                    task_details_age.setText(age + "周岁")
-                    val kssj: String = "result".."kssj"
-                    val jssj: String = "result".."Jssj"
-                    task_details_nursing_time.setText(kssj + " - " + jssj)
-                    val meal: String = "result".."meal"
-                    task_details_task.setText(meal)
-                    val consideration: String = "result".."consideration"
-                    fjxxpkid = "result".."fjxxpkid"
-                    task_details_task_details.setText(consideration)
-                    taskList = "result".."nursings"
-                    if (task_details_list.adapter == null) {
-                        task_details_list.adapter = SmallTaskAdapter(activity, taskList["nursings"] as ArrayList<MutableMap<String, Any>>)
+                    if ((!"status").equals("200")) {
+                        val mut = getAny<ArrayList<MutableMap<String, Any>>>("result")[0]
+                        val name: String = mut["name"].toString()
+                        task_details_name.setText(name)
+                        val sex: String = mut["sex"].toString()
+                        task_details_sex.setText(sex)
+                        val romeNo: String = mut["romeNo"].toString()
+                        task_details_room.setText("房间 " + romeNo)
+                        val age: String = mut["age"].toString()
+                        task_details_age.setText(age + "周岁")
+                        val kssj: String = mut["kssj"].toString()
+                        val jssj: String = mut["jssj"].toString()
+                        task_details_nursing_time.setText(kssj + " - " + jssj)
+                        val meal: String = mut["meal"].toString()
+                        task_details_task.setText(meal)
+                        val consideration: String = mut["consideration"].toString()
+                        fjxxpkid = mut["fjxxpkid"].toString()
+                        task_details_task_details.setText(consideration)
+                        taskList = mut["nursings"] as ArrayList<MutableMap<String, Any>>
+                        if (task_details_list.adapter == null) {
+                            task_details_list.adapter = SmallTaskAdapter(activity, taskList)
+                        } else {
+                            (task_details_list.adapter as SmallTaskAdapter).notifyDataSetChanged()
+                        }
+                        measurementProjects = mut["measurementProject"] as ArrayList<MutableMap<String, Any>>
+                        if (task_details_project_list.adapter == null) {
+                            task_details_project_list.adapter = ProjectAdapter(activity, measurementProjects)
+                        } else {
+                            (task_details_project_list.adapter as ProjectAdapter).notifyDataSetChanged()
+                        }
+                        when (mut["abnormalType"].toString()) {
+                            "01" -> task_details_record_needhelp.performClick()
+                            "02" -> task_details_record_have.performClick()
+                        }
+
+                        task_details_context.setText(mut["abnormal"].toString())
+                        task_details_picll.removeAllViews()//重置图片数据
+                        imageList.clear()
+                        for (img in mut["imageUrl"] as List<MutableMap<String, Any>>) {
+
+                            Glide.with(activity).load(UP_IMAGE + img["wjmc"].toString()).asBitmap().error(R.mipmap.picture).into(object : SimpleTarget<Bitmap>() {
+                                override fun onResourceReady(resource: Bitmap, glideAnimation: GlideAnimation<in Bitmap>) {
+                                    addImage(null, UP_IMAGE + img["wjmc"].toString(), img["fb1id"].toString()).setImageBitmap(resource)
+                                }
+                            })
+                        }
+                        task_details_soull.removeAllViews()
+                        soundList.clear()
+                        for (sound in mut["soundUrl"] as List<MutableMap<String, Any>>) {
+                            addSound(null, UP_SOUND + sound["wjmc"].toString(), sound["fb1id"].toString())
+                        }
                     } else {
-                        (task_details_list.adapter as SmallTaskAdapter).notifyDataSetChanged()
-                    }
-                    measurementProjects = "result".."measurementProject"
-                    if (task_details_project_list.adapter == null) {
-                        task_details_project_list.adapter = ProjectAdapter(activity, measurementProjects)
-                    } else {
-                        (task_details_project_list.adapter as ProjectAdapter).notifyDataSetChanged()
-                    }
-                    when (taskList["abnormalType"].toString()) {
-                        "1" -> task_details_record_needhelp.performClick()
-                        "2" -> task_details_record_have.performClick()
+                        (!"message").toast(activity)
                     }
 
-                    task_details_context.setText(taskList["abnormal"].toString())
-                    task_details_picll.removeAllViews()//重置图片数据
-                    imageList.clear()
-                    for (img in taskList["imageUrl"] as List<MutableMap<String, Any>>) {
-
-                        Glide.with(activity).load(img).asBitmap().error(R.mipmap.picture).into(object : SimpleTarget<Bitmap>() {
-                            override fun onResourceReady(resource: Bitmap, glideAnimation: GlideAnimation<in Bitmap>) {
-                                addImage(null, img["wjmc"].toString(), img["fb1id"].toString()).setImageBitmap(resource)
-                            }
-                        })
-                    }
-                    task_details_soull.removeAllViews()
-                    soundList.clear()
-                    for (sound in taskList["soundUrl"] as List<MutableMap<String, Any>>) {
-                        addSound(null, sound["wjmc"].toString(), sound["fb1id"].toString())
-                    }
                 }
             }
 
@@ -285,10 +299,14 @@ class TaskDetailsFragment : Fragment() {
 
 
     fun setSimple() {
-        task_details_ll_1.visibility = View.GONE
-        task_details_ll_2.visibility = View.GONE
-        task_details_ll_3.visibility = View.GONE
-        task_details_ll_4.visibility = View.GONE
+       val han= Handler()
+      han.post {
+          task_details_ll_1.visibility = View.GONE
+          task_details_ll_2.visibility = View.GONE
+          task_details_ll_3.visibility = View.GONE
+          task_details_ll_4.visibility = View.GONE
+      }
+
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -375,18 +393,21 @@ class TaskDetailsFragment : Fragment() {
         dialog.setCanceledOnTouchOutside(false);
         dialog.show()
         Http.upfile {
-            url = BASEURL +DELET_FILE
+            url = BASEURL + DELET_FILE
             "fb1pkid" - string.fileId
             "userId" - userId
             success {
-                "删除成功".toast(activity)
-                dialog.dismiss()
-                view.visibility = View.GONE
-                if (type == 1) {
-                    imageList.removeAt(view.getTag(R.id.image_id).toString().toInt())
-                } else {
-                    soundList.removeAt(view.getTag(R.id.image_id).toString().toInt())
+                activity.runOnUiThread {
+                    "删除成功".toast(activity)
+                    dialog.dismiss()
+                    view.visibility = View.GONE
+                    if (type == 1) {
+                        imageList.removeAt(view.getTag(R.id.image_id).toString().toInt())
+                    } else {
+                        soundList.removeAt(view.getTag(R.id.image_id).toString().toInt())
+                    }
                 }
+
             }
             fail {
                 "删除失败".toast(activity)
@@ -400,24 +421,35 @@ class TaskDetailsFragment : Fragment() {
         dialog.setCanceledOnTouchOutside(false);
         dialog.show();
         Http.upfile {
-            url = BASEURL +UP_FILE
+            url = BASEURL + UP_FILE
             "file" - path!!
             "zbpkid" - (activity as MenuActivity).getData<String>(zbpkId)
             "fjxxpkid" - fjxxpkid
-            "wjlx" - path.name.substring(path.name.indexOf("."), path.name.length)
+            if (path.name.substring(path.name.indexOf("."), path.name.length).equals(".jpg")) {
+                "wjlx" - "01"
+            } else {
+                "wjlx" - "02"
+            }
+
             "userId" - userId
             success {
-                "上传成功".toast(activity)
-                if (type == 1) {
-                    theFileInfoData(path, imageList, "result".."url", "result".."fb1pkid")
-                } else {
-                    theFileInfoData(path, soundList, "result".."url", "result".."fb1pkid")
+                activity.runOnUiThread {
+                    "上传成功".toast(activity)
+                    if (type == 1) {
+                        theFileInfoData(path, imageList, "result".."url", "result".."fb1pkid")
+                    } else {
+                        theFileInfoData(path, soundList, "result".."url", "result".."fb1pkid")
+                    }
+                    dialog.dismiss()
                 }
-                dialog.dismiss()
+
             }
             fail {
-                uploadFail(path, type)
-                dialog.dismiss()
+                activity.runOnUiThread {
+                    uploadFail(path, type)
+                    dialog.dismiss()
+                    it.log("fail")
+                }
             }
         }
     }
@@ -461,31 +493,32 @@ class TaskDetailsFragment : Fragment() {
     }
 
     fun saveAll(): Unit {
-        var imageString = ""
-        var soundString = ""
-        var measurementString = ""
-        if (imageList.size > 0) {
-            for (image in imageList) {
-                imageString = imageString + "," + image.fileUrl
-            }
-            imageString = imageString.substring(1, imageString.length)
-        }
+//        var imageString = ""
+//        var soundString = ""
+//        var measurementString = ""
+//        if (imageList.size > 0) {
+//            for (image in imageList) {
+//                imageString = imageString + "," + image.fileUrl
+//            }
+//            imageString = imageString.substring(1, imageString.length)
+//        }
+//
+//        if (soundList.size > 0) {
+//            for (sound in soundList) {
+//                soundString = soundString + "," + sound.fileUrl
+//            }
+//            soundString = soundString.substring(1, soundString.length)
+//        }
+//        if (measurementProjects.size > 0) {
+//            for (project in measurementProjects) {
+//                measurementString = measurementString + "," + project["id"].toString() + "=" + project["num"].toString()
+//            }
+//            measurementString = measurementString.substring(1, measurementString.length)
+//        }
 
-        if (soundList.size > 0) {
-            for (sound in soundList) {
-                soundString = soundString + "," + sound.fileUrl
-            }
-            soundString = soundString.substring(1, imageString.length)
-        }
-        if (measurementProjects.size > 0) {
-            for (project in measurementProjects) {
-                measurementString = measurementString + "," + project["id"].toString() + "=" + project["num"].toString()
-            }
-            measurementString = measurementString.substring(1, imageString.length)
-        }
-
-        Http.get {
+        Http.post {
             url = BASEURL + ABNORMALITY
+            "fjxxpkid" - fjxxpkid
             "hlrwId" - (activity as MenuActivity).getData<String>(TodayTaskID)
             "userId" - userId
             "zbid" - (activity as MenuActivity).getData<String>(zbpkId)
@@ -510,9 +543,15 @@ class TaskDetailsFragment : Fragment() {
         }
     }
 
-    val overDialog = LoadingDialog(activity).apply { text = "上传中，请稍等" }
+    override fun onHiddenChanged(hidden: Boolean) {
+        super.onHiddenChanged(hidden)
+        if (hidden) {
+            saveAll()
+        }
+    }
+
     override fun onDestroy() {
-        saveAll()
+
         overDialog.setCanceledOnTouchOutside(false);
         overDialog.show();
         super.onDestroy()

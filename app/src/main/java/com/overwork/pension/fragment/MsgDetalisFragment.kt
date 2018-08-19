@@ -30,11 +30,11 @@ class MsgDetalisFragment : Fragment() {
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setUI()
-        readMsg();
+        readMsg()
     }
 
     fun readMsg() {
-        Http.get {
+        Http.post {
             url = BASEURL + MSGLIST_READ
             "userId" - userId
             "zbpkid" - enety.get("zbpkid").toString()
@@ -47,18 +47,18 @@ class MsgDetalisFragment : Fragment() {
     }
 
     fun setUI() {
-        if (enety["type"].toString().toInt() == 1) {
+        if (enety["type"].toString().toInt() == 0) {
             (activity as MenuActivity).style {
                 textBar = activity.resources.getString(R.string.msg_title_task)
             }
             msg_details_context_ll.visibility = View.VISIBLE
             msg_details_other_context_ll.visibility = View.GONE
             msg_details_handover_tv.visibility = View.VISIBLE
-            msg_details_name_tv.setText(enety.get("name").toString())
+            msg_details_name_tv.setText(enety["name"].toString())
             msg_details_sex_tv.setText(enety.get("sex").toString())
             msg_details_age_tv.setText(enety.get("age").toString() + "周岁")
             msg_details_room_tv.setText("房间号" + enety.get("romeNo").toString())
-            msg_details_time_tv.setText(enety.get("kssj ").toString() + "-" + enety.get("jssj").toString())
+            msg_details_time_tv.setText(enety.get("kssj").toString() + "-" + enety.get("jssj").toString())
             var tasks = enety.get("tasks").toString().split("||")
             for (map: String in tasks) {
                 var taskLl: LinearLayout = LinearLayout(activity)
@@ -86,6 +86,7 @@ class MsgDetalisFragment : Fragment() {
             msg_details_context_ll.visibility = View.GONE
             msg_details_other_context_ll.visibility = View.VISIBLE
             msg_details_handover_tv.visibility = View.GONE
+            msg_details_other_title_tv.setText(enety.get("messageTitle").toString())
             msg_details_other_context_tv.setText(enety.get("messageContent").toString())
             (activity as MenuActivity).style {
                 textBar = ""

@@ -38,6 +38,7 @@ class HandoverInfoAdapter(taskList: ArrayList<MutableMap<String, Any>>) : BaseAd
         } else {
             item_handover_complete_iv.isChecked = false
         }
+        item_handover_complete_iv.setTag(p0)
         item_handover_complete_iv.setOnCheckedChangeListener { compoundButton, b ->
             var position = compoundButton.getTag().toString().toInt()
             onHandover.OnHandoverChangeClick(position, b)

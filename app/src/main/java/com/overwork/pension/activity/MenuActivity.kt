@@ -59,7 +59,15 @@ class MenuActivity : AppCompatActivity() , ServiceConnection {
                 }
                 R.id.main_rb_class -> {
                     if (userType.toInt() == 2) {
-                        startActivityForResult(Intent(this, CaptureActivity::class.java), -1)
+                        var classFragment = HandoverDirectorFragment()
+                        isZJ=true
+//                        startActivityForResult(Intent(this, CaptureActivity::class.java), -1)
+                        UseFragmentManager.displayFragment(showFragment, classFragment,
+                                supportFragmentManager, R.id.main_ll)
+                        showFragment = classFragment
+                        main_rb_class.setRadioTopBitmp(R.mipmap.jjb_s)
+                        selectRadio=main_rb_class
+                        selectId=R.mipmap.jjb
                     } else {
                         var classFragment = HandoverInfoFragment()
                         UseFragmentManager.displayFragment(showFragment, classFragment,
@@ -137,12 +145,12 @@ class MenuActivity : AppCompatActivity() , ServiceConnection {
         auBinder = p1 as AutoUpdateService.Binder
         auBinder?.setRun(true)
         auBinder?.setCallBack(object : AutoUpdateService.AutoUpdateCall {
-            override fun setMsgNum(num: String) {
+            override fun setMsgNum(num: Boolean) {
                 runOnUiThread {
                     if (showFragment is MsgFragment){
                         return@runOnUiThread
                     }
-                    if (num.toBoolean()){
+                    if (num){
                             var dra= resources.getDrawable(R.mipmap.msg_red)
                             dra.setBounds( 0, 0, dra.getMinimumWidth(),dra.getMinimumHeight())
                             main_rb_msg.setCompoundDrawables(main_rb_msg.getCompoundDrawables()[0], dra, main_rb_msg.getCompoundDrawables()[2], main_rb_msg.getCompoundDrawables()[3])
@@ -172,7 +180,7 @@ class MenuActivity : AppCompatActivity() , ServiceConnection {
 //                showFragment = handoverDiretor
 //            }
             if (requestCode==QRCODE){//二维码处理
-                var qr=data.extras.get("result").toString()
+                var qr=data.getStringExtra("result")
                 val code=qr.substring(4,qr.length)
                 var qrFrgment:Fragment?=null
                 when(qr.substring(0,1)){

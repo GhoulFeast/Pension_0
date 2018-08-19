@@ -13,15 +13,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import com.aisino.qrcode.encoding.EncodingUtils
+import com.aisino.tool.toast
 import com.aisino.tool.widget.ToastAdd
 import com.hq.kbase.network.Http
 import com.overwork.pension.R
 import com.overwork.pension.activity.MenuActivity
 import com.overwork.pension.adapter.HandoverInfoAdapter
-import com.overwork.pension.other.BASEURL
-import com.overwork.pension.other.T_ABNORMAL
-import com.overwork.pension.other.T_HANDOVERINFO
-import com.overwork.pension.other.userId
+import com.overwork.pension.other.*
 import com.overwork.pension.service.IsHandoverService
 import kotlinx.android.synthetic.main.activity_menu.*
 import kotlinx.android.synthetic.main.fragment_handover.*
@@ -50,23 +48,57 @@ class HandoverInfoFragment : Fragment(), ServiceConnection {
     }
 
     fun getData(): Unit {
-        Http.get {
+        Http.post {
+            url = BASEURL + IS_HANDOVER
+
+            "userId" - userId
+
+            success {
+                activity.runOnUiThread {
+                    if ((!"status").equals("200")){
+                        val isJ:Boolean="result".."isHandove"
+                        if (isJ){
+                            (activity as MenuActivity).showFragment(HandoverEndFragment())
+                            auBinder?.setRun(false)
+                            auBinder = null
+                        }
+                    }
+                }
+            }
+
+            fail { }
+        }
+        Http.post {
             url = BASEURL + T_HANDOVERINFO
             "userId" - userId
             success {
                 activity.runOnUiThread {
-                    handoverInfos.clear()
-                    handoverInfos.addAll("result".."handoverList")
-                    handoverInfoAdapter.notifyDataSetChanged()
+                    if ((!"status").equals("200")){
+                        handoverInfos.clear()
+                        handoverInfos.addAll("result".."handoverList")
+                        handoverInfoAdapter.notifyDataSetChanged()
+                        class_handover_tv.isEnabled=true
+                        class_handover_tv.alpha = 1.0f
+                    }else{
+                        (!"message").toast(activity)
+                        class_handover_tv.isEnabled=false
+                        class_handover_tv.alpha = 0.3f
+                    }
                 }
             }
         }
     }
 
+    override fun onHiddenChanged(hidden: Boolean) {
+        super.onHiddenChanged(hidden)
+        (activity as MenuActivity).style {
+            textBar=activity.resources.getString(R.string.ylyxt)
+        }
+    }
+
     fun initViewAndEvent(): Unit {
-        class_qrcode_iv.viewTreeObserver.addOnDrawListener({
-            class_qrcode_iv.setImageBitmap(EncodingUtils.createQRCode("ZY||"+userId, class_qrcode_iv.width, class_qrcode_iv.height, null))
-        })
+
+
         (activity as MenuActivity).style {
             textBar=activity.resources.getString(R.string.ylyxt)
         }
@@ -117,9 +149,9 @@ class HandoverInfoFragment : Fragment(), ServiceConnection {
         auBinder = p1 as IsHandoverService.Binder
         auBinder?.setRun(true)
         auBinder?.setCallBack(object : IsHandoverService.IsHandoverCall {
-            override fun setMsgNum(num: String) {
+            override fun setMsgNum(num: Boolean) {
                 activity.runOnUiThread {
-                    if (num.toBoolean()) {
+                    if (num) {
                         (activity as MenuActivity).showFragment(HandoverEndFragment())
                         auBinder?.setRun(false)
                         auBinder = null
