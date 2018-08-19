@@ -1,5 +1,6 @@
 package com.overwork.pension.adapter
 
+import android.graphics.drawable.Drawable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -7,7 +8,13 @@ import android.widget.BaseAdapter
 import android.widget.ImageView
 import android.widget.TextView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.drawable.GlideDrawable
+import com.bumptech.glide.request.animation.GlideAnimation
+import com.bumptech.glide.request.target.SimpleTarget
 import com.overwork.pension.R
+import com.overwork.pension.other.UP_HEAD
+import jp.wasabeef.glide.transformations.CropCircleTransformation
+import java.lang.Exception
 
 /**
  * Created by feima on 2018/7/11.
@@ -25,7 +32,19 @@ class RoomOldTaskAdapter(taskList: ArrayList<MutableMap<String, Any>>) : BaseAda
         var item_tommorrow_headimage_iv = p1.findViewById<ImageView>(R.id.item_tommorrow_headimage_iv)
         var mutable: MutableMap<String, Any> = handoverList.get(p0)
         item_tommorrow_name_tv.setText(mutable["name"].toString())
-        Glide.with(p2.context).load(mutable["img"]).error(R.mipmap.woman).into(item_tommorrow_headimage_iv)
+        Glide.with(p2.context).load(UP_HEAD+mutable["img"]).error(R.mipmap.woman).bitmapTransform(CropCircleTransformation(p2.context)).into(object : SimpleTarget<GlideDrawable>() {
+            override fun onResourceReady(resource: GlideDrawable, glideAnimation: GlideAnimation<in GlideDrawable>) {
+                item_tommorrow_headimage_iv.setImageDrawable(resource)
+            }
+
+            override fun onLoadFailed(e: Exception?, errorDrawable: Drawable?) {
+                if (mutable["sex"]!!.equals("男")){
+                    item_tommorrow_headimage_iv.setImageResource(R.mipmap.man)
+                }else{
+                    item_tommorrow_headimage_iv.setImageResource(R.mipmap.woman)
+                }
+            }
+        })
         item_tommorrow_headimage_iv.setTag(R.id.room_old_task_id, mutable["lrid"])
         item_tommorrow_headimage_iv.setTag(R.id.room_old_task_rwid, mutable["lrid"])
         item_tommorrow_headimage_iv.setTag(R.id.room_old_task_zbid, mutable["lrid"])

@@ -31,15 +31,12 @@ var cookjar: CookieJar = object : CookieJar {
 }
 val cookieStore = HashMap<String, List<Cookie>>()//cookie缓存
 
-var isHttpWaitAni = false
-
 class Submit {
     //可配置属性
     var url = ""
     var tag = ""
     var method = Method.GET
     var returnType = ReturnType.JSON
-    var isDebug = true
     var downloadPath = System.currentTimeMillis().toString() + ".jpg"
     var outTime = 5L//单位为秒
 
@@ -69,15 +66,15 @@ class Submit {
 //            }
 //        }
 //    }
-    init {
-        tryInit()
-    }
+//    init {
+//        tryInit()
+//    }
 
 
-    /*  fun run() {
-         tryInit()
+   fun run() {
+       tryInit()
+   }
 
-     }*/
 
     private fun tryInit(): Unit { //检查配置单
         when (returnType) {
@@ -90,11 +87,9 @@ class Submit {
             return
         }
         if (url == "") return
-        _start()
 
-        if (isHttpWaitAni) {
 
-        }
+
 
         when (method) {//分类请求
             Method.GET -> get()
@@ -107,6 +102,7 @@ class Submit {
 
             Method.FILE -> upFile()
         }
+        _start()
     }
 
     fun start(start: () -> Unit): Unit {//检查参数
@@ -133,6 +129,7 @@ class Submit {
         if (_params.size > 0) {
             url = url.substring(0, url.length - 1)
         }
+        (":"+url).log("get")
         val request = Request.Builder().url(url).build()
         val call = okHttpClient.build().newCall(request)
         call.enqueue(object : Callback {
@@ -151,6 +148,7 @@ class Submit {
         val build = FormBody.Builder()
         for (p in _params) {
             build.add(p.key, p.value.toString())
+            (p.key+"-"+p.value.toString()).log("post")
         }
         val body = build.build()
         val request = Request.Builder().url(url).post(body).build()
@@ -170,6 +168,7 @@ class Submit {
     private fun upImage(): Unit {
         val mOkHttpClient = OkHttpClient.Builder().cookieJar(cookjar).connectTimeout(outTime, TimeUnit.SECONDS)
         val build = MultipartBody.Builder().setType(MultipartBody.FORM)
+        url.log("image")
         for (p in _params) {
             if (p.value is File) {
                 build.addFormDataPart(p.key, (p.value as File).name, RequestBody.create(MediaType.parse("image/png"), p.value as File))
@@ -198,6 +197,7 @@ class Submit {
     }
 
     private fun upFile(): Unit {
+        url.log("file")
         val mOkHttpClient = OkHttpClient.Builder().cookieJar(cookjar).connectTimeout(outTime, TimeUnit.SECONDS)
         val build = MultipartBody.Builder().setType(MultipartBody.FORM)
         for (p in _params) {
@@ -284,8 +284,11 @@ class Submit {
     }
 
     //- 入参
-    operator fun String.minus(value: String) {
-        _params.put(this, value)
+    operator fun String.minus(value: String?) {
+        if (value!=null){
+            _params.put(this, value)
+        }
+
     }
 
     //- 入参
@@ -355,8 +358,19 @@ class Submit {
             JsonToken.BOOLEAN.name -> {
                 target.put(loopName, reader.nextBoolean())
             }
-            else -> {
+            JsonToken.STRING.name->{
                 target.put(loopName, reader.nextString())
+            }
+            JsonToken.NULL.name->{
+                target.put(loopName, "")
+                reader.skipValue()
+            }
+            JsonToken.NUMBER.name->{
+                target.put(loopName, reader.nextLong().toString())
+            }
+            else -> {
+                loopName.log("else")
+                target.put(loopName, "")
             }
         }
     }

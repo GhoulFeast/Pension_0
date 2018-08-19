@@ -25,14 +25,16 @@ class IsHandoverService : Service() {
         val timerTask = object : TimerTask() {
             override fun run() {
                 if (isRun){
-                    Http.get {
+                    Http.post {
                         url = BASEURL + IS_HANDOVER
 
                         "userId" - userId
 
                         success {
-                            wcCall.setMsgNum(("result".."isHandove"))
-
+                            if ((!"status").equals("200")){
+                                val w:Boolean="result".."isHandove"
+                                wcCall.setMsgNum(w)
+                            }
                         }
 
                         fail { }
@@ -67,7 +69,7 @@ class IsHandoverService : Service() {
     }
 
     interface IsHandoverCall {
-        fun setMsgNum(num:String)
+        fun setMsgNum(num:Boolean)
     }
 
 }

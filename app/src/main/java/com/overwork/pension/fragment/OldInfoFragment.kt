@@ -41,7 +41,7 @@ class OldInfoFragment : Fragment() {
         val dialog = LoadingDialog(activity);
         dialog.setCanceledOnTouchOutside(false);
         dialog.show();
-        Http.get {
+        Http.post {
             url = BASEURL + OLDMAN_INFO
             "userId" - userId
             "lrid" - arguments.getString("id")

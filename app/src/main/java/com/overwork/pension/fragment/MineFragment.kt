@@ -1,5 +1,6 @@
 package com.overwork.pension.fragment
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
@@ -15,6 +16,8 @@ import com.overwork.pension.activity.MenuActivity
 import com.overwork.pension.adapter.HandoverInfoAdapter
 import com.overwork.pension.adapter.TomorrowTaskAdapter
 import com.overwork.pension.other.*
+import jp.wasabeef.glide.transformations.CropCircleTransformation
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_mine.*
 import kotlinx.android.synthetic.main.fragment_today_task.*
 
@@ -35,7 +38,7 @@ class MineFragment : Fragment() {
         mine_user_starttime.setText(String.format(resources.getString(R.string.text_entryTime, entryTime)))
         mine_user_overtime.setText(String.format(resources.getString(R.string.text_workingyears, workingYears)))
         mine_user_ld.setText(String.format(resources.getString(R.string.text_superiorName, superiorName)))
-        Glide.with(activity).load(userPortrait).error(R.mipmap.hs).into(mine_user_icon)
+        Glide.with(activity).load(UP_HEAD+userPortrait).error(R.mipmap.hs) .bitmapTransform(CropCircleTransformation(activity)).into(mine_user_icon)
         tomorrowTaskAdp.setTomorrow(object : TomorrowTaskAdapter.OnTomorrow {
             override fun OnHandoverClick(id: String) {
                 var old = OldInfoFragment()
@@ -47,7 +50,9 @@ class MineFragment : Fragment() {
         })
 
         mine_exit_user.setOnClickListener{
-            startActivity(Intent(activity,MainActivity::class.java) )
+            val intent=Intent(activity,MainActivity::class.java)
+            intent.putExtra("exit",true)
+            startActivity( intent)
             activity.finish()
         }
         getData()
@@ -56,15 +61,18 @@ class MineFragment : Fragment() {
         }
     }
 
-    override fun onStart() {
-        super.onStart()
+    override fun onHiddenChanged(hidden: Boolean) {
+        super.onHiddenChanged(hidden)
+        (activity as MenuActivity).style {
+            textBar=activity.resources.getString(R.string.ylyxt)
+        }
     }
 
     fun getData() {
         val dialog = LoadingDialog(activity);
         dialog.setCanceledOnTouchOutside(false);
         dialog.show();
-        Http.get {
+        Http.post {
             url = BASEURL + TOMORROW_TASK
             "userId" - userId
             success {

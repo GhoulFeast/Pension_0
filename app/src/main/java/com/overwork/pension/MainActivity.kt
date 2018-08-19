@@ -9,10 +9,10 @@ import android.text.TextWatcher
 import android.widget.Toast
 import com.aisino.tool.DEBUG
 import com.aisino.tool.ani.LoadingDialog
+import com.aisino.tool.log
 import com.aisino.tool.system.getAllPermissions
 import com.aisino.tool.system.signPermissions
 import com.hq.kbase.network.Http
-import com.hq.kbase.network.isHttpWaitAni
 import com.overwork.pension.activity.MenuActivity
 import com.overwork.pension.other.BASEURL
 import com.overwork.pension.other.LOGIN
@@ -24,6 +24,7 @@ class MainActivity : AppCompatActivity() {
 
     var hasName = false
     var hasPwd = false
+    var isExit=false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,11 +32,18 @@ class MainActivity : AppCompatActivity() {
         initViewAndEvent()
         CrashReport.initCrashReport(application, "ce4e77be1a", true);
         DEBUG(true)
+
     }
 
     fun initViewAndEvent(): Unit {
-        isHttpWaitAni = true
-
+        isExit= intent.getBooleanExtra("exit",false)
+        if (isExit){
+            var share = getPreferences(Context.MODE_PRIVATE)
+            var edio = share.edit()
+            edio.putString("yhmc", "")
+            edio.putString("yhmm", "")
+            edio.commit()
+        }
         lg_login.setOnClickListener {
             if (hasName && hasPwd) {
                 toLogin()
@@ -88,9 +96,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun toLogin(): Unit {
-        val dialog = LoadingDialog(this);
-        dialog.setCanceledOnTouchOutside(false);
-        dialog.show();
+        val dialog = LoadingDialog(this)
+        dialog.setCanceledOnTouchOutside(false)
+        dialog.show()
 //        if (lg_name.text.toString().equals("")){
 ////            ToastAdd.showToast(this,"请输入用户名")
 //            Toast.makeText(this,"请输入用户名",Toast.LENGTH_SHORT).show()
@@ -101,16 +109,15 @@ class MainActivity : AppCompatActivity() {
 //            Toast.makeText(this,"请输入密码",Toast.LENGTH_SHORT).show()
 //            return
 //        }
-        Http.get {
+        Http.post {
             url = BASEURL + LOGIN
-            "yhmc" - lg_name.text.toString()
-            "yhmm" - lg_pwd.text.toString()
+            "userAccount" - lg_name.text.toString()
+            "userPassword" - lg_pwd.text.toString()
             success {
                 if ((!"status").toInt() == 200) {
                     userId = "result".."userId"
                     userType = "result".."userType"
                     userName = "result".."userName"
-                    userLevel = "result".."userLevel"
                     userLevelName = "result".."userLevelName"
                     entryTime = "result".."entryTime"
                     workingYears = "result".."workingYears"
@@ -124,7 +131,7 @@ class MainActivity : AppCompatActivity() {
                     edio.commit()
                     finish()
                 } else {
-                    val msg: String = "result".."msg"
+                    val msg: String = !"message"
                     runOnUiThread { Toast.makeText(this@MainActivity, msg, Toast.LENGTH_SHORT).show() }
                 }
                 dialog.dismiss()

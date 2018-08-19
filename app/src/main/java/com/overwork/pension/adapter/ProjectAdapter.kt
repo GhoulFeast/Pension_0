@@ -11,6 +11,7 @@ import android.widget.BaseAdapter
 import android.widget.EditText
 import android.widget.RadioGroup
 import android.widget.TextView
+import com.aisino.tool.log
 import com.aisino.tool.toast
 import com.hq.kbase.network.Http
 import com.overwork.pension.R
@@ -28,7 +29,7 @@ class ProjectAdapter(val activity: FragmentActivity, val taskList: ArrayList<Mut
 
     override fun getView(index: Int, p1: View?, p2: ViewGroup?): View {
         val view = LayoutInflater.from(activity).inflate(R.layout.item_measurement_project, null)
-        if (taskList[index]["zt"].toString().equals("1")) {
+        if (!taskList[index]["zt"].toString().equals("1")) {
             view.visibility = View.GONE
         }
         val task = view.findViewById<TextView>(R.id.item_project_name)
@@ -66,24 +67,28 @@ class ProjectAdapter(val activity: FragmentActivity, val taskList: ArrayList<Mut
         num.setText(taskList[index]["sjz"].toString())
 
         num.setOnFocusChangeListener({ v, hasFocus ->
-            Http.get {
-                url = BASEURL + OVER_EX
-                "cgjlpkid" - taskList[index]["hlrwpkid"].toString()
-                "userId" - userId
-                "lx" - taskList[index]["lx"].toString()
-                "clbz" - ifEstimate.toString()
-                "sjz" - (v as EditText).text.toString()
-                success {
-                    activity.runOnUiThread {
-                        if (getAny<String>("status").equals("200")) {
-                            ((activity as MenuActivity).showFragment as TaskDetailsFragment).initList()
-                        } else {
-                            getAny<String>("message").toast(activity)
-                            ((activity as MenuActivity).showFragment as TaskDetailsFragment).initList()
+            if (!hasFocus){
+                hasFocus.toString().log("has")
+                Http.post {
+                    url = BASEURL + OVER_EX
+                    "cgjlpkid" - taskList[index]["hlrwpkid"].toString()
+                    "userId" - userId
+                    "lx" - taskList[index]["lx"].toString()
+                    "clbz" - ifEstimate.toString()
+                    "sjz" - (v as EditText).text.toString()
+                    success {
+                        activity.runOnUiThread {
+                            if (getAny<String>("status").equals("200")) {
+                                ((activity as MenuActivity).showFragment as TaskDetailsFragment).initList()
+                            } else {
+                                getAny<String>("message").toast(activity)
+                                ((activity as MenuActivity).showFragment as TaskDetailsFragment).initList()
+                            }
                         }
                     }
                 }
             }
+
         })
         return view
     }

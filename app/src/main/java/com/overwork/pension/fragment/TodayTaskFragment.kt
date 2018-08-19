@@ -10,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import com.aisino.tool.log
+import com.aisino.tool.toast
 import com.hq.kbase.network.Http
 import com.overwork.pension.R
 import com.overwork.pension.activity.MenuActivity
@@ -77,16 +78,23 @@ class TodayTaskFragment : Fragment() {
     }
 
     fun getTaskList(): Unit {
-        Http.get {
+        Http.post {
             url = BASEURL + T_TASK
             "userId" - userId
             "kssj" - showTime
-            "lrpkid" - pkid
+            "lrpkid" - (activity as MenuActivity).getData<String>(lrId)
+            (activity as MenuActivity).removeData(lrId)
             "userType" - userType
             success {
-                time = "result".."taskTime"
-                thisTaskList.clear()
-                thisTaskList.addAll("result".."links")
+                activity.runOnUiThread {
+                if ((!"status").equals("200")){
+                    time = "result".."taskTime"
+                    thisTaskList.clear()
+                    thisTaskList.addAll("result".."links")
+                }else{
+                    (!"message").toast(activity)
+                }
+
 //                for (mut: MutableMap<String, Any> in taskList) {
 //                    if (mut["taskState"].toString().toInt() == 3) {
 //                        showTime = mut["taskTime"].toString()
@@ -94,7 +102,6 @@ class TodayTaskFragment : Fragment() {
 //                        thisTaskList.addAll(mut["links"] as ArrayList<MutableMap<String, Any>>)
 //                    }
 //                }
-                activity.runOnUiThread {
                     todayTaskAdapter.notifyDataSetChanged()
                     taskStepViewRvAdapter.notifyDataSetChanged()
                 }
