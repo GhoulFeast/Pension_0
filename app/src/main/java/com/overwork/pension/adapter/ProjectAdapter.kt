@@ -67,8 +67,11 @@ class ProjectAdapter(val activity: FragmentActivity, val taskList: ArrayList<Mut
         num.setText(taskList[index]["sjz"].toString())
 
         num.setOnFocusChangeListener({ v, hasFocus ->
-            if (!hasFocus){
-                hasFocus.toString().log("has")
+            if (hasFocus) {
+                // 此处为得到焦点时的处理内容
+            } else {
+                v.id.toString().log("id")
+                // 此处为失去焦点时的处理内容
                 Http.post {
                     url = BASEURL + OVER_EX
                     "cgjlpkid" - taskList[index]["hlrwpkid"].toString()
@@ -88,7 +91,6 @@ class ProjectAdapter(val activity: FragmentActivity, val taskList: ArrayList<Mut
                     }
                 }
             }
-
         })
         return view
     }

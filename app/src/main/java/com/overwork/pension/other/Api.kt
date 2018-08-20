@@ -23,8 +23,9 @@ package com.overwork.pension.other
 //val UP_IMAGE="http://10.3.240.138:8081/yly/upload/tpwj/"
 //val UP_SOUND="http://10.3.240.138:8081/yly/upload/ypwj/"
 //val J_HANDOVERDIRECTOR="/zgsmjb.action"
+//val SIMPLE_THIS_TIME_TASK = ""//19异常内容
 
-val BASEURL = "www.mockhttp.cn/mock/"//基本
+val BASEURL = "http://www.mockhttp.cn/mock/"//基本
 val LOGIN = "loginm"//登陆
 val MSGLIST = "msgs_list"//消息列表
 val T_TASK = "t_task"//今天任务
@@ -47,6 +48,7 @@ val UP_HEAD="http://10.3.240.138:8081/yly/upload/"
 val UP_IMAGE="http://10.3.240.138:8081/yly/upload/tpwj/"
 val UP_SOUND="http://10.3.240.138:8081/yly/upload/ypwj/"
 val J_HANDOVERDIRECTOR="/zgsmjb.action"
+val SIMPLE_THIS_TIME_TASK = "hlxx_info"//19异常内容
 
 //附件信息	http://localhost:8081/yly/appall/fjxx.action?hlrwId=4&czlx=01&userId=ba1a6c53-cdf1-48d9-80cb-5d97307e038c
 //保存常规记录	http://localhost:8081/yly/appall/savecgjl.action?后面是参数

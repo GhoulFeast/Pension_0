@@ -40,6 +40,9 @@ class TodayTaskFragment : Fragment() {
             textBar = ""
             titleBar=resources.getString(R.string.today_task)
         }
+        if (userType.equals("2")){//如果是主管，改变状态为主管添加
+            CZLX="03"
+        }
         return view
     }
 

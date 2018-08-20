@@ -11,6 +11,7 @@ import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
 import android.view.View
 import android.widget.AdapterView
+import android.widget.PopupWindow
 import android.widget.RadioButton
 import com.aisino.qrcode.activity.CaptureActivity
 import com.aisino.tool.log
@@ -33,6 +34,7 @@ class MenuActivity : AppCompatActivity() , ServiceConnection {
     private var nowState = 0
     private var backPressTime=0L
     private var auBinder: AutoUpdateService.Binder? = null
+    var popupWindow:PopupWindow?=null
 
     lateinit var selectRadio:RadioButton
     private var selectId=0
@@ -107,7 +109,7 @@ class MenuActivity : AppCompatActivity() , ServiceConnection {
             backFragment()
         }
         bar_more.setOnClickListener{
-           openUnterTheViewListWindow(it,ArrayList<String>().apply { add("扫一扫") },{
+            popupWindow= openUnterTheViewListWindow(it,ArrayList<String>().apply { add("扫一扫") },{
                startActivityForResult(Intent(this@MenuActivity,CaptureActivity::class.java),QRCODE)
            })
         }
@@ -270,6 +272,9 @@ class MenuActivity : AppCompatActivity() , ServiceConnection {
 
     override fun onBackPressed() {
 //        super.onBackPressed()
+        if (popupWindow!=null){
+           popupWindow!!.dismiss()
+        }
         if (showFragment is HomeFragment || showFragment is HandoverInfoFragment || showFragment is MsgFragment || showFragment is MineFragment) {
             if (System.currentTimeMillis() - backPressTime < 1000) {
                 finish()

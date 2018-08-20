@@ -147,6 +147,9 @@ private fun getImagePath(activity: Activity, uri: Uri, selection: String?): Stri
     return path
 }
 
+/**
+ * 获取相机照出来的图片
+ */
 fun Uri.getCameraImg(activity: Activity): Bitmap? {
     var stream: InputStream? = null
     val sCompatUseCorrectStreamDensity = activity.applicationInfo.targetSdkVersion > Build.VERSION_CODES.M
