@@ -39,7 +39,7 @@ fun Activity.openUnterTheViewListWindow(view: View,data: ArrayList<String>,itemR
     return mPopupWindow
 }
 
-fun ImageView.showFullWindow(): Unit {
+fun ImageView.showFullWindow(): PopupWindow {
     // 将布局文件转换成View对象，popupview 内容视图
     val mPopView = (this.context as Activity).layoutInflater.inflate(R.layout.image_full_window, null)
     // 将转换的View放置到 新建一个popuwindow对象中
@@ -56,4 +56,5 @@ fun ImageView.showFullWindow(): Unit {
         }
     }
     mPopupWindow.showAsDropDown(this)
+    return mPopupWindow
 }

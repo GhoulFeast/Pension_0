@@ -272,8 +272,9 @@ class MenuActivity : AppCompatActivity() , ServiceConnection {
 
     override fun onBackPressed() {
 //        super.onBackPressed()
+
         if (popupWindow!=null){
-           popupWindow!!.dismiss()
+           popupWindow?.dismiss()
         }
         if (showFragment is HomeFragment || showFragment is HandoverInfoFragment || showFragment is MsgFragment || showFragment is MineFragment) {
             if (System.currentTimeMillis() - backPressTime < 1000) {

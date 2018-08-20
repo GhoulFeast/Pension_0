@@ -25,6 +25,7 @@ import android.support.v7.widget.LinearLayoutManager
 import android.util.Log
 import android.widget.ImageView
 import android.widget.LinearLayout
+import android.widget.PopupWindow
 import com.aisino.tool.ani.LoadingDialog
 import com.aisino.tool.log
 import com.aisino.tool.system.*
@@ -60,6 +61,7 @@ class TaskDetailsFragment : Fragment() {
     val RECORD_TYPE_HAVE = "02"
     var fjxxpkid = ""
     var isSimple = false
+    var imgPopupWindow: PopupWindow?=null
     lateinit var overDialog: LoadingDialog
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater?.inflate(R.layout.fragment_task_details, null, false)
@@ -236,6 +238,14 @@ class TaskDetailsFragment : Fragment() {
                 activity.runOnUiThread {
                     if ((!"status").equals("200")) {
                         val mut = getAny<ArrayList<MutableMap<String, Any>>>("result")[0]
+                        val name: String = mut["name"].toString()
+                        task_details_name.setText(name)
+                        val sex: String = mut["sex"].toString()
+                        task_details_sex.setText(sex)
+                        val romeNo: String = mut["romeNo"].toString()
+                        task_details_room.setText("房间 " + romeNo)
+                        val age: String = mut["age"].toString()
+                        task_details_age.setText(age + "周岁")
                         when (mut["abnormalType"].toString()) {
                             "01" -> task_details_record_needhelp.performClick()
                             "02" -> task_details_record_have.performClick()
@@ -323,11 +333,12 @@ class TaskDetailsFragment : Fragment() {
                         } else {
                             (task_details_project_list.adapter as ProjectAdapter).notifyDataSetChanged()
                         }
-                        when (mut["abnormalType"].toString()) {
-                            "01" -> task_details_record_needhelp.performClick()
-                            "02" -> task_details_record_have.performClick()
+                        if (!task_details_record_needhelp.isChecked&&!task_details_record_have.isChecked){
+                            when (mut["abnormalType"].toString()) {
+                                "01" -> task_details_record_needhelp.performClick()
+                                "02" -> task_details_record_have.performClick()
+                            }
                         }
-
                         task_details_context.setText(mut["abnormal"].toString())
                         task_details_picll.removeAllViews()//重置图片数据
                         imageList.clear()
@@ -426,13 +437,13 @@ class TaskDetailsFragment : Fragment() {
 
     fun addImage(file: File?, imageURL: String?, id: String): ImageView {
         val newImg = ImageView(activity)
-        val lp = ViewGroup.LayoutParams(task_details_photograph.width, task_details_photograph.height)
+        val lp = ViewGroup.LayoutParams(task_details_photograph.width+24, task_details_photograph.height+24)
         newImg.setLayoutParams(lp);
         newImg.setPadding(24, 24, 24, 24)
         newImg.scaleType = ImageView.ScaleType.CENTER_CROP
         newImg.setTag(R.id.image_id, imageList.size)
         newImg.setOnClickListener {
-            (it as ImageView).showFullWindow()
+            imgPopupWindow= (it as ImageView).showFullWindow()
         }
         newImg.setOnLongClickListener {
             removeFile(it as ImageView, imageList.get(it.getTag(R.id.image_id).toString().toInt()), 1)
@@ -602,6 +613,10 @@ class TaskDetailsFragment : Fragment() {
         super.onHiddenChanged(hidden)
         if (hidden) {
             saveAll()
+            if (imgPopupWindow!=null){
+                imgPopupWindow?.dismiss()
+            }
+
         }
     }
 
