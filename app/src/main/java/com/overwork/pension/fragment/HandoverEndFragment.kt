@@ -24,4 +24,11 @@ class HandoverEndFragment : Fragment() {
             titleBar="交班完成"
         }
     }
+    override fun onHiddenChanged(hidden: Boolean) {
+        super.onHiddenChanged(hidden)
+        (activity as MenuActivity).style {
+            textBar = ""
+            titleBar = "交班完成"
+        }
+    }
 }

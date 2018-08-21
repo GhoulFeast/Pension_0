@@ -62,7 +62,7 @@ class ClassFragment : Fragment() {
     fun initViewAndEvent(): Unit {
         (activity as MenuActivity).style {
             textBar = ""
-            activity.resources.getString(R.string.checking_information)
+            titleBar=activity.resources.getString(R.string.checking_information)
         }
         classAdapter = ClassAdapter(classBeans)
         class_rlvv.adapter = classAdapter
@@ -74,6 +74,13 @@ class ClassFragment : Fragment() {
 //
 //            }
 //        })
+    }
+    override fun onHiddenChanged(hidden: Boolean) {
+        super.onHiddenChanged(hidden)
+        (activity as MenuActivity).style {
+            textBar = ""
+            titleBar = activity.resources.getString(R.string.checking_information)
+        }
     }
 
 }

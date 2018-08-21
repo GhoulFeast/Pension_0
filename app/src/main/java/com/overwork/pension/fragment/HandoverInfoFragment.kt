@@ -186,4 +186,5 @@ class HandoverInfoFragment : Fragment(), ServiceConnection {
             }
         })
     }
+
 }

@@ -96,5 +96,12 @@ class OldInfoFragment : Fragment() {
             fail { dialog.dismiss() }
         }
     }
+    override fun onHiddenChanged(hidden: Boolean) {
+        super.onHiddenChanged(hidden)
+        (activity as MenuActivity).style {
+            textBar = ""
+            titleBar = "老人信息"
+        }
 
+    }
 }

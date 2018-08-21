@@ -69,4 +69,12 @@ class RoomListFragment : Fragment() {
         }
     }
 
+    override fun onHiddenChanged(hidden: Boolean) {
+        super.onHiddenChanged(hidden)
+        (activity as MenuActivity).style {
+            textBar = ""
+            titleBar = "房间信息"
+        }
+    }
+
 }

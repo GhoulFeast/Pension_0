@@ -618,6 +618,10 @@ class TaskDetailsFragment : Fragment() {
             }
 
         }
+        (activity as MenuActivity).style {
+            textBar = ""
+            titleBar = "任务详情"
+        }
     }
 
     override fun onDestroy() {
