@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.GlideDrawable
@@ -36,6 +37,7 @@ class TomorrowTaskAdapter(context: Context, taskList: ArrayList<MutableMap<Strin
         var p1 = LayoutInflater.from(mContext).inflate(R.layout.item_tomorrowtask, null, false)
         var item_tommorrow_name_tv = p1.findViewById<TextView>(R.id.item_tommorrow_name_tv)
         var item_tommorrow_headimage_iv = p1.findViewById<ImageView>(R.id.item_tommorrow_headimage_iv)
+        var item_tommorrow_headimage_ll = p1.findViewById<LinearLayout>(R.id.item_tommorrow_headimage_ll)
         var mutable: MutableMap<String, Any> = handoverList.get(p0)
         Glide.with(mContext).load(UP_HEAD+mutable["oldPortrait"].toString()).error(R.mipmap.man).bitmapTransform(CropCircleTransformation(mContext)).into(object : SimpleTarget<GlideDrawable>() {
             override fun onResourceReady(resource: GlideDrawable, glideAnimation: GlideAnimation<in GlideDrawable>) {
@@ -51,12 +53,12 @@ class TomorrowTaskAdapter(context: Context, taskList: ArrayList<MutableMap<Strin
             }
         })
         item_tommorrow_name_tv.setText(mutable["oldName"].toString())
-        item_tommorrow_headimage_iv.setTag(mutable["oldId"])
+        item_tommorrow_headimage_ll.setTag(mutable["oldId"])
 //        p1..setOnClickListener({ view ->
 //            var id = view.getTag().toString()
 //            onTomorrow.OnHandoverClick(id)
 //        })
-        item_tommorrow_headimage_iv.setOnClickListener({ view ->
+        item_tommorrow_headimage_ll.setOnClickListener({ view ->
             var id = view.getTag().toString()
             onTomorrow.OnHandoverClick(id)
         })
