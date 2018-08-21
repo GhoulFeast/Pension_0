@@ -93,16 +93,18 @@
 
         <com.overwork.pension.other.MyGridView
             android:id="@+id/item_old_info_image_gv"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:listSelector="@android:color/transparent"
-            android:numColumns="5" />
+            android:numColumns="8"
+            android:columnWidth="4dp"/>
 
         <com.overwork.pension.other.MyGridView
             android:id="@+id/item_old_info_sound_gv"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:listSelector="@android:color/transparent"
             android:layout_height="wrap_content"
-            android:numColumns="5" />
+            android:numColumns="8"
+            android:columnWidth="4dp"/>
     </LinearLayout>
 </LinearLayout>

@@ -19,14 +19,13 @@
         android:layout_height="wrap_content"
         android:background="@drawable/editview_bg"
         android:inputType="number"
-        android:minWidth="90dp" />
-    <View
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:layout_weight="1"/>
+        android:minWidth="80dp" />
+    <!--<View-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="0dp"-->
+        <!--android:layout_weight="1"/>-->
     <RadioGroup
         android:visibility="gone"
-        android:layout_marginRight="4dp"
         android:id="@+id/item_project_rg"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
@@ -40,7 +39,7 @@
             android:layout_weight="1"
             android:text="实测量"
             android:textColor="@color/blue"
-            android:textSize="18sp" />
+            android:textSize="16sp" />
 
         <RadioButton
             android:id="@+id/item_project_rb1"
@@ -49,6 +48,6 @@
             android:layout_weight="1"
             android:text="估计量"
             android:textColor="@color/blue"
-            android:textSize="18sp" />
+            android:textSize="16sp" />
     </RadioGroup>
 </LinearLayout>

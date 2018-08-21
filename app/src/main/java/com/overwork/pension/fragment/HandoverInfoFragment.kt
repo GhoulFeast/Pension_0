@@ -77,8 +77,13 @@ class HandoverInfoFragment : Fragment(), ServiceConnection {
                         handoverInfos.clear()
                         handoverInfos.addAll("result".."handoverList")
                         handoverInfoAdapter.notifyDataSetChanged()
-                        class_handover_tv.isEnabled = true
-                        class_handover_tv.alpha = 1.0f
+                        for (map: MutableMap<String, Any> in handoverInfos) {
+                            if (map.get("isRecheck").toString().equals("N")) {
+                                class_handover_tv.isEnabled = false
+                                class_handover_tv.alpha = 0.3f
+                                break
+                            }
+                        }
                     } else {
                         (!"message").toast(activity)
                         class_handover_tv.isEnabled = false
@@ -181,4 +186,5 @@ class HandoverInfoFragment : Fragment(), ServiceConnection {
             }
         })
     }
+
 }

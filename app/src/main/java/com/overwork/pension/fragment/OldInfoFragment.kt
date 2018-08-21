@@ -1,21 +1,19 @@
 package com.overwork.pension.fragment
 
-import android.graphics.Color
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.aisino.tool.ani.LoadingDialog
+import com.aisino.tool.log
 import com.hq.kbase.network.Http
 import com.overwork.pension.R
 import com.overwork.pension.activity.MenuActivity
 import com.overwork.pension.adapter.OldInfoAdapter
-import com.overwork.pension.adapter.TomorrowTaskAdapter
 import com.overwork.pension.other.*
 import kotlinx.android.synthetic.main.fragment_oldinfo.*
-import kotlinx.android.synthetic.main.item_oldinfo_abnormal.*
-import kotlinx.android.synthetic.main.item_room.*
+
 
 class OldInfoFragment : Fragment() {
     var oldInfos: ArrayList<MutableMap<String, Any>> = ArrayList()
@@ -33,9 +31,6 @@ class OldInfoFragment : Fragment() {
         getData()
     }
 
-    override fun onStart() {
-        super.onStart()
-    }
 
     fun getData() {
         val dialog = LoadingDialog(activity);
@@ -66,7 +61,7 @@ class OldInfoFragment : Fragment() {
                         specialBuffer.append("、")
                         specialBuffer.append(str)
                         specialBuffer.append("。")
-                        specialBuffer.append("\\n")
+                        specialBuffer.append("\n")
                     }
                     old_info_special.setText(specialBuffer.toString())
 
@@ -81,7 +76,7 @@ class OldInfoFragment : Fragment() {
                         emergencyBuffer.append("   ")
                         emergencyBuffer.append(phone1)
                     }
-                    emergencyBuffer.append("\\n")
+                    emergencyBuffer.append("\n")
                     var name2: String = "result".."name2"
                     var phone2: String = "result".."phone2"
                     var relationship2: String = "result".."relationship2"
@@ -96,9 +91,17 @@ class OldInfoFragment : Fragment() {
                     old_info_mlv.adapter = OldInfoAdapter(activity, oldInfos)
                     dialog.dismiss()
                 }
-                fail { dialog.dismiss() }
             }
+
+            fail { dialog.dismiss() }
         }
     }
+    override fun onHiddenChanged(hidden: Boolean) {
+        super.onHiddenChanged(hidden)
+        (activity as MenuActivity).style {
+            textBar = ""
+            titleBar = "老人信息"
+        }
 
+    }
 }

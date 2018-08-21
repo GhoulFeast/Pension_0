@@ -52,6 +52,10 @@ class TomorrowTaskAdapter(context: Context, taskList: ArrayList<MutableMap<Strin
         })
         item_tommorrow_name_tv.setText(mutable["oldName"].toString())
         item_tommorrow_headimage_iv.setTag(mutable["oldId"])
+//        p1..setOnClickListener({ view ->
+//            var id = view.getTag().toString()
+//            onTomorrow.OnHandoverClick(id)
+//        })
         item_tommorrow_headimage_iv.setOnClickListener({ view ->
             var id = view.getTag().toString()
             onTomorrow.OnHandoverClick(id)

@@ -66,16 +66,19 @@ class ProjectAdapter(val activity: FragmentActivity, val taskList: ArrayList<Mut
         }
         num.setText(taskList[index]["sjz"].toString())
 
-        num.setOnFocusChangeListener({ v, hasFocus ->
-            if (!hasFocus){
-                hasFocus.toString().log("has")
+        num.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(p0: Editable?) {
+
+            }
+
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
                 Http.post {
                     url = BASEURL + OVER_EX
                     "cgjlpkid" - taskList[index]["hlrwpkid"].toString()
                     "userId" - userId
                     "lx" - taskList[index]["lx"].toString()
                     "clbz" - ifEstimate.toString()
-                    "sjz" - (v as EditText).text.toString()
+                    "sjz" - p0.toString()
                     success {
                         activity.runOnUiThread {
                             if (getAny<String>("status").equals("200")) {
@@ -89,7 +92,36 @@ class ProjectAdapter(val activity: FragmentActivity, val taskList: ArrayList<Mut
                 }
             }
 
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+            }
         })
+
+//        num.setOnFocusChangeListener({ v, hasFocus ->
+//            if (hasFocus) {
+//                // 此处为得到焦点时的处理内容
+//            } else {
+//                v.id.toString().log("id")
+//                // 此处为失去焦点时的处理内容
+//                Http.post {
+//                    url = BASEURL + OVER_EX
+//                    "cgjlpkid" - taskList[index]["hlrwpkid"].toString()
+//                    "userId" - userId
+//                    "lx" - taskList[index]["lx"].toString()
+//                    "clbz" - ifEstimate.toString()
+//                    "sjz" - (v as EditText).text.toString()
+//                    success {
+//                        activity.runOnUiThread {
+//                            if (getAny<String>("status").equals("200")) {
+//                                ((activity as MenuActivity).showFragment as TaskDetailsFragment).initList()
+//                            } else {
+//                                getAny<String>("message").toast(activity)
+//                                ((activity as MenuActivity).showFragment as TaskDetailsFragment).initList()
+//                            }
+//                        }
+//                    }
+//                }
+//            }
+//        })
         return view
     }
 
@@ -105,3 +137,5 @@ class ProjectAdapter(val activity: FragmentActivity, val taskList: ArrayList<Mut
         return taskList.size
     }
 }
+
+

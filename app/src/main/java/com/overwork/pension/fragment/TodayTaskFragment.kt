@@ -9,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
+import android.widget.TextView
 import com.aisino.tool.log
 import com.aisino.tool.toast
 import com.hq.kbase.network.Http
@@ -38,6 +39,9 @@ class TodayTaskFragment : Fragment() {
         (activity as MenuActivity).style {
             textBar = ""
             titleBar=resources.getString(R.string.today_task)
+        }
+        if (userType.equals("2")){//如果是主管，改变状态为主管添加
+            CZLX="03"
         }
         return view
     }
@@ -92,7 +96,13 @@ class TodayTaskFragment : Fragment() {
                     thisTaskList.clear()
                     thisTaskList.addAll("result".."links")
                 }else{
-                    (!"message").toast(activity)
+                    var asd = todaytask_rv.getChildAt(taskStepViewRvAdapter.selectPosion).findViewById<TextView>(R.id.item_stepview_time)
+                    asd.performClick()
+//                    val posion=taskStepViewRvAdapter.selectPosion
+//                    taskStepViewRvAdapter.selectPosion = posion+1
+//                    taskStepViewRvAdapter.notifyDataSetChanged()
+//                    todaytask_rv.scrollToPosition(posion)
+//                    showTime = taskTimeList.get(posion)["taskTime"].toString()
                 }
 
 //                for (mut: MutableMap<String, Any> in taskList) {

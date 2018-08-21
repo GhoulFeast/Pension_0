@@ -49,6 +49,7 @@ class MsgDetalisFragment : Fragment() {
     fun setUI() {
         if (enety["type"].toString().toInt() == 0) {
             (activity as MenuActivity).style {
+                textBar = ""
                 textBar = activity.resources.getString(R.string.msg_title_task)
             }
             msg_details_context_ll.visibility = View.VISIBLE
@@ -66,14 +67,17 @@ class MsgDetalisFragment : Fragment() {
                 taskLl.gravity = Gravity.CENTER_VERTICAL
                 var view = View(activity)
                 view.setBackgroundResource(R.color.mainColor)
-                view.layoutParams = LinearLayout.LayoutParams(resources.getDimension(R.dimen.dp_2).toInt(), resources.getDimension(R.dimen.dp_2).toInt())
+                view.layoutParams = LinearLayout.LayoutParams(resources.getDimension(R.dimen.dp_5).toInt(), resources.getDimension(R.dimen.dp_5).toInt())
+                var nullView = TextView(activity)
+                nullView.setText("\t")
                 var taskTv = TextView(activity)
                 taskTv.setTextColor(resources.getColor(R.color.text_black))
                 taskTv.setText(map)
                 taskLl.addView(view)
+                taskLl.addView(nullView)
                 taskLl.addView(taskTv)
-                taskLl.setPadding(resources.getDimension(R.dimen.dp_5).toInt(), resources.getDimension(R.dimen.dp_5).toInt(),
-                        resources.getDimension(R.dimen.dp_5).toInt(), resources.getDimension(R.dimen.dp_5).toInt())
+//                taskLl.setPadding(resources.getDimension(R.dimen.dp_2).toInt(), resources.getDimension(R.dimen.dp_5).toInt(),
+//                        resources.getDimension(R.dimen.dp_5).toInt(), resources.getDimension(R.dimen.dp_5).toInt())
                 msg_details_serious_ll.addView(taskLl)
             }
             msg_details_handover_tv.setOnClickListener({
@@ -89,6 +93,22 @@ class MsgDetalisFragment : Fragment() {
             msg_details_handover_tv.visibility = View.GONE
             msg_details_other_title_tv.setText(enety.get("messageTitle").toString())
             msg_details_other_context_tv.setText(enety.get("messageContent").toString())
+            (activity as MenuActivity).style {
+                textBar = ""
+                titleBar = "消息"
+            }
+        }
+
+    }
+
+    override fun onHiddenChanged(hidden: Boolean) {
+        super.onHiddenChanged(hidden)
+        if (enety["type"].toString().toInt() == 0) {
+            (activity as MenuActivity).style {
+                textBar = ""
+                textBar = activity.resources.getString(R.string.msg_title_task)
+            }
+        } else {
             (activity as MenuActivity).style {
                 textBar = ""
                 titleBar = "消息"

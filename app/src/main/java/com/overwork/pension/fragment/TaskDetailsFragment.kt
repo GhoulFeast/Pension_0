@@ -25,6 +25,7 @@ import android.support.v7.widget.LinearLayoutManager
 import android.util.Log
 import android.widget.ImageView
 import android.widget.LinearLayout
+import android.widget.PopupWindow
 import com.aisino.tool.ani.LoadingDialog
 import com.aisino.tool.log
 import com.aisino.tool.system.*
@@ -42,24 +43,25 @@ import java.io.File
 import java.io.IOException
 
 
-
 val SOUND = 200
-val CZLX = "01"
+var CZLX = "01"
 
 class TaskDetailsFragment : Fragment() {
 
-    lateinit var taskList: ArrayList<MutableMap<String, Any>>
+    var taskList: ArrayList<MutableMap<String, Any>> = ArrayList<MutableMap<String, Any>>()
     var taskStepList: ArrayList<MutableMap<String, Any>> = ArrayList<MutableMap<String, Any>>()
     //    var isDelete = false
     val imageList = ArrayList<FileInfo>()
     val soundList = ArrayList<FileInfo>()
     var abnormalType = "00"
-    lateinit var measurementProjects: ArrayList<MutableMap<String, Any>>
+    var measurementProjects: ArrayList<MutableMap<String, Any>> = ArrayList<MutableMap<String, Any>>()
     lateinit var taskStepViewRvAdapter: TaskStepViewRvAdapter
     val RECORD_TYPE_NON = "00"
     val RECORD_TYPE_NEEDHELP = "01"
     val RECORD_TYPE_HAVE = "02"
     var fjxxpkid = ""
+    var isSimple = false
+    var imgPopupWindow: PopupWindow?=null
     lateinit var overDialog: LoadingDialog
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater?.inflate(R.layout.fragment_task_details, null, false)
@@ -128,10 +130,8 @@ class TaskDetailsFragment : Fragment() {
                     task_details_record_ll.visibility = View.VISIBLE
                 }
             }
-            Log.i("tashelp", "-to-" + abnormalType)
         }
         task_details_record_have.setOnClickListener {
-            Log.i("tashelp", "--" + abnormalType)
             when (abnormalType) {
                 RECORD_TYPE_NON -> {
                     abnormalType = RECORD_TYPE_HAVE
@@ -151,8 +151,15 @@ class TaskDetailsFragment : Fragment() {
             }
         }
         intoTime()
-        initList()
-
+        val han = Handler()
+        han.post {
+            //延时执行init以等待状态改变
+            if (isSimple) {
+                initSimpleList()
+            } else {
+                initList()
+            }
+        }
     }
 
     fun intoTime() {
@@ -213,13 +220,68 @@ class TaskDetailsFragment : Fragment() {
         taskStepViewRvAdapter.notifyDataSetChanged()
     }
 
+    /**
+     * 简单页面加载
+     * 19接口
+     */
+    fun initSimpleList(): Unit {
+        Http.post {
+            url = BASEURL + SIMPLE_THIS_TIME_TASK
+            if (!CZLX.equals("02")) {
+                "hlrwId" - (activity as MenuActivity).getData<String>(TodayTaskID)
+            }
+            "zbpkid" - (activity as MenuActivity).getData<String>(zbpkId)
+            "lrid" - (activity as MenuActivity).getData<String>(lrId)
+            "czlx" - CZLX
+            "userId" - userId
+            success {
+                activity.runOnUiThread {
+                    if ((!"status").equals("200")) {
+                        val mut = getAny<ArrayList<MutableMap<String, Any>>>("result")[0]
+                        val name: String = mut["name"].toString()
+                        task_details_name.setText(name)
+                        val sex: String = mut["sex"].toString()
+                        task_details_sex.setText(sex)
+                        val romeNo: String = mut["romeNo"].toString()
+                        task_details_room.setText("房间 " + romeNo)
+                        val age: String = mut["age"].toString()
+                        task_details_age.setText(age + "周岁")
+                        when (mut["abnormalType"].toString()) {
+                            "01" -> task_details_record_needhelp.performClick()
+                            "02" -> task_details_record_have.performClick()
+                        }
+
+                        task_details_context.setText(mut["abnormal"].toString())
+                        task_details_picll.removeAllViews()//重置图片数据
+                        imageList.clear()
+                        for (img in mut["imageUrl"] as List<MutableMap<String, Any>>) {
+
+                            Glide.with(activity).load(UP_IMAGE + img["wjmc"].toString()).asBitmap().error(R.mipmap.picture).into(object : SimpleTarget<Bitmap>() {
+                                override fun onResourceReady(resource: Bitmap, glideAnimation: GlideAnimation<in Bitmap>) {
+                                    addImage(null, UP_IMAGE + img["wjmc"].toString(), img["fb1id"].toString()).setImageBitmap(resource)
+                                }
+                            })
+                        }
+                        task_details_soull.removeAllViews()
+                        soundList.clear()
+                        for (sound in mut["soundUrl"] as List<MutableMap<String, Any>>) {
+                            addSound(null, UP_SOUND + sound["wjmc"].toString(), sound["fb1id"].toString())
+                        }
+                    } else {
+                        (!"message").toast(activity)
+                    }
+                }
+            }
+        }
+    }
+
     fun initList(zbpkid: String = "-1", hlrwpkid: String = "-1"): Unit {
         Http.post {
             url = BASEURL + THIS_TIME_TASK
-            if (CZLX.equals("01")) {
+            if (!CZLX.equals("02")) {
                 "hlrwId" - (activity as MenuActivity).getData<String>(TodayTaskID)
             }
-            if (zbpkid.equals("-1")) {
+            if (zbpkid.equals("-1")) {//zbpkid未赋值时使用缓存
                 "zbpkid" - (activity as MenuActivity).getData<String>(zbpkId)
             } else {
                 "hlrwId" - hlrwpkid
@@ -253,23 +315,30 @@ class TaskDetailsFragment : Fragment() {
                         val consideration: String = mut["consideration"].toString()
                         fjxxpkid = mut["fjxxpkid"].toString()
                         task_details_task_details.setText(consideration)
-                        taskList = mut["nursings"] as ArrayList<MutableMap<String, Any>>
+
+                        taskList.clear()//重置任务数据
+
+                        taskList.addAll(mut["nursings"] as ArrayList<MutableMap<String, Any>>)
                         if (task_details_list.adapter == null) {
                             task_details_list.adapter = SmallTaskAdapter(activity, taskList)
                         } else {
                             (task_details_list.adapter as SmallTaskAdapter).notifyDataSetChanged()
                         }
-                        measurementProjects = mut["measurementProject"] as ArrayList<MutableMap<String, Any>>
+
+                        measurementProjects.clear()//重置常规项目数据
+
+                        measurementProjects.addAll(mut["measurementProject"] as ArrayList<MutableMap<String, Any>>)
                         if (task_details_project_list.adapter == null) {
                             task_details_project_list.adapter = ProjectAdapter(activity, measurementProjects)
                         } else {
                             (task_details_project_list.adapter as ProjectAdapter).notifyDataSetChanged()
                         }
-                        when (mut["abnormalType"].toString()) {
-                            "01" -> task_details_record_needhelp.performClick()
-                            "02" -> task_details_record_have.performClick()
+                        if (!task_details_record_needhelp.isChecked&&!task_details_record_have.isChecked){
+                            when (mut["abnormalType"].toString()) {
+                                "01" -> task_details_record_needhelp.performClick()
+                                "02" -> task_details_record_have.performClick()
+                            }
                         }
-
                         task_details_context.setText(mut["abnormal"].toString())
                         task_details_picll.removeAllViews()//重置图片数据
                         imageList.clear()
@@ -299,13 +368,14 @@ class TaskDetailsFragment : Fragment() {
 
 
     fun setSimple() {
-       val han= Handler()
-      han.post {
-          task_details_ll_1.visibility = View.GONE
-          task_details_ll_2.visibility = View.GONE
-          task_details_ll_3.visibility = View.GONE
-          task_details_ll_4.visibility = View.GONE
-      }
+        val han = Handler()
+        han.post {
+            task_details_ll_1.visibility = View.GONE
+            task_details_ll_2.visibility = View.GONE
+            task_details_ll_3.visibility = View.GONE
+            task_details_ll_4.visibility = View.GONE
+        }
+        isSimple = true
 
     }
 
@@ -315,8 +385,9 @@ class TaskDetailsFragment : Fragment() {
             CAMERA_REQUEST -> {
                 val uri = data?.getCameraUri()
                 if (uri?.path != null) {
-                    addImage(File(uri.path), "", "").setImageBitmap(uri?.getCameraImg(activity))
-                    upLoadImage(File(uri.path), 1)
+                    val upImage = File(uri.path)
+                    addImage(upImage, "", "").setImageBitmap(uri?.getCameraImg(activity))
+                    upLoadImage(upImage, 1)
                 }
             }
             GALLERY_REQUEST -> {
@@ -325,8 +396,9 @@ class TaskDetailsFragment : Fragment() {
                 upLoadImage(uri?.toFile(activity), 1)
             }
             SOUND -> {
-                addSound(data?.data, null, "")
-                upLoadImage(data?.data?.toFile(activity), 2)
+                val uri=data?.data
+                addSound(uri, null, "")
+                upLoadImage(uri?.toFile(activity), 2)
             }
         }
     }
@@ -365,13 +437,13 @@ class TaskDetailsFragment : Fragment() {
 
     fun addImage(file: File?, imageURL: String?, id: String): ImageView {
         val newImg = ImageView(activity)
-        val lp = ViewGroup.LayoutParams(task_details_photograph.width, task_details_photograph.height)
+        val lp = ViewGroup.LayoutParams(task_details_photograph.width+24, task_details_photograph.height+24)
         newImg.setLayoutParams(lp);
         newImg.setPadding(24, 24, 24, 24)
         newImg.scaleType = ImageView.ScaleType.CENTER_CROP
         newImg.setTag(R.id.image_id, imageList.size)
         newImg.setOnClickListener {
-            (it as ImageView).showFullWindow()
+            imgPopupWindow= (it as ImageView).showFullWindow()
         }
         newImg.setOnLongClickListener {
             removeFile(it as ImageView, imageList.get(it.getTag(R.id.image_id).toString().toInt()), 1)
@@ -424,12 +496,7 @@ class TaskDetailsFragment : Fragment() {
             "file" - path!!
             "zbpkid" - (activity as MenuActivity).getData<String>(zbpkId)
             "fjxxpkid" - fjxxpkid
-            if (path.name.substring(path.name.indexOf("."), path.name.length).equals(".jpg")) {
-                "wjlx" - "01"
-            } else {
-                "wjlx" - "02"
-            }
-
+            "wjlx" - ("0" + type.toString())
             "userId" - userId
             success {
                 activity.runOnUiThread {
@@ -546,6 +613,14 @@ class TaskDetailsFragment : Fragment() {
         super.onHiddenChanged(hidden)
         if (hidden) {
             saveAll()
+            if (imgPopupWindow!=null){
+                imgPopupWindow?.dismiss()
+            }
+
+        }
+        (activity as MenuActivity).style {
+            textBar = ""
+            titleBar = "任务详情"
         }
     }
 
