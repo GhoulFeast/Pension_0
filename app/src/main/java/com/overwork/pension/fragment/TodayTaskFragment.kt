@@ -96,7 +96,7 @@ class TodayTaskFragment : Fragment() {
                     thisTaskList.clear()
                     thisTaskList.addAll("result".."links")
                 }else{
-                    var asd = todaytask_rv.getChildAt(taskStepViewRvAdapter.selectPosion).findViewById<TextView>(R.id.item_stepview_time)
+                    var asd = todaytask_rv.getChildAt(taskStepViewRvAdapter.selectPosion+1).findViewById<TextView>(R.id.item_stepview_time)
                     asd.performClick()
 //                    val posion=taskStepViewRvAdapter.selectPosion
 //                    taskStepViewRvAdapter.selectPosion = posion+1
