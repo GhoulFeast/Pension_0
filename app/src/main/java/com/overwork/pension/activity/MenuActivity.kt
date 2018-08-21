@@ -196,23 +196,29 @@ class MenuActivity : AppCompatActivity(), ServiceConnection {
                     "F" -> {
                         putData("fjpkid", code)
                         qrFrgment = RoomListFragment()
+                        UseFragmentManager.displayFragment(showFragment, qrFrgment!!,
+                                supportFragmentManager, R.id.main_ll)
+                        showFragment = qrFrgment
                     }
                     "C" -> {
                         putData(zbpkId, code)
                         qrFrgment = TaskDetailsFragment()
+                        UseFragmentManager.displayFragment(showFragment, qrFrgment!!,
+                                supportFragmentManager, R.id.main_ll)
+                        showFragment = qrFrgment
                     }
                     "Z" -> {
                         if (userType.equals("2")) {
+                            isZJ = true
                             putData("jbrid", code)
-                            qrFrgment = HandoverDirectorFragment()
+                            main_rb_class.performClick()
+//                            qrFrgment = HandoverDirectorFragment()
                         } else {
                             "只有主管才能交接班".toast(this)
                         }
                     }
                 }
-                UseFragmentManager.displayFragment(showFragment, qrFrgment!!,
-                        supportFragmentManager, R.id.main_ll)
-                showFragment = qrFrgment
+//
             }
         }
 
