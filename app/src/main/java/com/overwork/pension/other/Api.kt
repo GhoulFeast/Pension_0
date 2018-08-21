@@ -47,7 +47,7 @@ val IS_HANDOVER="t_jtyc"//是否交班成功
 val UP_HEAD="http://10.3.240.138:8081/yly/upload/"
 val UP_IMAGE="http://10.3.240.138:8081/yly/upload/tpwj/"
 val UP_SOUND="http://10.3.240.138:8081/yly/upload/ypwj/"
-val J_HANDOVERDIRECTOR="/zgsmjb.action"
+val J_HANDOVERDIRECTOR="zg_hz"
 val SIMPLE_THIS_TIME_TASK = "y_simpleyc"//19异常内容
 
 //附件信息	http://localhost:8081/yly/appall/fjxx.action?hlrwId=4&czlx=01&userId=ba1a6c53-cdf1-48d9-80cb-5d97307e038c

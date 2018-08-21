@@ -24,20 +24,21 @@ import com.overwork.pension.other.userType
 import com.overwork.pension.service.AutoUpdateService
 import kotlinx.android.synthetic.main.activity_menu.*
 
-val QRCODE=999
-class MenuActivity : AppCompatActivity() , ServiceConnection {
-   
+val QRCODE = 999
+
+class MenuActivity : AppCompatActivity(), ServiceConnection {
+
 
     var showFragment: Fragment? = null
     private val enety: MutableMap<String, Any> = mutableMapOf()
     private val fragments = ArrayList<Fragment>()
     private var nowState = 0
-    private var backPressTime=0L
+    private var backPressTime = 0L
     private var auBinder: AutoUpdateService.Binder? = null
-    var popupWindow:PopupWindow?=null
+    var popupWindow: PopupWindow? = null
 
-    lateinit var selectRadio:RadioButton
-    private var selectId=0
+    lateinit var selectRadio: RadioButton
+    private var selectId = 0
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -50,81 +51,87 @@ class MenuActivity : AppCompatActivity() , ServiceConnection {
 
 //        main_rg.setOnCheckedChangeListener({ radioGroup, i ->
 //            when (i) {
-                main_rb_homepage.setOnClickListener {
-                    var homeFragment = HomeFragment()
-                    UseFragmentManager.displayFragment(showFragment, homeFragment,
-                            supportFragmentManager, R.id.main_ll)
-                    showFragment = homeFragment
-                    main_rb_homepage.setRadioTopBitmp(R.mipmap.task_s)
-                    selectRadio=main_rb_homepage
-                    selectId=R.mipmap.task
-                }
-                main_rb_class .setOnClickListener{
-                    if (userType.toInt() == 2) {
-                        var classFragment = HandoverDirectorFragment()
-                        isZJ=true
-//                        startActivityForResult(Intent(this, CaptureActivity::class.java), -1)
-                        UseFragmentManager.displayFragment(showFragment, classFragment,
-                                supportFragmentManager, R.id.main_ll)
-                        showFragment = classFragment
-                        main_rb_class.setRadioTopBitmp(R.mipmap.jjb_s)
-                        selectRadio=main_rb_class
-                        selectId=R.mipmap.jjb
-                    } else {
-                        var classFragment = HandoverInfoFragment()
-                        UseFragmentManager.displayFragment(showFragment, classFragment,
-                                supportFragmentManager, R.id.main_ll)
-                        showFragment = classFragment
-                        main_rb_class.setRadioTopBitmp(R.mipmap.jjb_s)
-                        selectRadio=main_rb_class
-                        selectId=R.mipmap.jjb
-                    }
-
-
-                }
-                main_rb_msg .setOnClickListener {
-                    var msgFragment = MsgFragment()
-                    UseFragmentManager.displayFragment(showFragment, msgFragment,
-                            supportFragmentManager, R.id.main_ll)
-                    showFragment = msgFragment
-                    main_rb_msg.setRadioTopBitmp(R.mipmap.msg_s)
-                    selectRadio=main_rb_msg
-                    selectId=R.mipmap.msg
-                }
-               main_rb_mine.setOnClickListener{
-                    var mineFragment = MineFragment()
-                    UseFragmentManager.displayFragment(showFragment, mineFragment,
-                            supportFragmentManager, R.id.main_ll)
-                    showFragment = mineFragment
-                    main_rb_mine.setRadioTopBitmp(R.mipmap.mine_s)
-                    selectRadio=main_rb_mine
-                    selectId=R.mipmap.mine
-                }
-//            }
+        main_rb_homepage.setOnClickListener {
+            var homeFragment = HomeFragment()
+            UseFragmentManager.displayFragment(showFragment, homeFragment,
+                    supportFragmentManager, R.id.main_ll)
+            showFragment = homeFragment
+            main_rb_homepage.setRadioTopBitmp(R.mipmap.task_s)
+            selectRadio = main_rb_homepage
+            selectId = R.mipmap.task
             fragments.clear()
             nowState = 0
+        }
+        main_rb_class.setOnClickListener {
+            if (userType.toInt() == 2) {
+                var classFragment = HandoverDirectorFragment()
+                isZJ = true
+//                        startActivityForResult(Intent(this, CaptureActivity::class.java), -1)
+                UseFragmentManager.displayFragment(showFragment, classFragment,
+                        supportFragmentManager, R.id.main_ll)
+                showFragment = classFragment
+                main_rb_class.setRadioTopBitmp(R.mipmap.jjb_s)
+                selectRadio = main_rb_class
+                selectId = R.mipmap.jjb
+            } else {
+                var classFragment = HandoverInfoFragment()
+                UseFragmentManager.displayFragment(showFragment, classFragment,
+                        supportFragmentManager, R.id.main_ll)
+                showFragment = classFragment
+                main_rb_class.setRadioTopBitmp(R.mipmap.jjb_s)
+                selectRadio = main_rb_class
+                selectId = R.mipmap.jjb
+            }
+            fragments.clear()
+            nowState = 0
+
+        }
+        main_rb_msg.setOnClickListener {
+            var msgFragment = MsgFragment()
+            UseFragmentManager.displayFragment(showFragment, msgFragment,
+                    supportFragmentManager, R.id.main_ll)
+            showFragment = msgFragment
+            main_rb_msg.setRadioTopBitmp(R.mipmap.msg_s)
+            selectRadio = main_rb_msg
+            selectId = R.mipmap.msg
+            fragments.clear()
+            nowState = 0
+        }
+        main_rb_mine.setOnClickListener {
+            var mineFragment = MineFragment()
+            UseFragmentManager.displayFragment(showFragment, mineFragment,
+                    supportFragmentManager, R.id.main_ll)
+            showFragment = mineFragment
+            main_rb_mine.setRadioTopBitmp(R.mipmap.mine_s)
+            selectRadio = main_rb_mine
+            selectId = R.mipmap.mine
+            fragments.clear()
+            nowState = 0
+        }
+//            }
+
 //        })
         main_rb_homepage.performClick()
         bar_back.setOnClickListener {
             backFragment()
         }
-        bar_more.setOnClickListener{
-            popupWindow= openUnterTheViewListWindow(it,ArrayList<String>().apply { add("扫一扫") },{
-               startActivityForResult(Intent(this@MenuActivity,CaptureActivity::class.java),QRCODE)
-           })
+        bar_more.setOnClickListener {
+            popupWindow = openUnterTheViewListWindow(it, ArrayList<String>().apply { add("扫一扫") }, {
+                startActivityForResult(Intent(this@MenuActivity, CaptureActivity::class.java), QRCODE)
+            })
         }
-        val intent=Intent(this@MenuActivity, AutoUpdateService::class.java)
+        val intent = Intent(this@MenuActivity, AutoUpdateService::class.java)
         bindService(intent, this@MenuActivity, Context.BIND_AUTO_CREATE)
         startService(intent)
     }
 
-    fun RadioButton.setRadioTopBitmp(resid:Int): Unit {
-        var dra= resources.getDrawable(resid)
-        dra.setBounds( 0, 0, dra.getMinimumWidth(),dra.getMinimumHeight())
+    fun RadioButton.setRadioTopBitmp(resid: Int): Unit {
+        var dra = resources.getDrawable(resid)
+        dra.setBounds(0, 0, dra.getMinimumWidth(), dra.getMinimumHeight())
         this.setCompoundDrawables(main_rb_msg.getCompoundDrawables()[0], dra, main_rb_msg.getCompoundDrawables()[2], main_rb_msg.getCompoundDrawables()[3])
-        if (selectId!=0){
-            var rdra= resources.getDrawable(selectId)
-            rdra.setBounds( 0, 0, rdra.getMinimumWidth(),rdra.getMinimumHeight())
+        if (selectId != 0) {
+            var rdra = resources.getDrawable(selectId)
+            rdra.setBounds(0, 0, rdra.getMinimumWidth(), rdra.getMinimumHeight())
             selectRadio.setCompoundDrawables(main_rb_msg.getCompoundDrawables()[0], rdra, main_rb_msg.getCompoundDrawables()[2], main_rb_msg.getCompoundDrawables()[3])
         }
     }
@@ -149,16 +156,16 @@ class MenuActivity : AppCompatActivity() , ServiceConnection {
         auBinder?.setCallBack(object : AutoUpdateService.AutoUpdateCall {
             override fun setMsgNum(num: Boolean) {
                 runOnUiThread {
-                    if (showFragment is MsgFragment){
+                    if (showFragment is MsgFragment) {
                         return@runOnUiThread
                     }
-                    if (num){
-                            var dra= resources.getDrawable(R.mipmap.msg_red)
-                            dra.setBounds( 0, 0, dra.getMinimumWidth(),dra.getMinimumHeight())
-                            main_rb_msg.setCompoundDrawables(main_rb_msg.getCompoundDrawables()[0], dra, main_rb_msg.getCompoundDrawables()[2], main_rb_msg.getCompoundDrawables()[3])
-                    }else{
-                        var dra= resources.getDrawable(R.mipmap.msg)
-                        dra.setBounds( 0, 0, dra.getMinimumWidth(),dra.getMinimumHeight());
+                    if (num) {
+                        var dra = resources.getDrawable(R.mipmap.msg_red)
+                        dra.setBounds(0, 0, dra.getMinimumWidth(), dra.getMinimumHeight())
+                        main_rb_msg.setCompoundDrawables(main_rb_msg.getCompoundDrawables()[0], dra, main_rb_msg.getCompoundDrawables()[2], main_rb_msg.getCompoundDrawables()[3])
+                    } else {
+                        var dra = resources.getDrawable(R.mipmap.msg)
+                        dra.setBounds(0, 0, dra.getMinimumWidth(), dra.getMinimumHeight());
                         main_rb_msg.setCompoundDrawables(main_rb_msg.getCompoundDrawables()[0], dra, main_rb_msg.getCompoundDrawables()[2], main_rb_msg.getCompoundDrawables()[3])
                     }
                 }
@@ -181,24 +188,24 @@ class MenuActivity : AppCompatActivity() , ServiceConnection {
 //                        supportFragmentManager, R.id.main_ll)
 //                showFragment = handoverDiretor
 //            }
-            if (requestCode==QRCODE){//二维码处理
-                var qr=data.getStringExtra("result")
-                val code=qr.substring(4,qr.length)
-                var qrFrgment:Fragment?=null
-                when(qr.substring(0,1)){
-                    "F"->{
-                        putData("fjpkid",code)
-                        qrFrgment=RoomListFragment()
+            if (requestCode == QRCODE) {//二维码处理
+                var qr = data.getStringExtra("result")
+                val code = qr.substring(4, qr.length)
+                var qrFrgment: Fragment? = null
+                when (qr.substring(0, 1)) {
+                    "F" -> {
+                        putData("fjpkid", code)
+                        qrFrgment = RoomListFragment()
                     }
-                    "C"->{
-                        putData(zbpkId,code)
-                        qrFrgment=TaskDetailsFragment()
+                    "C" -> {
+                        putData(zbpkId, code)
+                        qrFrgment = TaskDetailsFragment()
                     }
-                    "Z"->{
-                        if (userType.equals("2")){
-                            putData("jbrid",code)
-                            qrFrgment=HandoverDirectorFragment()
-                        }else{
+                    "Z" -> {
+                        if (userType.equals("2")) {
+                            putData("jbrid", code)
+                            qrFrgment = HandoverDirectorFragment()
+                        } else {
                             "只有主管才能交接班".toast(this)
                         }
                     }
@@ -210,7 +217,7 @@ class MenuActivity : AppCompatActivity() , ServiceConnection {
         }
 
         super.onActivityResult(requestCode, resultCode, data)
-        showFragment?.onActivityResult(requestCode,resultCode,data)
+        showFragment?.onActivityResult(requestCode, resultCode, data)
     }
 
 //    fun setTextView(title: Int): Unit {
@@ -242,15 +249,15 @@ class MenuActivity : AppCompatActivity() , ServiceConnection {
         if (bar.textBar.equals("")) {
             title_text.visibility = View.GONE
 //            title_back.visibility = View.VISIBLE
-            bar_title.text=bar.titleBar
+            bar_title.text = bar.titleBar
             if (bar.isLeft) bar_back.visibility = View.VISIBLE else bar_back.visibility = View.GONE
 //            if (bar.isRight) bar_more.visibility = View.VISIBLE else bar_more.visibility = View.GONE
         } else {
-            bar_back.visibility=View.GONE
+            bar_back.visibility = View.GONE
 //            title_back.visibility = View.GONE
             title_text.visibility = View.VISIBLE
             title_text.setText(bar.textBar)
-            bar_title.text=""
+            bar_title.text = ""
         }
         bar.textBar.log()
     }
@@ -265,16 +272,16 @@ class MenuActivity : AppCompatActivity() , ServiceConnection {
     class Bar {
         var textBar = ""
         var isLeft = true
-//        var isRight = true
-        var titleBar=""
+        //        var isRight = true
+        var titleBar = ""
 
     }
 
     override fun onBackPressed() {
 //        super.onBackPressed()
 
-        if (popupWindow!=null){
-           popupWindow?.dismiss()
+        if (popupWindow != null) {
+            popupWindow?.dismiss()
         }
         if (showFragment is HomeFragment || showFragment is HandoverInfoFragment || showFragment is MsgFragment || showFragment is MineFragment) {
             if (System.currentTimeMillis() - backPressTime < 1000) {
@@ -291,10 +298,12 @@ class MenuActivity : AppCompatActivity() , ServiceConnection {
 
     fun backFragment(): Unit {
         if (nowState > 0) {
+            showFragment?.javaClass?.name?.log()
             UseFragmentManager.displayFragment(showFragment, fragments[nowState - 1],
                     supportFragmentManager, R.id.main_ll)
             showFragment = fragments[nowState - 1]
             nowState--
+
         } else {
             fragments.clear()
         }

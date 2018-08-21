@@ -9,13 +9,14 @@
     <ImageView
         android:id="@+id/item_tommorrow_headimage_iv"
         android:layout_width="70dp"
-        android:layout_height="70dp" />
+        android:layout_height="70dp"
+        android:scaleType="fitXY" />
 
     <TextView
         android:id="@+id/item_tommorrow_name_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/handover_end"
+        android:text="@string/nil"
         android:textColor="@color/title_blue" />
 
 </LinearLayout>
