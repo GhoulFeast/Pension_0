@@ -10,6 +10,7 @@ import android.widget.BaseAdapter
 import android.widget.GridView
 import android.widget.ImageView
 import android.widget.TextView
+import com.aisino.tool.toast
 import com.aisino.tool.widget.showFullWindow
 import com.bumptech.glide.Glide
 import com.overwork.pension.R
@@ -30,18 +31,24 @@ class ImageAdapter(activity: Context, taskList: ArrayList<String>, val type: Int
             Glide.with(context).load(list!![p0]).error(R.mipmap.picture).into(image)
         }
         image.setOnClickListener {
-            if (type == 0) {
-                image.showFullWindow()
-            } else {
-                val mediaPlayer = MediaPlayer()
-                mediaPlayer.reset()
-                mediaPlayer.setDataSource(list!![p0])
-                if (mediaPlayer.isPlaying) {
-                    mediaPlayer.stop()
+            try {
+                if (type == 0) {
+                    image.showFullWindow()
                 } else {
-                    mediaPlayer.prepare()
+                    val mediaPlayer = MediaPlayer()
+                    mediaPlayer.reset()
+                    mediaPlayer.setDataSource(list!![p0])
+                    if (mediaPlayer.isPlaying) {
+                        mediaPlayer.stop()
+                    } else {
+                        mediaPlayer.prepare()
+                    }
                 }
+            }catch (e:Exception){
+                e.printStackTrace()
+                "加载文件失败".toast(context!!)
             }
+
         }
         return view
     }

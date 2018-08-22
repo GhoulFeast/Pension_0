@@ -428,7 +428,7 @@ class TaskDetailsFragment : Fragment() {
         }
         newImg.setTag(R.id.image_id, soundList.size)
         if (uri == null) {
-            soundList.add(FileInfo(null, soundUrl!!, id))
+            soundList.add(FileInfo(null, soundUrl, id))
         } else {
             soundList.add(FileInfo(uri?.toFile(activity), "", id))
         }
@@ -452,7 +452,7 @@ class TaskDetailsFragment : Fragment() {
         }
         task_details_picll.addView(newImg)
         if (file == null) {
-            imageList.add(FileInfo(null, imageURL!!, id))
+            imageList.add(FileInfo(null, imageURL, id))
         } else {
             imageList.add(FileInfo(file, "", id))
         }
