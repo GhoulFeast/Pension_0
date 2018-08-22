@@ -172,7 +172,7 @@ fun Uri.getCameraImg(activity: Activity): Bitmap? {
     return null
 }
 
-fun Intent.getCameraUri(): Uri? {
+fun getCameraUri(): Uri? {
     return cameraUri
 }
 
