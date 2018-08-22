@@ -383,11 +383,13 @@ class TaskDetailsFragment : Fragment() {
         super.onActivityResult(requestCode, resultCode, data)
         when (requestCode) {
             CAMERA_REQUEST -> {
-                val uri = data?.getCameraUri()
+                val uri = getCameraUri()
                 if (uri?.path != null) {
                     val upImage = File(uri.path)
                     addImage(upImage, "", "").setImageBitmap(uri?.getCameraImg(activity))
                     upLoadImage(upImage, 1)
+                }else{
+                    "uri==null".log("uuu")
                 }
             }
             GALLERY_REQUEST -> {
