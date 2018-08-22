@@ -94,10 +94,15 @@
                     android:layout_marginTop="5dp"
                     android:background="@color/color_f88e0c" />
 
-                <LinearLayout
-                    android:id="@+id/item_class_abnormal_needfollow_ll"
+                <TextView
+                    android:id="@+id/item_class_abnormal_needfollow_tv"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:maxLines="3"
+                    android:nestedScrollingEnabled="true"
+                    android:overScrollMode="ifContentScrolls"
+                    android:textColor="@color/text_black"
+                    android:padding="5dp"
                     android:layout_marginLeft="15dp"
                     android:orientation="vertical" />
             </LinearLayout>
@@ -117,10 +122,14 @@
                     android:layout_marginTop="5dp"
                     android:background="@color/color_f8120c" />
 
-                <LinearLayout
-                    android:id="@+id/item_class_abnormal_serious_ll"
+                <TextView
+                    android:id="@+id/item_class_abnormal_serious_tv"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:maxLines="3"
+                    android:nestedScrollingEnabled="true"
+                    android:padding="@dimen/dp_5"
+                    android:textColor="@color/text_black"
                     android:layout_marginLeft="15dp"
                     android:orientation="vertical" />
             </LinearLayout>

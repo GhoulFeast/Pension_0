@@ -1,29 +1,22 @@
 package com.overwork.pension.adapter
 
-
-import android.content.Context
 import android.text.method.ScrollingMovementMethod
 import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
-import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
-import com.aisino.tool.log
 import com.overwork.pension.R
 import com.overwork.pension.other.userType
-import kotlinx.android.synthetic.main.item_class_abnormal.*
 
 /**
  * Created by feima on 2018/7/7.
  */
-val INFORMATIONTYPE_NORMAL = "00"
-val INFORMATIONTYPE_NEEDFOLLOW = "01"
-val INFORMATIONTYPE_SERIOUS = "02"
 
-class ClassAdapter(taskList: ArrayList<MutableMap<String, Any>>) : BaseAdapter() {
+
+class HandoverDirectorAdapter(taskList: ArrayList<MutableMap<String, Any>>) : BaseAdapter() {
 
 
     var abnormalList: List<MutableMap<String, Any>>
@@ -56,13 +49,26 @@ class ClassAdapter(taskList: ArrayList<MutableMap<String, Any>>) : BaseAdapter()
         stringRoom.append(abnormalList.get(p0)["romeNo"].toString())
         item_class_abnormal_room_tv.setText(stringRoom)
         var mutables: List<MutableMap<String, Any>> = abnormalList.get(p0)["informationList"] as List<MutableMap<String, Any>>
+
         var needfollows = ArrayList<String>()
         var seriouss = ArrayList<String>()
         for (map: MutableMap<String, Any> in mutables) {//方法多调用一次
             if (map["type"].toString().equals(INFORMATIONTYPE_NEEDFOLLOW)) {
-                needfollows.add(String.format(p2.context.resources.getString(R.string.needfollow), map["messageContent"].toString()))
+                var handoverName = "来自" + map.get("handoverName").toString()
+                if (needfollows.contains(handoverName)) {
+                    needfollows.add(needfollows.indexOf(handoverName),   String.format(p2.context.resources.getString(R.string.needfollow),map.get("messageContent").toString()))
+                } else {
+                    needfollows.add(handoverName)
+                }
+                needfollows.add(map.get("messageContent").toString())
             } else if (map["type"].toString().equals(INFORMATIONTYPE_SERIOUS)) {
-                seriouss.add(String.format(p2.context.resources.getString(R.string.needfollow), map["messageContent"].toString()))
+                var handoverName = "来自" + map.get("handoverName").toString()
+                if (seriouss.contains(handoverName)) {
+                    seriouss.add(seriouss.indexOf(handoverName),  String.format(p2.context.resources.getString(R.string.needfollow),map.get("messageContent").toString() ))
+                } else {
+                    seriouss.add(handoverName)
+                }
+                seriouss.add(map.get("messageContent").toString())
             }
         }
         var needFollowsStringB = StringBuilder()
@@ -81,10 +87,10 @@ class ClassAdapter(taskList: ArrayList<MutableMap<String, Any>>) : BaseAdapter()
             serioussStringB.delete(serioussStringB.length - 2, serioussStringB.length)
             item_class_abnormal_serious_tv.setText(serioussStringB.toString())
         }
-        if (item_class_abnormal_needfollow_tv.lineCount == 0) {
+        if (needfollows.size == 0) {
             item_class_abnormal_needfollow_ll_ll.visibility = View.GONE
         }
-        if (item_class_abnormal_serious_tv.lineCount == 0) {
+        if (seriouss.size == 0) {
             item_class_abnormal_serious_ll_ll.visibility = View.GONE
         }
         if (userType.toInt() == 1) {
@@ -119,4 +125,3 @@ class ClassAdapter(taskList: ArrayList<MutableMap<String, Any>>) : BaseAdapter()
 
 
 }
-
