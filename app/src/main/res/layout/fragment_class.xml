@@ -6,42 +6,60 @@
     android:background="@color/page_bg"
     android:orientation="vertical">
 
-    <ListView
-        android:id="@+id/class_rlvv"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:dividerHeight="0dp"
-        android:divider="@color/color_00000000"
-        android:listSelector="@android:color/transparent"
-        android:scrollbars="none"
-         />
-    <ImageView
-        android:id="@+id/class_qrcode_ivv"
-        android:layout_width="250dp"
-        android:layout_height="250dp"
-        android:layout_gravity="center"
-        android:layout_marginTop="20dp" />
+        android:background="@color/page_bg"
+        android:orientation="vertical">
 
-    <View
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"/>
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-    <!--<TextView-->
-        <!--android:id="@+id/class_handover_tv"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_gravity="center"-->
-        <!--android:layout_marginTop="15dp"-->
-        <!--android:layout_marginBottom="15dp"-->
-        <!--android:background="@drawable/text_green_5_r"-->
-        <!--android:paddingBottom="15dp"-->
-        <!--android:paddingLeft="55dp"-->
-        <!--android:paddingRight="55dp"-->
-        <!--android:paddingTop="15dp"-->
-        <!--android:visibility="gone"-->
-        <!--android:text="交班"-->
-        <!--android:textColor="@color/white"-->
-        <!--android:textSize="16sp" />-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
 
+                <com.overwork.pension.other.MyListView
+                    android:id="@+id/class_rlvv"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:divider="@color/color_00000000"
+                    android:dividerHeight="0dp"
+                    android:listSelector="@android:color/transparent"
+                    android:scrollbars="none" />
+
+                <ImageView
+                    android:id="@+id/class_qrcode_ivv"
+                    android:layout_width="250dp"
+                    android:layout_height="250dp"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="20dp" />
+
+                <View
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+
+                <!--<TextView-->
+                <!--android:id="@+id/class_handover_tv"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_gravity="center"-->
+                <!--android:layout_marginTop="15dp"-->
+                <!--android:layout_marginBottom="15dp"-->
+                <!--android:background="@drawable/text_green_5_r"-->
+                <!--android:paddingBottom="15dp"-->
+                <!--android:paddingLeft="55dp"-->
+                <!--android:paddingRight="55dp"-->
+                <!--android:paddingTop="15dp"-->
+                <!--android:visibility="gone"-->
+                <!--android:text="交班"-->
+                <!--android:textColor="@color/white"-->
+                <!--android:textSize="16sp" />-->
+            </LinearLayout>
+        </ScrollView>
+    </LinearLayout>
 </LinearLayout>
+

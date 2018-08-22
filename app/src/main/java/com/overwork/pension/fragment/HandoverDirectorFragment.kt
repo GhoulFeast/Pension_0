@@ -50,6 +50,7 @@ class HandoverDirectorFragment : Fragment() {
         Http.post {
             url = BASEURL + T_HANDOVERDIRECTOR
             "userId" - userId
+
             success {
                 activity.runOnUiThread {
                     classBeans.clear()
@@ -72,6 +73,7 @@ class HandoverDirectorFragment : Fragment() {
                         }
                     }
                     classAdapter.notifyDataSetChanged()
+//                    dialog.dismiss()
                 }
             }
             fail {

@@ -28,6 +28,7 @@
     <string name="text_entryTime">%1s 入职</string>
     <string name="text_workingyears">工龄:%1s</string>
     <string name="text_superiorName">上级名称:%1s</string>
+    <string name="next_line">%1s\n</string>
     <string name="save">保存</string>
     <string name="mine_title">账号信息</string>
     <string name="msg_title_other">消息</string>

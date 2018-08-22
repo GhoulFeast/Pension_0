@@ -1,5 +1,6 @@
 package com.overwork.pension.adapter
 
+import android.text.method.ScrollingMovementMethod
 import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
@@ -30,11 +31,13 @@ class HandoverDirectorAdapter(taskList: ArrayList<MutableMap<String, Any>>) : Ba
         var item_class_abnormal_age_tv = p1.findViewById<TextView>(R.id.item_class_abnormal_age_tv)
         var item_class_abnormal_sex_tv = p1.findViewById<TextView>(R.id.item_class_abnormal_sex_tv)
         var item_class_abnormal_room_tv = p1.findViewById<TextView>(R.id.item_class_abnormal_room_tv)
-        var item_class_abnormal_needfollow_ll = p1.findViewById<LinearLayout>(R.id.item_class_abnormal_needfollow_ll)
+        var item_class_abnormal_needfollow_tv = p1.findViewById<TextView>(R.id.item_class_abnormal_needfollow_tv)
         var item_class_abnormal_needfollow_ll_ll = p1.findViewById<LinearLayout>(R.id.item_class_abnormal_needfollow_ll_ll)
-        var item_class_abnormal_serious_ll = p1.findViewById<LinearLayout>(R.id.item_class_abnormal_serious_ll)
+        var item_class_abnormal_serious_tv = p1.findViewById<TextView>(R.id.item_class_abnormal_serious_tv)
         var item_class_abnormal_serious_ll_ll = p1.findViewById<LinearLayout>(R.id.item_class_abnormal_serious_ll_ll)
         var item_class_add_abnormal_tv = p1.findViewById<TextView>(R.id.item_class_add_abnormal_tv)
+        item_class_abnormal_needfollow_tv.setMovementMethod(ScrollingMovementMethod.getInstance())
+        item_class_abnormal_serious_tv.setMovementMethod(ScrollingMovementMethod.getInstance())
         item_class_abnormal_name_tv.setText(abnormalList.get(p0)["name"].toString())
         var stringB = StringBuilder();
         stringB.append(abnormalList.get(p0)["age"].toString())
@@ -53,7 +56,7 @@ class HandoverDirectorAdapter(taskList: ArrayList<MutableMap<String, Any>>) : Ba
             if (map["type"].toString().equals(INFORMATIONTYPE_NEEDFOLLOW)) {
                 var handoverName = "来自" + map.get("handoverName").toString()
                 if (needfollows.contains(handoverName)) {
-                    needfollows.add(needfollows.indexOf(handoverName), map.get("messageContent").toString()+String.format(p2.context.resources.getString(R.string.needfollow)))
+                    needfollows.add(needfollows.indexOf(handoverName),   String.format(p2.context.resources.getString(R.string.needfollow),map.get("messageContent").toString()))
                 } else {
                     needfollows.add(handoverName)
                 }
@@ -61,37 +64,33 @@ class HandoverDirectorAdapter(taskList: ArrayList<MutableMap<String, Any>>) : Ba
             } else if (map["type"].toString().equals(INFORMATIONTYPE_SERIOUS)) {
                 var handoverName = "来自" + map.get("handoverName").toString()
                 if (seriouss.contains(handoverName)) {
-                    seriouss.add(seriouss.indexOf(handoverName), map.get("messageContent").toString()+String.format(p2.context.resources.getString(R.string.needfollow)))
+                    seriouss.add(seriouss.indexOf(handoverName),  String.format(p2.context.resources.getString(R.string.needfollow),map.get("messageContent").toString() ))
                 } else {
                     seriouss.add(handoverName)
                 }
                 seriouss.add(map.get("messageContent").toString())
             }
         }
+        var needFollowsStringB = StringBuilder()
         for (map: String in needfollows) {
-            var textView = TextView(p2.context)
-            textView.setPadding(p2.context.resources.getDimension(R.dimen.dp_5).toInt()
-                    , p2.context.resources.getDimension(R.dimen.dp_5).toInt()
-                    , p2.context.resources.getDimension(R.dimen.dp_5).toInt()
-                    , p2.context.resources.getDimension(R.dimen.dp_5).toInt())
-            textView.setText(map)
-            textView.setTextColor(p2.context.resources.getColor(R.color.text_black))
-            item_class_abnormal_needfollow_ll.addView(textView)
+            needFollowsStringB.append(String.format(p2.context.resources.getString(R.string.next_line), map))
         }
+        if (needFollowsStringB.length > 0) {
+            needFollowsStringB.delete(needFollowsStringB.length - 2, needFollowsStringB.length)
+            item_class_abnormal_needfollow_tv.setText(needFollowsStringB.toString())
+        }
+        var serioussStringB = StringBuilder()
         for (map: String in seriouss) {
-            var textView = TextView(p2.context)
-            textView.setPadding(p2.context.resources.getDimension(R.dimen.dp_5).toInt()
-                    , p2.context.resources.getDimension(R.dimen.dp_5).toInt()
-                    , p2.context.resources.getDimension(R.dimen.dp_5).toInt()
-                    , p2.context.resources.getDimension(R.dimen.dp_5).toInt())
-            textView.setText( map)
-            textView.setTextColor(p2.context.resources.getColor(R.color.text_black))
-            item_class_abnormal_serious_ll.addView(textView)
+            serioussStringB.append(String.format(p2.context.resources.getString(R.string.next_line), map))
         }
-        if (item_class_abnormal_needfollow_ll.childCount == 0) {
+        if (serioussStringB.length > 0) {
+            serioussStringB.delete(serioussStringB.length - 2, serioussStringB.length)
+            item_class_abnormal_serious_tv.setText(serioussStringB.toString())
+        }
+        if (needfollows.size == 0) {
             item_class_abnormal_needfollow_ll_ll.visibility = View.GONE
         }
-        if (item_class_abnormal_serious_ll.childCount == 0) {
+        if (seriouss.size == 0) {
             item_class_abnormal_serious_ll_ll.visibility = View.GONE
         }
         if (userType.toInt() == 1) {

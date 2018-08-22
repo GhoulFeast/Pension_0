@@ -2,6 +2,7 @@ package com.overwork.pension.adapter
 
 
 import android.content.Context
+import android.text.method.ScrollingMovementMethod
 import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
@@ -37,11 +38,13 @@ class ClassAdapter(taskList: ArrayList<MutableMap<String, Any>>) : BaseAdapter()
         var item_class_abnormal_age_tv = p1.findViewById<TextView>(R.id.item_class_abnormal_age_tv)
         var item_class_abnormal_sex_tv = p1.findViewById<TextView>(R.id.item_class_abnormal_sex_tv)
         var item_class_abnormal_room_tv = p1.findViewById<TextView>(R.id.item_class_abnormal_room_tv)
-        var item_class_abnormal_needfollow_ll = p1.findViewById<LinearLayout>(R.id.item_class_abnormal_needfollow_ll)
+        var item_class_abnormal_needfollow_tv = p1.findViewById<TextView>(R.id.item_class_abnormal_needfollow_tv)
         var item_class_abnormal_needfollow_ll_ll = p1.findViewById<LinearLayout>(R.id.item_class_abnormal_needfollow_ll_ll)
-        var item_class_abnormal_serious_ll = p1.findViewById<LinearLayout>(R.id.item_class_abnormal_serious_ll)
+        var item_class_abnormal_serious_tv = p1.findViewById<TextView>(R.id.item_class_abnormal_serious_tv)
         var item_class_abnormal_serious_ll_ll = p1.findViewById<LinearLayout>(R.id.item_class_abnormal_serious_ll_ll)
         var item_class_add_abnormal_tv = p1.findViewById<TextView>(R.id.item_class_add_abnormal_tv)
+        item_class_abnormal_needfollow_tv.setMovementMethod(ScrollingMovementMethod.getInstance())
+        item_class_abnormal_serious_tv.setMovementMethod(ScrollingMovementMethod.getInstance())
         item_class_abnormal_name_tv.setText(abnormalList.get(p0)["name"].toString())
         var stringB = StringBuilder();
         stringB.append(abnormalList.get(p0)["age"].toString())
@@ -53,24 +56,35 @@ class ClassAdapter(taskList: ArrayList<MutableMap<String, Any>>) : BaseAdapter()
         stringRoom.append(abnormalList.get(p0)["romeNo"].toString())
         item_class_abnormal_room_tv.setText(stringRoom)
         var mutables: List<MutableMap<String, Any>> = abnormalList.get(p0)["informationList"] as List<MutableMap<String, Any>>
+        var needfollows = ArrayList<String>()
+        var seriouss = ArrayList<String>()
         for (map: MutableMap<String, Any> in mutables) {//方法多调用一次
-            var textView = TextView(p2.context)
-            textView.setPadding(p2.context.resources.getDimension(R.dimen.dp_5).toInt()
-                    , p2.context.resources.getDimension(R.dimen.dp_5).toInt()
-                    , p2.context.resources.getDimension(R.dimen.dp_5).toInt()
-                    , p2.context.resources.getDimension(R.dimen.dp_5).toInt())
-            textView.setText(String.format(p2.context.resources.getString(R.string.needfollow), map["messageContent"].toString()))
-            textView.setTextColor(p2.context.resources.getColor(R.color.text_black))
             if (map["type"].toString().equals(INFORMATIONTYPE_NEEDFOLLOW)) {
-                item_class_abnormal_needfollow_ll.addView(textView)
+                needfollows.add(String.format(p2.context.resources.getString(R.string.needfollow), map["messageContent"].toString()))
             } else if (map["type"].toString().equals(INFORMATIONTYPE_SERIOUS)) {
-                item_class_abnormal_serious_ll.addView(textView)
+                seriouss.add(String.format(p2.context.resources.getString(R.string.needfollow), map["messageContent"].toString()))
             }
         }
-        if (item_class_abnormal_needfollow_ll.childCount == 0) {
+        var needFollowsStringB = StringBuilder()
+        for (map: String in needfollows) {
+            needFollowsStringB.append(String.format(p2.context.resources.getString(R.string.next_line), map))
+        }
+        if (needFollowsStringB.length > 0) {
+            needFollowsStringB.delete(needFollowsStringB.length - 2, needFollowsStringB.length)
+            item_class_abnormal_needfollow_tv.setText(needFollowsStringB.toString())
+        }
+        var serioussStringB = StringBuilder()
+        for (map: String in seriouss) {
+            serioussStringB.append(String.format(p2.context.resources.getString(R.string.next_line), map))
+        }
+        if (serioussStringB.length > 0) {
+            serioussStringB.delete(serioussStringB.length - 2, serioussStringB.length)
+            item_class_abnormal_serious_tv.setText(serioussStringB.toString())
+        }
+        if (item_class_abnormal_needfollow_tv.lineCount == 0) {
             item_class_abnormal_needfollow_ll_ll.visibility = View.GONE
         }
-        if (item_class_abnormal_serious_ll.childCount == 0) {
+        if (item_class_abnormal_serious_tv.lineCount == 0) {
             item_class_abnormal_serious_ll_ll.visibility = View.GONE
         }
         if (userType.toInt() == 1) {
