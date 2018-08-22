@@ -19,7 +19,7 @@ class HandoverInfoAdapter(taskList: ArrayList<MutableMap<String, Any>>) : BaseAd
     }
 
     override fun getView(p0: Int, view: View?, p2: ViewGroup): View {
-        var p1 = LayoutInflater.from(p2.context).inflate(R.layout.item_handover_info, p2, false)
+        var p1 = LayoutInflater.from(p2.context).inflate(R.layout.item_handover_info, null,false)
         var item_handover_name_tv = p1.findViewById<TextView>(R.id.item_handover_name_tv)
         var item_handover_complete_iv = p1.findViewById<CheckBox>(R.id.item_handover_complete_iv)
         var item_handover_type_tv = p1.findViewById<TextView>(R.id.item_handover_type_tv)

@@ -26,8 +26,8 @@ package com.overwork.pension.other
 //val SIMPLE_THIS_TIME_TASK = ""//19异常内容
 
 val BASEURL = "http://www.mockhttp.cn/mock/"//基本
-val LOGIN = "loginm"//登陆
-//val LOGIN = "loginz"//登陆主管
+//val LOGIN = "loginm"//登陆
+val LOGIN = "loginz"//登陆主管
 val MSGLIST = "msgs_list"//消息列表
 val T_TASK = "t_task"//今天任务
 val T_ABNORMAL = "jb_ycxx"//10交班——异常信息https://github.com/wwan12/AnalogInterface/blob/master/abnormalShift.json

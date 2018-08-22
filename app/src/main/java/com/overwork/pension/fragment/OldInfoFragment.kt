@@ -29,6 +29,7 @@ class OldInfoFragment : Fragment() {
             titleBar = "老人信息"
         }
         getData()
+        old_info_mlv.isFocusable=false
     }
 
 
