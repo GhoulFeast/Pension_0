@@ -86,8 +86,14 @@ class TodayTaskFragment : Fragment() {
             url = BASEURL + T_TASK
             "userId" - userId
             "kssj" - showTime
-            "lrpkid" - (activity as MenuActivity).getData<String>(lrId)
-            (activity as MenuActivity).removeData(lrId)
+            if ((activity as MenuActivity).hasData(lrId)){
+                "lrpkid" - (activity as MenuActivity).getData<String>(lrId)
+                (activity as MenuActivity).removeData(lrId)
+            }
+            if((activity as MenuActivity).hasData("cwpkid")){//有cwpkid时加参
+                "cwpkid"-(activity as MenuActivity).getData<String>("cwpkid")
+                (activity as MenuActivity).removeData("cwpkid")
+            }
             "userType" - userType
             success {
                 activity.runOnUiThread {
@@ -114,6 +120,7 @@ class TodayTaskFragment : Fragment() {
 //                }
                     todayTaskAdapter.notifyDataSetChanged()
                     taskStepViewRvAdapter.notifyDataSetChanged()
+                    todayTaskAdapter.showTime=showTime
                 }
             }
         }
@@ -126,17 +133,18 @@ class TodayTaskFragment : Fragment() {
         todaytask_rv.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
         todaytask_rv.adapter = taskStepViewRvAdapter;
         todaytask_list.adapter = todayTaskAdapter
-        todaytask_list.setOnItemClickListener { adapterView: AdapterView<*>, view1: View, i: Int, l: Long ->
-            var taskDetailsFragment = TaskDetailsFragment();
-            var bd = Bundle()
-            bd.putString("time", showTime)
-            taskDetailsFragment.arguments = bd
-            (activity as MenuActivity).showFragment(taskDetailsFragment)
-            (activity as MenuActivity).putData(TodayTaskID, thisTaskList[i]["rwid"]!!)
-            (activity as MenuActivity).putData(lrId, thisTaskList[i]["lrid"]!!)
-            (activity as MenuActivity).putData(zbpkId, thisTaskList[i]["zbpkid"]!!)
-
-        }
+        todayTaskAdapter.showTime=showTime
+//        todaytask_list.setOnItemClickListener { adapterView: AdapterView<*>, view1: View, i: Int, l: Long ->
+//            var taskDetailsFragment = TaskDetailsFragment();
+//            var bd = Bundle()
+//            bd.putString("time", showTime)
+//            taskDetailsFragment.arguments = bd
+//            (activity as MenuActivity).showFragment(taskDetailsFragment)
+//            (activity as MenuActivity).putData(TodayTaskID, thisTaskList[i]["rwid"]!!)
+//            (activity as MenuActivity).putData(lrId, thisTaskList[i]["lrid"]!!)
+//            (activity as MenuActivity).putData(zbpkId, thisTaskList[i]["zbpkid"]!!)
+//
+//        }
         taskStepViewRvAdapter.setStepItemClick(object : TaskStepViewRvAdapter.TaskStepItemClick {
             override fun OnItem(postion: Int) {
                 taskStepViewRvAdapter.selectPosion = postion

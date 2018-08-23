@@ -76,15 +76,15 @@ class ProjectAdapter(val activity: FragmentActivity, val taskList: ArrayList<Mut
                     url = BASEURL + OVER_EX
                     "cgjlpkid" - taskList[index]["hlrwpkid"].toString()
                     "userId" - userId
-                    "lx" - taskList[index]["lx"].toString()
+//                    "lx" - taskList[index]["lx"].toString()
                     "clbz" - ifEstimate.toString()
                     "sjz" - p0.toString()
                     success {
                         activity.runOnUiThread {
-                            if (getAny<String>("status").equals("200")) {
+                            if ((!"status").equals("200")) {
                                 ((activity as MenuActivity).showFragment as TaskDetailsFragment).initList()
                             } else {
-                                getAny<String>("message").toast(activity)
+                                (!"message").toast(activity)
                                 ((activity as MenuActivity).showFragment as TaskDetailsFragment).initList()
                             }
                         }
