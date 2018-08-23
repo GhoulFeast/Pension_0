@@ -6,6 +6,7 @@ package com.overwork.pension.other
 //val T_TASK = "/jrrw.action"//今天任务
 //val T_ABNORMAL = "/jbycxx.action"//10交班——异常信息
 //val T_HANDOVERINFO = "/jbnrlb.action"//11交班——交班信息
+//val T_SUBMITHANDOVER = "/jbnrlb.action"//20交班——完成复查项
 //val TOMORROW_TASK = "/mrrw.action"//明日任务
 //val ABNORMALITY = "/scyc.action"//异常情况提交
 //val THIS_TIME_TASK = "/hlnr.action"//5护理内容
@@ -32,6 +33,7 @@ val MSGLIST = "msgs_list"//消息列表
 val T_TASK = "t_task"//今天任务
 val T_ABNORMAL = "jb_ycxx"//10交班——异常信息https://github.com/wwan12/AnalogInterface/blob/master/abnormalShift.json
 val T_HANDOVERINFO = "t_jbbg"//11交班——交班信息https://github.com/wwan12/AnalogInterface/blob/master/shiftContent.json
+val T_SUBMITHANDOVER = "wcfcx"//20交班——完成复查项
 val OVER_TASK = "t_wc"//完成护理项https://github.com/wwan12/AnalogInterface/blob/master/completeTheNursing.json
 val TOMORROW_TASK = "m_task"//明日任务https://github.com/wwan12/AnalogInterface/blob/master/tomorrowTask.json
 val ABNORMALITY = "t_wc"//异常情况提交

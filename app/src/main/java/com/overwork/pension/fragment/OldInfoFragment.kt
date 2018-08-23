@@ -39,7 +39,6 @@ class OldInfoFragment : Fragment() {
         dialog.show();
         Http.post {
             url = BASEURL + OLDMAN_INFO
-            "userId" - userId
             "lrid" - arguments.getString("id")
             success {
                 activity.runOnUiThread {

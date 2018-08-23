@@ -37,7 +37,7 @@ class MsgDetalisFragment : Fragment() {
         Http.post {
             url = BASEURL + MSGLIST_READ
             "userId" - userId
-            "zbpkid" - enety.get("zbpkid").toString()
+//            "zbpkid" - enety.get("zbpkid").toString()  护理消息的时候有 暂时不用
             "type" - enety.get("type").toString()
             "messageId" - enety.get("messageId").toString()
             success {
@@ -50,7 +50,7 @@ class MsgDetalisFragment : Fragment() {
         if (enety["type"].toString().equals("0")) {
             (activity as MenuActivity).style {
                 textBar = ""
-                textBar = activity.resources.getString(R.string.msg_title_task)
+                titleBar = "护理消息"
             }
             msg_details_context_ll.visibility = View.VISIBLE
             msg_details_other_context_ll.visibility = View.GONE
@@ -95,7 +95,7 @@ class MsgDetalisFragment : Fragment() {
             msg_details_other_context_tv.setText(enety.get("messageContent").toString())
             (activity as MenuActivity).style {
                 textBar = ""
-                titleBar = "消息"
+                titleBar = "通知消息"
             }
         }
 
@@ -106,12 +106,12 @@ class MsgDetalisFragment : Fragment() {
         if (enety["type"].toString().equals("0")) {
             (activity as MenuActivity).style {
                 textBar = ""
-                textBar = activity.resources.getString(R.string.msg_title_task)
+                titleBar = "通知消息"
             }
         } else {
             (activity as MenuActivity).style {
                 textBar = ""
-                titleBar = "消息"
+                titleBar = "护理消息"
             }
         }
 

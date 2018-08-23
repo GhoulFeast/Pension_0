@@ -1,5 +1,7 @@
 package com.overwork.pension.adapter
 
+import android.app.Activity
+import android.os.Bundle
 import android.text.method.ScrollingMovementMethod
 import android.util.TypedValue
 import android.view.LayoutInflater
@@ -9,6 +11,8 @@ import android.widget.BaseAdapter
 import android.widget.LinearLayout
 import android.widget.TextView
 import com.overwork.pension.R
+import com.overwork.pension.activity.MenuActivity
+import com.overwork.pension.fragment.*
 import com.overwork.pension.other.userType
 
 /**
@@ -16,13 +20,15 @@ import com.overwork.pension.other.userType
  */
 
 
-class HandoverDirectorAdapter(taskList: ArrayList<MutableMap<String, Any>>) : BaseAdapter() {
+class HandoverDirectorAdapter(taskList: ArrayList<MutableMap<String, Any>>, activity: Activity) : BaseAdapter() {
 
 
     var abnormalList: List<MutableMap<String, Any>>
+    var activity: Activity
 
     init {
         abnormalList = taskList
+        this.activity = activity
     }
 
     override fun getView(p0: Int, p1: View?, p2: ViewGroup): View {
@@ -56,7 +62,7 @@ class HandoverDirectorAdapter(taskList: ArrayList<MutableMap<String, Any>>) : Ba
             if (map["type"].toString().equals(INFORMATIONTYPE_NEEDFOLLOW)) {
                 var handoverName = "来自" + map.get("handoverName").toString()
                 if (needfollows.contains(handoverName)) {
-                    needfollows.add(needfollows.indexOf(handoverName),   String.format(p2.context.resources.getString(R.string.needfollow),map.get("messageContent").toString()))
+                    needfollows.add(needfollows.indexOf(handoverName), String.format(p2.context.resources.getString(R.string.needfollow), map.get("messageContent").toString()))
                 } else {
                     needfollows.add(handoverName)
                 }
@@ -64,7 +70,7 @@ class HandoverDirectorAdapter(taskList: ArrayList<MutableMap<String, Any>>) : Ba
             } else if (map["type"].toString().equals(INFORMATIONTYPE_SERIOUS)) {
                 var handoverName = "来自" + map.get("handoverName").toString()
                 if (seriouss.contains(handoverName)) {
-                    seriouss.add(seriouss.indexOf(handoverName),  String.format(p2.context.resources.getString(R.string.needfollow),map.get("messageContent").toString() ))
+                    seriouss.add(seriouss.indexOf(handoverName), String.format(p2.context.resources.getString(R.string.needfollow), map.get("messageContent").toString()))
                 } else {
                     seriouss.add(handoverName)
                 }
@@ -108,6 +114,13 @@ class HandoverDirectorAdapter(taskList: ArrayList<MutableMap<String, Any>>) : Ba
             item_class_add_abnormal_tv.visibility = View.VISIBLE
             item_class_abnormal_room_tv.visibility = View.GONE
         }
+        item_class_add_abnormal_tv.setOnClickListener({
+            var taskDetailsFragment = TaskDetailsFragment();
+            CZLX = "03"
+            taskDetailsFragment.setSimple()
+            (activity as MenuActivity).showFragment(taskDetailsFragment)
+            (activity as MenuActivity).putData(zbpkId, abnormalList.get(p0)["zbpkid"].toString())
+        })
         return p1
     }
 
