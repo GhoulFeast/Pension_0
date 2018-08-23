@@ -14,11 +14,12 @@ import com.aisino.tool.widget.ToastAdd
 import com.hq.kbase.network.Http
 import com.overwork.pension.R
 import com.overwork.pension.activity.MenuActivity
-import com.overwork.pension.fragment.OldInfoFragment
-import com.overwork.pension.fragment.TaskDetailsFragment
+import com.overwork.pension.fragment.*
 import com.overwork.pension.other.*
 
 class TodayTaskAdapter(val activity: FragmentActivity, val taskList: ArrayList<MutableMap<String, Any>>) : BaseAdapter() {
+
+    var showTime=""
 
     override fun getView(p0: Int, p1: View?, p2: ViewGroup?): View {
         var view = LayoutInflater.from(activity).inflate(R.layout.fragment_today_task_item, null)
@@ -43,15 +44,24 @@ class TodayTaskAdapter(val activity: FragmentActivity, val taskList: ArrayList<M
             state.setPadding(activity.dip2px(24F), activity.dip2px(5F), activity.dip2px(24F), activity.dip2px(5F))
 
         }
-        name.setOnClickListener {
-            var old = OldInfoFragment()
-            var bd = Bundle();
-            bd.putString("id", taskList[p0]["rwid"].toString())
-            old.arguments = bd
-            (activity as MenuActivity).showFragment(old)
-
+//        name.setOnClickListener {
+//            var old = OldInfoFragment()
+//            var bd = Bundle();
+//            bd.putString("id", taskList[p0]["rwid"].toString())
+//            old.arguments = bd
+//            (activity as MenuActivity).showFragment(old)
+//
+//
+//        }
+        state.setOnClickListener{
+            jump(p0)
 
         }
+        add.setOnClickListener {
+            jump(p0)
+
+        }
+
         return view
     }
 
@@ -67,5 +77,19 @@ class TodayTaskAdapter(val activity: FragmentActivity, val taskList: ArrayList<M
         return taskList.size
     }
 
-
+    fun jump(index: Int): Unit {
+        var taskDetailsFragment = TaskDetailsFragment();
+        var bd = Bundle()
+        bd.putString("time", showTime)
+        taskDetailsFragment.arguments = bd
+        (activity as MenuActivity).putData(TodayTaskID, taskList[index]["rwid"]!!)
+        (activity as MenuActivity).putData(lrId, taskList[index]["lrid"]!!)
+        (activity as MenuActivity).putData(zbpkId, taskList[index]["zbpkid"]!!)
+        if (userType.equals("1")){
+            CZLX="01"
+        }else{
+            CZLX="03"
+        }
+        (activity as MenuActivity).showFragment(taskDetailsFragment)
+    }
 }
