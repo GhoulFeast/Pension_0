@@ -156,6 +156,10 @@ class TaskDetailsFragment : Fragment() {
             //延时执行init以等待状态改变
             if (isSimple) {
                 initSimpleList()
+                (activity as MenuActivity).style {
+                    textBar = ""
+                    titleBar = "异常信息"
+                }
             } else {
                 initList()
             }
