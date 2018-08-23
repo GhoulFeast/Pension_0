@@ -40,12 +40,12 @@ class ClassFragment : Fragment() {
             "userId" - userId
             success {
                 activity.runOnUiThread {
-                    if ((!"status").equals("200")){
+                    if ((!"status").equals("200")) {
                         classBeans.clear()
                         classBeans.addAll("result".."abnormalList")
                         classAdapter.notifyDataSetChanged()
 //                        class_handover_tv.isEnabled=true
-                    }else{
+                    } else {
                         (!"message").toast(activity)
 //                        class_handover_tv.isEnabled=false
                     }
@@ -62,12 +62,12 @@ class ClassFragment : Fragment() {
     fun initViewAndEvent(): Unit {
         (activity as MenuActivity).style {
             textBar = ""
-            titleBar=activity.resources.getString(R.string.checking_information)
+            titleBar = "交接班"
         }
         classAdapter = ClassAdapter(classBeans)
         class_rlvv.adapter = classAdapter
         class_qrcode_ivv.viewTreeObserver.addOnDrawListener({
-            class_qrcode_ivv.setImageBitmap(EncodingUtils.createQRCode("ZY||"+userId, class_qrcode_ivv.width, class_qrcode_ivv.height, null))
+            class_qrcode_ivv.setImageBitmap(EncodingUtils.createQRCode("ZY||" + userId, class_qrcode_ivv.width, class_qrcode_ivv.height, null))
         })
 //        class_handover_tv.setOnClickListener(object : View.OnClickListener {
 //            override fun onClick(p0: View?) {
@@ -75,11 +75,12 @@ class ClassFragment : Fragment() {
 //            }
 //        })
     }
+
     override fun onHiddenChanged(hidden: Boolean) {
         super.onHiddenChanged(hidden)
         (activity as MenuActivity).style {
             textBar = ""
-            titleBar = activity.resources.getString(R.string.checking_information)
+            titleBar = "交接班"
         }
     }
 

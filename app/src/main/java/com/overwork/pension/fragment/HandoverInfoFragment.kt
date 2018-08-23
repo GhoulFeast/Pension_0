@@ -13,6 +13,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import com.aisino.qrcode.encoding.EncodingUtils
+import com.aisino.tool.ani.LoadingDialog
 import com.aisino.tool.toast
 import com.aisino.tool.widget.ToastAdd
 import com.hq.kbase.network.Http
@@ -50,9 +51,7 @@ class HandoverInfoFragment : Fragment(), ServiceConnection {
     fun getData(): Unit {
         Http.post {
             url = BASEURL + IS_HANDOVER
-
             "userId" - userId
-
             success {
                 activity.runOnUiThread {
                     if ((!"status").equals("200")) {
@@ -117,29 +116,12 @@ class HandoverInfoFragment : Fragment(), ServiceConnection {
         })
         handoverInfoAdapter.setHandover(object : HandoverInfoAdapter.OnHandover {
             override fun OnHandoverChangeClick(position: Int, b: Boolean) {
-                if (b) {
-                    handoverInfos.get(position)["isRecheck"] = "Y"
-                } else {
-                    handoverInfos.get(position)["isRecheck"] = "N"
-                }
-                var isAll = true
-                for (map: MutableMap<String, Any> in handoverInfos) {
-                    if (map.get("isRecheck").toString().equals("N")) {
-                        isAll = false
-                        break
-                    }
-                }
-                if (isAll) {
-                    class_handover_tv.isEnabled = true
-                    class_handover_tv.alpha = 1.0f
-                } else {
-                    class_handover_tv.isEnabled = false
-                    class_handover_tv.alpha = 0.3f
-                }
+                submitHandover(handoverInfos[position].get("fcjlid").toString(), position)
             }
 
             override fun OnHandoverClick(id: Int) {
                 var taslDetalis = TaskDetailsFragment()
+                CZLX="02"
                 (activity as MenuActivity).putData(TodayTaskID, handoverInfos[id]["oldId"].toString())
                 (activity as MenuActivity).putData(zbpkId, handoverInfos[id]["zbpkid"].toString())
                 (activity as MenuActivity).showFragment(taslDetalis)
@@ -152,6 +134,46 @@ class HandoverInfoFragment : Fragment(), ServiceConnection {
 
     }
 
+    fun submitHandover(fcjlid: String, position: Int) {
+        val dialog = LoadingDialog(activity);
+        dialog.setCanceledOnTouchOutside(false);
+        dialog.show();
+        Http.post {
+            url = BASEURL + T_SUBMITHANDOVER
+            "userId" - userId
+            "fcjlid" - fcjlid
+            success {
+                activity.runOnUiThread {
+                    if ((!"status").equals("200")) {
+                        var isHandover: Boolean = "result".."isHandove"
+                        if (isHandover) {
+                            handoverInfos.get(position)["isRecheck"] = "Y"
+                        } else {
+                            handoverInfos.get(position)["isRecheck"] = "N"
+                        }
+                        var isAll = true
+                        for (map: MutableMap<String, Any> in handoverInfos) {
+                            if (map.get("isRecheck").toString().equals("N")) {
+                                isAll = false
+                                break
+                            }
+                        }
+                        if (isAll) {
+                            class_handover_tv.isEnabled = true
+                            class_handover_tv.alpha = 1.0f
+                        } else {
+                            class_handover_tv.isEnabled = false
+                            class_handover_tv.alpha = 0.3f
+                        }
+                    }
+                    dialog.dismiss()
+                }
+            }
+            fail {
+                dialog.dismiss()
+            }
+        }
+    }
 
     override fun onPause() {
         super.onPause()
