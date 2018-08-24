@@ -162,7 +162,7 @@ class HandoverDirectorFragment : Fragment() {
             textBar = ""
             titleBar = "交班"
         }
-        classAdapter = HandoverDirectorAdapter(classBeans)
+        classAdapter = HandoverDirectorAdapter(classBeans,activity)
         director_rlv.adapter = classAdapter
         director_handover_tv.setOnClickListener(object : View.OnClickListener {
             override fun onClick(p0: View?) {
