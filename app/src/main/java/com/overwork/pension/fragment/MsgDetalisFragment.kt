@@ -86,7 +86,7 @@ class MsgDetalisFragment : Fragment() {
                 bd.putString("time", enety.get("kssj").toString())
                 taskDetailsFragment.arguments = bd
                 (activity as MenuActivity).showFragment(taskDetailsFragment)
-                (activity as MenuActivity).putData(TodayTaskID, enety["hlrwid"].toString())
+                (activity as MenuActivity).putData(TodayTaskID, enety["messageId"].toString())
                 (activity as MenuActivity).putData(lrId, enety["id"].toString())
                 (activity as MenuActivity).putData(zbpkId, enety["zbpkid"].toString())
             })

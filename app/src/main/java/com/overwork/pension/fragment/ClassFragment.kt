@@ -1,6 +1,7 @@
 package com.overwork.pension.fragment
 
 import android.os.Bundle
+import android.os.Handler
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -67,9 +68,13 @@ class ClassFragment : Fragment() {
         }
         classAdapter = ClassAdapter(classBeans)
         class_rlvv.adapter = classAdapter
-        class_qrcode_ivv.viewTreeObserver.addOnDrawListener({
+//        class_qrcode_ivv.viewTreeObserver.addOnDrawListener({
+//            class_qrcode_ivv.setImageBitmap(EncodingUtils.createQRCode("ZY||" + userId, class_qrcode_ivv.width, class_qrcode_ivv.height, null))
+//        })
+        val h = Handler()
+        h.postDelayed({
             class_qrcode_ivv.setImageBitmap(EncodingUtils.createQRCode("ZY||" + userId, class_qrcode_ivv.width, class_qrcode_ivv.height, null))
-        })
+        }, 300)
 //        class_handover_tv.setOnClickListener(object : View.OnClickListener {
 //            override fun onClick(p0: View?) {
 //
