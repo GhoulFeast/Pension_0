@@ -21,6 +21,7 @@ import com.overwork.pension.adapter.ClassAdapter
 import com.overwork.pension.adapter.HandoverDirectorAdapter
 import com.overwork.pension.adapter.HandoverInfoAdapter
 import com.overwork.pension.other.*
+import kotlinx.android.synthetic.main.activity_menu.*
 import kotlinx.android.synthetic.main.fragment_class.*
 import kotlinx.android.synthetic.main.fragment_handoverdirector.*
 
@@ -140,13 +141,15 @@ class HandoverDirectorFragment : Fragment() {
                                 }
                             }
 
+                        }else{
+                            dialog.dismiss()
                         }
                     }else{
                         dialog.dismiss()
                     }
+
                 }
             }
-
             fail {
                 menuActivity.runOnUiThread {
                     dialog.dismiss()
@@ -160,8 +163,19 @@ class HandoverDirectorFragment : Fragment() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (data != null) {
-            if (requestCode == FRQRCODE) {
+            if (requestCode == QRCODE) {
                 getData()
+                var qr = data.getStringExtra("result")
+                val code = qr.substring(4, qr.length)
+                when (qr.substring(0, 1)) {
+                    "Z" -> {
+                        if (userType.equals("2")) {
+                            isZJ = true
+                            (activity as MenuActivity).putData("jbrid", code)
+                            getData()
+                        }
+                    }
+                }
             }
         }
         super.onActivityResult(requestCode, resultCode, data)
@@ -177,8 +191,7 @@ class HandoverDirectorFragment : Fragment() {
         director_handover_tv.setOnClickListener(object : View.OnClickListener {
             override fun onClick(p0: View?) {
                 activity.runOnUiThread {
-                    startActivityForResult(Intent((activity as MenuActivity), CaptureActivity::class.java), FRQRCODE)
-
+                    startActivityForResult(Intent((activity as MenuActivity), CaptureActivity::class.java), QRCODE)
                 }
             }
         })
