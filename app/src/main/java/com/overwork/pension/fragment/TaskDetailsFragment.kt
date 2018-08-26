@@ -22,6 +22,7 @@ import kotlinx.android.synthetic.main.fragment_task_details.*
 import java.util.*
 import android.provider.MediaStore.Audio.Media.RECORD_SOUND_ACTION
 import android.support.v7.widget.LinearLayoutManager
+import android.text.TextUtils
 import android.util.Log
 import android.widget.ImageView
 import android.widget.LinearLayout
@@ -61,7 +62,7 @@ class TaskDetailsFragment : Fragment() {
     val RECORD_TYPE_HAVE = "02"
     var fjxxpkid = ""
     var isSimple = false
-    var imgPopupWindow: PopupWindow?=null
+    var imgPopupWindow: PopupWindow? = null
     lateinit var overDialog: LoadingDialog
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater?.inflate(R.layout.fragment_task_details, null, false)
@@ -164,6 +165,11 @@ class TaskDetailsFragment : Fragment() {
 
     fun intoTime() {
         var thisTime = Calendar.getInstance()
+        if (!TextUtils.isEmpty(arguments.get("time").toString())) {
+            var times = arguments.get("time").toString().split(":")
+            thisTime.set(Calendar.MINUTE, times.get(1).toInt())
+            thisTime.set(Calendar.HOUR_OF_DAY, times.get(0).toInt())
+        }
         var minute: Int;
         if (thisTime.get(Calendar.MINUTE) >= 30)
             minute = 30
@@ -333,7 +339,7 @@ class TaskDetailsFragment : Fragment() {
                         } else {
                             (task_details_project_list.adapter as ProjectAdapter).notifyDataSetChanged()
                         }
-                        if (!task_details_record_needhelp.isChecked&&!task_details_record_have.isChecked){
+                        if (!task_details_record_needhelp.isChecked && !task_details_record_have.isChecked) {
                             when (mut["abnormalType"].toString()) {
                                 "01" -> task_details_record_needhelp.performClick()
                                 "02" -> task_details_record_have.performClick()
@@ -388,7 +394,7 @@ class TaskDetailsFragment : Fragment() {
                     val upImage = File(uri.path)
                     addImage(upImage, "", "").setImageBitmap(uri?.getCameraImg(activity))
                     upLoadImage(upImage, 1)
-                }else{
+                } else {
                     "uri==null".log("uuu")
                 }
             }
@@ -398,7 +404,7 @@ class TaskDetailsFragment : Fragment() {
                 upLoadImage(uri?.toFile(activity), 1)
             }
             SOUND -> {
-                val uri=data?.data
+                val uri = data?.data
                 addSound(uri, null, "")
                 upLoadImage(uri?.toFile(activity), 2)
             }
@@ -439,13 +445,13 @@ class TaskDetailsFragment : Fragment() {
 
     fun addImage(file: File?, imageURL: String?, id: String): ImageView {
         val newImg = ImageView(activity)
-        val lp = ViewGroup.LayoutParams(task_details_photograph.width+24, task_details_photograph.height+24)
+        val lp = ViewGroup.LayoutParams(task_details_photograph.width + 24, task_details_photograph.height + 24)
         newImg.setLayoutParams(lp);
         newImg.setPadding(24, 24, 24, 24)
         newImg.scaleType = ImageView.ScaleType.CENTER_CROP
         newImg.setTag(R.id.image_id, imageList.size)
         newImg.setOnClickListener {
-            imgPopupWindow= (it as ImageView).showFullWindow()
+            imgPopupWindow = (it as ImageView).showFullWindow()
         }
         newImg.setOnLongClickListener {
             removeFile(it as ImageView, imageList.get(it.getTag(R.id.image_id).toString().toInt()), 1)
@@ -615,7 +621,7 @@ class TaskDetailsFragment : Fragment() {
         super.onHiddenChanged(hidden)
         if (hidden) {
             saveAll()
-            if (imgPopupWindow!=null){
+            if (imgPopupWindow != null) {
                 imgPopupWindow?.dismiss()
             }
 

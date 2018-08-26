@@ -80,7 +80,6 @@ class TodayTaskFragment : Fragment() {
         todaytask_rv.scrollToPosition(position - 2)
         showTime = taskTimeList.get(position)["taskTime"].toString()
     }
-
     fun getTaskList(): Unit {
         Http.post {
             url = BASEURL + T_TASK
@@ -96,8 +95,11 @@ class TodayTaskFragment : Fragment() {
                     thisTaskList.clear()
                     thisTaskList.addAll("result".."links")
                 }else{
-                    var asd = todaytask_rv.getChildAt(taskStepViewRvAdapter.selectPosion+1).findViewById<TextView>(R.id.item_stepview_time)
-                    asd.performClick()
+                    taskStepViewRvAdapter.selectPosion = taskStepViewRvAdapter.selectPosion+1
+                    todaytask_rv.scrollToPosition(taskStepViewRvAdapter.selectPosion - 2)
+                    showTime = taskTimeList.get(taskStepViewRvAdapter.selectPosion)["taskTime"].toString()
+                    taskStepViewRvAdapter.notifyDataSetChanged()
+                    getTaskList()
 //                    val posion=taskStepViewRvAdapter.selectPosion
 //                    taskStepViewRvAdapter.selectPosion = posion+1
 //                    taskStepViewRvAdapter.notifyDataSetChanged()
