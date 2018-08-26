@@ -32,6 +32,8 @@ class TodayTaskFragment : Fragment() {
 //    var taskList: ArrayList<MutableMap<String, Any>> = ArrayList<MutableMap<String, Any>>()
     var taskTimeList: ArrayList<MutableMap<String, Any>> = ArrayList<MutableMap<String, Any>>()
     var thisTaskList: ArrayList<MutableMap<String, Any>> = ArrayList<MutableMap<String, Any>>()
+    lateinit var linearLayoutManager :LinearLayoutManager;
+
     var pkid=""
     lateinit var taskStepViewRvAdapter: TaskStepViewRvAdapter
     lateinit var todayTaskAdapter: TodayTaskAdapter
@@ -78,7 +80,8 @@ class TodayTaskFragment : Fragment() {
         }
         taskStepViewRvAdapter.selectPosion = position
         taskStepViewRvAdapter.notifyDataSetChanged()
-        todaytask_rv.scrollToPosition(position - 2)
+//        todaytask_rv.scrollToPosition(position - 2)
+        linearLayoutManager.scrollToPositionWithOffset(taskStepViewRvAdapter.selectPosion - 2,0)
         showTime = taskTimeList.get(position)["taskTime"].toString()
     }
 
@@ -106,7 +109,8 @@ class TodayTaskFragment : Fragment() {
                     if (todaytask_rv!=null){
                         thisTaskList.clear()
                         taskStepViewRvAdapter.selectPosion = taskStepViewRvAdapter.selectPosion+1
-                        todaytask_rv.scrollToPosition(taskStepViewRvAdapter.selectPosion - 2)
+//                        todaytask_rv.scrollToPosition(taskStepViewRvAdapter.selectPosion - 2)
+                        linearLayoutManager.scrollToPositionWithOffset(taskStepViewRvAdapter.selectPosion - 2,0)
                         showTime = taskTimeList.get(taskStepViewRvAdapter.selectPosion)["taskTime"].toString()
                         taskStepViewRvAdapter.notifyDataSetChanged()
                         if (!showTime.equals("23:30")){
@@ -145,7 +149,9 @@ class TodayTaskFragment : Fragment() {
         todayTaskAdapter = TodayTaskAdapter(activity, thisTaskList)
 //        todayTaskAdapter.isRoom = (activity as MenuActivity).hasData(lrId)
         taskStepViewRvAdapter = TaskStepViewRvAdapter(activity, taskTimeList)
-        todaytask_rv.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
+//        todaytask_rv.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
+        linearLayoutManager=LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
+        todaytask_rv.layoutManager =linearLayoutManager
         todaytask_rv.adapter = taskStepViewRvAdapter;
         todaytask_list.adapter = todayTaskAdapter
         todayTaskAdapter.showTime=showTime
@@ -163,7 +169,8 @@ class TodayTaskFragment : Fragment() {
         taskStepViewRvAdapter.setStepItemClick(object : TaskStepViewRvAdapter.TaskStepItemClick {
             override fun OnItem(postion: Int) {
                 taskStepViewRvAdapter.selectPosion = postion
-                todaytask_rv.scrollToPosition(postion - 2)
+//                todaytask_rv.scrollToPosition(postion - 2)
+                linearLayoutManager.scrollToPositionWithOffset(taskStepViewRvAdapter.selectPosion - 2,0)
                 showTime = taskTimeList.get(postion)["taskTime"].toString()
                 taskStepViewRvAdapter.notifyDataSetChanged()
                 getTaskList()

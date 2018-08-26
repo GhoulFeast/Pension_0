@@ -175,8 +175,9 @@ class HandoverInfoFragment : Fragment(), ServiceConnection {
                             class_handover_tv.isEnabled = false
                             class_handover_tv.alpha = 0.3f
                         }
+                        getData()
                     }
-                    handoverInfoAdapter.notifyDataSetChanged()
+
                     dialog.dismiss()
                 }
             }

@@ -43,7 +43,9 @@ import kotlin.collections.ArrayList
 import com.bumptech.glide.request.animation.GlideAnimation
 import com.overwork.pension.activity.menuActivity
 import com.overwork.pension.adapter.TaskStepViewRvAdapter
+import java.io.BufferedOutputStream
 import java.io.File
+import java.io.FileOutputStream
 import java.io.IOException
 
 
@@ -58,11 +60,11 @@ class TaskDetailsFragment : Fragment() {
     //    var isDelete = false
     val imageList = ArrayList<FileInfo>()
     val soundList = ArrayList<FileInfo>()
-    var abnormal=""
+    var abnormal = ""
     var abnormalType = "00"
-    var todayTaskID=""
-    var lrid=""
-    var zbpkids=""
+    var todayTaskID = ""
+    var lrid = ""
+    var zbpkids = ""
     var measurementProjects: ArrayList<MutableMap<String, Any>> = ArrayList<MutableMap<String, Any>>()
     lateinit var taskStepViewRvAdapter: TaskStepViewRvAdapter
     val RECORD_TYPE_NON = "00"
@@ -72,7 +74,7 @@ class TaskDetailsFragment : Fragment() {
 
     var isSimple = false
     var imgPopupWindow: PopupWindow? = null
-    var isDear=false
+    var isDear = false
     lateinit var overDialog: LoadingDialog
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater?.inflate(R.layout.fragment_task_details, null, false)
@@ -142,7 +144,7 @@ class TaskDetailsFragment : Fragment() {
                     task_details_record_ll.visibility = View.VISIBLE
                 }
             }
-            if (isSimple){
+            if (isSimple) {
                 saveAll()
 
             }
@@ -165,16 +167,16 @@ class TaskDetailsFragment : Fragment() {
                     task_details_record_have.isChecked = false
                 }
             }
-            if (isSimple){
+            if (isSimple) {
                 saveAll()
             }
         }
-        task_details_context.addTextChangedListener(object : TextWatcher{
+        task_details_context.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(p0: Editable?) {
             }
 
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                abnormal=p0.toString()
+                abnormal = p0.toString()
             }
 
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
@@ -182,17 +184,17 @@ class TaskDetailsFragment : Fragment() {
 
         })
 
-        lrid=(activity as MenuActivity).getData(lrid)
+        lrid = (activity as MenuActivity).getData(lrid)
         (activity as MenuActivity).removeData(lrId)
-        todayTaskID=(activity as MenuActivity).getData(TodayTaskID)
+        todayTaskID = (activity as MenuActivity).getData(TodayTaskID)
         (activity as MenuActivity).removeData(TodayTaskID)
-        zbpkids=(activity as MenuActivity).getData(zbpkId)
+        zbpkids = (activity as MenuActivity).getData(zbpkId)
         (activity as MenuActivity).removeData(zbpkId)
         val han = Handler()
         han.post {
             //延时执行init以等待状态改变
             if (isSimple) {
-                task_details_ll_1.visibility=View.GONE
+                task_details_ll_1.visibility = View.GONE
                 initSimpleList()
                 (activity as MenuActivity).style {
                     textBar = ""
@@ -277,9 +279,9 @@ class TaskDetailsFragment : Fragment() {
         Http.post {
             url = BASEURL + SIMPLE_THIS_TIME_TASK
 //            if (!CZLX.equals("02")) {
-                "hlrwId" - todayTaskID
+            "hlrwId" - todayTaskID
 //            }
-            "zbpkid" -zbpkids
+            "zbpkid" - zbpkids
             "lrid" - lrid
 
             "czlx" - CZLX
@@ -296,12 +298,16 @@ class TaskDetailsFragment : Fragment() {
                         task_details_room.setText("房间 " + romeNo)
                         val age: String = mut["age"].toString()
                         task_details_age.setText(age + "周岁")
-                        fjxxpkid=mut["fjxxpkid"].toString()
+                        fjxxpkid = mut["fjxxpkid"].toString()
                         when (mut["abnormalType"].toString()) {
-                            "01" -> {task_details_record_needhelp.isChecked=true
-                                task_details_record_ll.visibility = View.VISIBLE}
-                            "02" -> {task_details_record_have.isChecked=true
-                                task_details_record_ll.visibility = View.VISIBLE}
+                            "01" -> {
+                                task_details_record_needhelp.isChecked = true
+                                task_details_record_ll.visibility = View.VISIBLE
+                            }
+                            "02" -> {
+                                task_details_record_have.isChecked = true
+                                task_details_record_ll.visibility = View.VISIBLE
+                            }
 
                         }
 
@@ -333,7 +339,7 @@ class TaskDetailsFragment : Fragment() {
         Http.post {
             url = BASEURL + THIS_TIME_TASK
 //            if (!CZLX.equals("02")) {
-                "hlrwId" - todayTaskID
+            "hlrwId" - todayTaskID
 //            }
             if (zbpkid.equals("-1")) {//zbpkid未赋值时使用缓存
 //                "zbpkid" - (activity as MenuActivity).getData<String>(zbpkId)
@@ -369,7 +375,7 @@ class TaskDetailsFragment : Fragment() {
                         val consideration: String = mut["consideration"].toString()
                         fjxxpkid = mut["fjxxpkid"].toString()
                         task_details_task_details.setText(consideration)
-                        zbpkids=mut["zbpkid"].toString()
+                        zbpkids = mut["zbpkid"].toString()
                         taskList.clear()//重置任务数据
 
                         taskList.addAll(mut["nursings"] as ArrayList<MutableMap<String, Any>>)
@@ -439,8 +445,10 @@ class TaskDetailsFragment : Fragment() {
             CAMERA_REQUEST -> {
                 val uri = getCameraUri()
                 if (uri?.path != null) {
-                    val upImage = File(uri.path)
-                    addImage(upImage, "", "").setImageBitmap(uri?.getCameraImg(activity))
+                    var upImage = File(uri.path)
+                    val img=uri?.getCameraImg(activity)
+                    upImage= saveBitmapFile(img!!,activity.filesDir.absolutePath+"img.jpg")
+                    addImage(upImage, "", "").setImageBitmap(img)
                     upLoadImage(upImage, 1)
                 } else {
                     "uri==null".log("uuu")
@@ -652,13 +660,13 @@ class TaskDetailsFragment : Fragment() {
 //            "measurementProject" - measurementString
             "abnormal" - abnormal
             "abnormalType" - abnormalType
-            "czlx"- CZLX
-            "zbpkid"-zbpkids
+            "czlx" - CZLX
+            "zbpkid" - zbpkids
             success {
                 menuActivity.runOnUiThread {
                     "保存成功".toast(menuActivity)
 //                    overDialog.dismiss()
-                    if (!isDear){
+                    if (!isDear) {
                         initSimpleList()
                     }
                 }
@@ -673,6 +681,24 @@ class TaskDetailsFragment : Fragment() {
         }
     }
 
+    /**
+     * 把batmap 转file
+     * @param bitmap
+     * @param filepath
+     */
+    fun saveBitmapFile(bitmap: Bitmap, filepath: String): File {
+        val file = File(filepath)//将要保存图片的路径
+        try {
+            val bos = BufferedOutputStream( FileOutputStream (file))
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bos)
+            bos.flush()
+            bos.close()
+        } catch (e: IOException) {
+            e.printStackTrace()
+        }
+        return file
+    }
+
     override fun onHiddenChanged(hidden: Boolean) {
         super.onHiddenChanged(hidden)
         if (hidden) {
@@ -682,12 +708,12 @@ class TaskDetailsFragment : Fragment() {
             }
 
         }
-        if (isSimple){
+        if (isSimple) {
             (activity as MenuActivity).style {
                 textBar = ""
                 titleBar = "异常信息"
             }
-        }else{
+        } else {
             (activity as MenuActivity).style {
                 textBar = ""
                 titleBar = "任务详情"
@@ -697,7 +723,7 @@ class TaskDetailsFragment : Fragment() {
     }
 
     override fun onDestroy() {
-        isDear=true
+        isDear = true
         saveAll()
         if (imgPopupWindow != null) {
             imgPopupWindow?.dismiss()
