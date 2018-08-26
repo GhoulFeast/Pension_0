@@ -15,6 +15,7 @@ import com.aisino.tool.toast
 import com.hq.kbase.network.Http
 import com.overwork.pension.R
 import com.overwork.pension.activity.MenuActivity
+import com.overwork.pension.activity.menuActivity
 import com.overwork.pension.adapter.TaskStepViewRvAdapter
 import com.overwork.pension.adapter.TodayTaskAdapter
 import com.overwork.pension.other.*
@@ -80,6 +81,7 @@ class TodayTaskFragment : Fragment() {
         todaytask_rv.scrollToPosition(position - 2)
         showTime = taskTimeList.get(position)["taskTime"].toString()
     }
+
     fun getTaskList(): Unit {
         Http.post {
             url = BASEURL + T_TASK
@@ -87,25 +89,34 @@ class TodayTaskFragment : Fragment() {
             "kssj" - showTime
             if ((activity as MenuActivity).hasData(lrId)){
                 "lrpkid" - (activity as MenuActivity).getData<String>(lrId)
-                (activity as MenuActivity).removeData(lrId)
+//                (activity as MenuActivity).removeData(lrId)
             }
             if((activity as MenuActivity).hasData("cwpkid")){//有cwpkid时加参
                 "cwpkid"-(activity as MenuActivity).getData<String>("cwpkid")
-                (activity as MenuActivity).removeData("cwpkid")
+//                (activity as MenuActivity).removeData("cwpkid")
             }
             "userType" - userType
             success {
-                activity.runOnUiThread {
+                menuActivity.runOnUiThread {
                 if ((!"status").equals("200")){
                     time = "result".."taskTime"
                     thisTaskList.clear()
                     thisTaskList.addAll("result".."links")
                 }else{
-                    taskStepViewRvAdapter.selectPosion = taskStepViewRvAdapter.selectPosion+1
-                    todaytask_rv.scrollToPosition(taskStepViewRvAdapter.selectPosion - 2)
-                    showTime = taskTimeList.get(taskStepViewRvAdapter.selectPosion)["taskTime"].toString()
-                    taskStepViewRvAdapter.notifyDataSetChanged()
-                    getTaskList()
+                    if (todaytask_rv!=null){
+                        taskStepViewRvAdapter.selectPosion = taskStepViewRvAdapter.selectPosion+1
+                        todaytask_rv.scrollToPosition(taskStepViewRvAdapter.selectPosion - 2)
+                        showTime = taskTimeList.get(taskStepViewRvAdapter.selectPosion)["taskTime"].toString()
+                        taskStepViewRvAdapter.notifyDataSetChanged()
+                        if (!showTime.equals("23:30")){
+                            getTaskList()
+                        }else{
+                            "今日已无任务".toast(menuActivity)
+                        }
+
+
+                    }
+
 //                    val posion=taskStepViewRvAdapter.selectPosion
 //                    taskStepViewRvAdapter.selectPosion = posion+1
 //                    taskStepViewRvAdapter.notifyDataSetChanged()
@@ -131,6 +142,7 @@ class TodayTaskFragment : Fragment() {
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         todayTaskAdapter = TodayTaskAdapter(activity, thisTaskList)
+//        todayTaskAdapter.isRoom = (activity as MenuActivity).hasData(lrId)
         taskStepViewRvAdapter = TaskStepViewRvAdapter(activity, taskTimeList)
         todaytask_rv.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
         todaytask_rv.adapter = taskStepViewRvAdapter;

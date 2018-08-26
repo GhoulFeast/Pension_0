@@ -8,9 +8,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ListView
+import com.aisino.tool.toast
 import com.hq.kbase.network.Http
 import com.overwork.pension.R
 import com.overwork.pension.activity.MenuActivity
+import com.overwork.pension.activity.menuActivity
 import com.overwork.pension.adapter.MsgAdapter
 import com.overwork.pension.other.BASEURL
 import com.overwork.pension.other.MSGLIST
@@ -29,7 +31,7 @@ class MsgFragment : Fragment() {
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         (activity as MenuActivity).style {
-            textBar=activity.resources.getString(R.string.ylyxt)
+            textBar = activity.resources.getString(R.string.ylyxt)
         }
         msgAdapter = MsgAdapter(context, msgBeans)
         msg_list.adapter = msgAdapter
@@ -40,11 +42,14 @@ class MsgFragment : Fragment() {
         })
         getData()
     }
+
     override fun onHiddenChanged(hidden: Boolean) {
         super.onHiddenChanged(hidden)
         (activity as MenuActivity).style {
-            textBar=activity.resources.getString(R.string.ylyxt)
+            textBar = activity.resources.getString(R.string.ylyxt)
         }
+
+        getData()
     }
 
     fun getData(): Unit {
@@ -52,10 +57,15 @@ class MsgFragment : Fragment() {
             url = BASEURL + MSGLIST
             "userId" - userId
             success {
-                activity.runOnUiThread {
-                    msgBeans.clear()
-                    msgBeans.addAll("result".."messageList")
-                    msgAdapter.notifyDataSetChanged()
+                menuActivity.runOnUiThread {
+                    if ((!"status").equals("200")){
+                        msgBeans.clear()
+                        msgBeans.addAll("result".."messageList")
+                        msgAdapter.notifyDataSetChanged()
+                    }else{
+                        (!"message").toast(menuActivity)
+                    }
+
                 }
             }
         }

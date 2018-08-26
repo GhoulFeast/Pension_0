@@ -20,6 +20,7 @@ import com.overwork.pension.other.*
 class TodayTaskAdapter(val activity: FragmentActivity, val taskList: ArrayList<MutableMap<String, Any>>) : BaseAdapter() {
 
     var showTime=""
+    var isRoom=false
 
     override fun getView(p0: Int, p1: View?, p2: ViewGroup?): View {
         var view = LayoutInflater.from(activity).inflate(R.layout.fragment_today_task_item, null)
@@ -83,8 +84,13 @@ class TodayTaskAdapter(val activity: FragmentActivity, val taskList: ArrayList<M
         bd.putString("time", showTime)
         taskDetailsFragment.arguments = bd
         (activity as MenuActivity).putData(TodayTaskID, taskList[index]["rwid"]!!)
-        (activity as MenuActivity).putData(lrId, taskList[index]["lrid"]!!)
-        (activity as MenuActivity).putData(zbpkId, taskList[index]["zbpkid"]!!)
+        if ((activity as MenuActivity).hasData("RoomList")){
+            (activity as MenuActivity).putData(lrId, taskList[index]["lrid"]!!)
+            (activity as MenuActivity).putData(zbpkId, taskList[index]["zbpkid"]!!)
+//            (activity as MenuActivity).removeData("RoomList")
+        }else{
+
+        }
         if (userType.equals("1")){
             CZLX="01"
         }else{

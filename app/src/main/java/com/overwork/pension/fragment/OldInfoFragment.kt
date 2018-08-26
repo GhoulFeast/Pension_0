@@ -10,6 +10,7 @@ import com.aisino.tool.log
 import com.hq.kbase.network.Http
 import com.overwork.pension.R
 import com.overwork.pension.activity.MenuActivity
+import com.overwork.pension.activity.menuActivity
 import com.overwork.pension.adapter.OldInfoAdapter
 import com.overwork.pension.other.*
 import kotlinx.android.synthetic.main.fragment_oldinfo.*
@@ -41,8 +42,13 @@ class OldInfoFragment : Fragment() {
             url = BASEURL + OLDMAN_INFO
             "lrid" - arguments.getString("id")
             success {
-                activity.runOnUiThread {
-                    oldInfos = "result".."abnormal"
+                menuActivity.runOnUiThread {
+                    try {
+                        oldInfos = "result".."abnormal"
+                    }catch ( e:Exception){
+
+                    }
+
                     var name: String = "result".."name"
                     old_info_name_tv.setText(name)
                     var sex: String = "result".."sex"
@@ -51,19 +57,18 @@ class OldInfoFragment : Fragment() {
                     old_info_age_tv.setText(age + "周岁")
                     var romeNo: String = "result".."romeNo"
                     old_info_room_tv.setText("房间号" + romeNo)
-                    var specials = ArrayList<String>()
-                    specials = "result".."special"
-                    var specialBuffer = StringBuilder()
-                    var i = 0
-                    for (str: String in specials) {
-                        i++
-                        specialBuffer.append(i)
-                        specialBuffer.append("、")
-                        specialBuffer.append(str)
-                        specialBuffer.append("。")
-                        specialBuffer.append("\n")
-                    }
-                    old_info_special.setText(specialBuffer.toString())
+                    var specials:String ="result".."special"
+//                    var specialBuffer = StringBuilder()
+//                    var i = 0
+//                    for (str: String in specials) {
+//                        i++
+//                        specialBuffer.append(i)
+//                        specialBuffer.append("、")
+//                        specialBuffer.append(str)
+//                        specialBuffer.append("。")
+//                        specialBuffer.append("\n")
+//                    }
+                    old_info_special.setText(specials)
 
                     var name1: String = "result".."name1"
                     var phone1: String = "result".."phone1"

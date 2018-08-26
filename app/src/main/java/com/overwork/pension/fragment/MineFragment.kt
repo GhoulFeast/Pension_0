@@ -13,6 +13,7 @@ import com.hq.kbase.network.Http
 import com.overwork.pension.MainActivity
 import com.overwork.pension.R
 import com.overwork.pension.activity.MenuActivity
+import com.overwork.pension.activity.menuActivity
 import com.overwork.pension.adapter.HandoverInfoAdapter
 import com.overwork.pension.adapter.TomorrowTaskAdapter
 import com.overwork.pension.other.*
@@ -76,7 +77,7 @@ class MineFragment : Fragment() {
             url = BASEURL + TOMORROW_TASK
             "userId" - userId
             success {
-                activity.runOnUiThread {
+                menuActivity.runOnUiThread {
                     if((!"status").equals("200")){
                         tomorrowTasks.clear()
                         var tomorrows: ArrayList<MutableMap<String, Any>> = "result".."tomorrow"

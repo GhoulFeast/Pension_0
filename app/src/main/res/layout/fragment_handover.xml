@@ -84,7 +84,6 @@
         android:layout_gravity="center"
         android:visibility="invisible"
         android:layout_marginTop="20dp" />
-
     <TextView
         android:id="@+id/class_handover_tv"
         android:layout_width="wrap_content"

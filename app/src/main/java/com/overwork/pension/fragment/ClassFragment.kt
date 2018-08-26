@@ -11,6 +11,7 @@ import com.aisino.tool.toast
 import com.hq.kbase.network.Http
 import com.overwork.pension.R
 import com.overwork.pension.activity.MenuActivity
+import com.overwork.pension.activity.menuActivity
 import com.overwork.pension.adapter.ClassAdapter
 import com.overwork.pension.other.*
 import kotlinx.android.synthetic.main.fragment_class.*
@@ -39,7 +40,7 @@ class ClassFragment : Fragment() {
             url = BASEURL + T_ABNORMAL
             "userId" - userId
             success {
-                activity.runOnUiThread {
+                menuActivity.runOnUiThread {
                     if ((!"status").equals("200")) {
                         classBeans.clear()
                         classBeans.addAll("result".."abnormalList")

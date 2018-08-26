@@ -14,6 +14,7 @@ import com.hq.kbase.network.Http
 import com.overwork.pension.R
 import com.overwork.pension.activity.MenuActivity
 import com.overwork.pension.activity.QRCODE
+import com.overwork.pension.activity.menuActivity
 import com.overwork.pension.adapter.ClassAdapter
 import com.overwork.pension.adapter.HandoverDirectorAdapter
 import com.overwork.pension.adapter.HandoverInfoAdapter
@@ -52,32 +53,37 @@ class HandoverDirectorFragment : Fragment() {
             "userId" - userId
 
             success {
-                activity.runOnUiThread {
-                    classBeans.clear()
-                    var datas: ArrayList<MutableMap<String, Any>> = ArrayList()
-                    datas.addAll("result".."abnormalList")
-                    for (map: MutableMap<String, Any> in datas) {
-                        if (classBeans.size == 0) {
-                            classBeans.add(map)
-                        } else {
-                            var isHas = false
-                            for (classMap: MutableMap<String, Any> in classBeans) {
-                                if (map.get("lrpkid").toString().equals(classMap.get("lrpkid").toString())) {
-                                    isHas = true
-                                    (classMap.get("informationList") as ArrayList<MutableMap<String, Any>>).addAll(map.get("informationList") as ArrayList<MutableMap<String, Any>>)
+                menuActivity.runOnUiThread {
+                    if ((!"status").equals("200")){
+                        classBeans.clear()
+                        var datas: ArrayList<MutableMap<String, Any>> = ArrayList()
+                        datas.addAll("result".."abnormalList")
+                        for (map: MutableMap<String, Any> in datas) {
+                            if (classBeans.size == 0) {
+                                classBeans.add(map)
+                            } else {
+                                var isHas = false
+                                for (classMap: MutableMap<String, Any> in classBeans) {
+                                    if (map.get("lrpkid").toString().equals(classMap.get("lrpkid").toString())) {
+                                        isHas = true
+                                        (classMap.get("informationList") as ArrayList<MutableMap<String, Any>>).addAll(map.get("informationList") as ArrayList<MutableMap<String, Any>>)
+                                    }
+                                }
+                                if (!isHas) {
+                                    classBeans.add(map)
                                 }
                             }
-                            if (!isHas) {
-                                classBeans.add(map)
-                            }
                         }
-                    }
-                    classAdapter.notifyDataSetChanged()
+                        classAdapter.notifyDataSetChanged()
 //                    dialog.dismiss()
+                    }else{
+                        (!"message").toast(activity)
+                    }
+
                 }
             }
             fail {
-                activity.runOnUiThread {
+                menuActivity.runOnUiThread {
                     //                    dialog.dismiss()
                 }
             }
@@ -93,7 +99,7 @@ class HandoverDirectorFragment : Fragment() {
             "userId" - (activity as MenuActivity).getData<String>("jbrid")
             "jbrId" - userId
             success {
-                activity.runOnUiThread {
+                menuActivity.runOnUiThread {
                     if ((!"status").equals("200")) {
                         val isJ: String = "result".."isHandove"
                         if (isJ.toBoolean()) {
@@ -101,7 +107,7 @@ class HandoverDirectorFragment : Fragment() {
                                 url = BASEURL + T_HANDOVERDIRECTOR
                                 "userId" - userId
                                 success {
-                                    activity.runOnUiThread {
+                                    menuActivity.runOnUiThread {
                                         classBeans.clear()
                                         var datas: ArrayList<MutableMap<String, Any>> = ArrayList()
                                         datas.addAll("result".."abnormalList")
@@ -126,7 +132,7 @@ class HandoverDirectorFragment : Fragment() {
                                     }
                                 }
                                 fail {
-                                    activity.runOnUiThread {
+                                    menuActivity.runOnUiThread {
                                         dialog.dismiss()
                                     }
                                 }
@@ -138,7 +144,7 @@ class HandoverDirectorFragment : Fragment() {
             }
 
             fail {
-                activity.runOnUiThread {
+                menuActivity.runOnUiThread {
                     dialog.dismiss()
                     it.toast(activity)
                 }

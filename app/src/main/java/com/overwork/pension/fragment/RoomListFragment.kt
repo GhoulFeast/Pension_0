@@ -5,9 +5,11 @@ import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.aisino.tool.toast
 import com.hq.kbase.network.Http
 import com.overwork.pension.R
 import com.overwork.pension.activity.MenuActivity
+import com.overwork.pension.activity.menuActivity
 import com.overwork.pension.adapter.ClassAdapter
 import com.overwork.pension.adapter.RoomListAdapter
 import com.overwork.pension.other.BASEURL
@@ -40,10 +42,15 @@ class RoomListFragment : Fragment() {
                 (activity as MenuActivity).removeData("fjpkid")
             }
             success {
-                activity.runOnUiThread {
-                    roomListBeans.clear()
-                    roomListBeans.addAll(getAny<ArrayList<MutableMap<String,Any>>>("result"))
-                    roomList.notifyDataSetChanged()
+                menuActivity.runOnUiThread {
+                    if ((!"status").equals("200")){
+                        roomListBeans.clear()
+                        roomListBeans.addAll(getAny<ArrayList<MutableMap<String,Any>>>("result"))
+                        roomList.notifyDataSetChanged()
+                    }else{
+                        (!"message").toast(activity)
+                    }
+
                 }
             }
         }
@@ -59,6 +66,7 @@ class RoomListFragment : Fragment() {
                 (activity as MenuActivity).showFragment(toadyTaskFragment)
 //                (activity as MenuActivity).putData(TodayTaskID, id)
                 (activity as MenuActivity).putData(lrId, rwid)
+                (activity as MenuActivity).putData("RoomList", "")
 //                (activity as MenuActivity).putData(zbpkId, zbid)
             }
         })
