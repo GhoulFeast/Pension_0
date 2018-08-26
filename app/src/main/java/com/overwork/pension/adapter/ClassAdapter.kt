@@ -63,7 +63,7 @@ class ClassAdapter(taskList: ArrayList<MutableMap<String, Any>>) : BaseAdapter()
             if (map["type"].toString().equals(INFORMATIONTYPE_NEEDFOLLOW)) {
                 needfollows.add(String.format(p2.context.resources.getString(R.string.needfollow), map["messageContent"].toString()))
             } else if (map["type"].toString().equals(INFORMATIONTYPE_SERIOUS)) {
-                seriouss.add(String.format(p2.context.resources.getString(R.string.needfollow), map["messageContent"].toString()))
+                seriouss.add(String.format(p2.context.resources.getString(R.string.have_serious_abnormality11), map["messageContent"].toString()))
             }
         }
         var needFollowsStringB = StringBuilder()

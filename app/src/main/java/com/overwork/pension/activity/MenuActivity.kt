@@ -25,6 +25,8 @@ import com.overwork.pension.service.AutoUpdateService
 import kotlinx.android.synthetic.main.activity_menu.*
 
 val QRCODE = 999
+val FRQRCODE = 888
+
 lateinit var menuActivity:MenuActivity
 
 class MenuActivity : AppCompatActivity(), ServiceConnection {
@@ -192,9 +194,10 @@ class MenuActivity : AppCompatActivity(), ServiceConnection {
 //                        supportFragmentManager, R.id.main_ll)
 //                showFragment = handoverDiretor
 //            }
-            if (requestCode == QRCODE) {//二维码处理
+            if (requestCode == QRCODE||requestCode==FRQRCODE) {//二维码处理
                 var qr = data.getStringExtra("result")
                 val code = qr.substring(4, qr.length)
+                qr.log("code")
                 var qrFrgment: Fragment? = null
                 when (qr.substring(0, 1)) {
                     "F" -> {
@@ -217,6 +220,9 @@ class MenuActivity : AppCompatActivity(), ServiceConnection {
                             putData("jbrid", code)
                             main_rb_class.performClick()
 //                            qrFrgment = HandoverDirectorFragment()
+//                            UseFragmentManager.displayFragment(showFragment, qrFrgment!!,
+//                                    supportFragmentManager, R.id.main_ll)
+//                            showFragment = qrFrgment
                         } else {
                             "只有主管才能交接班".toast(this)
                         }

@@ -35,14 +35,18 @@ class OldInfoAdapter(val context: FragmentActivity, val list: ArrayList<MutableM
             images.add(img.substring(0, img.indexOf(",")))
             img=img.substring(img.indexOf(",")+1,img.length )
         }
-        images.add(img)
-        var sound= list[p0]["imageUrl"].toString()
+        if (img.length>1){
+            images.add(img)
+        }
+        var sound= list[p0]["soundUrl"].toString()
         val sounds=ArrayList<String>()
         while (sound.indexOf(",")>0){
             sounds.add(sound.substring(0, sound.indexOf(",")))
             sound=sound.substring(sound.indexOf(",")+1,sound.length )
         }
-        sounds.add(sound)
+        if(sound.length>1){
+            sounds.add(sound)
+        }
         image_gv.adapter=ImageAdapter(context,images,0)
         sound_gv.adapter=ImageAdapter(context,sounds,1)
         return view

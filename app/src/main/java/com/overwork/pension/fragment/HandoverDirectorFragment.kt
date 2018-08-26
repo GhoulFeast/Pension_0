@@ -9,9 +9,11 @@ import android.view.View
 import android.view.ViewGroup
 import com.aisino.qrcode.activity.CaptureActivity
 import com.aisino.tool.ani.LoadingDialog
+import com.aisino.tool.log
 import com.aisino.tool.toast
 import com.hq.kbase.network.Http
 import com.overwork.pension.R
+import com.overwork.pension.activity.FRQRCODE
 import com.overwork.pension.activity.MenuActivity
 import com.overwork.pension.activity.QRCODE
 import com.overwork.pension.activity.menuActivity
@@ -139,6 +141,8 @@ class HandoverDirectorFragment : Fragment() {
                             }
 
                         }
+                    }else{
+                        dialog.dismiss()
                     }
                 }
             }
@@ -156,7 +160,7 @@ class HandoverDirectorFragment : Fragment() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (data != null) {
-            if (requestCode == 1) {
+            if (requestCode == FRQRCODE) {
                 getData()
             }
         }
@@ -172,7 +176,10 @@ class HandoverDirectorFragment : Fragment() {
         director_rlv.adapter = classAdapter
         director_handover_tv.setOnClickListener(object : View.OnClickListener {
             override fun onClick(p0: View?) {
-                startActivityForResult(Intent(activity, CaptureActivity::class.java), QRCODE)
+                activity.runOnUiThread {
+                    startActivityForResult(Intent((activity as MenuActivity), CaptureActivity::class.java), FRQRCODE)
+
+                }
             }
         })
     }
