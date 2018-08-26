@@ -59,7 +59,7 @@ class HandoverInfoFragment : Fragment(), ServiceConnection {
                     if ((!"status").equals("200")) {
                         val isJ: Boolean = "result".."isHandove"
                         if (isJ) {
-                            (activity as MenuActivity).showFragment(HandoverEndFragment())
+                            menuActivity.showFragment(HandoverEndFragment())
                             auBinder?.setRun(false)
                             auBinder = null
                         }
@@ -86,7 +86,7 @@ class HandoverInfoFragment : Fragment(), ServiceConnection {
                             }
                         }
                     } else {
-                        (!"message").toast(activity)
+                        (!"message").toast(menuActivity)
                         class_handover_tv.isEnabled = false
                         class_handover_tv.alpha = 0.3f
                     }
@@ -210,7 +210,7 @@ class HandoverInfoFragment : Fragment(), ServiceConnection {
             override fun setMsgNum(num: Boolean) {
                 menuActivity.runOnUiThread {
                     if (num) {
-                        (activity as MenuActivity).showFragment(HandoverEndFragment())
+                        menuActivity.showFragment(HandoverEndFragment())
                         auBinder?.setRun(false)
                         auBinder = null
                     } else {

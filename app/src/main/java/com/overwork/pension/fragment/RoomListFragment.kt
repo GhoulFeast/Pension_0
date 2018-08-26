@@ -48,7 +48,7 @@ class RoomListFragment : Fragment() {
                         roomListBeans.addAll(getAny<ArrayList<MutableMap<String,Any>>>("result"))
                         roomList.notifyDataSetChanged()
                     }else{
-                        (!"message").toast(activity)
+                        (!"message").toast(menuActivity)
                     }
 
                 }
