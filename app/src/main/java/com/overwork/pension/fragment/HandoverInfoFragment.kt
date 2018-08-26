@@ -166,10 +166,12 @@ class HandoverInfoFragment : Fragment(), ServiceConnection {
                             class_handover_tv.alpha = 0.3f
                         }
                     }
+                    handoverInfoAdapter.notifyDataSetChanged()
                     dialog.dismiss()
                 }
             }
             fail {
+                handoverInfoAdapter.notifyDataSetChanged()
                 dialog.dismiss()
             }
         }
