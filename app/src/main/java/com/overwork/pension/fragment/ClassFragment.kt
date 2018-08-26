@@ -48,7 +48,7 @@ class ClassFragment : Fragment() {
                         classAdapter.notifyDataSetChanged()
 //                        class_handover_tv.isEnabled=true
                     } else {
-                        (!"message").toast(activity)
+                        (!"message").toast(menuActivity)
 //                        class_handover_tv.isEnabled=false
                     }
                     dialog.dismiss()

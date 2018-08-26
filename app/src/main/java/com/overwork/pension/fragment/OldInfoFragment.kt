@@ -93,7 +93,7 @@ class OldInfoFragment : Fragment() {
                         emergencyBuffer.append(phone2)
                     }
                     old_info_emergency.setText(emergencyBuffer.toString())
-                    old_info_mlv.adapter = OldInfoAdapter(activity, oldInfos)
+                    old_info_mlv.adapter = OldInfoAdapter(menuActivity, oldInfos)
                     dialog.dismiss()
                 }
             }
