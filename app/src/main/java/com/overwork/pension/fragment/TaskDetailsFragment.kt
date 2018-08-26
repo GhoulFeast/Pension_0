@@ -301,10 +301,12 @@ class TaskDetailsFragment : Fragment() {
                         fjxxpkid = mut["fjxxpkid"].toString()
                         when (mut["abnormalType"].toString()) {
                             "01" -> {
+                                abnormalType="01"
                                 task_details_record_needhelp.isChecked = true
                                 task_details_record_ll.visibility = View.VISIBLE
                             }
                             "02" -> {
+                                abnormalType="02"
                                 task_details_record_have.isChecked = true
                                 task_details_record_ll.visibility = View.VISIBLE
                             }

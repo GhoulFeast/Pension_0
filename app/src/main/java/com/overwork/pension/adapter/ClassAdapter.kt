@@ -2,6 +2,7 @@ package com.overwork.pension.adapter
 
 
 import android.content.Context
+import android.text.TextUtils
 import android.text.method.ScrollingMovementMethod
 import android.util.TypedValue
 import android.view.LayoutInflater
@@ -70,7 +71,7 @@ class ClassAdapter(taskList: ArrayList<MutableMap<String, Any>>) : BaseAdapter()
             needFollowsStringB.append(String.format(p2.context.resources.getString(R.string.next_line), map))
         }
         if (needFollowsStringB.length > 0) {
-            needFollowsStringB.delete(needFollowsStringB.length - 2, needFollowsStringB.length)
+            needFollowsStringB.delete(needFollowsStringB.length - 1, needFollowsStringB.length)
             item_class_abnormal_needfollow_tv.setText(needFollowsStringB.toString())
         }
         var serioussStringB = StringBuilder()
@@ -78,13 +79,13 @@ class ClassAdapter(taskList: ArrayList<MutableMap<String, Any>>) : BaseAdapter()
             serioussStringB.append(String.format(p2.context.resources.getString(R.string.next_line), map))
         }
         if (serioussStringB.length > 0) {
-            serioussStringB.delete(serioussStringB.length - 2, serioussStringB.length)
+            serioussStringB.delete(serioussStringB.length - 1, serioussStringB.length)
             item_class_abnormal_serious_tv.setText(serioussStringB.toString())
         }
-        if (item_class_abnormal_needfollow_tv.lineCount == 0) {
+        if (TextUtils.isEmpty(item_class_abnormal_needfollow_tv.text.toString())) {
             item_class_abnormal_needfollow_ll_ll.visibility = View.GONE
         }
-        if (item_class_abnormal_serious_tv.lineCount == 0) {
+        if (TextUtils.isEmpty(item_class_abnormal_serious_tv.text.toString())) {
             item_class_abnormal_serious_ll_ll.visibility = View.GONE
         }
         if (userType.toInt() == 1) {
