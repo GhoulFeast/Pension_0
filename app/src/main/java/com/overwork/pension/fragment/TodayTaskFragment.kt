@@ -104,6 +104,7 @@ class TodayTaskFragment : Fragment() {
                     thisTaskList.addAll("result".."links")
                 }else{
                     if (todaytask_rv!=null){
+                        thisTaskList.clear()
                         taskStepViewRvAdapter.selectPosion = taskStepViewRvAdapter.selectPosion+1
                         todaytask_rv.scrollToPosition(taskStepViewRvAdapter.selectPosion - 2)
                         showTime = taskTimeList.get(taskStepViewRvAdapter.selectPosion)["taskTime"].toString()

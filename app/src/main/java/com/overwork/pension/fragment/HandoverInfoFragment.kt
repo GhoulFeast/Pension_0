@@ -117,7 +117,7 @@ class HandoverInfoFragment : Fragment(), ServiceConnection {
         })
         handoverInfoAdapter.setHandover(object : HandoverInfoAdapter.OnHandover {
             override fun OnHandoverChangeClick(position: Int, b: Boolean) {
-                submitHandover(handoverInfos[position].get("fcjlid").toString(), position)
+                submitHandover(handoverInfos[position].get("fcjlid").toString(), position,b)
             }
 
             override fun OnHandoverClick(id: Int) {
@@ -138,7 +138,7 @@ class HandoverInfoFragment : Fragment(), ServiceConnection {
 
     }
 
-    fun submitHandover(fcjlid: String, position: Int) {
+    fun submitHandover(fcjlid: String, position: Int,boolean: Boolean) {
         val dialog = LoadingDialog(activity);
         dialog.setCanceledOnTouchOutside(false);
         dialog.show();
@@ -146,6 +146,12 @@ class HandoverInfoFragment : Fragment(), ServiceConnection {
             url = BASEURL + T_SUBMITHANDOVER
             "userId" - userId
             "fcjlid" - fcjlid
+            if (boolean){
+                "fczt"-"Y"
+            }else{
+                "fczt"-"N"
+            }
+
             success {
                 menuActivity.runOnUiThread {
                     if ((!"status").equals("200")) {

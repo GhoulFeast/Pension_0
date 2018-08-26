@@ -22,7 +22,9 @@ import kotlinx.android.synthetic.main.fragment_task_details.*
 import java.util.*
 import android.provider.MediaStore.Audio.Media.RECORD_SOUND_ACTION
 import android.support.v7.widget.LinearLayoutManager
+import android.text.Editable
 import android.text.TextUtils
+import android.text.TextWatcher
 import android.util.Log
 import android.widget.ImageView
 import android.widget.LinearLayout
@@ -50,20 +52,27 @@ var CZLX = "01"
 
 class TaskDetailsFragment : Fragment() {
 
+
     var taskList: ArrayList<MutableMap<String, Any>> = ArrayList<MutableMap<String, Any>>()
     var taskStepList: ArrayList<MutableMap<String, Any>> = ArrayList<MutableMap<String, Any>>()
     //    var isDelete = false
     val imageList = ArrayList<FileInfo>()
     val soundList = ArrayList<FileInfo>()
+    var abnormal=""
     var abnormalType = "00"
+    var todayTaskID=""
+    var lrid=""
+    var zbpkids=""
     var measurementProjects: ArrayList<MutableMap<String, Any>> = ArrayList<MutableMap<String, Any>>()
     lateinit var taskStepViewRvAdapter: TaskStepViewRvAdapter
     val RECORD_TYPE_NON = "00"
     val RECORD_TYPE_NEEDHELP = "01"
     val RECORD_TYPE_HAVE = "02"
     var fjxxpkid = ""
+
     var isSimple = false
     var imgPopupWindow: PopupWindow? = null
+    var isDear=false
     lateinit var overDialog: LoadingDialog
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater?.inflate(R.layout.fragment_task_details, null, false)
@@ -72,6 +81,7 @@ class TaskDetailsFragment : Fragment() {
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         overDialog = LoadingDialog(activity).apply { text = "上传中，请稍等" }
         taskStepViewRvAdapter = TaskStepViewRvAdapter(activity, taskStepList)
         todaytask_rv.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
@@ -132,6 +142,10 @@ class TaskDetailsFragment : Fragment() {
                     task_details_record_ll.visibility = View.VISIBLE
                 }
             }
+            if (isSimple){
+                saveAll()
+
+            }
         }
         task_details_record_have.setOnClickListener {
             when (abnormalType) {
@@ -151,8 +165,29 @@ class TaskDetailsFragment : Fragment() {
                     task_details_record_have.isChecked = false
                 }
             }
+            if (isSimple){
+                saveAll()
+            }
         }
+        task_details_context.addTextChangedListener(object : TextWatcher{
+            override fun afterTextChanged(p0: Editable?) {
+            }
 
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                abnormal=p0.toString()
+            }
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+            }
+
+        })
+
+        lrid=(activity as MenuActivity).getData(lrid)
+        (activity as MenuActivity).removeData(lrId)
+        todayTaskID=(activity as MenuActivity).getData(TodayTaskID)
+        (activity as MenuActivity).removeData(TodayTaskID)
+        zbpkids=(activity as MenuActivity).getData(zbpkId)
+        (activity as MenuActivity).removeData(zbpkId)
         val han = Handler()
         han.post {
             //延时执行init以等待状态改变
@@ -242,11 +277,11 @@ class TaskDetailsFragment : Fragment() {
         Http.post {
             url = BASEURL + SIMPLE_THIS_TIME_TASK
 //            if (!CZLX.equals("02")) {
-                "hlrwId" - (activity as MenuActivity).getData<String>(TodayTaskID)
+                "hlrwId" - todayTaskID
 //            }
-            "zbpkid" - (activity as MenuActivity).getData<String>(zbpkId)
-            "lrid" - (activity as MenuActivity).getData<String>(lrId)
-            (activity as MenuActivity).removeData(lrId)
+            "zbpkid" -zbpkids
+            "lrid" - lrid
+
             "czlx" - CZLX
             "userId" - userId
             success {
@@ -261,9 +296,13 @@ class TaskDetailsFragment : Fragment() {
                         task_details_room.setText("房间 " + romeNo)
                         val age: String = mut["age"].toString()
                         task_details_age.setText(age + "周岁")
+                        fjxxpkid=mut["fjxxpkid"].toString()
                         when (mut["abnormalType"].toString()) {
-                            "01" -> task_details_record_needhelp.performClick()
-                            "02" -> task_details_record_have.performClick()
+                            "01" -> {task_details_record_needhelp.isChecked=true
+                                task_details_record_ll.visibility = View.VISIBLE}
+                            "02" -> {task_details_record_have.isChecked=true
+                                task_details_record_ll.visibility = View.VISIBLE}
+
                         }
 
                         task_details_context.setText(mut["abnormal"].toString())
@@ -294,7 +333,7 @@ class TaskDetailsFragment : Fragment() {
         Http.post {
             url = BASEURL + THIS_TIME_TASK
 //            if (!CZLX.equals("02")) {
-                "hlrwId" - (activity as MenuActivity).getData<String>(TodayTaskID)
+                "hlrwId" - todayTaskID
 //            }
             if (zbpkid.equals("-1")) {//zbpkid未赋值时使用缓存
 //                "zbpkid" - (activity as MenuActivity).getData<String>(zbpkId)
@@ -330,7 +369,7 @@ class TaskDetailsFragment : Fragment() {
                         val consideration: String = mut["consideration"].toString()
                         fjxxpkid = mut["fjxxpkid"].toString()
                         task_details_task_details.setText(consideration)
-
+                        zbpkids=mut["zbpkid"].toString()
                         taskList.clear()//重置任务数据
 
                         taskList.addAll(mut["nursings"] as ArrayList<MutableMap<String, Any>>)
@@ -436,6 +475,7 @@ class TaskDetailsFragment : Fragment() {
                 mediaPlayer.stop()
             } else {
                 mediaPlayer.prepare()
+                mediaPlayer.start()
             }
         }
         newImg.setOnLongClickListener {
@@ -511,7 +551,7 @@ class TaskDetailsFragment : Fragment() {
         Http.upfile {
             url = BASEURL + UP_FILE
             "file" - path!!
-            "zbpkid" - (activity as MenuActivity).getData<String>(zbpkId)
+            "zbpkid" - zbpkids
             "fjxxpkid" - fjxxpkid
             "wjlx" - ("0" + type.toString())
             "userId" - userId
@@ -602,20 +642,25 @@ class TaskDetailsFragment : Fragment() {
         Http.post {
             url = BASEURL + ABNORMALITY
             "fjxxpkid" - fjxxpkid
-            "hlrwId" - (activity as MenuActivity).getData<String>(TodayTaskID)
-            (activity as MenuActivity).removeData(TodayTaskID)
+            "hlrwId" - todayTaskID
+//            (activity as MenuActivity).removeData(TodayTaskID)
             "userId" - userId
-            "zbid" - (activity as MenuActivity).getData<String>(zbpkId)
-            (activity as MenuActivity).removeData(zbpkId)
+            "zbid" - zbpkids
+//            (activity as MenuActivity).removeData(zbpkId)
 //            "images" - imageString
 //            "sounds" - soundString
 //            "measurementProject" - measurementString
-            "abnormal" - task_details_context.text.toString()
+            "abnormal" - abnormal
             "abnormalType" - abnormalType
+            "czlx"- CZLX
+            "zbpkid"-zbpkids
             success {
                 menuActivity.runOnUiThread {
                     "保存成功".toast(menuActivity)
 //                    overDialog.dismiss()
+                    if (!isDear){
+                        initSimpleList()
+                    }
                 }
 
             }
@@ -652,6 +697,11 @@ class TaskDetailsFragment : Fragment() {
     }
 
     override fun onDestroy() {
+        isDear=true
+        saveAll()
+        if (imgPopupWindow != null) {
+            imgPopupWindow?.dismiss()
+        }
 //        overDialog.setCanceledOnTouchOutside(false);
 //        overDialog.show();
         super.onDestroy()
