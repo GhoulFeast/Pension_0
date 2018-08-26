@@ -82,7 +82,7 @@ class HandoverDirectorAdapter(taskList: ArrayList<MutableMap<String, Any>>, acti
             needFollowsStringB.append(String.format(p2.context.resources.getString(R.string.next_line), map))
         }
         if (needFollowsStringB.length > 0) {
-            needFollowsStringB.delete(needFollowsStringB.length - 2, needFollowsStringB.length)
+            needFollowsStringB.delete(needFollowsStringB.length - 1, needFollowsStringB.length)
             item_class_abnormal_needfollow_tv.setText(needFollowsStringB.toString())
         }
         var serioussStringB = StringBuilder()
@@ -90,7 +90,7 @@ class HandoverDirectorAdapter(taskList: ArrayList<MutableMap<String, Any>>, acti
             serioussStringB.append(String.format(p2.context.resources.getString(R.string.next_line), map))
         }
         if (serioussStringB.length > 0) {
-            serioussStringB.delete(serioussStringB.length - 2, serioussStringB.length)
+            serioussStringB.delete(serioussStringB.length - 1, serioussStringB.length)
             item_class_abnormal_serious_tv.setText(serioussStringB.toString())
         }
         if (needfollows.size == 0) {

@@ -62,7 +62,7 @@ class TodayTaskFragment : Fragment() {
         var i = 0
         tTime.set(Calendar.HOUR_OF_DAY, 7)
         tTime.set(Calendar.MINUTE, 0)
-        while (i < 24) {
+        while (i < 48) {
             tTime.set(Calendar.MINUTE, tTime.get(Calendar.MINUTE) + 30)
             var muMap: MutableMap<String, Any> = mutableMapOf()
             var time = "";
@@ -113,7 +113,7 @@ class TodayTaskFragment : Fragment() {
                         linearLayoutManager.scrollToPositionWithOffset(taskStepViewRvAdapter.selectPosion - 2,0)
                         showTime = taskTimeList.get(taskStepViewRvAdapter.selectPosion)["taskTime"].toString()
                         taskStepViewRvAdapter.notifyDataSetChanged()
-                        if (!showTime.equals("23:30")){
+                        if (!showTime.equals("7:00")){
                             getTaskList()
                         }else{
                             "今日已无任务".toast(menuActivity)

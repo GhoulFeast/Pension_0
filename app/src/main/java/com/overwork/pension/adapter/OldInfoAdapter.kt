@@ -23,7 +23,7 @@ class OldInfoAdapter(val context: FragmentActivity, val list: ArrayList<MutableM
         var icontent = view.findViewById<TextView>(R.id.item_old_info_content)
         var image_gv = view.findViewById<GridView>(R.id.item_old_info_image_gv)
         var sound_gv = view.findViewById<GridView>(R.id.item_old_info_sound_gv)
-        room.setText(list[p0]["fjh"].toString())
+        room.setText(list[p0]["fjh"].toString()+"房间")
         times.setText(list[p0]["kssj"].toString()+"-"+list[p0]["jssj"].toString())
         title.setText(list[p0]["abnormalTitle"].toString() )
         submit_time.setText(list[p0]["submitTime"].toString() )
