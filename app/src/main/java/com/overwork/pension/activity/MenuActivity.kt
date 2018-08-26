@@ -201,8 +201,8 @@ class MenuActivity : AppCompatActivity(), ServiceConnection {
                         showFragment = qrFrgment
                     }
                     "C" -> {
-                        putData(zbpkId, code)
-                        qrFrgment = TaskDetailsFragment()
+                        putData("cwpkid", code)
+                                qrFrgment = TodayTaskFragment()
                         UseFragmentManager.displayFragment(showFragment, qrFrgment!!,
                                 supportFragmentManager, R.id.main_ll)
                         showFragment = qrFrgment
@@ -249,6 +249,10 @@ class MenuActivity : AppCompatActivity(), ServiceConnection {
 
     fun removeData(key: String): Unit {
         enety.remove(key)
+    }
+
+    fun hasData(key: String): Boolean {
+        return  enety.contains(key)
     }
 
     fun setBar(bar: Bar): Unit {

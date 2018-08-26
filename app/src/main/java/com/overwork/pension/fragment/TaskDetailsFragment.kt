@@ -157,6 +157,10 @@ class TaskDetailsFragment : Fragment() {
             //延时执行init以等待状态改变
             if (isSimple) {
                 initSimpleList()
+                (activity as MenuActivity).style {
+                    textBar = ""
+                    titleBar = "异常信息"
+                }
             } else {
                 initList()
             }
@@ -233,11 +237,14 @@ class TaskDetailsFragment : Fragment() {
     fun initSimpleList(): Unit {
         Http.post {
             url = BASEURL + SIMPLE_THIS_TIME_TASK
-            if (!CZLX.equals("02")) {
+//            if (!CZLX.equals("02")) {
                 "hlrwId" - (activity as MenuActivity).getData<String>(TodayTaskID)
-            }
+
+//            }
             "zbpkid" - (activity as MenuActivity).getData<String>(zbpkId)
+
             "lrid" - (activity as MenuActivity).getData<String>(lrId)
+            (activity as MenuActivity).removeData(lrId)
             "czlx" - CZLX
             "userId" - userId
             success {
@@ -284,16 +291,16 @@ class TaskDetailsFragment : Fragment() {
     fun initList(zbpkid: String = "-1", hlrwpkid: String = "-1"): Unit {
         Http.post {
             url = BASEURL + THIS_TIME_TASK
-            if (!CZLX.equals("02")) {
+//            if (!CZLX.equals("02")) {
                 "hlrwId" - (activity as MenuActivity).getData<String>(TodayTaskID)
-            }
+//            }
             if (zbpkid.equals("-1")) {//zbpkid未赋值时使用缓存
-                "zbpkid" - (activity as MenuActivity).getData<String>(zbpkId)
+//                "zbpkid" - (activity as MenuActivity).getData<String>(zbpkId)
             } else {
                 "hlrwId" - hlrwpkid
-                "zbpkid" - zbpkid
+//                "zbpkid" - zbpkid
             }
-            "lrid" - (activity as MenuActivity).getData<String>(lrId)
+//            "lrid" - (activity as MenuActivity).getData<String>(lrId)//老人id
             "czlx" - CZLX
             "userId" - userId
 //            if (arguments == null) {
@@ -594,8 +601,10 @@ class TaskDetailsFragment : Fragment() {
             url = BASEURL + ABNORMALITY
             "fjxxpkid" - fjxxpkid
             "hlrwId" - (activity as MenuActivity).getData<String>(TodayTaskID)
+            (activity as MenuActivity).removeData(TodayTaskID)
             "userId" - userId
             "zbid" - (activity as MenuActivity).getData<String>(zbpkId)
+            (activity as MenuActivity).removeData(zbpkId)
 //            "images" - imageString
 //            "sounds" - soundString
 //            "measurementProject" - measurementString
@@ -626,10 +635,18 @@ class TaskDetailsFragment : Fragment() {
             }
 
         }
-        (activity as MenuActivity).style {
-            textBar = ""
-            titleBar = "任务详情"
+        if (isSimple){
+            (activity as MenuActivity).style {
+                textBar = ""
+                titleBar = "异常信息"
+            }
+        }else{
+            (activity as MenuActivity).style {
+                textBar = ""
+                titleBar = "任务详情"
+            }
         }
+
     }
 
     override fun onDestroy() {

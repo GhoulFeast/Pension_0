@@ -35,9 +35,8 @@ class RoomListFragment : Fragment() {
         Http.post {
             url = BASEURL + ROOM_LIST
             "userId" - userId
-            val fjpkid= (activity as MenuActivity).getData<String>("fjpkid")
-            if (fjpkid!=null){
-                "fjpkid"-fjpkid
+            if ( (activity as MenuActivity).hasData("fjpkid")){
+                "fjpkid"-(activity as MenuActivity).getData<String>("fjpkid")
                 (activity as MenuActivity).removeData("fjpkid")
             }
             success {
