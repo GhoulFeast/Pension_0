@@ -60,6 +60,14 @@
             android:layout_height="wrap_content">
 
             <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="5dp"
+                android:text="护理员"
+                android:textColor="@color/color_8d8d8d"
+                android:textSize="14sp" />
+            <TextView
                 android:id="@+id/item_old_info_submit_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

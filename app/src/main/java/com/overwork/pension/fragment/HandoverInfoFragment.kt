@@ -41,15 +41,16 @@ class HandoverInfoFragment : Fragment(), ServiceConnection {
     }
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         initViewAndEvent()
         getData()
-        super.onViewCreated(view, savedInstanceState)
         val intent = Intent(activity, IsHandoverService::class.java)
         activity.bindService(intent, this@HandoverInfoFragment, Context.BIND_AUTO_CREATE)
         activity.startService(intent)
     }
 
     fun getData(): Unit {
+        auBinder?.setRun(true)
         Http.post {
             url = BASEURL + IS_HANDOVER
             "userId" - userId
@@ -102,8 +103,6 @@ class HandoverInfoFragment : Fragment(), ServiceConnection {
     }
 
     fun initViewAndEvent(): Unit {
-
-
         (activity as MenuActivity).style {
             textBar = activity.resources.getString(R.string.ylyxt)
         }

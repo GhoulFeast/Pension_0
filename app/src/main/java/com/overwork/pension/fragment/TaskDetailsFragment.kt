@@ -93,7 +93,7 @@ class TaskDetailsFragment : Fragment() {
             titleBar = "任务详情"
         }
         task_details_photograph.setOnClickListener {
-            activity.openCameraAndGalleryWindow()
+            menuActivity.openCameraAndGalleryWindow()
         }
         task_details_sound.setOnClickListener {
             val intent = Intent(MediaStore.Audio.Media.RECORD_SOUND_ACTION)
@@ -176,10 +176,11 @@ class TaskDetailsFragment : Fragment() {
             }
 
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                abnormal = p0.toString()
+
             }
 
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                abnormal = p0.toString()
             }
 
         })
@@ -314,11 +315,12 @@ class TaskDetailsFragment : Fragment() {
                         }
 
                         task_details_context.setText(mut["abnormal"].toString())
+                        abnormal=mut["abnormal"].toString()
                         task_details_picll.removeAllViews()//重置图片数据
                         imageList.clear()
                         for (img in mut["imageUrl"] as List<MutableMap<String, Any>>) {
 
-                            Glide.with(activity).load(UP_IMAGE + img["wjmc"].toString()).asBitmap().error(R.mipmap.picture).into(object : SimpleTarget<Bitmap>() {
+                            Glide.with(menuActivity).load(UP_IMAGE + img["wjmc"].toString()).asBitmap().error(R.mipmap.picture).into(object : SimpleTarget<Bitmap>() {
                                 override fun onResourceReady(resource: Bitmap, glideAnimation: GlideAnimation<in Bitmap>) {
                                     addImage(null, UP_IMAGE + img["wjmc"].toString(), img["fb1id"].toString()).setImageBitmap(resource)
                                 }
@@ -330,7 +332,7 @@ class TaskDetailsFragment : Fragment() {
                             addSound(null, UP_SOUND + sound["wjmc"].toString(), sound["fb1id"].toString())
                         }
                     } else {
-                        (!"message").toast(activity)
+                        (!"message").toast(menuActivity)
                     }
                 }
             }
@@ -382,7 +384,7 @@ class TaskDetailsFragment : Fragment() {
 
                         taskList.addAll(mut["nursings"] as ArrayList<MutableMap<String, Any>>)
                         if (task_details_list.adapter == null) {
-                            task_details_list.adapter = SmallTaskAdapter(activity, taskList)
+                            task_details_list.adapter = SmallTaskAdapter(menuActivity, taskList)
                         } else {
                             (task_details_list.adapter as SmallTaskAdapter).notifyDataSetChanged()
                         }
@@ -391,7 +393,7 @@ class TaskDetailsFragment : Fragment() {
 
                         measurementProjects.addAll(mut["measurementProject"] as ArrayList<MutableMap<String, Any>>)
                         if (task_details_project_list.adapter == null) {
-                            task_details_project_list.adapter = ProjectAdapter(activity, measurementProjects)
+                            task_details_project_list.adapter = ProjectAdapter(menuActivity, measurementProjects)
                         } else {
                             (task_details_project_list.adapter as ProjectAdapter).notifyDataSetChanged()
                         }
@@ -402,11 +404,12 @@ class TaskDetailsFragment : Fragment() {
                             }
                         }
                         task_details_context.setText(mut["abnormal"].toString())
+                        abnormal=mut["abnormal"].toString()
                         task_details_picll.removeAllViews()//重置图片数据
                         imageList.clear()
                         for (img in mut["imageUrl"] as List<MutableMap<String, Any>>) {
 
-                            Glide.with(activity).load(UP_IMAGE + img["wjmc"].toString()).asBitmap().error(R.mipmap.picture).into(object : SimpleTarget<Bitmap>() {
+                            Glide.with(menuActivity).load(UP_IMAGE + img["wjmc"].toString()).asBitmap().error(R.mipmap.picture).into(object : SimpleTarget<Bitmap>() {
                                 override fun onResourceReady(resource: Bitmap, glideAnimation: GlideAnimation<in Bitmap>) {
                                     addImage(null, UP_IMAGE + img["wjmc"].toString(), img["fb1id"].toString()).setImageBitmap(resource)
                                 }
@@ -418,7 +421,7 @@ class TaskDetailsFragment : Fragment() {
                             addSound(null, UP_SOUND + sound["wjmc"].toString(), sound["fb1id"].toString())
                         }
                     } else {
-                        (!"message").toast(activity)
+                        (!"message").toast(menuActivity)
                     }
 
                 }
@@ -431,12 +434,12 @@ class TaskDetailsFragment : Fragment() {
 
     fun setSimple() {
         val han = Handler()
-        han.post {
+        han.postDelayed( {
             task_details_ll_1.visibility = View.GONE
             task_details_ll_2.visibility = View.GONE
             task_details_ll_3.visibility = View.GONE
             task_details_ll_4.visibility = View.GONE
-        }
+        },300)
         isSimple = true
 
     }
@@ -448,8 +451,8 @@ class TaskDetailsFragment : Fragment() {
                 val uri = getCameraUri()
                 if (uri?.path != null) {
                     var upImage = File(uri.path)
-                    val img=uri?.getCameraImg(activity)
-                    upImage= saveBitmapFile(img!!,activity.filesDir.absolutePath+"img.jpg")
+                    val img=uri?.getCameraImg(menuActivity)
+                    upImage= saveBitmapFile(img!!,menuActivity.filesDir.absolutePath+"img.jpg")
                     addImage(upImage, "", "").setImageBitmap(img)
                     upLoadImage(upImage, 1)
                 } else {
@@ -458,20 +461,20 @@ class TaskDetailsFragment : Fragment() {
             }
             GALLERY_REQUEST -> {
                 val uri = data?.data
-                addImage(uri?.toFile(activity), "", "").setImageBitmap(uri?.handleImageOnKitKat(activity))
-                upLoadImage(uri?.toFile(activity), 1)
+                addImage(uri?.toFile(menuActivity), "", "").setImageBitmap(uri?.handleImageOnKitKat(menuActivity))
+                upLoadImage(uri?.toFile(menuActivity), 1)
             }
             SOUND -> {
                 val uri = data?.data
                 addSound(uri, null, "")
-                upLoadImage(uri?.toFile(activity), 2)
+                upLoadImage(uri?.toFile(menuActivity), 2)
             }
         }
     }
 
     fun addSound(uri: Uri?, soundUrl: String?, id: String): Unit {
-        val newImg = ImageView(activity)
-        newImg.setImageResource(R.mipmap.sound_recording)
+        val newImg = ImageView(menuActivity)
+        newImg.setImageResource(R.mipmap.voice)
         newImg.setPadding(24, 24, 24, 24)
         newImg.setOnClickListener {
             val mediaPlayer = MediaPlayer()
@@ -479,7 +482,7 @@ class TaskDetailsFragment : Fragment() {
             if (uri == null) {
                 mediaPlayer.setDataSource(soundUrl)
             } else {
-                mediaPlayer.setDataSource(activity, uri)
+                mediaPlayer.setDataSource(menuActivity, uri)
             }
             if (mediaPlayer.isPlaying) {
                 mediaPlayer.stop()
@@ -490,20 +493,20 @@ class TaskDetailsFragment : Fragment() {
         }
         newImg.setOnLongClickListener {
             removeFile(it as ImageView, soundList.get(it.getTag(R.id.image_id).toString().toInt()), 2)
-            "长按删除语音".toast(activity)
+            "长按删除语音".toast(menuActivity)
             return@setOnLongClickListener true
         }
         newImg.setTag(R.id.image_id, soundList.size)
         if (uri == null) {
             soundList.add(FileInfo(null, soundUrl, id))
         } else {
-            soundList.add(FileInfo(uri?.toFile(activity), "", id))
+            soundList.add(FileInfo(uri?.toFile(menuActivity), "", id))
         }
         task_details_soull.addView(newImg)
     }
 
     fun addImage(file: File?, imageURL: String?, id: String): ImageView {
-        val newImg = ImageView(activity)
+        val newImg = ImageView(menuActivity)
         val lp = ViewGroup.LayoutParams(task_details_photograph.width + 24, task_details_photograph.height + 24)
         newImg.setLayoutParams(lp);
         newImg.setPadding(24, 24, 24, 24)
@@ -514,7 +517,7 @@ class TaskDetailsFragment : Fragment() {
         }
         newImg.setOnLongClickListener {
             removeFile(it as ImageView, imageList.get(it.getTag(R.id.image_id).toString().toInt()), 1)
-            "长按删除图片".toast(activity)
+            "长按删除图片".toast(menuActivity)
             return@setOnLongClickListener true
         }
         task_details_picll.addView(newImg)
@@ -527,7 +530,7 @@ class TaskDetailsFragment : Fragment() {
     }
 
     fun removeFile(view: ImageView, string: FileInfo, type: Int) {
-        val dialog = LoadingDialog(activity);
+        val dialog = LoadingDialog(menuActivity);
         dialog.setCanceledOnTouchOutside(false);
         dialog.show()
         Http.upfile {
@@ -536,7 +539,7 @@ class TaskDetailsFragment : Fragment() {
             "userId" - userId
             success {
                 menuActivity.runOnUiThread {
-                    "删除成功".toast(activity)
+                    "删除成功".toast(menuActivity)
                     dialog.dismiss()
                     view.visibility = View.GONE
                     if (type == 1) {
@@ -548,14 +551,14 @@ class TaskDetailsFragment : Fragment() {
 
             }
             fail {
-                "删除失败".toast(activity)
+                "删除失败".toast(menuActivity)
                 dialog.dismiss()
             }
         }
     }
 
     fun upLoadImage(path: File?, type: Int): Unit {
-        val dialog = LoadingDialog(activity);
+        val dialog = LoadingDialog(menuActivity);
         dialog.setCanceledOnTouchOutside(false);
         dialog.show();
         Http.upfile {
@@ -567,7 +570,7 @@ class TaskDetailsFragment : Fragment() {
             "userId" - userId
             success {
                 menuActivity.runOnUiThread {
-                    "上传成功".toast(activity)
+                    "上传成功".toast(menuActivity)
                     if (type == 1) {
                         theFileInfoData(path, imageList, "result".."url", "result".."fb1pkid")
                     } else {
@@ -588,7 +591,7 @@ class TaskDetailsFragment : Fragment() {
     }
 
     fun uploadFail(path: File?, type: Int) {
-        var uploadDialog: AlertDialog.Builder = AlertDialog.Builder(activity)
+        var uploadDialog: AlertDialog.Builder = AlertDialog.Builder(menuActivity)
         uploadDialog.setTitle("上传图片失败")
         uploadDialog.setMessage("是否要重新上传")
         uploadDialog.setNegativeButton("是", { dialogInterface: DialogInterface, i: Int ->

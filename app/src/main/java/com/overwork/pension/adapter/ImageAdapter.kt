@@ -14,6 +14,8 @@ import com.aisino.tool.toast
 import com.aisino.tool.widget.showFullWindow
 import com.bumptech.glide.Glide
 import com.overwork.pension.R
+import com.overwork.pension.other.UP_IMAGE
+import com.overwork.pension.other.UP_SOUND
 
 class ImageAdapter(activity: Context, taskList: ArrayList<String>, val type: Int) : BaseAdapter() {
     private var list: List<String>? = null
@@ -28,7 +30,7 @@ class ImageAdapter(activity: Context, taskList: ArrayList<String>, val type: Int
         var view = LayoutInflater.from(context).inflate(R.layout.item_image, null)
         var image = view.findViewById<ImageView>(R.id.show_image)
         if (type==0){
-            Glide.with(context).load(list!![p0]).error(R.mipmap.picture).into(image)
+            Glide.with(context).load(UP_IMAGE+list!![p0]).error(R.mipmap.picture).into(image)
         }
         image.setOnClickListener {
             try {
@@ -37,7 +39,7 @@ class ImageAdapter(activity: Context, taskList: ArrayList<String>, val type: Int
                 } else {
                     val mediaPlayer = MediaPlayer()
                     mediaPlayer.reset()
-                    mediaPlayer.setDataSource(list!![p0])
+                    mediaPlayer.setDataSource(UP_SOUND+list!![p0])
                     if (mediaPlayer.isPlaying) {
                         mediaPlayer.stop()
                     } else {
