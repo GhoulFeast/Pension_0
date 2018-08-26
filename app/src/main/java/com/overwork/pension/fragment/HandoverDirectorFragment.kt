@@ -164,7 +164,6 @@ class HandoverDirectorFragment : Fragment() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (data != null) {
             if (requestCode == QRCODE) {
-                getData()
                 var qr = data.getStringExtra("result")
                 val code = qr.substring(4, qr.length)
                 when (qr.substring(0, 1)) {
@@ -175,6 +174,7 @@ class HandoverDirectorFragment : Fragment() {
                             getData()
                         }
                     }
+                    else ->{"仅可用于接班，请点扫一扫进行扫码"}
                 }
             }
         }
