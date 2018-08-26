@@ -54,6 +54,7 @@ class MenuActivity : AppCompatActivity(), ServiceConnection {
 //        main_rg.setOnCheckedChangeListener({ radioGroup, i ->
 //            when (i) {
         main_rb_homepage.setOnClickListener {
+            fragments.clear()
             var homeFragment = HomeFragment()
             UseFragmentManager.displayFragment(showFragment, homeFragment,
                     supportFragmentManager, R.id.main_ll)
@@ -61,10 +62,10 @@ class MenuActivity : AppCompatActivity(), ServiceConnection {
             main_rb_homepage.setRadioTopBitmp(R.mipmap.task_s)
             selectRadio = main_rb_homepage
             selectId = R.mipmap.task
-            fragments.clear()
             nowState = 0
         }
         main_rb_class.setOnClickListener {
+            fragments.clear()
             if (userType.toInt() == 2) {
                 var classFragment = HandoverDirectorFragment()
                 isZJ = true
@@ -84,11 +85,12 @@ class MenuActivity : AppCompatActivity(), ServiceConnection {
                 selectRadio = main_rb_class
                 selectId = R.mipmap.jjb
             }
-            fragments.clear()
+
             nowState = 0
 
         }
         main_rb_msg.setOnClickListener {
+            fragments.clear()
             var msgFragment = MsgFragment()
             UseFragmentManager.displayFragment(showFragment, msgFragment,
                     supportFragmentManager, R.id.main_ll)
@@ -96,10 +98,11 @@ class MenuActivity : AppCompatActivity(), ServiceConnection {
             main_rb_msg.setRadioTopBitmp(R.mipmap.msg_s)
             selectRadio = main_rb_msg
             selectId = R.mipmap.msg
-            fragments.clear()
+
             nowState = 0
         }
         main_rb_mine.setOnClickListener {
+            fragments.clear()
             var mineFragment = MineFragment()
             UseFragmentManager.displayFragment(showFragment, mineFragment,
                     supportFragmentManager, R.id.main_ll)
@@ -107,7 +110,6 @@ class MenuActivity : AppCompatActivity(), ServiceConnection {
             main_rb_mine.setRadioTopBitmp(R.mipmap.mine_s)
             selectRadio = main_rb_mine
             selectId = R.mipmap.mine
-            fragments.clear()
             nowState = 0
         }
 //            }
@@ -291,7 +293,9 @@ class MenuActivity : AppCompatActivity(), ServiceConnection {
 
     override fun onBackPressed() {
 //        super.onBackPressed()
-
+        for ( fr in fragments ){
+            fr?.javaClass?.name?.log("frrrrrr")
+        }
         if (popupWindow != null) {
             popupWindow?.dismiss()
         }
@@ -308,14 +312,19 @@ class MenuActivity : AppCompatActivity(), ServiceConnection {
 
     }
 
-    fun backFragment(): Unit {
-        if (nowState > 0) {
-            showFragment?.javaClass?.name?.log()
-            UseFragmentManager.displayFragment(showFragment, fragments[nowState - 1],
+    fun backFragment(): Unit{
+        fragments.size.toString().log("siaze")
+        if (fragments.size > 0) {
+            UseFragmentManager.displayFragment(showFragment, fragments[fragments.size - 1],
                     supportFragmentManager, R.id.main_ll)
-            showFragment = fragments[nowState - 1]
+            showFragment = fragments[fragments.size - 1]
+            fragments.removeAt(fragments.size-1)
             nowState--
-
+            if (showFragment is HomeFragment){
+                removeData("RoomList")
+                removeData("cwpkid")
+                removeData(lrId)
+            }
         } else {
             fragments.clear()
         }

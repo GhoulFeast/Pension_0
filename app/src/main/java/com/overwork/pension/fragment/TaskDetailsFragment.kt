@@ -152,18 +152,21 @@ class TaskDetailsFragment : Fragment() {
                 }
             }
         }
-        intoTime()
+
         val han = Handler()
         han.post {
             //延时执行init以等待状态改变
             if (isSimple) {
+                task_details_ll_1.visibility=View.GONE
                 initSimpleList()
                 (activity as MenuActivity).style {
                     textBar = ""
                     titleBar = "异常信息"
                 }
+
             } else {
                 initList()
+                intoTime()
             }
         }
     }
@@ -240,16 +243,14 @@ class TaskDetailsFragment : Fragment() {
             url = BASEURL + SIMPLE_THIS_TIME_TASK
 //            if (!CZLX.equals("02")) {
                 "hlrwId" - (activity as MenuActivity).getData<String>(TodayTaskID)
-
 //            }
             "zbpkid" - (activity as MenuActivity).getData<String>(zbpkId)
-
             "lrid" - (activity as MenuActivity).getData<String>(lrId)
             (activity as MenuActivity).removeData(lrId)
             "czlx" - CZLX
             "userId" - userId
             success {
-                activity.runOnUiThread {
+                menuActivity.runOnUiThread {
                     if ((!"status").equals("200")) {
                         val mut = getAny<ArrayList<MutableMap<String, Any>>>("result")[0]
                         val name: String = mut["name"].toString()
@@ -310,7 +311,7 @@ class TaskDetailsFragment : Fragment() {
 //                "time" - arguments.getString("time")
 //            }
             success {
-                activity.runOnUiThread {
+                menuActivity.runOnUiThread {
                     if ((!"status").equals("200")) {
                         val mut = getAny<ArrayList<MutableMap<String, Any>>>("result")[0]
                         val name: String = mut["name"].toString()
@@ -484,7 +485,7 @@ class TaskDetailsFragment : Fragment() {
             "fb1pkid" - string.fileId
             "userId" - userId
             success {
-                activity.runOnUiThread {
+                menuActivity.runOnUiThread {
                     "删除成功".toast(activity)
                     dialog.dismiss()
                     view.visibility = View.GONE
@@ -515,7 +516,7 @@ class TaskDetailsFragment : Fragment() {
             "wjlx" - ("0" + type.toString())
             "userId" - userId
             success {
-                activity.runOnUiThread {
+                menuActivity.runOnUiThread {
                     "上传成功".toast(activity)
                     if (type == 1) {
                         theFileInfoData(path, imageList, "result".."url", "result".."fb1pkid")
@@ -527,7 +528,7 @@ class TaskDetailsFragment : Fragment() {
 
             }
             fail {
-                activity.runOnUiThread {
+                menuActivity.runOnUiThread {
                     uploadFail(path, type)
                     dialog.dismiss()
                     it.log("fail")
@@ -614,14 +615,14 @@ class TaskDetailsFragment : Fragment() {
             success {
                 menuActivity.runOnUiThread {
                     "保存成功".toast(menuActivity)
-                    overDialog.dismiss()
+//                    overDialog.dismiss()
                 }
 
             }
             fail {
                 menuActivity.runOnUiThread {
                     "网络错误，保存失败".toast(menuActivity)
-                    overDialog.dismiss()
+//                    overDialog.dismiss()
                 }
             }
         }
@@ -651,9 +652,8 @@ class TaskDetailsFragment : Fragment() {
     }
 
     override fun onDestroy() {
-
-        overDialog.setCanceledOnTouchOutside(false);
-        overDialog.show();
+//        overDialog.setCanceledOnTouchOutside(false);
+//        overDialog.show();
         super.onDestroy()
     }
 }

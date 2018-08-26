@@ -18,18 +18,28 @@ object UseFragmentManager {
     fun displayFragment( from: Fragment?,to: Fragment, fm: FragmentManager,
                         containerViewId: Int) {
         val ft = fm.beginTransaction()
-        if (from!=null){
-            ft.hide(from)
-            ft.remove(from)
-        }
-        if (to.isAdded) {
-            ft.show(to)
-            ft.commit()
-        } else {
+//        if (from!=null){
+//            ft.hide(from)
+//            ft.remove(from)
+////
+//        }
+//        if (to.isAdded) {
+//            ft.show(to)
+//            ft.commit()
+//        } else {
+//            ft.add(containerViewId, to)
+//            ft.show(to)
+//            ft.commit()
+//        }
+        if (from==null){
             ft.add(containerViewId, to)
             ft.show(to)
             ft.commit()
+        }else{
+            ft.replace(containerViewId,to)
+            ft.commit()
         }
+
     }
 
     /**

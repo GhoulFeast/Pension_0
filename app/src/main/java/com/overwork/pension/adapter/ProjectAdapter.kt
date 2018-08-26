@@ -16,6 +16,7 @@ import com.aisino.tool.toast
 import com.hq.kbase.network.Http
 import com.overwork.pension.R
 import com.overwork.pension.activity.MenuActivity
+import com.overwork.pension.activity.menuActivity
 import com.overwork.pension.fragment.TaskDetailsFragment
 import com.overwork.pension.other.BASEURL
 import com.overwork.pension.other.OVER_EX
@@ -69,17 +70,21 @@ class ProjectAdapter(val activity: FragmentActivity, val taskList: ArrayList<Mut
                 }
 
                 override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+                }
+
+                override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
                     Http.post {
                         url = BASEURL + OVER_EX
-                        "cgjlpkid" - taskList[index]["hlrwpkid"].toString()
+                        "cgjlpkid" - taskList[index]["cgjlpkid"].toString()
                         "userId" - userId
 //                    "lx" - taskList[index]["lx"].toString()
                         "clbz" - ifEstimate.toString()
                         "sjz" - p0.toString()
                         success {
-                            activity.runOnUiThread {
+                            menuActivity.runOnUiThread {
                                 if ((!"status").equals("200")) {
-                                    ((activity as MenuActivity).showFragment as TaskDetailsFragment).initList()
+//                                    ((activity as MenuActivity).showFragment as TaskDetailsFragment).initList()
                                 } else {
                                     (!"message").toast(activity)
                                     ((activity as MenuActivity).showFragment as TaskDetailsFragment).initList()
@@ -87,9 +92,6 @@ class ProjectAdapter(val activity: FragmentActivity, val taskList: ArrayList<Mut
                             }
                         }
                     }
-                }
-
-                override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
                 }
             })
         }else{

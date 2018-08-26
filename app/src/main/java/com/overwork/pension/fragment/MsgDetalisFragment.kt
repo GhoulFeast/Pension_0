@@ -82,6 +82,9 @@ class MsgDetalisFragment : Fragment() {
             }
             msg_details_handover_tv.setOnClickListener({
                 var taskDetailsFragment = TaskDetailsFragment();
+                var bd = Bundle()
+                bd.putString("time", enety.get("kssj").toString())
+                taskDetailsFragment.arguments = bd
                 (activity as MenuActivity).showFragment(taskDetailsFragment)
                 (activity as MenuActivity).putData(TodayTaskID, enety["hlrwid"].toString())
                 (activity as MenuActivity).putData(lrId, enety["id"].toString())

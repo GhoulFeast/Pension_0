@@ -19,6 +19,7 @@ import com.aisino.tool.widget.ToastAdd
 import com.hq.kbase.network.Http
 import com.overwork.pension.R
 import com.overwork.pension.activity.MenuActivity
+import com.overwork.pension.activity.menuActivity
 import com.overwork.pension.adapter.HandoverInfoAdapter
 import com.overwork.pension.other.*
 import com.overwork.pension.service.IsHandoverService
@@ -53,7 +54,7 @@ class HandoverInfoFragment : Fragment(), ServiceConnection {
             url = BASEURL + IS_HANDOVER
             "userId" - userId
             success {
-                activity.runOnUiThread {
+                menuActivity.runOnUiThread {
                     if ((!"status").equals("200")) {
                         val isJ: Boolean = "result".."isHandove"
                         if (isJ) {
@@ -71,7 +72,7 @@ class HandoverInfoFragment : Fragment(), ServiceConnection {
             url = BASEURL + T_HANDOVERINFO
             "userId" - userId
             success {
-                activity.runOnUiThread {
+                menuActivity.runOnUiThread {
                     if ((!"status").equals("200")) {
                         handoverInfos.clear()
                         handoverInfos.addAll("result".."handoverList")
@@ -121,6 +122,9 @@ class HandoverInfoFragment : Fragment(), ServiceConnection {
 
             override fun OnHandoverClick(id: Int) {
                 var taslDetalis = TaskDetailsFragment()
+//                var bd = Bundle()
+//                bd.putString("time", showTime)
+//                taslDetalis.arguments = bd
                 CZLX="02"
                 (activity as MenuActivity).putData(TodayTaskID, handoverInfos[id]["oldId"].toString())
                 (activity as MenuActivity).putData(zbpkId, handoverInfos[id]["zbpkid"].toString())
@@ -143,7 +147,7 @@ class HandoverInfoFragment : Fragment(), ServiceConnection {
             "userId" - userId
             "fcjlid" - fcjlid
             success {
-                activity.runOnUiThread {
+                menuActivity.runOnUiThread {
                     if ((!"status").equals("200")) {
                         var isHandover: Boolean = "result".."isHandove"
                         if (isHandover) {
@@ -198,7 +202,7 @@ class HandoverInfoFragment : Fragment(), ServiceConnection {
         auBinder?.setRun(true)
         auBinder?.setCallBack(object : IsHandoverService.IsHandoverCall {
             override fun setMsgNum(num: Boolean) {
-                activity.runOnUiThread {
+                menuActivity.runOnUiThread {
                     if (num) {
                         (activity as MenuActivity).showFragment(HandoverEndFragment())
                         auBinder?.setRun(false)
