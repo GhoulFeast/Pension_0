@@ -80,6 +80,7 @@ class TodayTaskFragment : Fragment() {
         todaytask_rv.scrollToPosition(position - 2)
         showTime = taskTimeList.get(position)["taskTime"].toString()
     }
+
     fun getTaskList(): Unit {
         Http.post {
             url = BASEURL + T_TASK

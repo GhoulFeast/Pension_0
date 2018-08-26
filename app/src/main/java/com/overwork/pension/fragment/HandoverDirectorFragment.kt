@@ -53,27 +53,32 @@ class HandoverDirectorFragment : Fragment() {
 
             success {
                 activity.runOnUiThread {
-                    classBeans.clear()
-                    var datas: ArrayList<MutableMap<String, Any>> = ArrayList()
-                    datas.addAll("result".."abnormalList")
-                    for (map: MutableMap<String, Any> in datas) {
-                        if (classBeans.size == 0) {
-                            classBeans.add(map)
-                        } else {
-                            var isHas = false
-                            for (classMap: MutableMap<String, Any> in classBeans) {
-                                if (map.get("lrpkid").toString().equals(classMap.get("lrpkid").toString())) {
-                                    isHas = true
-                                    (classMap.get("informationList") as ArrayList<MutableMap<String, Any>>).addAll(map.get("informationList") as ArrayList<MutableMap<String, Any>>)
+                    if ((!"status").equals("200")){
+                        classBeans.clear()
+                        var datas: ArrayList<MutableMap<String, Any>> = ArrayList()
+                        datas.addAll("result".."abnormalList")
+                        for (map: MutableMap<String, Any> in datas) {
+                            if (classBeans.size == 0) {
+                                classBeans.add(map)
+                            } else {
+                                var isHas = false
+                                for (classMap: MutableMap<String, Any> in classBeans) {
+                                    if (map.get("lrpkid").toString().equals(classMap.get("lrpkid").toString())) {
+                                        isHas = true
+                                        (classMap.get("informationList") as ArrayList<MutableMap<String, Any>>).addAll(map.get("informationList") as ArrayList<MutableMap<String, Any>>)
+                                    }
+                                }
+                                if (!isHas) {
+                                    classBeans.add(map)
                                 }
                             }
-                            if (!isHas) {
-                                classBeans.add(map)
-                            }
                         }
-                    }
-                    classAdapter.notifyDataSetChanged()
+                        classAdapter.notifyDataSetChanged()
 //                    dialog.dismiss()
+                    }else{
+                        (!"message").toast(activity)
+                    }
+
                 }
             }
             fail {

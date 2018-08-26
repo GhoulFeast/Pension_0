@@ -25,6 +25,7 @@ import com.overwork.pension.service.AutoUpdateService
 import kotlinx.android.synthetic.main.activity_menu.*
 
 val QRCODE = 999
+lateinit var menuActivity:MenuActivity
 
 class MenuActivity : AppCompatActivity(), ServiceConnection {
 
@@ -44,6 +45,7 @@ class MenuActivity : AppCompatActivity(), ServiceConnection {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_menu)
+        menuActivity=this
         initViewAndEvent()
     }
 

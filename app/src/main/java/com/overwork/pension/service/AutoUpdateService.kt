@@ -21,7 +21,7 @@ class AutoUpdateService :Service() {
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        val intevalPeriod: Long = 20000
+        val intevalPeriod: Long = 60000
         val timerTask = object : TimerTask() {
             override fun run() {
                 if (isRun){

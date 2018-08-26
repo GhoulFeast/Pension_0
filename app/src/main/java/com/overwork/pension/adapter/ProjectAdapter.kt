@@ -28,73 +28,76 @@ class ProjectAdapter(val activity: FragmentActivity, val taskList: ArrayList<Mut
     var ifEstimate = 0//0实测，1估测
 
     override fun getView(index: Int, p1: View?, p2: ViewGroup?): View {
-        val view = LayoutInflater.from(activity).inflate(R.layout.item_measurement_project, null)
-        if (!taskList[index]["zt"].toString().equals("1")) {
-            view.visibility = View.GONE
-        }
-        val task = view.findViewById<TextView>(R.id.item_project_name)
-        val num = view.findViewById<EditText>(R.id.item_project_num)
-        when (taskList[index]["lx"].toString()) {
-            "xy" -> {
-                task.setText("血压")
-
-            }
-            "mb" -> {
-                task.setText("脉搏")
-
-            }
-            "tw" -> {
-                task.setText("体温")
-
-            }
-            "rl" -> {
-                task.setText("入量")
-            }
-            "cl" -> {
-                task.setText("出量")
-                val rg = view.findViewById<RadioGroup>(R.id.item_project_rg)
-                rg.visibility = View.VISIBLE
-                if (taskList[index]["clbz"]!!.equals("0")) {
-                    rg.check(R.id.item_project_rb0)
-                } else {
-                    rg.check(R.id.item_project_rb1)
+        var view = LayoutInflater.from(activity).inflate(R.layout.item_measurement_project, null)
+        if (taskList[index]["zt"].toString().equals("1")) {
+            val task = view.findViewById<TextView>(R.id.item_project_name)
+            val num = view.findViewById<EditText>(R.id.item_project_num)
+            when (taskList[index]["lx"].toString()) {
+                "xy" -> {
+                    task.setText("血压")
                 }
-                rg.setOnCheckedChangeListener { radioGroup: RadioGroup, i: Int ->
-                    ifEstimate = i
+                "mb" -> {
+                    task.setText("脉搏")
+
+                }
+                "tw" -> {
+                    task.setText("体温")
+
+                }
+                "rl" -> {
+                    task.setText("入量")
+                }
+                "cl" -> {
+                    task.setText("出量")
+                    val rg = view.findViewById<RadioGroup>(R.id.item_project_rg)
+                    rg.visibility = View.VISIBLE
+                    if (taskList[index]["clbz"]!!.equals("0")) {
+                        rg.check(R.id.item_project_rb0)
+                    } else {
+                        rg.check(R.id.item_project_rb1)
+                    }
+                    rg.setOnCheckedChangeListener { radioGroup: RadioGroup, i: Int ->
+                        ifEstimate = i
+                    }
                 }
             }
-        }
-        num.setText(taskList[index]["sjz"].toString())
+            num.setText(taskList[index]["sjz"].toString())
 
-        num.addTextChangedListener(object : TextWatcher {
-            override fun afterTextChanged(p0: Editable?) {
+            num.addTextChangedListener(object : TextWatcher {
+                override fun afterTextChanged(p0: Editable?) {
 
-            }
+                }
 
-            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                Http.post {
-                    url = BASEURL + OVER_EX
-                    "cgjlpkid" - taskList[index]["hlrwpkid"].toString()
-                    "userId" - userId
+                override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                    Http.post {
+                        url = BASEURL + OVER_EX
+                        "cgjlpkid" - taskList[index]["hlrwpkid"].toString()
+                        "userId" - userId
 //                    "lx" - taskList[index]["lx"].toString()
-                    "clbz" - ifEstimate.toString()
-                    "sjz" - p0.toString()
-                    success {
-                        activity.runOnUiThread {
-                            if ((!"status").equals("200")) {
-                                ((activity as MenuActivity).showFragment as TaskDetailsFragment).initList()
-                            } else {
-                                (!"message").toast(activity)
-                                ((activity as MenuActivity).showFragment as TaskDetailsFragment).initList()
+                        "clbz" - ifEstimate.toString()
+                        "sjz" - p0.toString()
+                        success {
+                            activity.runOnUiThread {
+                                if ((!"status").equals("200")) {
+                                    ((activity as MenuActivity).showFragment as TaskDetailsFragment).initList()
+                                } else {
+                                    (!"message").toast(activity)
+                                    ((activity as MenuActivity).showFragment as TaskDetailsFragment).initList()
+                                }
                             }
                         }
                     }
                 }
-            }
 
-            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-            }
-        })
+                override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                }
+            })
+        }else{
+             view = LayoutInflater.from(activity).inflate(R.layout.item_nil_view, null)
+//            view.visibility = View.GONE
+//            view.layoutParams.height=0
+        }
+
 
 //        num.setOnFocusChangeListener({ v, hasFocus ->
 //            if (hasFocus) {

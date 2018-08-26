@@ -39,6 +39,7 @@ import com.overwork.pension.adapter.ProjectAdapter
 import com.overwork.pension.adapter.SmallTaskAdapter
 import kotlin.collections.ArrayList
 import com.bumptech.glide.request.animation.GlideAnimation
+import com.overwork.pension.activity.menuActivity
 import com.overwork.pension.adapter.TaskStepViewRvAdapter
 import java.io.File
 import java.io.IOException
@@ -611,15 +612,15 @@ class TaskDetailsFragment : Fragment() {
             "abnormal" - task_details_context.text.toString()
             "abnormalType" - abnormalType
             success {
-                activity.runOnUiThread {
-                    "保存成功".toast(activity)
+                menuActivity.runOnUiThread {
+                    "保存成功".toast(menuActivity)
                     overDialog.dismiss()
                 }
 
             }
             fail {
-                activity.runOnUiThread {
-                    "网络错误，保存失败".toast(activity)
+                menuActivity.runOnUiThread {
+                    "网络错误，保存失败".toast(menuActivity)
                     overDialog.dismiss()
                 }
             }

@@ -5,6 +5,7 @@ import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.aisino.tool.toast
 import com.hq.kbase.network.Http
 import com.overwork.pension.R
 import com.overwork.pension.activity.MenuActivity
@@ -41,9 +42,14 @@ class RoomListFragment : Fragment() {
             }
             success {
                 activity.runOnUiThread {
-                    roomListBeans.clear()
-                    roomListBeans.addAll(getAny<ArrayList<MutableMap<String,Any>>>("result"))
-                    roomList.notifyDataSetChanged()
+                    if ((!"status").equals("200")){
+                        roomListBeans.clear()
+                        roomListBeans.addAll(getAny<ArrayList<MutableMap<String,Any>>>("result"))
+                        roomList.notifyDataSetChanged()
+                    }else{
+                        (!"message").toast(activity)
+                    }
+
                 }
             }
         }
