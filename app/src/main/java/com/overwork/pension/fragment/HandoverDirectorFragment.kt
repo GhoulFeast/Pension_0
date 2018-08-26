@@ -80,7 +80,7 @@ class HandoverDirectorFragment : Fragment() {
                         classAdapter.notifyDataSetChanged()
 //                    dialog.dismiss()
                     }else{
-                        (!"message").toast(activity)
+                        (!"message").toast(menuActivity)
                     }
 
                 }
@@ -94,12 +94,12 @@ class HandoverDirectorFragment : Fragment() {
     }
 
     fun getData(): Unit {
-        val dialog = LoadingDialog(activity);
+        val dialog = LoadingDialog(menuActivity);
         dialog.setCanceledOnTouchOutside(false);
         dialog.show()
         Http.post {
             url = BASEURL + J_HANDOVERDIRECTOR
-            "userId" - (activity as MenuActivity).getData<String>("jbrid")
+            "userId" - menuActivity.getData<String>("jbrid")
             "jbrId" - userId
             success {
                 menuActivity.runOnUiThread {
@@ -153,7 +153,7 @@ class HandoverDirectorFragment : Fragment() {
             fail {
                 menuActivity.runOnUiThread {
                     dialog.dismiss()
-                    it.toast(activity)
+                    it.toast(menuActivity)
                 }
             }
         }
@@ -186,13 +186,11 @@ class HandoverDirectorFragment : Fragment() {
             textBar = ""
             titleBar = "交班"
         }
-        classAdapter = HandoverDirectorAdapter(classBeans,activity)
+        classAdapter = HandoverDirectorAdapter(classBeans,menuActivity)
         director_rlv.adapter = classAdapter
         director_handover_tv.setOnClickListener(object : View.OnClickListener {
             override fun onClick(p0: View?) {
-                activity.runOnUiThread {
-                    startActivityForResult(Intent((activity as MenuActivity), CaptureActivity::class.java), QRCODE)
-                }
+                    startActivityForResult(Intent(menuActivity, CaptureActivity::class.java), QRCODE)
             }
         })
     }
