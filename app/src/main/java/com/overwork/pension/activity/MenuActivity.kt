@@ -227,6 +227,9 @@ class MenuActivity : AppCompatActivity(), ServiceConnection {
                             "只有主管才能交接班".toast(this)
                         }
                     }
+                    else->{
+                        "不是支持的二维码格式".toast(this)
+                    }
                 }
 //
             }
