@@ -111,6 +111,7 @@ class HandoverDirectorFragment : Fragment() {
                                 "userId" - userId
                                 success {
                                     menuActivity.runOnUiThread {
+                                        "交班成功".toast(menuActivity)
                                         classBeans.clear()
                                         var datas: ArrayList<MutableMap<String, Any>> = ArrayList()
                                         datas.addAll("result".."abnormalList")
@@ -164,6 +165,7 @@ class HandoverDirectorFragment : Fragment() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (data != null) {
             if (requestCode == QRCODE) {
+                getData()
                 var qr = data.getStringExtra("result")
                 val code = qr.substring(4, qr.length)
                 when (qr.substring(0, 1)) {
@@ -172,9 +174,13 @@ class HandoverDirectorFragment : Fragment() {
                             isZJ = true
                             (activity as MenuActivity).putData("jbrid", code)
                             getData()
+                        }else{
+                            "只有主管才能交接班".toast(menuActivity)
                         }
                     }
-                    else ->{"仅可用于接班，请点扫一扫进行扫码"}
+                    else->{
+                        "只能扫描交班二维码，更多功能请使用扫一扫".toast(menuActivity)
+                    }
                 }
             }
         }
