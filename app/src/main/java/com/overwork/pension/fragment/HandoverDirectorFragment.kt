@@ -111,6 +111,7 @@ class HandoverDirectorFragment : Fragment() {
                                 "userId" - userId
                                 success {
                                     menuActivity.runOnUiThread {
+                                        "交班成功".toast(menuActivity)
                                         classBeans.clear()
                                         var datas: ArrayList<MutableMap<String, Any>> = ArrayList()
                                         datas.addAll("result".."abnormalList")
@@ -173,7 +174,12 @@ class HandoverDirectorFragment : Fragment() {
                             isZJ = true
                             (activity as MenuActivity).putData("jbrid", code)
                             getData()
+                        }else{
+                            "只有主管才能交接班".toast(menuActivity)
                         }
+                    }
+                    else->{
+                        "只能扫描交班二维码，更多功能请使用扫一扫".toast(menuActivity)
                     }
                 }
             }
