@@ -1,6 +1,10 @@
 package com.overwork.pension.other
 
-val BASEURL = "http://10.3.240.136:8081/yly/appall"//基本
+val IP = "192.168.43.175"
+val BASEURL = "http://" + IP + ":8081/yly/appall"//基本
+val UP_HEAD = "http://" + IP + ":8081/yly/upload/"
+val UP_IMAGE = "http://" + IP + ":8081/yly/upload/tpwj/"
+val UP_SOUND = "http://" + IP + ":8081/yly/upload/ypwj/"
 val LOGIN = "/denglu.action"//登陆
 val MSGLIST = "/xxlb.action"//消息列表
 val T_TASK = "/jrrw.action"//今天任务
@@ -11,24 +15,21 @@ val TOMORROW_TASK = "/mrrw.action"//明日任务
 val ABNORMALITY = "/scyc.action"//7异常情况提交
 val THIS_TIME_TASK = "/hlnr.action"//5护理内容
 val T_HANDOVERDIRECTOR = "/jbzghz.action"//交班-主管
-val AUTO_UPDATE_MSG="/ifyxiaoxi.action"//新消息
+val AUTO_UPDATE_MSG = "/ifyxiaoxi.action"//新消息
 val MSGLIST_READ = "/ydxx.action"//消息——读
-val OLDMAN_INFO="/lrxx.action"//老人信息
+val OLDMAN_INFO = "/lrxx.action"//老人信息
 val ROOM_LIST = "/fjlb.action"//房间列表
 val OVER_EX = "/savecgjl.action"//18完成任务详情测量常规项
 val OVER_TASK = "/wczhrwx.action"//17完成照护内容项
-val UP_FILE="/scfj.action"//上传文件
-val DELET_FILE="/deleteFj.action"//删除文件
-val IS_HANDOVER="/ifjbwc.action"//是否交班成功
-val UP_HEAD="http://10.3.240.136:8081/yly/upload/"
-val UP_IMAGE="http://10.3.240.136:8081/yly/upload/tpwj/"
-val UP_SOUND="http://10.3.240.136:8081/yly/upload/ypwj/"
-val J_HANDOVERDIRECTOR="/zgsmjb.action"
+val UP_FILE = "/scfj.action"//上传文件
+val DELET_FILE = "/deleteFj.action"//删除文件
+val IS_HANDOVER = "/ifjbwc.action"//是否交班成功
+val J_HANDOVERDIRECTOR = "/zgsmjb.action"
 val SIMPLE_THIS_TIME_TASK = "/fjxx.action"//19异常内容
 
 //val BASEURL = "http://www.mockhttp.cn/mock/"//基本
-//val LOGIN = "loginm"//登陆
-////val LOGIN = "loginz"//登陆主管
+////val LOGIN = "loginm"//登陆
+//val LOGIN = "loginz"//登陆主管
 //val MSGLIST = "msgs_list"//消息列表
 //val T_TASK = "t_task"//今天任务
 //val T_ABNORMAL = "jb_ycxx"//10交班——异常信息https://github.com/wwan12/AnalogInterface/blob/master/abnormalShift.json

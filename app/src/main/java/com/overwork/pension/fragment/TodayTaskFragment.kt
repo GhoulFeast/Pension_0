@@ -60,9 +60,9 @@ class TodayTaskFragment : Fragment() {
         thisTime.set(Calendar.MINUTE, minute)
         var tTime = Calendar.getInstance()
         var i = 0
-        tTime.set(Calendar.HOUR_OF_DAY, 7)
-        tTime.set(Calendar.MINUTE, 0)
-        while (i < 48) {
+        tTime.set(Calendar.HOUR_OF_DAY, 6)
+        tTime.set(Calendar.MINUTE, 30)
+        while (i < 24) {
             tTime.set(Calendar.MINUTE, tTime.get(Calendar.MINUTE) + 30)
             var muMap: MutableMap<String, Any> = mutableMapOf()
             var time = "";
