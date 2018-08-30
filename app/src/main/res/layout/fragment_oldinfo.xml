@@ -70,7 +70,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:text="特别注意事项:"
+                    android:text="特别注意事项"
                     android:textColor="@color/mainColor"
                     android:textSize="16sp" />
 
@@ -87,7 +87,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:text="紧急联系人:"
+                    android:text="紧急联系人"
                     android:textColor="@color/mainColor"
                     android:textSize="16sp" />
 

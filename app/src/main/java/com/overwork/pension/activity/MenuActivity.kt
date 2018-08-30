@@ -25,9 +25,8 @@ import com.overwork.pension.service.AutoUpdateService
 import kotlinx.android.synthetic.main.activity_menu.*
 
 val QRCODE = 999
-val FRQRCODE = 888
 
-lateinit var menuActivity:MenuActivity
+lateinit var menuActivity: MenuActivity
 
 class MenuActivity : AppCompatActivity(), ServiceConnection {
 
@@ -47,7 +46,7 @@ class MenuActivity : AppCompatActivity(), ServiceConnection {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_menu)
-        menuActivity=this
+        menuActivity = this
         initViewAndEvent()
     }
 
@@ -194,7 +193,7 @@ class MenuActivity : AppCompatActivity(), ServiceConnection {
 //                        supportFragmentManager, R.id.main_ll)
 //                showFragment = handoverDiretor
 //            }
-            if (requestCode == QRCODE||requestCode==FRQRCODE) {//二维码处理
+            if (requestCode == QRCODE) {//二维码处理
                 var qr = data.getStringExtra("result")
                 val code = qr.substring(4, qr.length)
                 qr.log("code")
@@ -203,16 +202,18 @@ class MenuActivity : AppCompatActivity(), ServiceConnection {
                     "F" -> {
                         putData("fjpkid", code)
                         qrFrgment = RoomListFragment()
-                        UseFragmentManager.displayFragment(showFragment, qrFrgment!!,
-                                supportFragmentManager, R.id.main_ll)
-                        showFragment = qrFrgment
+                        showFragment(qrFrgment)
+//                        UseFragmentManager.displayFragment(showFragment, qrFrgment!!,
+//                                supportFragmentManager, R.id.main_ll)
+//                        showFragment = qrFrgment
                     }
                     "C" -> {
                         putData("cwpkid", code)
-                                qrFrgment = TodayTaskFragment()
-                        UseFragmentManager.displayFragment(showFragment, qrFrgment!!,
-                                supportFragmentManager, R.id.main_ll)
-                        showFragment = qrFrgment
+                        qrFrgment = TodayTaskFragment()
+//                        UseFragmentManager.displayFragment(showFragment, qrFrgment!!,
+//                                supportFragmentManager, R.id.main_ll)
+//                        showFragment = qrFrgment
+                        showFragment(qrFrgment)
                     }
                     "Z" -> {
                         if (userType.equals("2")) {
@@ -227,7 +228,7 @@ class MenuActivity : AppCompatActivity(), ServiceConnection {
                             "只有主管才能交接班".toast(this)
                         }
                     }
-                    else->{
+                    else -> {
                         "不是支持的二维码格式".toast(this)
                     }
                 }
@@ -265,7 +266,7 @@ class MenuActivity : AppCompatActivity(), ServiceConnection {
     }
 
     fun hasData(key: String): Boolean {
-        return  enety.contains(key)
+        return enety.contains(key)
     }
 
     fun setBar(bar: Bar): Unit {
@@ -302,8 +303,13 @@ class MenuActivity : AppCompatActivity(), ServiceConnection {
 
     override fun onBackPressed() {
 //        super.onBackPressed()
-        for ( fr in fragments ){
-            fr?.javaClass?.name?.log("frrrrrr")
+        if (showFragment is TaskDetailsFragment){//护理详情图片消除
+            if((showFragment as TaskDetailsFragment).imgPopupWindow!=null){
+                if ((showFragment as TaskDetailsFragment).imgPopupWindow!!.isShowing){
+                    (showFragment as TaskDetailsFragment).imgPopupWindow?.dismiss()
+                    return
+                }
+            }
         }
         if (popupWindow != null) {
             popupWindow?.dismiss()
@@ -321,15 +327,14 @@ class MenuActivity : AppCompatActivity(), ServiceConnection {
 
     }
 
-    fun backFragment(): Unit{
-        fragments.size.toString().log("siaze")
+    fun backFragment(): Unit {
         if (fragments.size > 0) {
             UseFragmentManager.displayFragment(showFragment, fragments[fragments.size - 1],
                     supportFragmentManager, R.id.main_ll)
             showFragment = fragments[fragments.size - 1]
-            fragments.removeAt(fragments.size-1)
+            fragments.removeAt(fragments.size - 1)
             nowState--
-            if (showFragment is HomeFragment){
+            if (showFragment is HomeFragment) {
                 removeData("RoomList")
                 removeData("cwpkid")
                 removeData(lrId)
