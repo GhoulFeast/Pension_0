@@ -71,9 +71,9 @@ class Submit {
 //    }
 
 
-   fun run() {
-       tryInit()
-   }
+    fun run() {
+        tryInit()
+    }
 
 
     private fun tryInit(): Unit { //检查配置单
@@ -129,7 +129,7 @@ class Submit {
         if (_params.size > 0) {
             url = url.substring(0, url.length - 1)
         }
-        (":"+url).log("get")
+        (":" + url).log("get")
         val request = Request.Builder().url(url).build()
         val call = okHttpClient.build().newCall(request)
         call.enqueue(object : Callback {
@@ -148,7 +148,7 @@ class Submit {
         val build = FormBody.Builder()
         for (p in _params) {
             build.add(p.key, p.value.toString())
-            (p.key+"-"+p.value.toString()).log("post")
+            (p.key + "-" + p.value.toString()).log("post")
         }
         val body = build.build()
         val request = Request.Builder().url(url).post(body).build()
@@ -279,13 +279,17 @@ class Submit {
                     _response.put(ReturnType.STRING.name, response.body().string())
                 }
             }
-            _success()
+            try {
+                _success()
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
         }
     }
 
     //- 入参
     operator fun String.minus(value: String?) {
-        if (value!=null){
+        if (value != null) {
             _params.put(this, value)
         }
 
@@ -358,14 +362,14 @@ class Submit {
             JsonToken.BOOLEAN.name -> {
                 target.put(loopName, reader.nextBoolean())
             }
-            JsonToken.STRING.name->{
+            JsonToken.STRING.name -> {
                 target.put(loopName, reader.nextString())
             }
-            JsonToken.NULL.name->{
+            JsonToken.NULL.name -> {
                 target.put(loopName, "")
                 reader.skipValue()
             }
-            JsonToken.NUMBER.name->{
+            JsonToken.NUMBER.name -> {
                 target.put(loopName, reader.nextLong().toString())
             }
             else -> {
