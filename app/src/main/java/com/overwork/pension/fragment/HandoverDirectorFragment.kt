@@ -164,9 +164,10 @@ class HandoverDirectorFragment : Fragment() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (data != null) {
             if (requestCode == QRCODE) {
-                getData()
+//                getData()
                 var qr = data.getStringExtra("result")
                 val code = qr.substring(4, qr.length)
+                qr.log("code")
                 when (qr.substring(0, 1)) {
                     "Z" -> {
                         if (userType.equals("2")) {

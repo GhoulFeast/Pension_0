@@ -31,8 +31,8 @@ import kotlinx.android.synthetic.main.fragment_handover.view.*
  * Created by feima on 2018/7/7.
  */
 
-class HandoverInfoFragment : Fragment(), ServiceConnection {
-    private var auBinder: IsHandoverService.Binder? = null
+class HandoverInfoFragment : Fragment() {
+//    private var auBinder: IsHandoverService.Binder? = null
     lateinit var handoverInfoAdapter: HandoverInfoAdapter
     var handoverInfos: ArrayList<MutableMap<String, Any>> = ArrayList()
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -44,15 +44,27 @@ class HandoverInfoFragment : Fragment(), ServiceConnection {
         super.onViewCreated(view, savedInstanceState)
         initViewAndEvent()
         getData()
-        val intent = Intent(activity, IsHandoverService::class.java)
-        activity.bindService(intent, this@HandoverInfoFragment, Context.BIND_AUTO_CREATE)
-        activity.startService(intent)
-        class_handover_tv.isEnabled = false
-        class_handover_tv.alpha = 0.3f
+//        val intent = Intent(activity, IsHandoverService::class.java)
+//        activity.bindService(intent, this@HandoverInfoFragment, Context.BIND_AUTO_CREATE)
+//        activity.startService(intent)
+        var isAll = true
+        for (map: MutableMap<String, Any> in handoverInfos) {
+            if (map.get("isRecheck").toString().equals("N")) {
+                isAll = false
+                break
+            }
+        }
+        if (isAll) {
+            class_handover_tv.isEnabled = true
+            class_handover_tv.alpha = 1.0f
+        } else {
+            class_handover_tv.isEnabled = false
+            class_handover_tv.alpha = 0.3f
+        }
     }
 
     fun getData(): Unit {
-        auBinder?.setRun(true)
+//        auBinder?.setRun(true)
         Http.post {
             url = BASEURL + IS_HANDOVER
             "userId" - userId
@@ -61,9 +73,11 @@ class HandoverInfoFragment : Fragment(), ServiceConnection {
                     if ((!"status").equals("200")) {
                         val isJ: Boolean = "result".."isHandove"
                         if (isJ) {
-                            menuActivity.showFragment(HandoverEndFragment())
-                            auBinder?.setRun(false)
-                            auBinder = null
+                            if (!(menuActivity.showFragment is HandoverEndFragment)){
+                                menuActivity.showFragment(HandoverEndFragment())
+                            }
+//                            auBinder?.setRun(false)
+//                            auBinder = null
                         }
                     }
                 }
@@ -135,9 +149,7 @@ class HandoverInfoFragment : Fragment(), ServiceConnection {
         })
     }
 
-    override fun onServiceDisconnected(p0: ComponentName?) {
 
-    }
 
     fun submitHandover(fcjlid: String, position: Int,boolean: Boolean) {
         val dialog = LoadingDialog(activity);
@@ -189,38 +201,38 @@ class HandoverInfoFragment : Fragment(), ServiceConnection {
         }
     }
 
-    override fun onPause() {
-        super.onPause()
-        auBinder?.setRun(false)
-    }
+//    override fun onPause() {
+//        super.onPause()
+//        auBinder?.setRun(false)
+//    }
+//
+//    override fun onStart() {
+//        super.onStart()
+//        auBinder?.setRun(true)
+//
+//    }
+//
+//    override fun onDestroy() {
+//        super.onDestroy()
+//        auBinder = null
+//    }
 
-    override fun onStart() {
-        super.onStart()
-        auBinder?.setRun(true)
-
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        auBinder = null
-    }
-
-    override fun onServiceConnected(p0: ComponentName?, p1: IBinder?) {
-        auBinder = p1 as IsHandoverService.Binder
-        auBinder?.setRun(true)
-        auBinder?.setCallBack(object : IsHandoverService.IsHandoverCall {
-            override fun setMsgNum(num: Boolean) {
-                menuActivity.runOnUiThread {
-                    if (num) {
-                        menuActivity.showFragment(HandoverEndFragment())
-                        auBinder?.setRun(false)
-                        auBinder = null
-                    } else {
-
-                    }
-                }
-            }
-        })
-    }
+//    override fun onServiceConnected(p0: ComponentName?, p1: IBinder?) {
+//        auBinder = p1 as IsHandoverService.Binder
+//        auBinder?.setRun(true)
+//        auBinder?.setCallBack(object : IsHandoverService.IsHandoverCall {
+//            override fun setMsgNum(num: Boolean) {
+//                menuActivity.runOnUiThread {
+//                    if (num) {
+//                        menuActivity.showFragment(HandoverEndFragment())
+//                        auBinder?.setRun(false)
+//                        auBinder = null
+//                    } else {
+//
+//                    }
+//                }
+//            }
+//        })
+//    }
 
 }
