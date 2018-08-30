@@ -1,6 +1,6 @@
 package com.overwork.pension.other
 
-val IP = "192.168.43.175"
+val IP = "110.249.218.70"
 val BASEURL = "http://" + IP + ":8081/yly/appall"//基本
 val UP_HEAD = "http://" + IP + ":8081/yly/upload/"
 val UP_IMAGE = "http://" + IP + ":8081/yly/upload/tpwj/"

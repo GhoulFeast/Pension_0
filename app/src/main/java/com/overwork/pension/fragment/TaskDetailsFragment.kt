@@ -346,6 +346,8 @@ class TaskDetailsFragment : Fragment() {
 //            if (!CZLX.equals("02")) {
             "hlrwId" - todayTaskID
 //            }
+//            "zbpkid"-zbpkids
+//            "lrid"-lrid
             if (zbpkid.equals("-1")) {//zbpkid未赋值时使用缓存
 //                "zbpkid" - (activity as MenuActivity).getData<String>(zbpkId)
             } else {
