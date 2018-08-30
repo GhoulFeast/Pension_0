@@ -34,7 +34,6 @@ class MenuActivity : AppCompatActivity(), ServiceConnection {
     var showFragment: Fragment? = null
     private val enety: MutableMap<String, Any> = mutableMapOf()
     private val fragments = ArrayList<Fragment>()
-    private var nowState = 0
     private var backPressTime = 0L
     private var auBinder: AutoUpdateService.Binder? = null
     var popupWindow: PopupWindow? = null
@@ -63,7 +62,7 @@ class MenuActivity : AppCompatActivity(), ServiceConnection {
             main_rb_homepage.setRadioTopBitmp(R.mipmap.task_s)
             selectRadio = main_rb_homepage
             selectId = R.mipmap.task
-            nowState = 0
+            auBinder?.setRun(true)
         }
         main_rb_class.setOnClickListener {
             fragments.clear()
@@ -87,7 +86,7 @@ class MenuActivity : AppCompatActivity(), ServiceConnection {
                 selectId = R.mipmap.jjb
             }
 
-            nowState = 0
+            auBinder?.setRun(false)
 
         }
         main_rb_msg.setOnClickListener {
@@ -99,8 +98,7 @@ class MenuActivity : AppCompatActivity(), ServiceConnection {
             main_rb_msg.setRadioTopBitmp(R.mipmap.msg_s)
             selectRadio = main_rb_msg
             selectId = R.mipmap.msg
-
-            nowState = 0
+            auBinder?.setRun(true)
         }
         main_rb_mine.setOnClickListener {
             fragments.clear()
@@ -111,7 +109,7 @@ class MenuActivity : AppCompatActivity(), ServiceConnection {
             main_rb_mine.setRadioTopBitmp(R.mipmap.mine_s)
             selectRadio = main_rb_mine
             selectId = R.mipmap.mine
-            nowState = 0
+            auBinder?.setRun(true)
         }
 //            }
 
@@ -161,9 +159,6 @@ class MenuActivity : AppCompatActivity(), ServiceConnection {
         auBinder?.setCallBack(object : AutoUpdateService.AutoUpdateCall {
             override fun setMsgNum(num: Boolean) {
                 runOnUiThread {
-                    if (showFragment is MsgFragment) {
-                        return@runOnUiThread
-                    }
                     if (num) {
                         var dra = resources.getDrawable(R.mipmap.msg_red)
                         dra.setBounds(0, 0, dra.getMinimumWidth(), dra.getMinimumHeight())
@@ -249,7 +244,6 @@ class MenuActivity : AppCompatActivity(), ServiceConnection {
                 supportFragmentManager, R.id.main_ll)
         fragments.add(showFragment!!)
         showFragment = initFragment
-        nowState++
     }
 
 
@@ -333,7 +327,6 @@ class MenuActivity : AppCompatActivity(), ServiceConnection {
                     supportFragmentManager, R.id.main_ll)
             showFragment = fragments[fragments.size - 1]
             fragments.removeAt(fragments.size - 1)
-            nowState--
             if (showFragment is HomeFragment) {
                 removeData("RoomList")
                 removeData("cwpkid")

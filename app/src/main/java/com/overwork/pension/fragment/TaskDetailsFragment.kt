@@ -455,6 +455,9 @@ class TaskDetailsFragment : Fragment() {
                 if (uri?.path != null) {
                     var upImage = File(uri.path)
                     val img = uri?.getCameraImg(menuActivity)
+                    if(img==null){
+                        return
+                    }
                     upImage = saveBitmapFile(img!!, menuActivity.filesDir.absolutePath + "img.jpg")
                     addImage(upImage, "", "").setImageBitmap(img)
                     upLoadImage(upImage, 1)
@@ -464,11 +467,18 @@ class TaskDetailsFragment : Fragment() {
             }
             GALLERY_REQUEST -> {
                 val uri = data?.data
-                addImage(uri?.toFile(menuActivity), "", "").setImageBitmap(uri?.handleImageOnKitKat(menuActivity))
-                upLoadImage(uri?.toFile(menuActivity), 1)
+                val file=uri?.toFile(menuActivity)
+                if (file==null){
+                    return
+                }
+                addImage(file, "", "").setImageBitmap(uri?.handleImageOnKitKat(menuActivity))
+                upLoadImage(file, 1)
             }
             SOUND -> {
                 val uri = data?.data
+                if (uri==null){
+                    return
+                }
                 addSound(uri, null, "")
                 upLoadImage(uri?.toFile(menuActivity), 2)
             }
