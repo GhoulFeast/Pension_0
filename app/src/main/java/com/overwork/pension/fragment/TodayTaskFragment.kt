@@ -94,7 +94,7 @@ class TodayTaskFragment : Fragment() {
         showTime = taskTimeList.get(position)["taskTime"].toString()
     }
 
-    fun getTaskList(): Unit {
+    fun getTaskList(needNext: Boolean): Unit {
         Http.post {
             url = BASEURL + T_TASK
             "userId" - userId
@@ -117,15 +117,16 @@ class TodayTaskFragment : Fragment() {
                     } else {
                         if (todaytask_rv != null) {
                             thisTaskList.clear()
-                            taskStepViewRvAdapter.selectPosion = taskStepViewRvAdapter.selectPosion + 1
-//                        todaytask_rv.scrollToPosition(taskStepViewRvAdapter.selectPosion - 2)
-                            linearLayoutManager.scrollToPositionWithOffset(taskStepViewRvAdapter.selectPosion - 2, 0)
-                            showTime = taskTimeList.get(taskStepViewRvAdapter.selectPosion)["taskTime"].toString()
-                            taskStepViewRvAdapter.notifyDataSetChanged()
-                            if (!showTime.equals("6:30")) {
-                                getTaskList()
-                            } else {
-                                "今日已无任务".toast(menuActivity)
+                            if (needNext) {
+                                taskStepViewRvAdapter.selectPosion = taskStepViewRvAdapter.selectPosion + 1
+                                linearLayoutManager.scrollToPositionWithOffset(taskStepViewRvAdapter.selectPosion - 2, 0)
+                                showTime = taskTimeList.get(taskStepViewRvAdapter.selectPosion)["taskTime"].toString()
+                                taskStepViewRvAdapter.notifyDataSetChanged()
+                                if (!showTime.equals("6:30")) {
+                                    getTaskList(true)
+                                } else {
+                                    "今日已无任务".toast(menuActivity)
+                                }
                             }
 
 
@@ -182,14 +183,14 @@ class TodayTaskFragment : Fragment() {
                 linearLayoutManager.scrollToPositionWithOffset(taskStepViewRvAdapter.selectPosion - 2, 0)
                 showTime = taskTimeList.get(postion)["taskTime"].toString()
                 taskStepViewRvAdapter.notifyDataSetChanged()
-                getTaskList()
+                getTaskList(false)
 //                thisTaskList.clear()
 //                thisTaskList.addAll(taskList.get(postion)["links"] as ArrayList<MutableMap<String, Any>>)
 //                todayTaskAdapter.notifyDataSetChanged()
             }
         })
         intoTime()
-        getTaskList()
+        getTaskList(true)
     }
 
 }
