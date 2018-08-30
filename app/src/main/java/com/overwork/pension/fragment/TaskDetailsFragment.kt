@@ -410,8 +410,8 @@ class TaskDetailsFragment : Fragment() {
                         abnormal = mut["abnormal"].toString()
                         task_details_picll.removeAllViews()//重置图片数据
                         imageList.clear()
-                        for (img in mut["imageUrl"] as List<MutableMap<String, Any>>) {
 
+                        for (img in mut["imageUrl"] as List<MutableMap<String, Any>>) {
                             Glide.with(menuActivity).load(UP_IMAGE + img["wjmc"].toString()).asBitmap().placeholder(R.mipmap.picture).error(R.mipmap.picture).into(object : SimpleTarget<Bitmap>() {
                                 override fun onResourceReady(resource: Bitmap, glideAnimation: GlideAnimation<in Bitmap>) {
                                     addImage(null, UP_IMAGE + img["wjmc"].toString(), img["fb1id"].toString()).setImageBitmap(resource)
@@ -520,7 +520,7 @@ class TaskDetailsFragment : Fragment() {
 
     fun addImage(file: File?, imageURL: String?, id: String): ImageView {
         val newImg = ImageView(menuActivity)
-        val lp = ViewGroup.LayoutParams(task_details_photograph.width + 24, task_details_photograph.height + 24)
+        val lp = ViewGroup.LayoutParams(task_details_photograph.width + 48, task_details_photograph.height + 48)
         newImg.setLayoutParams(lp);
         newImg.setPadding(24, 24, 24, 24)
         newImg.scaleType = ImageView.ScaleType.CENTER_CROP
