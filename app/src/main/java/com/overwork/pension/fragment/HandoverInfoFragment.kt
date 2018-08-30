@@ -47,6 +47,8 @@ class HandoverInfoFragment : Fragment(), ServiceConnection {
         val intent = Intent(activity, IsHandoverService::class.java)
         activity.bindService(intent, this@HandoverInfoFragment, Context.BIND_AUTO_CREATE)
         activity.startService(intent)
+        class_handover_tv.isEnabled = false
+        class_handover_tv.alpha = 0.3f
     }
 
     fun getData(): Unit {
