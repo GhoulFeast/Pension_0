@@ -5,6 +5,7 @@ import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -25,33 +26,41 @@ import java.util.*
 val TodayTaskID = "TodayTaskID"
 val lrId = "lrid"
 val zbpkId = "zbpkId"
+var selecttime = ""
 
 class TodayTaskFragment : Fragment() {
     var time = ""
     var showTime = ""
-//    var taskList: ArrayList<MutableMap<String, Any>> = ArrayList<MutableMap<String, Any>>()
+    //    var taskList: ArrayList<MutableMap<String, Any>> = ArrayList<MutableMap<String, Any>>()
     var taskTimeList: ArrayList<MutableMap<String, Any>> = ArrayList<MutableMap<String, Any>>()
     var thisTaskList: ArrayList<MutableMap<String, Any>> = ArrayList<MutableMap<String, Any>>()
-    lateinit var linearLayoutManager :LinearLayoutManager;
+    lateinit var linearLayoutManager: LinearLayoutManager;
 
-    var pkid=""
+    var pkid = ""
     lateinit var taskStepViewRvAdapter: TaskStepViewRvAdapter
     lateinit var todayTaskAdapter: TodayTaskAdapter
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater?.inflate(R.layout.fragment_today_task, container, false)
         (activity as MenuActivity).style {
             textBar = ""
-            titleBar=resources.getString(R.string.today_task)
+            titleBar = resources.getString(R.string.today_task)
         }
-        if (userType.equals("2")){//如果是主管，改变状态为主管添加
-            CZLX="03"
+        if (userType.equals("2")) {//如果是主管，改变状态为主管添加
+            CZLX = "03"
         }
         return view
     }
 
     fun intoTime() {
+        taskTimeList.clear()
         var position = 0;
         var thisTime = Calendar.getInstance()
+        if (!TextUtils.isEmpty(selecttime)) {
+            var times = selecttime.split(":")
+            thisTime.set(Calendar.MINUTE, times.get(1).toInt())
+            thisTime.set(Calendar.HOUR_OF_DAY, times.get(0).toInt())
+            selecttime = ""
+        }
         var minute: Int;
         if (thisTime.get(Calendar.MINUTE) >= 30)
             minute = 30
@@ -81,7 +90,7 @@ class TodayTaskFragment : Fragment() {
         taskStepViewRvAdapter.selectPosion = position
         taskStepViewRvAdapter.notifyDataSetChanged()
 //        todaytask_rv.scrollToPosition(position - 2)
-        linearLayoutManager.scrollToPositionWithOffset(taskStepViewRvAdapter.selectPosion - 2,0)
+        linearLayoutManager.scrollToPositionWithOffset(taskStepViewRvAdapter.selectPosion - 2, 0)
         showTime = taskTimeList.get(position)["taskTime"].toString()
     }
 
@@ -90,44 +99,44 @@ class TodayTaskFragment : Fragment() {
             url = BASEURL + T_TASK
             "userId" - userId
             "kssj" - showTime
-            if ((activity as MenuActivity).hasData(lrId)){
+            if ((activity as MenuActivity).hasData(lrId)) {
                 "lrpkid" - (activity as MenuActivity).getData<String>(lrId)
 //                (activity as MenuActivity).removeData(lrId)
             }
-            if((activity as MenuActivity).hasData("cwpkid")){//有cwpkid时加参
-                "cwpkid"-(activity as MenuActivity).getData<String>("cwpkid")
+            if ((activity as MenuActivity).hasData("cwpkid")) {//有cwpkid时加参
+                "cwpkid" - (activity as MenuActivity).getData<String>("cwpkid")
 //                (activity as MenuActivity).removeData("cwpkid")
             }
             "userType" - userType
             success {
                 menuActivity.runOnUiThread {
-                if ((!"status").equals("200")){
-                    time = "result".."taskTime"
-                    thisTaskList.clear()
-                    thisTaskList.addAll("result".."links")
-                }else{
-                    if (todaytask_rv!=null){
+                    if ((!"status").equals("200")) {
+                        time = "result".."taskTime"
                         thisTaskList.clear()
-                        taskStepViewRvAdapter.selectPosion = taskStepViewRvAdapter.selectPosion+1
+                        thisTaskList.addAll("result".."links")
+                    } else {
+                        if (todaytask_rv != null) {
+                            thisTaskList.clear()
+                            taskStepViewRvAdapter.selectPosion = taskStepViewRvAdapter.selectPosion + 1
 //                        todaytask_rv.scrollToPosition(taskStepViewRvAdapter.selectPosion - 2)
-                        linearLayoutManager.scrollToPositionWithOffset(taskStepViewRvAdapter.selectPosion - 2,0)
-                        showTime = taskTimeList.get(taskStepViewRvAdapter.selectPosion)["taskTime"].toString()
-                        taskStepViewRvAdapter.notifyDataSetChanged()
-                        if (!showTime.equals("7:00")){
-                            getTaskList()
-                        }else{
-                            "今日已无任务".toast(menuActivity)
+                            linearLayoutManager.scrollToPositionWithOffset(taskStepViewRvAdapter.selectPosion - 2, 0)
+                            showTime = taskTimeList.get(taskStepViewRvAdapter.selectPosion)["taskTime"].toString()
+                            taskStepViewRvAdapter.notifyDataSetChanged()
+                            if (!showTime.equals("7:00")) {
+                                getTaskList()
+                            } else {
+                                "今日已无任务".toast(menuActivity)
+                            }
+
+
                         }
-
-
-                    }
 
 //                    val posion=taskStepViewRvAdapter.selectPosion
 //                    taskStepViewRvAdapter.selectPosion = posion+1
 //                    taskStepViewRvAdapter.notifyDataSetChanged()
 //                    todaytask_rv.scrollToPosition(posion)
 //                    showTime = taskTimeList.get(posion)["taskTime"].toString()
-                }
+                    }
 
 //                for (mut: MutableMap<String, Any> in taskList) {
 //                    if (mut["taskState"].toString().toInt() == 3) {
@@ -138,7 +147,7 @@ class TodayTaskFragment : Fragment() {
 //                }
                     todayTaskAdapter.notifyDataSetChanged()
                     taskStepViewRvAdapter.notifyDataSetChanged()
-                    todayTaskAdapter.showTime=showTime
+                    todayTaskAdapter.showTime = showTime
                 }
             }
         }
@@ -150,11 +159,11 @@ class TodayTaskFragment : Fragment() {
 //        todayTaskAdapter.isRoom = (activity as MenuActivity).hasData(lrId)
         taskStepViewRvAdapter = TaskStepViewRvAdapter(activity, taskTimeList)
 //        todaytask_rv.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
-        linearLayoutManager=LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
-        todaytask_rv.layoutManager =linearLayoutManager
+        linearLayoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
+        todaytask_rv.layoutManager = linearLayoutManager
         todaytask_rv.adapter = taskStepViewRvAdapter;
         todaytask_list.adapter = todayTaskAdapter
-        todayTaskAdapter.showTime=showTime
+        todayTaskAdapter.showTime = showTime
 //        todaytask_list.setOnItemClickListener { adapterView: AdapterView<*>, view1: View, i: Int, l: Long ->
 //            var taskDetailsFragment = TaskDetailsFragment();
 //            var bd = Bundle()
@@ -170,7 +179,7 @@ class TodayTaskFragment : Fragment() {
             override fun OnItem(postion: Int) {
                 taskStepViewRvAdapter.selectPosion = postion
 //                todaytask_rv.scrollToPosition(postion - 2)
-                linearLayoutManager.scrollToPositionWithOffset(taskStepViewRvAdapter.selectPosion - 2,0)
+                linearLayoutManager.scrollToPositionWithOffset(taskStepViewRvAdapter.selectPosion - 2, 0)
                 showTime = taskTimeList.get(postion)["taskTime"].toString()
                 taskStepViewRvAdapter.notifyDataSetChanged()
                 getTaskList()
