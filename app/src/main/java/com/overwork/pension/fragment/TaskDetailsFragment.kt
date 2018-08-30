@@ -212,6 +212,7 @@ class TaskDetailsFragment : Fragment() {
     fun intoTime() {
         var thisTime = Calendar.getInstance()
         if (!TextUtils.isEmpty(arguments.get("time").toString())) {
+            selecttime = arguments.get("time").toString()
             var times = arguments.get("time").toString().split(":")
             thisTime.set(Calendar.MINUTE, times.get(1).toInt())
             thisTime.set(Calendar.HOUR_OF_DAY, times.get(0).toInt())
@@ -302,12 +303,12 @@ class TaskDetailsFragment : Fragment() {
                         fjxxpkid = mut["fjxxpkid"].toString()
                         when (mut["abnormalType"].toString()) {
                             "01" -> {
-                                abnormalType="01"
+                                abnormalType = "01"
                                 task_details_record_needhelp.isChecked = true
                                 task_details_record_ll.visibility = View.VISIBLE
                             }
                             "02" -> {
-                                abnormalType="02"
+                                abnormalType = "02"
                                 task_details_record_have.isChecked = true
                                 task_details_record_ll.visibility = View.VISIBLE
                             }
@@ -315,7 +316,7 @@ class TaskDetailsFragment : Fragment() {
                         }
 
                         task_details_context.setText(mut["abnormal"].toString())
-                        abnormal=mut["abnormal"].toString()
+                        abnormal = mut["abnormal"].toString()
                         task_details_picll.removeAllViews()//重置图片数据
                         imageList.clear()
                         for (img in mut["imageUrl"] as List<MutableMap<String, Any>>) {
@@ -404,7 +405,7 @@ class TaskDetailsFragment : Fragment() {
                             }
                         }
                         task_details_context.setText(mut["abnormal"].toString())
-                        abnormal=mut["abnormal"].toString()
+                        abnormal = mut["abnormal"].toString()
                         task_details_picll.removeAllViews()//重置图片数据
                         imageList.clear()
                         for (img in mut["imageUrl"] as List<MutableMap<String, Any>>) {
@@ -434,12 +435,12 @@ class TaskDetailsFragment : Fragment() {
 
     fun setSimple() {
         val han = Handler()
-        han.postDelayed( {
+        han.postDelayed({
             task_details_ll_1.visibility = View.GONE
             task_details_ll_2.visibility = View.GONE
             task_details_ll_3.visibility = View.GONE
             task_details_ll_4.visibility = View.GONE
-        },300)
+        }, 300)
         isSimple = true
 
     }
@@ -451,8 +452,8 @@ class TaskDetailsFragment : Fragment() {
                 val uri = getCameraUri()
                 if (uri?.path != null) {
                     var upImage = File(uri.path)
-                    val img=uri?.getCameraImg(menuActivity)
-                    upImage= saveBitmapFile(img!!,menuActivity.filesDir.absolutePath+"img.jpg")
+                    val img = uri?.getCameraImg(menuActivity)
+                    upImage = saveBitmapFile(img!!, menuActivity.filesDir.absolutePath + "img.jpg")
                     addImage(upImage, "", "").setImageBitmap(img)
                     upLoadImage(upImage, 1)
                 } else {
@@ -694,7 +695,7 @@ class TaskDetailsFragment : Fragment() {
     fun saveBitmapFile(bitmap: Bitmap, filepath: String): File {
         val file = File(filepath)//将要保存图片的路径
         try {
-            val bos = BufferedOutputStream( FileOutputStream (file))
+            val bos = BufferedOutputStream(FileOutputStream(file))
             bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bos)
             bos.flush()
             bos.close()
