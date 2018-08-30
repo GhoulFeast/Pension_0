@@ -34,10 +34,10 @@ object UseFragmentManager {
         if (from==null){
             ft.add(containerViewId, to)
             ft.show(to)
-            ft.commit()
+            ft.commitAllowingStateLoss()
         }else{
             ft.replace(containerViewId,to)
-            ft.commit()
+            ft.commitAllowingStateLoss()
         }
 
     }

@@ -13,7 +13,6 @@ import com.aisino.tool.log
 import com.aisino.tool.toast
 import com.hq.kbase.network.Http
 import com.overwork.pension.R
-import com.overwork.pension.activity.FRQRCODE
 import com.overwork.pension.activity.MenuActivity
 import com.overwork.pension.activity.QRCODE
 import com.overwork.pension.activity.menuActivity
@@ -104,8 +103,8 @@ class HandoverDirectorFragment : Fragment() {
             success {
                 menuActivity.runOnUiThread {
                     if ((!"status").equals("200")) {
-                        val isJ: String = "result".."isHandove"
-                        if (isJ.toBoolean()) {
+                        val isJ: Boolean = "result".."isHandove"
+                        if (isJ) {
                             Http.post {
                                 url = BASEURL + T_HANDOVERDIRECTOR
                                 "userId" - userId

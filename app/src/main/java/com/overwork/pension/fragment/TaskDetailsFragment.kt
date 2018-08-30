@@ -320,7 +320,7 @@ class TaskDetailsFragment : Fragment() {
                         imageList.clear()
                         for (img in mut["imageUrl"] as List<MutableMap<String, Any>>) {
 
-                            Glide.with(menuActivity).load(UP_IMAGE + img["wjmc"].toString()).asBitmap().error(R.mipmap.picture).into(object : SimpleTarget<Bitmap>() {
+                            Glide.with(menuActivity).load(UP_IMAGE + img["wjmc"].toString()).asBitmap().placeholder(R.mipmap.picture).error(R.mipmap.picture).into(object : SimpleTarget<Bitmap>() {
                                 override fun onResourceReady(resource: Bitmap, glideAnimation: GlideAnimation<in Bitmap>) {
                                     addImage(null, UP_IMAGE + img["wjmc"].toString(), img["fb1id"].toString()).setImageBitmap(resource)
                                 }
@@ -409,7 +409,7 @@ class TaskDetailsFragment : Fragment() {
                         imageList.clear()
                         for (img in mut["imageUrl"] as List<MutableMap<String, Any>>) {
 
-                            Glide.with(menuActivity).load(UP_IMAGE + img["wjmc"].toString()).asBitmap().error(R.mipmap.picture).into(object : SimpleTarget<Bitmap>() {
+                            Glide.with(menuActivity).load(UP_IMAGE + img["wjmc"].toString()).asBitmap().placeholder(R.mipmap.picture).error(R.mipmap.picture).into(object : SimpleTarget<Bitmap>() {
                                 override fun onResourceReady(resource: Bitmap, glideAnimation: GlideAnimation<in Bitmap>) {
                                     addImage(null, UP_IMAGE + img["wjmc"].toString(), img["fb1id"].toString()).setImageBitmap(resource)
                                 }
