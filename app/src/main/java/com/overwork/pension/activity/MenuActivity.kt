@@ -86,7 +86,7 @@ class MenuActivity : AppCompatActivity(), ServiceConnection {
                 selectId = R.mipmap.jjb
             }
 
-            auBinder?.setRun(false)
+            auBinder?.setRun(true)
 
         }
         main_rb_msg.setOnClickListener {
@@ -98,7 +98,7 @@ class MenuActivity : AppCompatActivity(), ServiceConnection {
             main_rb_msg.setRadioTopBitmp(R.mipmap.msg_s)
             selectRadio = main_rb_msg
             selectId = R.mipmap.msg
-            auBinder?.setRun(true)
+            auBinder?.setRun(false)
         }
         main_rb_mine.setOnClickListener {
             fragments.clear()
@@ -305,10 +305,13 @@ class MenuActivity : AppCompatActivity(), ServiceConnection {
                 }
             }
         }
+
+
+
         if (popupWindow != null) {
             popupWindow?.dismiss()
         }
-        if (showFragment is HomeFragment || showFragment is HandoverInfoFragment || showFragment is MsgFragment || showFragment is MineFragment) {
+        if (showFragment is HomeFragment || showFragment is HandoverInfoFragment || showFragment is MsgFragment || showFragment is MineFragment||showFragment is HandoverEndFragment) {
             if (System.currentTimeMillis() - backPressTime < 1000) {
                 finish()
             } else {

@@ -20,15 +20,15 @@ class HandoverEndFragment : Fragment() {
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         (activity as MenuActivity).style {
-            textBar = ""
-            titleBar="交班完成"
+            textBar = "交班完成"
+//            titleBar="交班完成"
         }
     }
     override fun onHiddenChanged(hidden: Boolean) {
         super.onHiddenChanged(hidden)
         (activity as MenuActivity).style {
-            textBar = ""
-            titleBar = "交班完成"
+            textBar = "交班完成"
+//            titleBar = "交班完成"
         }
     }
 }
