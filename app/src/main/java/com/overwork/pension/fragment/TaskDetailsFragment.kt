@@ -540,9 +540,13 @@ class TaskDetailsFragment : Fragment() {
 
     fun addImage(file: File?, imageURL: String?, id: String): ImageView {
         val newImg = ImageView(menuActivity)
-        val lp = ViewGroup.LayoutParams(task_details_photograph.width + 48, task_details_photograph.height + 48)
+        val lp = ViewGroup.LayoutParams(menuActivity.resources.getDimension(R.dimen.dp_48).toInt() + menuActivity.resources.getDimension(R.dimen.dp_16).toInt()
+                , menuActivity.resources.getDimension(R.dimen.dp_48).toInt() + menuActivity.resources.getDimension(R.dimen.dp_16).toInt())
         newImg.setLayoutParams(lp);
-        newImg.setPadding(24, 24, 24, 24)
+        newImg.setPadding(menuActivity.resources.getDimension(R.dimen.dp_8).toInt(),
+                menuActivity.resources.getDimension(R.dimen.dp_8).toInt(),
+                menuActivity.resources.getDimension(R.dimen.dp_8).toInt(),
+                menuActivity.resources.getDimension(R.dimen.dp_8).toInt())
         newImg.scaleType = ImageView.ScaleType.CENTER_INSIDE
         newImg.setTag(R.id.image_id, imageList.size)
         newImg.setOnClickListener {
