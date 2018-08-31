@@ -390,7 +390,6 @@ class TaskDetailsFragment : Fragment() {
                         }
 
                         measurementProjects.clear()//重置常规项目数据
-
                         measurementProjects.addAll(mut["measurementProject"] as ArrayList<MutableMap<String, Any>>)
                         if (task_details_project_list.adapter == null) {
                             task_details_project_list.adapter = ProjectAdapter(menuActivity, measurementProjects)
@@ -456,7 +455,7 @@ class TaskDetailsFragment : Fragment() {
                         return
                     }
 //                    upImage = saveBitmapFile(img!!, menuActivity.filesDir.absolutePath + "img.jpg")
-                    upImage = saveBitmap(img!!, menuActivity.filesDir.absolutePath + "img.jpg")
+                    upImage = saveBitmap(img!!, menuActivity.filesDir.absolutePath + "imgcamera.jpg")
                     addImage(upImage, "", "").setImageBitmap(img)
                     upLoadImage(upImage, 1)
                 } else {
