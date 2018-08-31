@@ -43,7 +43,10 @@ class TodayTaskAdapter(val activity: FragmentActivity, val taskList: ArrayList<M
             state.background = activity.resources?.getDrawable(R.drawable.border_white)
             state.setTextColor(activity.resources?.getColor(R.color.mainColor)!!)
             state.setPadding(activity.dip2px(24F), activity.dip2px(5F), activity.dip2px(24F), activity.dip2px(5F))
+            state.setOnClickListener{
+                jump(p0)
 
+            }
         }
 //        name.setOnClickListener {
 //            var old = OldInfoFragment()
@@ -54,10 +57,7 @@ class TodayTaskAdapter(val activity: FragmentActivity, val taskList: ArrayList<M
 //
 //
 //        }
-        state.setOnClickListener{
-            jump(p0)
 
-        }
         add.setOnClickListener {
             jump(p0)
 

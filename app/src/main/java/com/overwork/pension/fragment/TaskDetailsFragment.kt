@@ -388,14 +388,27 @@ class TaskDetailsFragment : Fragment() {
                         } else {
                             (task_details_list.adapter as SmallTaskAdapter).notifyDataSetChanged()
                         }
-
-                        measurementProjects.clear()//重置常规项目数据
-                        measurementProjects.addAll(mut["measurementProject"] as ArrayList<MutableMap<String, Any>>)
-                        if (task_details_project_list.adapter == null) {
-                            task_details_project_list.adapter = ProjectAdapter(menuActivity, measurementProjects)
-                        } else {
-                            (task_details_project_list.adapter as ProjectAdapter).notifyDataSetChanged()
+                        var showPro=false//判断常规项目是否可以显示
+                        val projects = mut["measurementProject"] as ArrayList<MutableMap<String, Any>>
+                        for (project in  projects){
+                            if (  project["zt"].toString().equals("1")){
+                                showPro=true
+                                break
+                            }
                         }
+                        measurementProjects.clear()//重置常规项目数据
+                        if (showPro){
+                            task_details_ll_4.visibility = View.VISIBLE
+                            measurementProjects.addAll(mut["measurementProject"] as ArrayList<MutableMap<String, Any>>)
+                            if (task_details_project_list.adapter == null) {
+                                task_details_project_list.adapter = ProjectAdapter(menuActivity, measurementProjects)
+                            } else {
+                                (task_details_project_list.adapter as ProjectAdapter).notifyDataSetChanged()
+                            }
+                        }else{
+                            task_details_ll_4.visibility = View.GONE
+                        }
+
                         if (!task_details_record_needhelp.isChecked && !task_details_record_have.isChecked) {
                             when (mut["abnormalType"].toString()) {
                                 "01" -> task_details_record_needhelp.performClick()
