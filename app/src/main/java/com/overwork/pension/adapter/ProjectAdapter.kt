@@ -94,12 +94,11 @@ class ProjectAdapter(val activity: FragmentActivity, val taskList: ArrayList<Mut
                     }
                 }
             })
-        }else{
-             view = LayoutInflater.from(activity).inflate(R.layout.item_nil_view, null)
+        } else {
+            view = LayoutInflater.from(activity).inflate(R.layout.item_nil_view, null)
 //            view.visibility = View.GONE
 //            view.layoutParams.height=0
         }
-
 
 //        num.setOnFocusChangeListener({ v, hasFocus ->
 //            if (hasFocus) {

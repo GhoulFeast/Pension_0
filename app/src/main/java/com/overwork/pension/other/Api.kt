@@ -1,10 +1,10 @@
 package com.overwork.pension.other
 
 val IP = "110.249.218.70"
-val BASEURL = "http://" + IP + ":8081/appall"//基本
-val UP_HEAD = "http://" + IP + ":8081/upload/"
-val UP_IMAGE = "http://" + IP + ":8081/upload/tpwj/"
-val UP_SOUND = "http://" + IP + ":8081/upload/ypwj/"
+val BASEURL = "http://" + IP + ":8081/yly/appall"//基本
+val UP_HEAD = "http://" + IP + ":8081/yly/upload/"
+val UP_IMAGE = "http://" + IP + ":8081/yly/upload/tpwj/"
+val UP_SOUND = "http://" + IP + ":8081/yly/upload/ypwj/"
 val LOGIN = "/denglu.action"//登陆
 val MSGLIST = "/xxlb.action"//消息列表
 val T_TASK = "/jrrw.action"//今天任务
