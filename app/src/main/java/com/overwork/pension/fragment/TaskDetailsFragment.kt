@@ -43,10 +43,7 @@ import kotlin.collections.ArrayList
 import com.bumptech.glide.request.animation.GlideAnimation
 import com.overwork.pension.activity.menuActivity
 import com.overwork.pension.adapter.TaskStepViewRvAdapter
-import java.io.BufferedOutputStream
-import java.io.File
-import java.io.FileOutputStream
-import java.io.IOException
+import java.io.*
 
 
 val SOUND = 200
@@ -453,12 +450,13 @@ class TaskDetailsFragment : Fragment() {
             CAMERA_REQUEST -> {
                 val uri = getCameraUri()
                 if (uri?.path != null) {
-                    var upImage = File(uri.path)
+                    var upImage : File
                     val img = uri?.getCameraImg(menuActivity)
                     if(img==null){
                         return
                     }
-                    upImage = saveBitmapFile(img!!, menuActivity.filesDir.absolutePath + "img.jpg")
+//                    upImage = saveBitmapFile(img!!, menuActivity.filesDir.absolutePath + "img.jpg")
+                    upImage = saveBitmap(img!!, menuActivity.filesDir.absolutePath + "img.jpg")
                     addImage(upImage, "", "").setImageBitmap(img)
                     upLoadImage(upImage, 1)
                 } else {
@@ -467,12 +465,15 @@ class TaskDetailsFragment : Fragment() {
             }
             GALLERY_REQUEST -> {
                 val uri = data?.data
-                val file=uri?.toFile(menuActivity)
-                if (file==null){
+//                val file=uri?.toFile(menuActivity)
+                val img = uri?.handleImageOnKitKat(menuActivity)
+                if (img==null){
                     return
                 }
-                addImage(file, "", "").setImageBitmap(uri?.handleImageOnKitKat(menuActivity))
-                upLoadImage(file, 1)
+                var upImage :File
+                upImage = saveBitmap(img!!, menuActivity.filesDir.absolutePath + "imggallery.jpg")
+                addImage(upImage, "", "").setImageBitmap(img)
+                upLoadImage(upImage, 1)
             }
             SOUND -> {
                 val uri = data?.data
@@ -715,6 +716,40 @@ class TaskDetailsFragment : Fragment() {
             e.printStackTrace()
         }
         return file
+    }
+
+        /**
+     * bitmap保存为本地图片
+     */
+    fun saveBitmap(mBitmap:Bitmap,url:String) : File {
+//        mBitmap = ImageUtil.compressForScale(mBitmap);
+        val f = File(url)
+        if (f.exists()) {
+            f.delete()
+        }
+        f.createNewFile()
+        val baos = ByteArrayOutputStream()
+        /* options表示 如果不压缩是100，表示压缩率为0。如果是70，就表示压缩率是70，表示压缩30%; */
+        var options = 100
+        mBitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+        while (baos.toByteArray().size / 1024 > 400) {
+            // 循环判断如果压缩后图片是否大于500kb继续压缩
+            baos.reset();
+            options -= 10;
+            // 这里压缩options%，把压缩后的数据存放到baos中
+            mBitmap.compress(Bitmap.CompressFormat.JPEG, options, baos);
+        }
+        try {
+            val out = FileOutputStream(f);
+            out.write(baos.toByteArray());
+            out.flush();
+            out.close();
+        } catch ( e:IOException) {
+            e.printStackTrace();
+        } finally {
+//            mBitmap.recycle();
+        }
+            return f
     }
 
     override fun onHiddenChanged(hidden: Boolean) {
