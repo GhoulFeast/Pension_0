@@ -62,11 +62,11 @@ class HandoverDirectorAdapter(taskList: ArrayList<MutableMap<String, Any>>, acti
             if (map["type"].toString().equals(INFORMATIONTYPE_NEEDFOLLOW)) {
                 var handoverName = "来自" + map.get("handoverName").toString()
                 if (needfollows.contains(handoverName)) {
-                    needfollows.add(needfollows.indexOf(handoverName), String.format(p2.context.resources.getString(R.string.needfollow), map.get("messageContent").toString()))
+                    needfollows.add(needfollows.indexOf(handoverName)+1, String.format(p2.context.resources.getString(R.string.needfollow), map.get("messageContent").toString()))
                 } else {
                     needfollows.add(handoverName)
                 }
-                needfollows.add(map.get("messageContent").toString())
+//                needfollows.add(map.get("messageContent").toString())
             } else if (map["type"].toString().equals(INFORMATIONTYPE_SERIOUS)) {
                 var handoverName = "来自" + map.get("handoverName").toString()
                 if (seriouss.contains(handoverName)) {
@@ -74,7 +74,7 @@ class HandoverDirectorAdapter(taskList: ArrayList<MutableMap<String, Any>>, acti
                 } else {
                     seriouss.add(handoverName)
                 }
-                seriouss.add(map.get("messageContent").toString())
+//                seriouss.add(map.get("messageContent").toString())
             }
         }
         var needFollowsStringB = StringBuilder()
