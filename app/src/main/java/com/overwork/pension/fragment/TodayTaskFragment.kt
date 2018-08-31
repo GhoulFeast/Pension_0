@@ -117,26 +117,20 @@ class TodayTaskFragment : Fragment() {
                     } else {
                         if (todaytask_rv != null) {
                             thisTaskList.clear()
-                            if (needNext) {
-                                taskStepViewRvAdapter.selectPosion = taskStepViewRvAdapter.selectPosion + 1
-                                linearLayoutManager.scrollToPositionWithOffset(taskStepViewRvAdapter.selectPosion - 2, 0)
-                                showTime = taskTimeList.get(taskStepViewRvAdapter.selectPosion)["taskTime"].toString()
-                                taskStepViewRvAdapter.notifyDataSetChanged()
-                                if (!showTime.equals("6:30")) {
-                                    getTaskList(true)
-                                } else {
-                                    "今日已无任务".toast(menuActivity)
-                                }
-                            }
-
-
+//                            if (needNext) {//自动遍历
+//                                taskStepViewRvAdapter.selectPosion = taskStepViewRvAdapter.selectPosion + 1
+//                                linearLayoutManager.scrollToPositionWithOffset(taskStepViewRvAdapter.selectPosion - 2, 0)
+//                                showTime = taskTimeList.get(taskStepViewRvAdapter.selectPosion)["taskTime"].toString()
+//                                taskStepViewRvAdapter.notifyDataSetChanged()
+//                                if (!showTime.equals("6:30")) {
+//                                    getTaskList(true)
+//                                } else {
+//                                    "今日已无任务".toast(menuActivity)
+//                                }
+//                            }
+                            ((!"message").toast(menuActivity))
                         }
 
-//                    val posion=taskStepViewRvAdapter.selectPosion
-//                    taskStepViewRvAdapter.selectPosion = posion+1
-//                    taskStepViewRvAdapter.notifyDataSetChanged()
-//                    todaytask_rv.scrollToPosition(posion)
-//                    showTime = taskTimeList.get(posion)["taskTime"].toString()
                     }
 
 //                for (mut: MutableMap<String, Any> in taskList) {
