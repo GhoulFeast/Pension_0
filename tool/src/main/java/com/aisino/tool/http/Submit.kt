@@ -111,7 +111,12 @@ class Submit {
     }
 
     fun success(success: () -> Unit): Unit {
-        _success = success
+        try {
+            _success = success
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+
     }
 
     fun fail(fail: (failMsg: String) -> Unit): Unit {

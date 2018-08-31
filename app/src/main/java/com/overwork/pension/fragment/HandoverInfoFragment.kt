@@ -32,7 +32,7 @@ import kotlinx.android.synthetic.main.fragment_handover.view.*
  */
 
 class HandoverInfoFragment : Fragment() {
-//    private var auBinder: IsHandoverService.Binder? = null
+    //    private var auBinder: IsHandoverService.Binder? = null
     lateinit var handoverInfoAdapter: HandoverInfoAdapter
     var handoverInfos: ArrayList<MutableMap<String, Any>> = ArrayList()
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -73,7 +73,7 @@ class HandoverInfoFragment : Fragment() {
                     if ((!"status").equals("200")) {
                         val isJ: Boolean = "result".."isHandove"
                         if (isJ) {
-                            if (!(menuActivity.showFragment is HandoverEndFragment)){
+                            if (!(menuActivity.showFragment is HandoverEndFragment)) {
                                 menuActivity.showFragment(HandoverEndFragment())
                             }
 //                            auBinder?.setRun(false)
@@ -96,15 +96,23 @@ class HandoverInfoFragment : Fragment() {
                         handoverInfoAdapter.notifyDataSetChanged()
                         for (map: MutableMap<String, Any> in handoverInfos) {
                             if (map.get("isRecheck").toString().equals("N")) {
-                                class_handover_tv.isEnabled = false
-                                class_handover_tv.alpha = 0.3f
+                                try {
+                                    class_handover_tv.isEnabled = false
+                                    class_handover_tv.alpha = 0.3f
+                                } catch (e: Exception) {
+                                    e.printStackTrace()
+                                }
                                 break
                             }
                         }
                     } else {
                         (!"message").toast(menuActivity)
-                        class_handover_tv.isEnabled = false
-                        class_handover_tv.alpha = 0.3f
+                        try {
+                            class_handover_tv.isEnabled = false
+                            class_handover_tv.alpha = 0.3f
+                        } catch (e: Exception) {
+                            e.printStackTrace()
+                        }
                     }
                 }
             }
@@ -132,7 +140,7 @@ class HandoverInfoFragment : Fragment() {
         })
         handoverInfoAdapter.setHandover(object : HandoverInfoAdapter.OnHandover {
             override fun OnHandoverChangeClick(position: Int, b: Boolean) {
-                submitHandover(handoverInfos[position].get("fcjlid").toString(), position,b)
+                submitHandover(handoverInfos[position].get("fcjlid").toString(), position, b)
             }
 
             override fun OnHandoverClick(id: Int) {
@@ -140,7 +148,7 @@ class HandoverInfoFragment : Fragment() {
 //                var bd = Bundle()
 //                bd.putString("time", showTime)
 //                taslDetalis.arguments = bd
-                CZLX="02"
+                CZLX = "02"
                 (activity as MenuActivity).putData(TodayTaskID, handoverInfos[id]["oldId"].toString())
                 (activity as MenuActivity).putData(zbpkId, handoverInfos[id]["zbpkid"].toString())
                 (activity as MenuActivity).showFragment(taslDetalis)
@@ -150,8 +158,7 @@ class HandoverInfoFragment : Fragment() {
     }
 
 
-
-    fun submitHandover(fcjlid: String, position: Int,boolean: Boolean) {
+    fun submitHandover(fcjlid: String, position: Int, boolean: Boolean) {
         val dialog = LoadingDialog(activity);
         dialog.setCanceledOnTouchOutside(false);
         dialog.show();
@@ -159,10 +166,10 @@ class HandoverInfoFragment : Fragment() {
             url = BASEURL + T_SUBMITHANDOVER
             "userId" - userId
             "fcjlid" - fcjlid
-            if (boolean){
-                "fczt"-"Y"
-            }else{
-                "fczt"-"N"
+            if (boolean) {
+                "fczt" - "Y"
+            } else {
+                "fczt" - "N"
             }
 
             success {
