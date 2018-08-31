@@ -93,8 +93,13 @@ class TaskDetailsFragment : Fragment() {
             menuActivity.openCameraAndGalleryWindow()
         }
         task_details_sound.setOnClickListener {
-            val intent = Intent(MediaStore.Audio.Media.RECORD_SOUND_ACTION)
-            startActivityForResult(intent, SOUND)
+            try {
+                val intent = Intent(MediaStore.Audio.Media.RECORD_SOUND_ACTION)
+                startActivityForResult(intent, SOUND)
+            } catch (e: Exception) {
+                "无法使用录音功能".toast(menuActivity)
+            }
+
         }
 //        task_details_save.setOnClickListener {
 //            imageUpLoadList.clear()
@@ -141,10 +146,10 @@ class TaskDetailsFragment : Fragment() {
                     task_details_record_ll.visibility = View.VISIBLE
                 }
             }
-            if (isSimple) {
-                saveAll()
+//            if (isSimple) {
+            saveAll()
 
-            }
+//            }
         }
         task_details_record_have.setOnClickListener {
             when (abnormalType) {
@@ -164,9 +169,9 @@ class TaskDetailsFragment : Fragment() {
                     task_details_record_have.isChecked = false
                 }
             }
-            if (isSimple) {
-                saveAll()
-            }
+//            if (isSimple) {
+            saveAll()
+//            }
         }
         task_details_context.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(p0: Editable?) {
@@ -317,12 +322,7 @@ class TaskDetailsFragment : Fragment() {
                         task_details_picll.removeAllViews()//重置图片数据
                         imageList.clear()
                         for (img in mut["imageUrl"] as List<MutableMap<String, Any>>) {
-
-                            Glide.with(menuActivity).load(UP_IMAGE + img["wjmc"].toString()).asBitmap().placeholder(R.mipmap.picture).error(R.mipmap.picture).into(object : SimpleTarget<Bitmap>() {
-                                override fun onResourceReady(resource: Bitmap, glideAnimation: GlideAnimation<in Bitmap>) {
-                                    addImage(null, UP_IMAGE + img["wjmc"].toString(), img["fb1id"].toString()).setImageBitmap(resource)
-                                }
-                            })
+                           addImage(null, UP_IMAGE + img["wjmc"].toString(), img["fb1id"].toString())
                         }
                         task_details_soull.removeAllViews()
                         soundList.clear()
@@ -408,11 +408,8 @@ class TaskDetailsFragment : Fragment() {
                         imageList.clear()
 
                         for (img in mut["imageUrl"] as List<MutableMap<String, Any>>) {
-                            Glide.with(menuActivity).load(UP_IMAGE + img["wjmc"].toString()).asBitmap().placeholder(R.mipmap.picture).error(R.mipmap.picture).into(object : SimpleTarget<Bitmap>() {
-                                override fun onResourceReady(resource: Bitmap, glideAnimation: GlideAnimation<in Bitmap>) {
-                                    addImage(null, UP_IMAGE + img["wjmc"].toString(), img["fb1id"].toString()).setImageBitmap(resource)
-                                }
-                            })
+                            Log.i("asd", img.toString())
+                          addImage(null, UP_IMAGE + img["wjmc"].toString(), img["fb1id"].toString())
                         }
                         task_details_soull.removeAllViews()
                         soundList.clear()
@@ -449,9 +446,9 @@ class TaskDetailsFragment : Fragment() {
             CAMERA_REQUEST -> {
                 val uri = getCameraUri()
                 if (uri?.path != null) {
-                    var upImage : File
+                    var upImage: File
                     val img = uri?.getCameraImg(menuActivity)
-                    if(img==null){
+                    if (img == null) {
                         return
                     }
 //                    upImage = saveBitmapFile(img!!, menuActivity.filesDir.absolutePath + "img.jpg")
@@ -466,17 +463,17 @@ class TaskDetailsFragment : Fragment() {
                 val uri = data?.data
 //                val file=uri?.toFile(menuActivity)
                 val img = uri?.handleImageOnKitKat(menuActivity)
-                if (img==null){
+                if (img == null) {
                     return
                 }
-                var upImage :File
+                var upImage: File
                 upImage = saveBitmap(img!!, menuActivity.filesDir.absolutePath + "imggallery.jpg")
                 addImage(upImage, "", "").setImageBitmap(img)
                 upLoadImage(upImage, 1)
             }
             SOUND -> {
                 val uri = data?.data
-                if (uri==null){
+                if (uri == null) {
                     return
                 }
                 addSound(uri, null, "")
@@ -523,7 +520,7 @@ class TaskDetailsFragment : Fragment() {
         val lp = ViewGroup.LayoutParams(task_details_photograph.width + 48, task_details_photograph.height + 48)
         newImg.setLayoutParams(lp);
         newImg.setPadding(24, 24, 24, 24)
-        newImg.scaleType = ImageView.ScaleType.CENTER_CROP
+        newImg.scaleType = ImageView.ScaleType.CENTER_INSIDE
         newImg.setTag(R.id.image_id, imageList.size)
         newImg.setOnClickListener {
             imgPopupWindow = (it as ImageView).showFullWindow()
@@ -533,12 +530,18 @@ class TaskDetailsFragment : Fragment() {
             "长按删除图片".toast(menuActivity)
             return@setOnLongClickListener true
         }
-        task_details_picll.addView(newImg)
+        Log.i("asd", imageURL.toString())
         if (file == null) {
+            Glide.with(menuActivity).load(imageURL.toString())
+//                    .placeholder(R.mipmap.picture)
+                    .error(R.mipmap.picture)
+//                    .dontAnimate()
+                    .into(newImg)
             imageList.add(FileInfo(null, imageURL, id))
         } else {
             imageList.add(FileInfo(file, "", id))
         }
+        task_details_picll.addView(newImg)
         return newImg
     }
 
@@ -717,10 +720,10 @@ class TaskDetailsFragment : Fragment() {
         return file
     }
 
-        /**
+    /**
      * bitmap保存为本地图片
      */
-    fun saveBitmap(mBitmap:Bitmap,url:String) : File {
+    fun saveBitmap(mBitmap: Bitmap, url: String): File {
 //        mBitmap = ImageUtil.compressForScale(mBitmap);
         val f = File(url)
         if (f.exists()) {
@@ -743,12 +746,12 @@ class TaskDetailsFragment : Fragment() {
             out.write(baos.toByteArray());
             out.flush();
             out.close();
-        } catch ( e:IOException) {
+        } catch (e: IOException) {
             e.printStackTrace();
         } finally {
 //            mBitmap.recycle();
         }
-            return f
+        return f
     }
 
     override fun onHiddenChanged(hidden: Boolean) {
