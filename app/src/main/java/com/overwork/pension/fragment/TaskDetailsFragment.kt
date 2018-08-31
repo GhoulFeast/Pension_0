@@ -183,6 +183,7 @@ class TaskDetailsFragment : Fragment() {
 
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
                 abnormal = p0.toString()
+                saveAll()
             }
 
         })
@@ -322,7 +323,7 @@ class TaskDetailsFragment : Fragment() {
                         task_details_picll.removeAllViews()//重置图片数据
                         imageList.clear()
                         for (img in mut["imageUrl"] as List<MutableMap<String, Any>>) {
-                           addImage(null, UP_IMAGE + img["wjmc"].toString(), img["fb1id"].toString())
+                            addImage(null, UP_IMAGE + img["wjmc"].toString(), img["fb1id"].toString())
                         }
                         task_details_soull.removeAllViews()
                         soundList.clear()
@@ -337,7 +338,7 @@ class TaskDetailsFragment : Fragment() {
         }
     }
 
-    fun initList(zbpkid: String = "-1", hlrwpkid: String = "-1"): Unit {
+    fun initList(): Unit {
         Http.post {
             url = BASEURL + THIS_TIME_TASK
 //            if (!CZLX.equals("02")) {
@@ -345,12 +346,12 @@ class TaskDetailsFragment : Fragment() {
 //            }
 //            "zbpkid"-zbpkids
 //            "lrid"-lrid
-            if (zbpkid.equals("-1")) {//zbpkid未赋值时使用缓存
+//            if (zbpkid.equals("-1")) {//zbpkid未赋值时使用缓存
 //                "zbpkid" - (activity as MenuActivity).getData<String>(zbpkId)
-            } else {
-                "hlrwId" - hlrwpkid
+//            } else {
+//                "hlrwId" - hlrwpkid
 //                "zbpkid" - zbpkid
-            }
+//            }
 //            "lrid" - (activity as MenuActivity).getData<String>(lrId)//老人id
             "czlx" - CZLX
             "userId" - userId
@@ -388,16 +389,16 @@ class TaskDetailsFragment : Fragment() {
                         } else {
                             (task_details_list.adapter as SmallTaskAdapter).notifyDataSetChanged()
                         }
-                        var showPro=false//判断常规项目是否可以显示
+                        var showPro = false//判断常规项目是否可以显示
                         val projects = mut["measurementProject"] as ArrayList<MutableMap<String, Any>>
-                        for (project in  projects){
-                            if (  project["zt"].toString().equals("1")){
-                                showPro=true
+                        for (project in projects) {
+                            if (project["zt"].toString().equals("1")) {
+                                showPro = true
                                 break
                             }
                         }
                         measurementProjects.clear()//重置常规项目数据
-                        if (showPro){
+                        if (showPro) {
                             task_details_ll_4.visibility = View.VISIBLE
                             measurementProjects.addAll(mut["measurementProject"] as ArrayList<MutableMap<String, Any>>)
                             if (task_details_project_list.adapter == null) {
@@ -405,24 +406,33 @@ class TaskDetailsFragment : Fragment() {
                             } else {
                                 (task_details_project_list.adapter as ProjectAdapter).notifyDataSetChanged()
                             }
-                        }else{
+                        } else {
                             task_details_ll_4.visibility = View.GONE
-                        }
-
-                        if (!task_details_record_needhelp.isChecked && !task_details_record_have.isChecked) {
-                            when (mut["abnormalType"].toString()) {
-                                "01" -> task_details_record_needhelp.performClick()
-                                "02" -> task_details_record_have.performClick()
-                            }
                         }
                         task_details_context.setText(mut["abnormal"].toString())
                         abnormal = mut["abnormal"].toString()
+
+                        if (!task_details_record_needhelp.isChecked && !task_details_record_have.isChecked) {
+                            when (mut["abnormalType"].toString()) {
+                                "01" -> {
+                                    abnormalType = "01"
+                                    task_details_record_needhelp.isChecked = true
+                                    task_details_record_ll.visibility = View.VISIBLE
+                                }
+                                "02" -> {
+                                    abnormalType = "02"
+                                    task_details_record_have.isChecked = true
+                                    task_details_record_ll.visibility = View.VISIBLE
+                                }
+                            }
+                        }
+
                         task_details_picll.removeAllViews()//重置图片数据
                         imageList.clear()
 
                         for (img in mut["imageUrl"] as List<MutableMap<String, Any>>) {
                             Log.i("asd", img.toString())
-                          addImage(null, UP_IMAGE + img["wjmc"].toString(), img["fb1id"].toString())
+                            addImage(null, UP_IMAGE + img["wjmc"].toString(), img["fb1id"].toString())
                         }
                         task_details_soull.removeAllViews()
                         soundList.clear()
@@ -698,9 +708,9 @@ class TaskDetailsFragment : Fragment() {
             "zbpkid" - zbpkids
             success {
                 menuActivity.runOnUiThread {
-                    "保存成功".toast(menuActivity)
+                    //                    "保存成功".toast(menuActivity)
 //                    overDialog.dismiss()
-                    if (!isDear) {
+                    if (!isDear && isSimple) {
                         initSimpleList()
                     }
                 }
@@ -708,7 +718,7 @@ class TaskDetailsFragment : Fragment() {
             }
             fail {
                 menuActivity.runOnUiThread {
-                    "网络错误，保存失败".toast(menuActivity)
+                    "网络错误".toast(menuActivity)
 //                    overDialog.dismiss()
                 }
             }
