@@ -474,8 +474,8 @@ class TaskDetailsFragment : Fragment() {
                     if (img == null) {
                         return
                     }
-//                    upImage = saveBitmapFile(img!!, menuActivity.filesDir.absolutePath + "img.jpg")
-                    upImage = saveBitmap(img!!, menuActivity.filesDir.absolutePath + "imgcamera.jpg")
+                    upImage = saveBitmapFile(img!!, menuActivity.filesDir.absolutePath + "imgcamera.jpg")
+//                    upImage = saveBitmap(img!!, menuActivity.filesDir.absolutePath + "imgcamera.jpg")
                     addImage(upImage, "", "").setImageBitmap(img)
                     upLoadImage(upImage, 1)
                 } else {
@@ -490,7 +490,8 @@ class TaskDetailsFragment : Fragment() {
                     return
                 }
                 var upImage: File
-                upImage = saveBitmap(img!!, menuActivity.filesDir.absolutePath + "imggallery.jpg")
+                upImage = saveBitmapFile(img!!, menuActivity.filesDir.absolutePath + "imggallery.jpg")
+//                upImage = saveBitmap(img!!, menuActivity.filesDir.absolutePath + "imggallery.jpg")
                 addImage(upImage, "", "").setImageBitmap(img)
                 upLoadImage(upImage, 1)
             }
@@ -557,7 +558,6 @@ class TaskDetailsFragment : Fragment() {
             "长按删除图片".toast(menuActivity)
             return@setOnLongClickListener true
         }
-        Log.i("asd", imageURL.toString())
         if (file == null) {
             Glide.with(menuActivity).load(imageURL.toString())
 //                    .placeholder(R.mipmap.picture)
@@ -714,9 +714,9 @@ class TaskDetailsFragment : Fragment() {
                 menuActivity.runOnUiThread {
                     //                    "保存成功".toast(menuActivity)
 //                    overDialog.dismiss()
-                    if (!isDear && isSimple) {
-                        initSimpleList()
-                    }
+//                    if (!isDear && isSimple) {
+//                        initSimpleList()
+//                    }
                 }
 
             }
@@ -763,8 +763,8 @@ class TaskDetailsFragment : Fragment() {
         mBitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
         while (baos.toByteArray().size / 1024 > 400) {
             // 循环判断如果压缩后图片是否大于500kb继续压缩
-            baos.reset();
-            options -= 10;
+            baos.reset()
+            options -= 20
             // 这里压缩options%，把压缩后的数据存放到baos中
             mBitmap.compress(Bitmap.CompressFormat.JPEG, options, baos);
         }
