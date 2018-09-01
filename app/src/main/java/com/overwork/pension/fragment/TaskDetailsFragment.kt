@@ -675,6 +675,7 @@ class TaskDetailsFragment : Fragment() {
                     list.removeAt(view.getChildAt(i).getTag(R.id.image_id).toString().toInt())
                 }
             }
+            i++
         }
     }
 
