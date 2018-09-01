@@ -526,8 +526,16 @@ class TaskDetailsFragment : Fragment() {
             }
         }
         newImg.setOnLongClickListener {
-            removeFile(it as ImageView, soundList.get(it.getTag(R.id.image_id).toString().toInt()), 2)
-            "长按删除语音".toast(menuActivity)
+            AlertDialog.Builder(menuActivity)//删除确认框
+                    .setTitle("")
+                    .setMessage("是否删除")
+                    .setPositiveButton("是") { dialog, id ->
+                        removeFile(it as ImageView, soundList.get(it.getTag(R.id.image_id).toString().toInt()), 2)
+                    }
+                    .setNegativeButton("否") { dialog, id -> }
+                    .setCancelable(false)
+                    .show()
+//            "长按删除语音".toast(menuActivity)
             return@setOnLongClickListener true
         }
         newImg.setTag(R.id.image_id, soundList.size)
@@ -554,8 +562,16 @@ class TaskDetailsFragment : Fragment() {
             imgPopupWindow = (it as ImageView).showFullWindow()
         }
         newImg.setOnLongClickListener {
-            removeFile(it as ImageView, imageList.get(it.getTag(R.id.image_id).toString().toInt()), 1)
-            "长按删除图片".toast(menuActivity)
+            AlertDialog.Builder(menuActivity)//删除确认框
+                    .setTitle("")
+                    .setMessage("是否删除")
+                    .setPositiveButton("是") { dialog, id ->
+                        removeFile(it as ImageView, imageList.get(it.getTag(R.id.image_id).toString().toInt()), 1)
+                    }
+                    .setNegativeButton("否") { dialog, id -> }
+                    .setCancelable(false)
+                    .show()
+//            "长按删除图片".toast(menuActivity)
             return@setOnLongClickListener true
         }
         if (file == null) {
@@ -647,6 +663,7 @@ class TaskDetailsFragment : Fragment() {
                 goneViewTo(task_details_soull, path, soundList);
             }
         })
+        uploadDialog.show()
     }
 
     fun goneViewTo(view: LinearLayout, page: File?, list: ArrayList<FileInfo>) {
