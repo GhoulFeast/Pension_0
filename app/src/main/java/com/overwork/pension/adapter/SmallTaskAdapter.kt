@@ -3,6 +3,7 @@ package com.overwork.pension.adapter
 import android.app.AlertDialog
 import android.content.Context
 import android.content.DialogInterface
+import android.graphics.Color
 import android.support.v4.app.FragmentActivity
 import android.view.LayoutInflater
 import android.view.View
@@ -31,63 +32,8 @@ class SmallTaskAdapter(val activity: FragmentActivity, val taskList: ArrayList<M
         var complete = view.findViewById<TextView>(R.id.item_small_complete)
 
         task.setText(taskList[p0]["name"].toString())
-        if (taskList[p0]["isComplete"].toString().equals("Y")) {//是否完成
-            complete.background = activity.resources?.getDrawable(R.drawable.text_green_raid)
-            complete.setTextColor(activity.resources?.getColor(R.color.white)!!)
-            complete.setPadding(activity.dip2px(24F), activity.dip2px(5F), activity.dip2px(24F), activity.dip2px(5F))
-            complete.setOnClickListener {
-                "已完成任务".toast(activity)
-            }
-        } else {
-            if (taskList[p0]["isNecessary"].toString().equals("Y")) {//是否必要
-                complete.background = activity.resources?.getDrawable(R.drawable.border_red)
-                complete.setTextColor(activity.resources?.getColor(R.color.white)!!)
-                complete.setPadding(activity.dip2px(24F), activity.dip2px(5F), activity.dip2px(24F), activity.dip2px(5F))
-            } else {
-                complete.background = activity.resources?.getDrawable(R.drawable.border_white)
-                complete.setTextColor(activity.resources?.getColor(R.color.mainColor)!!)
-                complete.setPadding(activity.dip2px(24F), activity.dip2px(5F), activity.dip2px(24F), activity.dip2px(5F))
-            }
-            complete.setOnClickListener {
-                Http.post {
-                    url = BASEURL + OVER_TASK
-                    "userId" - userId
-                    "zhrwId" - taskList[p0]["zhid"].toString()
-                    success {
-                        menuActivity.runOnUiThread {
-                            when (getAny<String>("status")) {
-                                "200" -> {
-                                    "已完成任务".toast(activity)
-                                    ((activity as MenuActivity).showFragment as TaskDetailsFragment).initList()
-                                }
-                                "300" -> {
-                                    getAny<String>("message").toast(activity)
-                                    ((activity as MenuActivity).showFragment as TaskDetailsFragment).initList()
-                                }
-                                "400" -> {
-                                    var uploadDialog: AlertDialog.Builder = AlertDialog.Builder(activity)
-                                    uploadDialog.setTitle(getAny<String>("message"))
-                                    val zhnr: String = "result".."zhnr"
-                                    uploadDialog.setMessage(zhnr)
-                                    uploadDialog.setNegativeButton("是", { dialogInterface: DialogInterface, i: Int ->
-                                        //                                        val zbpkid: String="result".."zbpkid"//主表id
-//                                        val hlrwpkid: String = "result".."hlrwpkid"
-                                        ((activity as MenuActivity).showFragment as TaskDetailsFragment).initList()
-                                    })
-                                    uploadDialog.setPositiveButton("否", { dialogInterface: DialogInterface, i: Int ->
-                                        dialogInterface.dismiss()
-                                    })
-                                    uploadDialog.show()
-                                }
-                            }
-
-                        }
-                    }
-                }
-            }
-        }
-
-
+        isNecessary(view, p0)
+        isComplete(view, complete, p0)
         return view
     }
 
@@ -101,6 +47,73 @@ class SmallTaskAdapter(val activity: FragmentActivity, val taskList: ArrayList<M
 
     override fun getCount(): Int {
         return taskList.size
+    }
+
+    fun isNecessary(background: View, p0: Int): Unit {
+        if (taskList[p0]["isNecessary"].toString().equals("1")) {//是否必要
+            background.setBackgroundColor(activity.resources?.getColor(R.color.redPrimaryLight)!!)
+        } else {
+            background.setBackgroundColor(activity.resources?.getColor(R.color.white)!!)
+        }
+    }
+
+    fun isComplete(background: View, complete: TextView, p0: Int): Unit {
+        if (taskList[p0]["isComplete"].toString().equals("Y")) {//是否完成
+            complete.background = activity.resources?.getDrawable(R.drawable.text_green_raid)
+            complete.setTextColor(activity.resources?.getColor(R.color.white)!!)
+            complete.setPadding(activity.dip2px(24F), activity.dip2px(5F), activity.dip2px(24F), activity.dip2px(5F))
+            complete.setOnClickListener {
+                "已完成任务".toast(activity)
+            }
+            if (taskList[p0]["isNecessary"].toString().equals("1")) {//是否必要
+                background.setBackgroundColor(activity.resources?.getColor(R.color.color_8d8d8d)!!)
+            }
+        } else {
+            upTask(complete, p0)
+        }
+    }
+
+    fun upTask(complete: TextView, p0: Int): Unit {//完成任务
+        complete.background = activity.resources?.getDrawable(R.drawable.border_white)
+        complete.setTextColor(activity.resources?.getColor(R.color.mainColor)!!)
+        complete.setPadding(activity.dip2px(24F), activity.dip2px(5F), activity.dip2px(24F), activity.dip2px(5F))
+        complete.setOnClickListener {
+            Http.post {
+                url = BASEURL + OVER_TASK
+                "userId" - userId
+                "zhrwId" - taskList[p0]["zhid"].toString()
+                success {
+                    menuActivity.runOnUiThread {
+                        when (getAny<String>("status")) {
+                            "200" -> {
+                                "已完成任务".toast(activity)
+                                ((activity as MenuActivity).showFragment as TaskDetailsFragment).initList()
+                            }
+                            "300" -> {
+                                getAny<String>("message").toast(activity)
+                                ((activity as MenuActivity).showFragment as TaskDetailsFragment).initList()
+                            }
+                            "400" -> {
+                                var uploadDialog: AlertDialog.Builder = AlertDialog.Builder(activity)
+                                uploadDialog.setTitle(getAny<String>("message"))
+                                val zhnr: String = "result".."zhnr"
+                                uploadDialog.setMessage(zhnr)
+                                uploadDialog.setNegativeButton("是", { dialogInterface: DialogInterface, i: Int ->
+                                    //                                        val zbpkid: String="result".."zbpkid"//主表id
+//                                        val hlrwpkid: String = "result".."hlrwpkid"
+                                    ((activity as MenuActivity).showFragment as TaskDetailsFragment).initList()
+                                })
+                                uploadDialog.setPositiveButton("否", { dialogInterface: DialogInterface, i: Int ->
+                                    dialogInterface.dismiss()
+                                })
+                                uploadDialog.show()
+                            }
+                        }
+
+                    }
+                }
+            }
+        }
     }
 }
 
