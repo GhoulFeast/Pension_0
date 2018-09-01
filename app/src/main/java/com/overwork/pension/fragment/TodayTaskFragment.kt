@@ -62,10 +62,12 @@ class TodayTaskFragment : Fragment() {
             selecttime = ""
         }
         var minute: Int;
-        if (thisTime.get(Calendar.MINUTE) >= 30)
-            minute = 30
-        else
+        if (thisTime.get(Calendar.MINUTE) > 30) {
+            thisTime.set(Calendar.HOUR_OF_DAY, thisTime.get(Calendar.HOUR_OF_DAY) + 1)
             minute = 0
+        } else {
+            minute = 30
+        }
         thisTime.set(Calendar.MINUTE, minute)
         var tTime = Calendar.getInstance()
         var i = 0
