@@ -529,10 +529,10 @@ class TaskDetailsFragment : Fragment() {
             AlertDialog.Builder(menuActivity)//删除确认框
                     .setTitle("")
                     .setMessage("是否删除")
-                    .setPositiveButton("是") { dialog, id ->
+                    .setNegativeButton("是") { dialog, id ->
                         removeFile(it as ImageView, soundList.get(it.getTag(R.id.image_id).toString().toInt()), 2)
                     }
-                    .setNegativeButton("否") { dialog, id -> }
+                    .setPositiveButton("否") { dialog, id -> }
                     .setCancelable(false)
                     .show()
 //            "长按删除语音".toast(menuActivity)
@@ -565,10 +565,10 @@ class TaskDetailsFragment : Fragment() {
             AlertDialog.Builder(menuActivity)//删除确认框
                     .setTitle("")
                     .setMessage("是否删除")
-                    .setPositiveButton("是") { dialog, id ->
+                    .setNegativeButton("是") { dialog, id ->
                         removeFile(it as ImageView, imageList.get(it.getTag(R.id.image_id).toString().toInt()), 1)
                     }
-                    .setNegativeButton("否") { dialog, id -> }
+                    .setPositiveButton("否") { dialog, id -> }
                     .setCancelable(false)
                     .show()
 //            "长按删除图片".toast(menuActivity)
