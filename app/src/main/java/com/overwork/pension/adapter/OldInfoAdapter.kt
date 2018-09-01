@@ -2,6 +2,8 @@ package com.overwork.pension.adapter
 
 import android.content.Context
 import android.support.v4.app.FragmentActivity
+import android.text.TextUtils
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,7 +13,7 @@ import com.aisino.tool.widget.ToastAdd
 import com.overwork.pension.R
 import com.overwork.pension.activity.MenuActivity
 
-class OldInfoAdapter(val context: FragmentActivity, val list: ArrayList<MutableMap<String, Any>>):BaseAdapter() {
+class OldInfoAdapter(val context: FragmentActivity, val list: ArrayList<MutableMap<String, Any>>) : BaseAdapter() {
 
     override fun getView(p0: Int, p1: View?, p2: ViewGroup?): View {
         var view = LayoutInflater.from(context).inflate(R.layout.item_oldinfo_abnormal, null)
@@ -23,32 +25,31 @@ class OldInfoAdapter(val context: FragmentActivity, val list: ArrayList<MutableM
         var icontent = view.findViewById<TextView>(R.id.item_old_info_content)
         var image_gv = view.findViewById<GridView>(R.id.item_old_info_image_gv)
         var sound_gv = view.findViewById<GridView>(R.id.item_old_info_sound_gv)
-        room.setText(list[p0]["fjh"].toString()+"房间")
-        times.setText(list[p0]["kssj"].toString()+"-"+list[p0]["jssj"].toString())
-        title.setText(list[p0]["abnormalTitle"].toString() )
-        submit_time.setText(list[p0]["submitTime"].toString() )
-        submit_name.setText(list[p0]["submitName"].toString() )
-        icontent.setText(list[p0]["abnormalContent"].toString() )
-        var img= list[p0]["imageUrl"].toString()
-        val images=ArrayList<String>()
-        while (img.indexOf(",")>0){
-            images.add(img.substring(0, img.indexOf(",")))
-            img=img.substring(img.indexOf(",")+1,img.length )
+        room.setText(list[p0]["fjh"].toString() + "房间")
+        if (list[p0]["lx"].toString().equals("02") || list[p0]["lx"].toString().equals("03")) {
+            times.visibility = View.INVISIBLE
+        } else {
+            times.visibility = View.VISIBLE
+            times.setText(list[p0]["kssj"].toString() + "-" + list[p0]["jssj"].toString())
         }
-        if (img.length>1){
-            images.add(img)
+
+        title.setText(list[p0]["abnormalTitle"].toString())
+        submit_time.setText(list[p0]["submitTime"].toString())
+        submit_name.setText(list[p0]["submitName"].toString())
+        icontent.setText(list[p0]["abnormalContent"].toString())
+        var img = list[p0]["imageUrl"].toString()
+        val images = ArrayList<String>()
+        if (!TextUtils.isEmpty(img)) {
+            images.addAll(img.split(","))
         }
-        var sound= list[p0]["soundUrl"].toString()
-        val sounds=ArrayList<String>()
-        while (sound.indexOf(",")>0){
-            sounds.add(sound.substring(0, sound.indexOf(",")))
-            sound=sound.substring(sound.indexOf(",")+1,sound.length )
+
+        var sound = list[p0]["soundUrl"].toString()
+        val sounds = ArrayList<String>()
+        if (!TextUtils.isEmpty(sound)) {
+            sounds.addAll(sound.split(","))
         }
-        if(sound.length>1){
-            sounds.add(sound)
-        }
-        image_gv.adapter=ImageAdapter(context,images,0)
-        sound_gv.adapter=ImageAdapter(context,sounds,1)
+        image_gv.adapter = ImageAdapter(context, images, 0)
+        sound_gv.adapter = ImageAdapter(context, sounds, 1)
         return view
     }
 
