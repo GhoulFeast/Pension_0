@@ -73,6 +73,7 @@ class TaskDetailsFragment : Fragment() {
     var imgPopupWindow: PopupWindow? = null
     var isDear = false
     lateinit var overDialog: LoadingDialog
+    var isOnce=true//是否第一次调研异常文本
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater?.inflate(R.layout.fragment_task_details, null, false)
         return view
@@ -183,7 +184,11 @@ class TaskDetailsFragment : Fragment() {
 
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
                 abnormal = p0.toString()
-                saveAll()
+                if(isOnce){
+                    isOnce=false
+                }else{
+                    saveAll()
+                }
             }
 
         })
@@ -802,7 +807,7 @@ class TaskDetailsFragment : Fragment() {
     override fun onHiddenChanged(hidden: Boolean) {
         super.onHiddenChanged(hidden)
         if (hidden) {
-            saveAll()
+//            saveAll()
             if (imgPopupWindow != null) {
                 imgPopupWindow?.dismiss()
             }
