@@ -21,16 +21,17 @@ class TaskStepViewRvAdapter(var context: Context, var timeArrayList: ArrayList<M
         viewH.item_stepview_ll.layoutParams.height = (context.resources.displayMetrics.widthPixels) / 5
         return viewH
     }
-var selectPosion=0;
+
+    var selectPosion = 0;
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         var mut = timeArrayList.get(position)
         holder.item_stepview_time.setText(mut["taskTime"].toString())
-        if(selectPosion==position){
+        if (selectPosion == position) {
             holder.item_stepview_left.setBackgroundColor(context.resources.getColor(R.color.title_blue))
             holder.item_stepview_right.setBackgroundColor(context.resources.getColor(R.color.title_blue))
             holder.item_stepview_time.setBackgroundResource(R.drawable.text_title_blue_raid)
             holder.item_stepview_time.setTextColor(context.resources.getColor(R.color.white))
-        }else{
+        } else {
             holder.item_stepview_left.setBackgroundColor(context.resources.getColor(R.color.title_blue))
             holder.item_stepview_right.setBackgroundColor(context.resources.getColor(R.color.title_blue))
             holder.item_stepview_time.setBackgroundResource(R.drawable.text_title_blue_fffffff_raid)
