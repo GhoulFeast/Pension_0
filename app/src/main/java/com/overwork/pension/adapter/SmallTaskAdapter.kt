@@ -94,7 +94,7 @@ class SmallTaskAdapter(val activity: FragmentActivity, val taskList: ArrayList<M
                                 var uploadDialog: AlertDialog.Builder = AlertDialog.Builder(activity)
 //                                uploadDialog.setTitle(getAny<String>("message"))
                                 val zhnr: String = "result".."zhnr"
-                                uploadDialog.setMessage(zhnr)
+                                uploadDialog.setMessage("请完成"+zhnr+"的任务")
                                 uploadDialog.setNegativeButton("是", { dialogInterface: DialogInterface, i: Int ->
                                     //                                        val zbpkid: String="result".."zbpkid"//主表id
 //                                        val hlrwpkid: String = "result".."hlrwpkid"
