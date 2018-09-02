@@ -68,12 +68,13 @@ class TaskDetailsFragment : Fragment() {
     val RECORD_TYPE_NEEDHELP = "01"
     val RECORD_TYPE_HAVE = "02"
     var fjxxpkid = ""
+    var isfjxxpkid = false//附件id的锁
 
     var isSimple = false
     var imgPopupWindow: PopupWindow? = null
     var isDear = false
     lateinit var overDialog: LoadingDialog
-    var isOnce=true//是否第一次调研异常文本
+    var isOnce = true//是否第一次调研异常文本
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater?.inflate(R.layout.fragment_task_details, null, false)
         return view
@@ -147,10 +148,10 @@ class TaskDetailsFragment : Fragment() {
                     task_details_record_ll.visibility = View.VISIBLE
                 }
             }
-//            if (isSimple) {
-            saveAll()
+            if (isfjxxpkid) {
+                saveAll()
 
-//            }
+            }
         }
         task_details_record_have.setOnClickListener {
             when (abnormalType) {
@@ -170,9 +171,10 @@ class TaskDetailsFragment : Fragment() {
                     task_details_record_have.isChecked = false
                 }
             }
-//            if (isSimple) {
-            saveAll()
-//            }
+            if (isfjxxpkid) {
+                saveAll()
+            }
+
         }
         task_details_context.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(p0: Editable?) {
@@ -184,9 +186,9 @@ class TaskDetailsFragment : Fragment() {
 
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
                 abnormal = p0.toString()
-                if(isOnce){
-                    isOnce=false
-                }else{
+                if (isOnce) {
+                    isOnce = false
+                } else {
                     saveAll()
                 }
             }
@@ -338,6 +340,7 @@ class TaskDetailsFragment : Fragment() {
                     } else {
                         (!"message").toast(menuActivity)
                     }
+                    isfjxxpkid = true
                 }
             }
         }
@@ -447,7 +450,7 @@ class TaskDetailsFragment : Fragment() {
                     } else {
                         (!"message").toast(menuActivity)
                     }
-
+                    isfjxxpkid = true
                 }
             }
 
@@ -536,7 +539,7 @@ class TaskDetailsFragment : Fragment() {
                     .setMessage("是否删除")
                     .setNegativeButton("是") { dialog, id ->
                         removeFile(it as ImageView, soundList.get(it.getTag(R.id.image_id).toString().toInt()), 2)
-                        isOnce=true
+                        isOnce = true
                     }
                     .setPositiveButton("否") { dialog, id -> }
                     .setCancelable(false)
@@ -573,7 +576,7 @@ class TaskDetailsFragment : Fragment() {
                     .setMessage("是否删除")
                     .setNegativeButton("是") { dialog, id ->
                         removeFile(it as ImageView, imageList.get(it.getTag(R.id.image_id).toString().toInt()), 1)
-                        isOnce=true
+                        isOnce = true
                     }
                     .setPositiveButton("否") { dialog, id -> }
                     .setCancelable(false)
@@ -721,6 +724,12 @@ class TaskDetailsFragment : Fragment() {
 //            }
 //            measurementString = measurementString.substring(1, measurementString.length)
 //        }
+        if (abnormalType.equals("00")) {//状态正常时不上传
+            return
+        }
+        if (fjxxpkid.equals("")) {
+            isfjxxpkid = false
+        }
 
         Http.post {
             url = BASEURL + ABNORMALITY
@@ -739,18 +748,20 @@ class TaskDetailsFragment : Fragment() {
             "zbpkid" - zbpkids
             success {
                 menuActivity.runOnUiThread {
-                    //                    "保存成功".toast(menuActivity)
-//                    overDialog.dismiss()
-//                    if (!isDear && isSimple) {
-//                        initSimpleList()
-//                    }
+                    if (fjxxpkid.equals("")) {//如果没有附件信息id上传后刷新
+                        isOnce = true
+                        if (isSimple) {
+                            initSimpleList()
+                        } else {
+                            initList()
+                        }
+                    }
                 }
 
             }
             fail {
                 menuActivity.runOnUiThread {
                     "网络错误".toast(menuActivity)
-//                    overDialog.dismiss()
                 }
             }
         }
