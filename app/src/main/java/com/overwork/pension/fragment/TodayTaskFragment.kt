@@ -1,6 +1,7 @@
 package com.overwork.pension.fragment
 
 import android.os.Bundle
+import android.os.Handler
 import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.LinearLayoutManager
@@ -27,6 +28,7 @@ val TodayTaskID = "TodayTaskID"
 val lrId = "lrid"
 val zbpkId = "zbpkId"
 var selecttime = ""
+//var timePos=-1
 
 class TodayTaskFragment : Fragment() {
     var time = ""
@@ -59,7 +61,7 @@ class TodayTaskFragment : Fragment() {
             var times = selecttime.split(":")
             thisTime.set(Calendar.MINUTE, times.get(1).toInt())
             thisTime.set(Calendar.HOUR_OF_DAY, times.get(0).toInt())
-            selecttime = ""
+//            selecttime = ""
         } else {
             var minute: Int;
             if (thisTime.get(Calendar.MINUTE) > 30) {
@@ -91,10 +93,11 @@ class TodayTaskFragment : Fragment() {
             i++
         }
         taskStepViewRvAdapter.selectPosion = position
-        taskStepViewRvAdapter.notifyDataSetChanged()
 //        todaytask_rv.scrollToPosition(position - 2)
         linearLayoutManager.scrollToPositionWithOffset(taskStepViewRvAdapter.selectPosion - 2, 0)
         showTime = taskTimeList.get(position)["taskTime"].toString()
+        taskStepViewRvAdapter.notifyDataSetChanged()
+
     }
 
     fun getTaskList(needNext: Boolean): Unit {
@@ -173,6 +176,7 @@ class TodayTaskFragment : Fragment() {
 //            (activity as MenuActivity).putData(zbpkId, thisTaskList[i]["zbpkid"]!!)
 //
 //        }
+
         taskStepViewRvAdapter.setStepItemClick(object : TaskStepViewRvAdapter.TaskStepItemClick {
             override fun OnItem(postion: Int) {
                 taskStepViewRvAdapter.selectPosion = postion
@@ -187,7 +191,25 @@ class TodayTaskFragment : Fragment() {
             }
         })
         intoTime()
+        if (!selecttime.equals("")){
+            item()
+        }
         getTaskList(true)
     }
 
+
+    fun item(): Unit {
+        var i=0
+        for (time in taskTimeList){
+            if (time ["taskTime"].toString().equals(selecttime)){
+                break
+            }
+            i++
+        }
+        val h=Handler()
+        h.post {
+            taskStepViewRvAdapter.taskStepItemClick.OnItem(i)
+        }
+        selecttime=""
+    }
 }
