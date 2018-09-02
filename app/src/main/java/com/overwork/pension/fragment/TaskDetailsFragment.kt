@@ -219,9 +219,14 @@ class TaskDetailsFragment : Fragment() {
         }
     }
 
-    fun intoTime() {
+    fun intoTime(time: String = "") {
+        taskStepList.clear()
         var thisTime = Calendar.getInstance()
-        if (!TextUtils.isEmpty(arguments.get("time").toString())) {
+        if (!TextUtils.isEmpty(time)) {
+            var times = time.split(":")
+            thisTime.set(Calendar.MINUTE, times.get(1).toInt())
+            thisTime.set(Calendar.HOUR_OF_DAY, times.get(0).toInt())
+        } else if (!TextUtils.isEmpty(arguments.get("time").toString())) {
             selecttime = arguments.get("time").toString()
             var times = arguments.get("time").toString().split(":")
             thisTime.set(Calendar.MINUTE, times.get(1).toInt())
