@@ -91,7 +91,7 @@ class HandoverDirectorAdapter(taskList: ArrayList<MutableMap<String, Any>>, acti
             serioussStringB.append("<br />")
         }
         if (serioussStringB.length > 0) {
-            serioussStringB.delete(serioussStringB.length - - "<br />".length, serioussStringB.length)
+            serioussStringB.delete(serioussStringB.length - "<br />".length, serioussStringB.length)
             item_class_abnormal_serious_tv.setText(serioussStringB.toString())
         }
         if (needfollows.size == 0) {
