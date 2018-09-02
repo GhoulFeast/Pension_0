@@ -1,15 +1,15 @@
 package com.overwork.pension.other
 
-val IP = "110.249.218.70"
-val BASEURL = "http://" + IP + ":8081/appall"//基本
-val UP_HEAD = "http://" + IP + ":8081/upload/"
-val UP_IMAGE = "http://" + IP + ":8081/upload/tpwj/"
-val UP_SOUND = "http://" + IP + ":8081/upload/ypwj/"
-//val IP = "192.168.43.175"
-//val BASEURL = "http://" + IP + ":8081/yly/appall"//基本
-//val UP_HEAD = "http://" + IP + ":8081/yly/upload/"
-//val UP_IMAGE = "http://" + IP + ":8081/yly/upload/tpwj/"
-//val UP_SOUND = "http://" + IP + ":8081/yly/upload/ypwj/"
+//val IP = "110.249.218.70"
+//val BASEURL = "http://" + IP + ":8081/appall"//基本
+//val UP_HEAD = "http://" + IP + ":8081/upload/"
+//val UP_IMAGE = "http://" + IP + ":8081/upload/tpwj/"
+//val UP_SOUND = "http://" + IP + ":8081/upload/ypwj/"
+val IP = "192.168.43.175"
+val BASEURL = "http://" + IP + ":8081/yly/appall"//基本
+val UP_HEAD = "http://" + IP + ":8081/yly/upload/"
+val UP_IMAGE = "http://" + IP + ":8081/yly/upload/tpwj/"
+val UP_SOUND = "http://" + IP + ":8081/yly/upload/ypwj/"
 val LOGIN = "/denglu.action"//登陆
 val MSGLIST = "/xxlb.action"//消息列表
 val T_TASK = "/jrrw.action"//今天任务
@@ -19,7 +19,7 @@ val T_SUBMITHANDOVER = "/wcfcx.action"//20交班——完成复查项
 val TOMORROW_TASK = "/mrrw.action"//明日任务
 val ABNORMALITY = "/scyc.action"//7异常情况提交
 val THIS_TIME_TASK = "/hlnr.action"//5护理内容
-val T_HANDOVERDIRECTOR = "/jbzghz.action"//交班-主管
+val T_HANDOVERDIRECTOR = "/jbzghz.action"//交班-主管数据
 val AUTO_UPDATE_MSG = "/ifyxiaoxi.action"//新消息
 val MSGLIST_READ = "/ydxx.action"//消息——读
 val OLDMAN_INFO = "/lrxx.action"//老人信息
@@ -29,7 +29,7 @@ val OVER_TASK = "/wczhrwx.action"//17完成照护内容项
 val UP_FILE = "/scfj.action"//上传文件
 val DELET_FILE = "/deleteFj.action"//删除文件
 val IS_HANDOVER = "/ifjbwc.action"//是否交班成功
-val J_HANDOVERDIRECTOR = "/zgsmjb.action"
+val J_HANDOVERDIRECTOR = "/zgsmjb.action"//提交交班
 val SIMPLE_THIS_TIME_TASK = "/fjxx.action"//19异常内容
 
 //val BASEURL = "http://www.mockhttp.cn/mock/"//基本
