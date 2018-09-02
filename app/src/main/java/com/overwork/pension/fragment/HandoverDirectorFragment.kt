@@ -189,8 +189,7 @@ class HandoverDirectorFragment : Fragment() {
 
     fun initViewAndEvent(): Unit {
         (activity as MenuActivity).style {
-            textBar = ""
-            titleBar = "交班"
+            textBar = "交班"
         }
         classAdapter = HandoverDirectorAdapter(classBeans,menuActivity)
         director_rlv.adapter = classAdapter

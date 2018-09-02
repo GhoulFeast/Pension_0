@@ -311,7 +311,7 @@ class MenuActivity : AppCompatActivity(), ServiceConnection {
         if (popupWindow != null) {
             popupWindow?.dismiss()
         }
-        if (showFragment is HomeFragment || showFragment is HandoverInfoFragment || showFragment is MsgFragment || showFragment is MineFragment||showFragment is HandoverEndFragment) {
+        if (showFragment is HomeFragment || showFragment is HandoverInfoFragment || showFragment is MsgFragment || showFragment is MineFragment||showFragment is HandoverEndFragment||showFragment is HandoverDirectorFragment) {
             if (System.currentTimeMillis() - backPressTime < 1000) {
                 finish()
             } else {
