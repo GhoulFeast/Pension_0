@@ -92,12 +92,14 @@ class SmallTaskAdapter(val activity: FragmentActivity, val taskList: ArrayList<M
                             }
                             "400" -> {
                                 var uploadDialog: AlertDialog.Builder = AlertDialog.Builder(activity)
-                                uploadDialog.setTitle(getAny<String>("message"))
+//                                uploadDialog.setTitle(getAny<String>("message"))
                                 val zhnr: String = "result".."zhnr"
                                 uploadDialog.setMessage(zhnr)
                                 uploadDialog.setNegativeButton("是", { dialogInterface: DialogInterface, i: Int ->
                                     //                                        val zbpkid: String="result".."zbpkid"//主表id
 //                                        val hlrwpkid: String = "result".."hlrwpkid"
+                                    ((activity as MenuActivity).showFragment as TaskDetailsFragment).todayTaskID="result".."hlrwpkid"
+
                                     ((activity as MenuActivity).showFragment as TaskDetailsFragment).initList()
                                 })
                                 uploadDialog.setPositiveButton("否", { dialogInterface: DialogInterface, i: Int ->

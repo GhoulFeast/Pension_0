@@ -226,6 +226,7 @@ class TaskDetailsFragment : Fragment() {
             var times = time.split(":")
             thisTime.set(Calendar.MINUTE, times.get(1).toInt())
             thisTime.set(Calendar.HOUR_OF_DAY, times.get(0).toInt())
+            selecttime =time
         } else if (!TextUtils.isEmpty(arguments.get("time").toString())) {
             selecttime = arguments.get("time").toString()
             var times = arguments.get("time").toString().split(":")
@@ -386,6 +387,7 @@ class TaskDetailsFragment : Fragment() {
                         val age: String = mut["age"].toString()
                         task_details_age.setText(age + "周岁")
                         val kssj: String = mut["kssj"].toString()
+                        intoTime(kssj)
                         val jssj: String = mut["jssj"].toString()
                         task_details_nursing_time.setText(kssj + " - " + jssj)
                         val meal: String = mut["meal"].toString()
