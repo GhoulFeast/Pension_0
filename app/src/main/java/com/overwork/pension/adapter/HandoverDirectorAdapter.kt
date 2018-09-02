@@ -2,6 +2,7 @@ package com.overwork.pension.adapter
 
 import android.app.Activity
 import android.os.Bundle
+import android.text.Html
 import android.text.method.ScrollingMovementMethod
 import android.util.TypedValue
 import android.view.LayoutInflater
@@ -60,37 +61,37 @@ class HandoverDirectorAdapter(taskList: ArrayList<MutableMap<String, Any>>, acti
         var seriouss = ArrayList<String>()
         for (map: MutableMap<String, Any> in mutables) {//方法多调用一次
             if (map["type"].toString().equals(INFORMATIONTYPE_NEEDFOLLOW)) {
-                var handoverName = "来自" + map.get("handoverName").toString()
-                if (needfollows.contains(handoverName)) {
-                    needfollows.add(needfollows.indexOf(handoverName)+1, String.format(p2.context.resources.getString(R.string.needfollow), map.get("messageContent").toString()))
-                } else {
+                var handoverName = "<font color=\"#22a3e6\">" + "来自" + map.get("handoverName").toString() + "</font>"
+                if (!needfollows.contains(handoverName)) {
                     needfollows.add(handoverName)
                 }
-//                needfollows.add(map.get("messageContent").toString())
+                needfollows.add(needfollows.indexOf(handoverName) + 1, String.format(p2.context.resources.getString(R.string.needfollow), map.get("messageContent").toString()))
             } else if (map["type"].toString().equals(INFORMATIONTYPE_SERIOUS)) {
-                var handoverName = "来自" + map.get("handoverName").toString()
-                if (seriouss.contains(handoverName)) {
-                    seriouss.add(seriouss.indexOf(handoverName), String.format(p2.context.resources.getString(R.string.needfollow), map.get("messageContent").toString()))
-                } else {
+                var handoverName = "<font color=\"#22a3e6\">" + "来自" + map.get("handoverName").toString() + "</font>"
+                if (!seriouss.contains(handoverName)) {
                     seriouss.add(handoverName)
                 }
-//                seriouss.add(map.get("messageContent").toString())
+                seriouss.add(seriouss.indexOf(handoverName) + 1, String.format(p2.context.resources.getString(R.string.needfollow), map.get("messageContent").toString()))
             }
         }
         var needFollowsStringB = StringBuilder()
         for (map: String in needfollows) {
-            needFollowsStringB.append(String.format(p2.context.resources.getString(R.string.next_line), map))
+//            needFollowsStringB.append(String.format(p2.context.resources.getString(R.string.next_line), map))
+            needFollowsStringB.append(map)
+            needFollowsStringB.append("<br />")
         }
         if (needFollowsStringB.length > 0) {
-            needFollowsStringB.delete(needFollowsStringB.length - 1, needFollowsStringB.length)
-            item_class_abnormal_needfollow_tv.setText(needFollowsStringB.toString())
+            needFollowsStringB.delete(needFollowsStringB.length - "<br />".length, needFollowsStringB.length)
+            item_class_abnormal_needfollow_tv.setText(Html.fromHtml(needFollowsStringB.toString()))
         }
         var serioussStringB = StringBuilder()
         for (map: String in seriouss) {
-            serioussStringB.append(String.format(p2.context.resources.getString(R.string.next_line), map))
+//            serioussStringB.append(String.format(p2.context.resources.getString(R.string.next_line), map))
+            serioussStringB.append(map)
+            serioussStringB.append("<br />")
         }
         if (serioussStringB.length > 0) {
-            serioussStringB.delete(serioussStringB.length - 1, serioussStringB.length)
+            serioussStringB.delete(serioussStringB.length - - "<br />".length, serioussStringB.length)
             item_class_abnormal_serious_tv.setText(serioussStringB.toString())
         }
         if (needfollows.size == 0) {
