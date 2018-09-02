@@ -536,6 +536,7 @@ class TaskDetailsFragment : Fragment() {
                     .setMessage("是否删除")
                     .setNegativeButton("是") { dialog, id ->
                         removeFile(it as ImageView, soundList.get(it.getTag(R.id.image_id).toString().toInt()), 2)
+                        isOnce=true
                     }
                     .setPositiveButton("否") { dialog, id -> }
                     .setCancelable(false)
@@ -572,6 +573,7 @@ class TaskDetailsFragment : Fragment() {
                     .setMessage("是否删除")
                     .setNegativeButton("是") { dialog, id ->
                         removeFile(it as ImageView, imageList.get(it.getTag(R.id.image_id).toString().toInt()), 1)
+                        isOnce=true
                     }
                     .setPositiveButton("否") { dialog, id -> }
                     .setCancelable(false)
@@ -615,8 +617,10 @@ class TaskDetailsFragment : Fragment() {
 
             }
             fail {
-                "删除失败".toast(menuActivity)
-                dialog.dismiss()
+                menuActivity.runOnUiThread {
+                    "删除失败".toast(menuActivity)
+                    dialog.dismiss()
+                }
             }
         }
     }

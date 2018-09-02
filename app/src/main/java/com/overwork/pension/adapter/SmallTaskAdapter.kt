@@ -65,9 +65,6 @@ class SmallTaskAdapter(val activity: FragmentActivity, val taskList: ArrayList<M
             complete.setOnClickListener {
                 "已完成任务".toast(activity)
             }
-            if (taskList[p0]["isNecessary"].toString().equals("1")) {//是否必要
-                background.setBackgroundColor(activity.resources?.getColor(R.color.color_8d8d8d)!!)
-            }
         } else {
             upTask(complete, p0)
         }
