@@ -7,6 +7,7 @@ import android.support.v4.content.ContextCompat
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.text.TextUtils
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -28,7 +29,6 @@ val TodayTaskID = "TodayTaskID"
 val lrId = "lrid"
 val zbpkId = "zbpkId"
 var selecttime = ""
-//var timePos=-1
 
 class TodayTaskFragment : Fragment() {
     var time = ""
@@ -61,7 +61,7 @@ class TodayTaskFragment : Fragment() {
             var times = selecttime.split(":")
             thisTime.set(Calendar.MINUTE, times.get(1).toInt())
             thisTime.set(Calendar.HOUR_OF_DAY, times.get(0).toInt())
-//            selecttime = ""
+            selecttime = ""
         } else {
             var minute: Int;
             if (thisTime.get(Calendar.MINUTE) > 30) {
@@ -86,18 +86,24 @@ class TodayTaskFragment : Fragment() {
                 time = tTime.get(Calendar.MINUTE).toString()
             }
             muMap.put("taskTime", tTime.get(Calendar.HOUR_OF_DAY).toString() + ":" + time)
-            if (thisTime.get(Calendar.HOUR_OF_DAY) == tTime.get(Calendar.HOUR_OF_DAY) && thisTime.get(Calendar.MINUTE) == tTime.get(Calendar.MINUTE)) {
+            if (thisTime.get(Calendar.HOUR_OF_DAY) == tTime.get(Calendar.HOUR_OF_DAY)
+                    && thisTime.get(Calendar.MINUTE) == tTime.get(Calendar.MINUTE)) {
                 position = i;
             }
             taskTimeList.add(muMap)
             i++
         }
         taskStepViewRvAdapter.selectPosion = position
-//        todaytask_rv.scrollToPosition(position - 2)
-        linearLayoutManager.scrollToPositionWithOffset(taskStepViewRvAdapter.selectPosion - 2, 0)
-        showTime = taskTimeList.get(position)["taskTime"].toString()
         taskStepViewRvAdapter.notifyDataSetChanged()
-
+//        todaytask_rv.scrollToPosition(position - 2)
+        showTime = taskTimeList.get(position)["taskTime"].toString()
+        todaytask_rv.post {
+            if (taskStepViewRvAdapter.selectPosion - 2 < 0) {
+                linearLayoutManager.scrollToPositionWithOffset(0, 0)
+            } else {
+                linearLayoutManager.scrollToPositionWithOffset(taskStepViewRvAdapter.selectPosion - 2, 0)
+            }
+        }
     }
 
     fun getTaskList(needNext: Boolean): Unit {
@@ -176,7 +182,6 @@ class TodayTaskFragment : Fragment() {
 //            (activity as MenuActivity).putData(zbpkId, thisTaskList[i]["zbpkid"]!!)
 //
 //        }
-
         taskStepViewRvAdapter.setStepItemClick(object : TaskStepViewRvAdapter.TaskStepItemClick {
             override fun OnItem(postion: Int) {
                 taskStepViewRvAdapter.selectPosion = postion
@@ -191,25 +196,7 @@ class TodayTaskFragment : Fragment() {
             }
         })
         intoTime()
-        if (!selecttime.equals("")){
-            item()
-        }
         getTaskList(true)
     }
 
-
-    fun item(): Unit {
-        var i=0
-        for (time in taskTimeList){
-            if (time ["taskTime"].toString().equals(selecttime)){
-                break
-            }
-            i++
-        }
-        val h=Handler()
-        h.post {
-            taskStepViewRvAdapter.taskStepItemClick.OnItem(i)
-        }
-        selecttime=""
-    }
 }
