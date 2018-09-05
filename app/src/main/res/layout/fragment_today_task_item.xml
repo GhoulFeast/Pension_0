@@ -12,7 +12,7 @@
         android:layout_marginTop="10dp"
         android:layout_marginBottom="10dp"
         android:background="@drawable/border_white"
-        android:layout_width="wrap_content"
+        android:layout_width="92dp"
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
@@ -25,7 +25,7 @@
             android:id="@+id/item_todaytask_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="TextView"
+            android:text="氯化钠"
             android:textColor="@color/mainColor"
             android:textStyle="bold" />
 
@@ -37,7 +37,7 @@
             android:id="@+id/item_todaytask_room"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="TextView"
+            android:text="101"
             android:textColor="@color/mainColor" />
     </LinearLayout>
 
