@@ -92,7 +92,7 @@ class HandoverDirectorAdapter(taskList: ArrayList<MutableMap<String, Any>>, acti
         }
         if (serioussStringB.length > 0) {
             serioussStringB.delete(serioussStringB.length - "<br />".length, serioussStringB.length)
-            item_class_abnormal_serious_tv.setText(serioussStringB.toString())
+            item_class_abnormal_serious_tv.setText(Html.fromHtml(serioussStringB.toString()))
         }
         if (needfollows.size == 0) {
             item_class_abnormal_needfollow_ll_ll.visibility = View.GONE
