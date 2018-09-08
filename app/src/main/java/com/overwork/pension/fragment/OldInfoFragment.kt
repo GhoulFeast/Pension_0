@@ -5,6 +5,7 @@ import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.PopupWindow
 import com.aisino.tool.ani.LoadingDialog
 import com.aisino.tool.log
 import com.hq.kbase.network.Http
@@ -17,6 +18,7 @@ import kotlinx.android.synthetic.main.fragment_oldinfo.*
 
 
 class OldInfoFragment : Fragment() {
+    var  popwindows: PopupWindow?=null
     var oldInfos: ArrayList<MutableMap<String, Any>> = ArrayList()
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater?.inflate(R.layout.fragment_oldinfo, container, false)
@@ -93,7 +95,7 @@ class OldInfoFragment : Fragment() {
                         emergencyBuffer.append(phone2)
                     }
                     old_info_emergency.setText(emergencyBuffer.toString())
-                    old_info_mlv.adapter = OldInfoAdapter(menuActivity, oldInfos)
+                    old_info_mlv.adapter = OldInfoAdapter(this@OldInfoFragment,menuActivity, oldInfos)
                     dialog.dismiss()
                 }
             }

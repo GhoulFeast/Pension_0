@@ -305,6 +305,14 @@ class MenuActivity : AppCompatActivity(), ServiceConnection {
                 }
             }
         }
+        if (showFragment is OldInfoFragment){//护理详情图片消除
+            if((showFragment as OldInfoFragment).popwindows!=null){
+                if ((showFragment as OldInfoFragment).popwindows!!.isShowing){
+                    (showFragment as OldInfoFragment).popwindows?.dismiss()
+                    return
+                }
+            }
+        }
 
 
 
