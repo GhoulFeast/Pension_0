@@ -35,21 +35,21 @@
                 android:text="asdasdasdadad"
                 android:textColor="@color/mainColor"
                 android:textSize="16sp" />
+
             <TextView
                 android:id="@+id/item_old_info_times"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="30dp"
-                android:layout_marginTop="5dp"
                 android:text="asdas"
                 android:textColor="@color/color_8d8d8d"
                 android:textSize="14sp" />
+
             <TextView
                 android:id="@+id/item_old_info_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
-                android:layout_marginTop="5dp"
                 android:text="asdas"
                 android:textColor="@color/color_8d8d8d"
                 android:textSize="14sp" />
