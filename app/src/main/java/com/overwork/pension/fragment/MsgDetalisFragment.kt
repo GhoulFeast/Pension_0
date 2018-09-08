@@ -67,11 +67,12 @@ class MsgDetalisFragment : Fragment() {
                 taskLl.gravity = Gravity.CENTER_VERTICAL
                 var view = View(activity)
                 view.setBackgroundResource(R.color.mainColor)
-                view.layoutParams = LinearLayout.LayoutParams(resources.getDimension(R.dimen.dp_5).toInt(), resources.getDimension(R.dimen.dp_5).toInt())
+                view.layoutParams = LinearLayout.LayoutParams(resources.getDimension(R.dimen.dp_10).toInt(), resources.getDimension(R.dimen.dp_10).toInt())
                 var nullView = TextView(activity)
                 nullView.setText("\t")
                 var taskTv = TextView(activity)
                 taskTv.setTextColor(resources.getColor(R.color.text_black))
+                taskTv.textSize=15f
                 taskTv.setText(map)
                 taskLl.addView(view)
                 taskLl.addView(nullView)

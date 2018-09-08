@@ -20,9 +20,11 @@
             android:layout_height="wrap_content"
             android:text="123"
             android:textColor="@color/mainColor"
-            android:textSize="18sp" />
+            android:textSize="19sp"
+            android:textStyle="bold" />
 
         <com.overwork.pension.other.MyGridView
+            android:layout_marginTop="3dp"
             android:id="@+id/item_room_old_mgv"
             android:layout_width="match_parent"
             android:listSelector="@android:color/transparent"

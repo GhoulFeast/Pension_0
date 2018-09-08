@@ -31,7 +31,8 @@
                     android:layout_height="wrap_content"
                     android:text="名字"
                     android:textColor="@color/mainColor"
-                    android:textSize="18sp" />
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -119,7 +120,8 @@
                     android:layout_height="wrap_content"
                     android:text="近两周异常记录"
                     android:textColor="@color/mainColor"
-                    android:textSize="18sp" />
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
 
                 <com.overwork.pension.other.MyListView
                     android:id="@+id/old_info_mlv"

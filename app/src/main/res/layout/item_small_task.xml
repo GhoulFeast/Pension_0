@@ -1,49 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="horizontal" android:layout_width="match_parent"
-    android:background="@drawable/ll_white_bg"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:gravity="center_vertical">
+    android:background="@drawable/ll_white_bg"
+    android:gravity="center_vertical"
+    android:orientation="horizontal">
 
     <TextView
         android:id="@+id/item_small_task"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="16dp"
-        android:text="TextView"
         android:maxWidth="160dp"
+        android:text="TextView"
         android:textColor="@color/blackPrimary"
         android:textSize="16sp" />
+
     <View
         android:layout_width="wrap_content"
         android:layout_height="0dp"
-        android:layout_weight="1"/>
+        android:layout_weight="1" />
 
-    <TextView
+    <!--<TextView-->
+    <!--android:id="@+id/item_small_complete"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:background="@drawable/text_green_raid"-->
+    <!--android:text="@string/complete"-->
+    <!--android:textSize="16sp"-->
+    <!--android:paddingLeft="16dp"-->
+    <!--android:paddingRight="16dp"-->
+    <!--android:paddingBottom="5dp"-->
+    <!--android:paddingTop="5dp"-->
+    <!--android:layout_margin="4dp"-->
+    <!--android:textColor="@color/white" />-->
+    <CheckBox
         android:id="@+id/item_small_complete"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/text_green_raid"
-        android:text="@string/complete"
-        android:textSize="16sp"
-        android:paddingLeft="16dp"
-        android:paddingRight="16dp"
-        android:paddingBottom="5dp"
-        android:paddingTop="5dp"
         android:layout_margin="4dp"
-        android:textColor="@color/white" />
+        android:clickable="false"
+        android:paddingBottom="5dp"
+        android:paddingLeft="16dp"
+        android:paddingRight="8dp"
+        android:paddingTop="5dp" />
 
     <TextView
-        android:visibility="gone"
         android:id="@+id/item_small_add"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="+"
         android:layout_margin="12dp"
         android:background="@drawable/border_white"
-        android:textColor="@color/mainColor"
         android:paddingLeft="14dp"
         android:paddingRight="14dp"
+        android:text="+"
+        android:textColor="@color/mainColor"
         android:textSize="18sp"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        android:visibility="gone" />
 </LinearLayout>

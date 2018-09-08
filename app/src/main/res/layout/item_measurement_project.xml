@@ -9,7 +9,7 @@
         android:id="@+id/item_project_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="16dp"
+        android:layout_margin="8dp"
         android:text="textview"
         android:textColor="@color/blackPrimary" />
 
@@ -21,6 +21,30 @@
         android:singleLine="true"
         android:background="@drawable/editview_bg"
         android:minWidth="80dp" />
+
+    <LinearLayout
+        android:visibility="gone"
+        android:id="@+id/project_other_ll"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <TextView
+            android:id="@+id/item_project_name_other"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:text="textview"
+            android:textColor="@color/blackPrimary" />
+
+        <EditText
+            android:id="@+id/item_project_num_other"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:maxLength="10"
+            android:singleLine="true"
+            android:background="@drawable/editview_bg"
+            android:minWidth="80dp" />
+    </LinearLayout>
     <!--<View-->
         <!--android:layout_width="wrap_content"-->
         <!--android:layout_height="0dp"-->

@@ -9,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
+import android.widget.CheckBox
 import android.widget.TextView
 import com.aisino.tool.system.dip2px
 import com.aisino.tool.toast
@@ -29,10 +30,10 @@ class SmallTaskAdapter(val activity: FragmentActivity, val taskList: ArrayList<M
     override fun getView(p0: Int, p1: View?, p2: ViewGroup?): View {
         var view = LayoutInflater.from(activity).inflate(R.layout.item_small_task, null)
         var task = view.findViewById<TextView>(R.id.item_small_task)
-        var complete = view.findViewById<TextView>(R.id.item_small_complete)
+        var complete = view.findViewById<CheckBox>(R.id.item_small_complete)
 
         task.setText(taskList[p0]["name"].toString())
-        isNecessary(view, p0)
+//        isNecessary(view, p0)
         isComplete(view, complete, p0)
         return view
     }
@@ -57,12 +58,14 @@ class SmallTaskAdapter(val activity: FragmentActivity, val taskList: ArrayList<M
         }
     }
 
-    fun isComplete(background: View, complete: TextView, p0: Int): Unit {
+    fun isComplete(background: View, complete: CheckBox, p0: Int): Unit {
+        complete.setPadding(activity.dip2px(16F), activity.dip2px(5F), activity.dip2px(10F), activity.dip2px(5F))
+
         if (taskList[p0]["isComplete"].toString().equals("Y")) {//是否完成
-            complete.background = activity.resources?.getDrawable(R.drawable.text_green_raid)
-            complete.setTextColor(activity.resources?.getColor(R.color.white)!!)
-            complete.setPadding(activity.dip2px(24F), activity.dip2px(5F), activity.dip2px(24F), activity.dip2px(5F))
-            complete.setOnClickListener {
+//            complete.background = activity.resources?.getDrawable(R.drawable.text_green_raid)
+//            complete.setTextColor(activity.resources?.getColor(R.color.white)!!)
+            complete.isChecked=true
+            background.setOnClickListener {
                 "已完成任务".toast(activity)
             }
         } else {
@@ -70,10 +73,10 @@ class SmallTaskAdapter(val activity: FragmentActivity, val taskList: ArrayList<M
         }
     }
 
-    fun upTask(complete: TextView, p0: Int): Unit {//完成任务
-        complete.background = activity.resources?.getDrawable(R.drawable.border_white)
-        complete.setTextColor(activity.resources?.getColor(R.color.mainColor)!!)
-        complete.setPadding(activity.dip2px(24F), activity.dip2px(5F), activity.dip2px(24F), activity.dip2px(5F))
+    fun upTask(complete: CheckBox, p0: Int): Unit {//完成任务
+//        complete.background = activity.resources?.getDrawable(R.drawable.border_white)
+//        complete.setTextColor(activity.resources?.getColor(R.color.mainColor)!!)
+//        complete.setPadding(activity.dip2px(16F), activity.dip2px(5F), activity.dip2px(10F), activity.dip2px(5F))
         complete.setOnClickListener {
             Http.post {
                 url = BASEURL + OVER_TASK
@@ -85,6 +88,7 @@ class SmallTaskAdapter(val activity: FragmentActivity, val taskList: ArrayList<M
                             "200" -> {
                                 "已完成任务".toast(activity)
                                 ((activity as MenuActivity).showFragment as TaskDetailsFragment).initList()
+                                complete.isChecked=true
                             }
                             "300" -> {
                                 getAny<String>("message").toast(activity)

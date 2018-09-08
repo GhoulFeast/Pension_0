@@ -27,7 +27,7 @@ class RoomListAdapter(taskList: ArrayList<MutableMap<String, Any>>) : BaseAdapte
         var item_room_tv = p1.findViewById<TextView>(R.id.item_room_tv)
         var item_room_old_mgv = p1.findViewById<MyGridView>(R.id.item_room_old_mgv)
         var roomOldAdapter = RoomOldTaskAdapter(links.get(p0)["people"] as ArrayList<MutableMap<String, Any>>)
-        item_room_tv.setText(links.get(p0)["wardNumber"].toString())
+        item_room_tv.setText(links.get(p0)["wardNumber"].toString()+"房间")
         item_room_old_mgv.adapter = roomOldAdapter
         roomOldAdapter.setTomorrow(object : RoomOldTaskAdapter.OnOld {
             override fun onOldClick(id: String,rwid:String,zbid:String) {

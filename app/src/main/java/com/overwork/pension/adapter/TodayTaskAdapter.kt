@@ -35,14 +35,14 @@ class TodayTaskAdapter(val activity: FragmentActivity, val taskList: ArrayList<M
         if (taskList[p0]["state"].toString() .equals("Y") ) {
             state.background = activity.resources?.getDrawable(R.drawable.text_green_raid)
             state.setTextColor(activity.resources?.getColor(R.color.white)!!)
-            state.setPadding(activity.dip2px(24F), activity.dip2px(5F), activity.dip2px(24F), activity.dip2px(5F))
+            state.setPadding(activity.dip2px(12F), activity.dip2px(5F), activity.dip2px(12F), activity.dip2px(5F))
             state.setOnClickListener {
                 "已完成任务".toast(activity)
             }
         } else {
             state.background = activity.resources?.getDrawable(R.drawable.border_white)
             state.setTextColor(activity.resources?.getColor(R.color.mainColor)!!)
-            state.setPadding(activity.dip2px(24F), activity.dip2px(5F), activity.dip2px(24F), activity.dip2px(5F))
+            state.setPadding(activity.dip2px(12F), activity.dip2px(5F), activity.dip2px(12F), activity.dip2px(5F))
             state.setOnClickListener{
                 jump(p0)
 
