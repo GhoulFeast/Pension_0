@@ -1,6 +1,7 @@
 package com.overwork.pension.adapter
 
 import android.content.Context
+import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentActivity
 import android.text.TextUtils
 import android.util.Log
@@ -13,8 +14,8 @@ import com.aisino.tool.widget.ToastAdd
 import com.overwork.pension.R
 import com.overwork.pension.activity.MenuActivity
 
-class OldInfoAdapter(val context: FragmentActivity, val list: ArrayList<MutableMap<String, Any>>) : BaseAdapter() {
-
+class OldInfoAdapter(fragment: Fragment, val context: FragmentActivity, val list: ArrayList<MutableMap<String, Any>>) : BaseAdapter() {
+    var fragment: Fragment = fragment
     override fun getView(p0: Int, p1: View?, p2: ViewGroup?): View {
         var view = LayoutInflater.from(context).inflate(R.layout.item_oldinfo_abnormal, null)
         var room = view.findViewById<TextView>(R.id.item_old_info_room)
@@ -48,8 +49,8 @@ class OldInfoAdapter(val context: FragmentActivity, val list: ArrayList<MutableM
         if (!TextUtils.isEmpty(sound)) {
             sounds.addAll(sound.split(","))
         }
-        image_gv.adapter = ImageAdapter(context, images, 0)
-        sound_gv.adapter = ImageAdapter(context, sounds, 1)
+        image_gv.adapter = ImageAdapter(fragment, context, images, 0)
+        sound_gv.adapter = ImageAdapter(fragment, context, sounds, 1)
         return view
     }
 
