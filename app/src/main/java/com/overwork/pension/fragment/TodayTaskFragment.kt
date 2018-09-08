@@ -24,6 +24,7 @@ import com.overwork.pension.adapter.TodayTaskAdapter
 import com.overwork.pension.other.*
 import kotlinx.android.synthetic.main.fragment_today_task.*
 import java.util.*
+import kotlin.collections.ArrayList
 
 val TodayTaskID = "TodayTaskID"
 val lrId = "lrid"
@@ -34,7 +35,7 @@ class TodayTaskFragment : Fragment() {
     var time = ""
     var showTime = ""
     //    var taskList: ArrayList<MutableMap<String, Any>> = ArrayList<MutableMap<String, Any>>()
-    var taskTimeList: ArrayList<MutableMap<String, Any>> = ArrayList<MutableMap<String, Any>>()
+    var taskTimeList: ArrayList<String> = ArrayList<String>()
     var thisTaskList: ArrayList<MutableMap<String, Any>> = ArrayList<MutableMap<String, Any>>()
     lateinit var linearLayoutManager: LinearLayoutManager;
 
@@ -54,54 +55,55 @@ class TodayTaskFragment : Fragment() {
     }
 
     fun intoTime() {
-        taskTimeList.clear()
-        var position = 0;
-        var thisTime = Calendar.getInstance()
-        if (!TextUtils.isEmpty(selecttime)) {
-            var times = selecttime.split(":")
-            thisTime.set(Calendar.MINUTE, times.get(1).toInt())
-            thisTime.set(Calendar.HOUR_OF_DAY, times.get(0).toInt())
-            selecttime = ""
-        } else {
-            var minute: Int;
-            if (thisTime.get(Calendar.MINUTE) > 30) {
-                thisTime.set(Calendar.HOUR_OF_DAY, thisTime.get(Calendar.HOUR_OF_DAY) + 1)
-                minute = 0
-            } else {
-                minute = 30
+        Http.post {
+            url = BASEURL + T_TASKTIME
+            "userId" - userId
+            "kssj" - showTime
+            if ((activity as MenuActivity).hasData(lrId)) {
+                "lrpkid" - (activity as MenuActivity).getData<String>(lrId)
             }
-            thisTime.set(Calendar.MINUTE, minute)
-        }
-        var tTime = Calendar.getInstance()
-        var i = 0
-        tTime.set(Calendar.HOUR_OF_DAY, 6)
-        tTime.set(Calendar.MINUTE, 30)
-        while (i < 48) {
-            tTime.set(Calendar.MINUTE, tTime.get(Calendar.MINUTE) + 30)
-            var muMap: MutableMap<String, Any> = mutableMapOf()
-            var time = "";
-            if (tTime.get(Calendar.MINUTE) == 0) {
-                time = "00"
-            } else {
-                time = tTime.get(Calendar.MINUTE).toString()
+            if ((activity as MenuActivity).hasData("cwpkid")) {//有cwpkid时加参
+                "cwpkid" - (activity as MenuActivity).getData<String>("cwpkid")
             }
-            muMap.put("taskTime", tTime.get(Calendar.HOUR_OF_DAY).toString() + ":" + time)
-            if (thisTime.get(Calendar.HOUR_OF_DAY) == tTime.get(Calendar.HOUR_OF_DAY)
-                    && thisTime.get(Calendar.MINUTE) == tTime.get(Calendar.MINUTE)) {
-                position = i;
-            }
-            taskTimeList.add(muMap)
-            i++
-        }
-        taskStepViewRvAdapter.selectPosion = position
-        taskStepViewRvAdapter.notifyDataSetChanged()
-//        todaytask_rv.scrollToPosition(position - 2)
-        showTime = taskTimeList.get(position)["taskTime"].toString()
-        todaytask_rv.post {
-            if (taskStepViewRvAdapter.selectPosion - 2 < 0) {
-                linearLayoutManager.scrollToPositionWithOffset(0, 0)
-            } else {
-                linearLayoutManager.scrollToPositionWithOffset(taskStepViewRvAdapter.selectPosion - 2, 0)
+            "userType" - userType
+            success {
+                menuActivity.runOnUiThread {
+                    var times: ArrayList<MutableMap<String, Any>> = "result".."timeaxis"
+                    taskTimeList.clear()
+                    for (map in times) {
+                        taskTimeList.add(map["kssj"].toString())
+                    }
+                    var position = 0;
+                    var thisTime = Calendar.getInstance()
+                    var tTime = thisTime.get(Calendar.HOUR_OF_DAY) * 60 + thisTime.get(Calendar.MINUTE)
+                    var timelok = -1
+                    var i = 0
+                    while (i < taskTimeList.size) {
+                        var times = taskTimeList.get(i).split(":")
+                        var tTimeLok = times.get(0).toInt() * 60 + times.get(1).toInt() - tTime
+                        if ((timelok == -1 || timelok > tTimeLok) && tTimeLok > 0) {
+                            timelok = tTimeLok
+                            position = i
+                        }
+                        i++
+                    }
+                    taskStepViewRvAdapter.canSelectPosition = position
+                    if (!TextUtils.isEmpty(selecttime)) {
+                        position = taskTimeList.indexOf(selecttime)
+                        selecttime = ""
+                    }
+                    taskStepViewRvAdapter.selectPosion = position
+                    taskStepViewRvAdapter.notifyDataSetChanged()
+                    showTime = taskTimeList.get(position)
+                    todaytask_rv.post {
+                        if (taskStepViewRvAdapter.selectPosion - 2 < 0) {
+                            linearLayoutManager.scrollToPositionWithOffset(0, 0)
+                        } else {
+                            linearLayoutManager.scrollToPositionWithOffset(taskStepViewRvAdapter.selectPosion - 2, 0)
+                        }
+                    }
+                    getTaskList(false)
+                }
             }
         }
     }
@@ -184,19 +186,22 @@ class TodayTaskFragment : Fragment() {
 //        }
         taskStepViewRvAdapter.setStepItemClick(object : TaskStepViewRvAdapter.TaskStepItemClick {
             override fun OnItem(postion: Int) {
-                taskStepViewRvAdapter.selectPosion = postion
+                if (!(taskStepViewRvAdapter.canSelectPosition < postion)) {
+                    taskStepViewRvAdapter.selectPosion = postion
 //                todaytask_rv.scrollToPosition(postion - 2)
-                linearLayoutManager.scrollToPositionWithOffset(taskStepViewRvAdapter.selectPosion - 2, 0)
-                showTime = taskTimeList.get(postion)["taskTime"].toString()
-                taskStepViewRvAdapter.notifyDataSetChanged()
-                getTaskList(false)
+                    linearLayoutManager.scrollToPositionWithOffset(taskStepViewRvAdapter.selectPosion - 2, 0)
+                    showTime = taskTimeList.get(postion)
+                    taskStepViewRvAdapter.notifyDataSetChanged()
+                    getTaskList(false)
 //                thisTaskList.clear()
 //                thisTaskList.addAll(taskList.get(postion)["links"] as ArrayList<MutableMap<String, Any>>)
 //                todayTaskAdapter.notifyDataSetChanged()
+                }
+
             }
         })
         intoTime()
-        getTaskList(true)
+
     }
 
 }

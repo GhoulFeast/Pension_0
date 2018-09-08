@@ -53,7 +53,7 @@ class TaskDetailsFragment : Fragment() {
 
 
     var taskList: ArrayList<MutableMap<String, Any>> = ArrayList<MutableMap<String, Any>>()
-    var taskStepList: ArrayList<MutableMap<String, Any>> = ArrayList<MutableMap<String, Any>>()
+    var taskStepList: ArrayList<String> = ArrayList<String>()
     //    var isDelete = false
     val imageList = ArrayList<FileInfo>()
     val soundList = ArrayList<FileInfo>()
@@ -214,80 +214,10 @@ class TaskDetailsFragment : Fragment() {
 
             } else {
                 initList()
-                intoTime()
             }
         }
     }
 
-    fun intoTime(time: String = "") {
-        taskStepList.clear()
-        var thisTime = Calendar.getInstance()
-        if (!TextUtils.isEmpty(time)) {
-            var times = time.split(":")
-            thisTime.set(Calendar.MINUTE, times.get(1).toInt())
-            thisTime.set(Calendar.HOUR_OF_DAY, times.get(0).toInt())
-            selecttime =time
-        } else if (!TextUtils.isEmpty(arguments.get("time").toString())) {
-            selecttime = arguments.get("time").toString()
-            var times = arguments.get("time").toString().split(":")
-            thisTime.set(Calendar.MINUTE, times.get(1).toInt())
-            thisTime.set(Calendar.HOUR_OF_DAY, times.get(0).toInt())
-        }
-        var minute: Int;
-        if (thisTime.get(Calendar.MINUTE) >= 30)
-            minute = 30
-        else
-            minute = 0
-        thisTime.set(Calendar.MINUTE, minute)
-        var time = "";
-        thisTime.set(Calendar.MINUTE, thisTime.get(Calendar.MINUTE) - 60)
-        var muMap_2: MutableMap<String, Any> = mutableMapOf()
-        if (thisTime.get(Calendar.MINUTE) == 0) {
-            time = "00"
-        } else {
-            time = thisTime.get(Calendar.MINUTE).toString()
-        }
-        muMap_2.put("taskTime", thisTime.get(Calendar.HOUR_OF_DAY).toString() + ":" + time)
-        taskStepList.add(muMap_2)
-        thisTime.set(Calendar.MINUTE, thisTime.get(Calendar.MINUTE) + 30)
-        var muMap_1: MutableMap<String, Any> = mutableMapOf()
-        if (thisTime.get(Calendar.MINUTE) == 0) {
-            time = "00"
-        } else {
-            time = thisTime.get(Calendar.MINUTE).toString()
-        }
-        muMap_1.put("taskTime", thisTime.get(Calendar.HOUR_OF_DAY).toString() + ":" + time)
-        taskStepList.add(muMap_1)
-        thisTime.set(Calendar.MINUTE, thisTime.get(Calendar.MINUTE) + 30)
-        var muMap: MutableMap<String, Any> = mutableMapOf()
-        if (thisTime.get(Calendar.MINUTE) == 0) {
-            time = "00"
-        } else {
-            time = thisTime.get(Calendar.MINUTE).toString()
-        }
-        muMap.put("taskTime", thisTime.get(Calendar.HOUR_OF_DAY).toString() + ":" + time)
-        taskStepList.add(muMap)
-        thisTime.set(Calendar.MINUTE, thisTime.get(Calendar.MINUTE) + 30)
-        var muMapA1: MutableMap<String, Any> = mutableMapOf()
-        if (thisTime.get(Calendar.MINUTE) == 0) {
-            time = "00"
-        } else {
-            time = thisTime.get(Calendar.MINUTE).toString()
-        }
-        muMapA1.put("taskTime", thisTime.get(Calendar.HOUR_OF_DAY).toString() + ":" + time)
-        taskStepList.add(muMapA1)
-        thisTime.set(Calendar.MINUTE, thisTime.get(Calendar.MINUTE) + 30)
-        var muMapA2: MutableMap<String, Any> = mutableMapOf()
-        if (thisTime.get(Calendar.MINUTE) == 0) {
-            time = "00"
-        } else {
-            time = thisTime.get(Calendar.MINUTE).toString()
-        }
-        muMapA2.put("taskTime", thisTime.get(Calendar.HOUR_OF_DAY).toString() + ":" + time)
-        taskStepList.add(muMapA2)
-        taskStepViewRvAdapter.selectPosion = 2
-        taskStepViewRvAdapter.notifyDataSetChanged()
-    }
 
     /**
      * 简单页面加载
@@ -387,7 +317,20 @@ class TaskDetailsFragment : Fragment() {
                         val age: String = mut["age"].toString()
                         task_details_age.setText(age + "周岁")
                         val kssj: String = mut["kssj"].toString()
-                        intoTime(kssj)
+                        taskStepList.clear()
+                        for (map in mut["timeaxis"] as ArrayList<MutableMap<String, Any>>) {
+                            taskStepList.add(map["kssj"].toString())
+                        }
+                        selecttime = kssj
+                        taskStepViewRvAdapter.selectPosion = taskStepList.indexOf(kssj)
+                        taskStepViewRvAdapter.notifyDataSetChanged()
+                        todaytask_rv.post {
+                            if (taskStepViewRvAdapter.selectPosion - 2 < 0) {
+                                (todaytask_rv.layoutManager as LinearLayoutManager).scrollToPositionWithOffset(0, 0)
+                            } else {
+                                (todaytask_rv.layoutManager as LinearLayoutManager).scrollToPositionWithOffset(taskStepViewRvAdapter.selectPosion - 2, 0)
+                            }
+                        }
                         val jssj: String = mut["jssj"].toString()
                         task_details_nursing_time.setText(kssj + " - " + jssj)
                         val meal: String = mut["meal"].toString()
