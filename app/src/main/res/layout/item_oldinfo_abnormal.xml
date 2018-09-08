@@ -2,17 +2,18 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+
     android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/white"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:paddingBottom="10dp">
 
 
         <LinearLayout
-
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center_vertical">
@@ -35,6 +36,7 @@
                 android:text="asdasdasdadad"
                 android:textColor="@color/mainColor"
                 android:textSize="16sp" />
+
             <TextView
                 android:id="@+id/item_old_info_times"
                 android:layout_width="wrap_content"
@@ -44,6 +46,7 @@
                 android:text="asdas"
                 android:textColor="@color/color_8d8d8d"
                 android:textSize="14sp" />
+
             <TextView
                 android:id="@+id/item_old_info_title"
                 android:layout_width="wrap_content"
@@ -67,6 +70,7 @@
                 android:text="护理员"
                 android:textColor="@color/color_8d8d8d"
                 android:textSize="14sp" />
+
             <TextView
                 android:id="@+id/item_old_info_submit_time"
                 android:layout_width="wrap_content"
@@ -93,6 +97,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="30dp"
+            android:layout_marginBottom="5dp"
             android:layout_marginTop="5dp"
             android:text="asdsad"
             android:textColor="@color/text_black" />
@@ -101,16 +106,16 @@
             android:id="@+id/item_old_info_image_gv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:columnWidth="4dp"
             android:listSelector="@android:color/transparent"
-            android:numColumns="8"
-            android:columnWidth="4dp"/>
+            android:numColumns="8" />
 
         <com.overwork.pension.other.MyGridView
             android:id="@+id/item_old_info_sound_gv"
             android:layout_width="wrap_content"
-            android:listSelector="@android:color/transparent"
             android:layout_height="wrap_content"
-            android:numColumns="8"
-            android:columnWidth="4dp"/>
+            android:columnWidth="4dp"
+            android:listSelector="@android:color/transparent"
+            android:numColumns="8" />
     </LinearLayout>
 </LinearLayout>

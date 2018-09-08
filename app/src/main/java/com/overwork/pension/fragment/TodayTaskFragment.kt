@@ -73,7 +73,7 @@ class TodayTaskFragment : Fragment() {
                     for (map in times) {
                         taskTimeList.add(map["kssj"].toString())
                     }
-                    var position = 0;
+                    var position = -1;
                     var thisTime = Calendar.getInstance()
                     var tTime = thisTime.get(Calendar.HOUR_OF_DAY) * 60 + thisTime.get(Calendar.MINUTE)
                     var timelok = -1
@@ -84,6 +84,11 @@ class TodayTaskFragment : Fragment() {
                         if ((timelok == -1 || timelok > tTimeLok) && tTimeLok > 0) {
                             timelok = tTimeLok
                             position = i
+                        }
+                        if(i==taskTimeList.size-1){
+                            if (position==-1){
+                                position=taskTimeList.size-1
+                            }
                         }
                         i++
                     }
