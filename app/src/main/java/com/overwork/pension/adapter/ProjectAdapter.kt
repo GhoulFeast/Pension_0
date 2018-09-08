@@ -153,8 +153,10 @@ class ProjectAdapter(val activity: FragmentActivity, val taskList: ArrayList<Mut
         task_ll.visibility = View.VISIBLE
         task_other.setText("高压")
         val sjz=list[index][0]["sjz"].toString()
-        num.setText(sjz.substring(0,sjz.indexOf("~")))
-        num_other.setText(sjz.substring(sjz.indexOf("~")+1,sjz.length))
+        if (sjz.length>0){
+            num.setText(sjz.substring(0,sjz.indexOf("~")))
+            num_other.setText(sjz.substring(sjz.indexOf("~")+1,sjz.length))
+        }
         upNum(num, list[index][0]["cgjlpkid"].toString(), "1")
         upNum(num_other, list[index][0]["cgjlpkid"].toString(), "2")
     }
