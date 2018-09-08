@@ -3,6 +3,7 @@ package com.overwork.pension.adapter
 import android.app.Activity
 import android.content.Context
 import android.media.MediaPlayer
+import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentActivity
 import android.support.v4.view.PagerAdapter
 import android.support.v4.view.ViewPager
@@ -14,13 +15,15 @@ import com.aisino.tool.toast
 import com.aisino.tool.widget.showFullWindow
 import com.bumptech.glide.Glide
 import com.overwork.pension.R
+import com.overwork.pension.fragment.OldInfoFragment
 import com.overwork.pension.other.ImageFull
 import com.overwork.pension.other.UP_IMAGE
 import com.overwork.pension.other.UP_SOUND
 
-class ImageAdapter(activity: Context, taskList: ArrayList<String>, val type: Int) : BaseAdapter() {
+class ImageAdapter(fragment: Fragment, activity: Context, taskList: ArrayList<String>, val type: Int) : BaseAdapter() {
     private var list: List<String>? = null
     private var context: Context? = null
+    private var fragment = fragment
 
     init {
         this.list = taskList
@@ -36,7 +39,12 @@ class ImageAdapter(activity: Context, taskList: ArrayList<String>, val type: Int
         image.setOnClickListener {
             try {
                 if (type == 0) {
-                    ImageFull.showFullWindowViewPage(context as Activity, image, list!!, p0)
+                    if ((fragment as OldInfoFragment).popwindows != null) {
+                        if ((fragment as OldInfoFragment).popwindows!!.isShowing) {
+                            (fragment as OldInfoFragment).popwindows?.dismiss()
+                        }
+                    }
+                    (fragment as OldInfoFragment).popwindows = ImageFull.showFullWindowViewPage(context as Activity, image, list!!, p0)
 //                    image.showFullWindow()
                 } else {
                     val mediaPlayer = MediaPlayer()
