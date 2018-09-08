@@ -68,6 +68,7 @@ class TodayTaskFragment : Fragment() {
             "userType" - userType
             success {
                 menuActivity.runOnUiThread {
+                    if ((!"status").equals("200")){
                     var times: ArrayList<MutableMap<String, Any>> = "result".."timeaxis"
                     taskTimeList.clear()
                     for (map in times) {
@@ -108,6 +109,9 @@ class TodayTaskFragment : Fragment() {
                         }
                     }
                     getTaskList(false)
+                    }else{
+                        (!"message").toast(menuActivity)
+                    }
                 }
             }
         }

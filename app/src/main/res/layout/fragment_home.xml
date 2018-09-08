@@ -38,7 +38,7 @@
                 android:layout_width="160dp"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
-                android:layout_marginLeft="-8dp"
+
                 android:background="@drawable/border_white_no_left"
                 android:gravity="center"
                 android:padding="12dp"
@@ -68,7 +68,7 @@
             android:id="@+id/come_room"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="12dp"
             android:gravity="center">
 
             <TextView
