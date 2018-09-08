@@ -1,19 +1,20 @@
 package com.overwork.pension.adapter
 
+import android.app.Activity
 import android.content.Context
 import android.media.MediaPlayer
 import android.support.v4.app.FragmentActivity
+import android.support.v4.view.PagerAdapter
+import android.support.v4.view.ViewPager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.BaseAdapter
-import android.widget.GridView
-import android.widget.ImageView
-import android.widget.TextView
+import android.widget.*
 import com.aisino.tool.toast
 import com.aisino.tool.widget.showFullWindow
 import com.bumptech.glide.Glide
 import com.overwork.pension.R
+import com.overwork.pension.other.ImageFull
 import com.overwork.pension.other.UP_IMAGE
 import com.overwork.pension.other.UP_SOUND
 
@@ -29,24 +30,26 @@ class ImageAdapter(activity: Context, taskList: ArrayList<String>, val type: Int
     override fun getView(p0: Int, p1: View?, p2: ViewGroup?): View {
         var view = LayoutInflater.from(context).inflate(R.layout.item_image, null)
         var image = view.findViewById<ImageView>(R.id.show_image)
-        if (type==0){
-            Glide.with(context).load(UP_IMAGE+list!![p0]).error(R.mipmap.picture).into(image)
+        if (type == 0) {
+            Glide.with(context).load(UP_IMAGE + list!![p0]).error(R.mipmap.picture).into(image)
         }
         image.setOnClickListener {
             try {
                 if (type == 0) {
-                    image.showFullWindow()
+                    ImageFull.showFullWindowViewPage(context as Activity, image, list!!, p0)
+//                    image.showFullWindow()
                 } else {
                     val mediaPlayer = MediaPlayer()
                     mediaPlayer.reset()
-                    mediaPlayer.setDataSource(UP_SOUND+list!![p0])
+                    mediaPlayer.setDataSource(UP_SOUND + list!![p0])
                     if (mediaPlayer.isPlaying) {
                         mediaPlayer.stop()
                     } else {
                         mediaPlayer.prepare()
+                        mediaPlayer.start()
                     }
                 }
-            }catch (e:Exception){
+            } catch (e: Exception) {
                 e.printStackTrace()
                 "加载文件失败".toast(context!!)
             }
@@ -66,4 +69,5 @@ class ImageAdapter(activity: Context, taskList: ArrayList<String>, val type: Int
     override fun getCount(): Int {
         return list?.size!!
     }
+
 }
