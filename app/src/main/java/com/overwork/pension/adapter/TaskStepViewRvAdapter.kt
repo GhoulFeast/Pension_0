@@ -14,7 +14,7 @@ import com.overwork.pension.R
  * Created by feima on 2018/7/19.
  */
 
-class TaskStepViewRvAdapter(var context: Context, var timeArrayList: ArrayList<MutableMap<String, Any>>) : RecyclerView.Adapter<TaskStepViewRvAdapter.ViewHolder>() {
+class TaskStepViewRvAdapter(var context: Context, var timeArrayList: ArrayList<String>) : RecyclerView.Adapter<TaskStepViewRvAdapter.ViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder? {
         var viewH = ViewHolder(LayoutInflater.from(context).inflate(R.layout.item_stepview, parent, false))
         viewH.item_stepview_ll.layoutParams.width = (context.resources.displayMetrics.widthPixels - (2 * context.resources.getDimension(R.dimen.dp_10).toInt())) / 5
@@ -23,20 +23,32 @@ class TaskStepViewRvAdapter(var context: Context, var timeArrayList: ArrayList<M
     }
 
     var selectPosion = 0;
+    var canSelectPosition = -1;
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         var mut = timeArrayList.get(position)
-        holder.item_stepview_time.setText(mut["taskTime"].toString())
-        if (selectPosion == position) {
-            holder.item_stepview_left.setBackgroundColor(context.resources.getColor(R.color.title_blue))
-            holder.item_stepview_right.setBackgroundColor(context.resources.getColor(R.color.title_blue))
-            holder.item_stepview_time.setBackgroundResource(R.drawable.text_title_blue_raid)
+        holder.item_stepview_time.setText(mut)
+        if (canSelectPosition != -1 && canSelectPosition < position) {
+            holder.item_stepview_left.setBackgroundColor(context.resources.getColor(R.color.color_8d8d8d))
+            holder.item_stepview_right.setBackgroundColor(context.resources.getColor(R.color.color_8d8d8d))
+            holder.item_stepview_time.setBackgroundResource(R.drawable.text_8d8d8d_raid)
             holder.item_stepview_time.setTextColor(context.resources.getColor(R.color.white))
         } else {
-            holder.item_stepview_left.setBackgroundColor(context.resources.getColor(R.color.title_blue))
-            holder.item_stepview_right.setBackgroundColor(context.resources.getColor(R.color.title_blue))
-            holder.item_stepview_time.setBackgroundResource(R.drawable.text_title_blue_fffffff_raid)
-            holder.item_stepview_time.setTextColor(context.resources.getColor(R.color.title_blue))
+            if (selectPosion == position) {
+                holder.item_stepview_left.setBackgroundColor(context.resources.getColor(R.color.title_blue))
+                holder.item_stepview_right.setBackgroundColor(context.resources.getColor(R.color.title_blue))
+                holder.item_stepview_time.setBackgroundResource(R.drawable.text_title_blue_raid)
+                holder.item_stepview_time.setTextColor(context.resources.getColor(R.color.white))
+            } else {
+                holder.item_stepview_left.setBackgroundColor(context.resources.getColor(R.color.title_blue))
+                holder.item_stepview_right.setBackgroundColor(context.resources.getColor(R.color.title_blue))
+                holder.item_stepview_time.setBackgroundResource(R.drawable.text_title_blue_fffffff_raid)
+                holder.item_stepview_time.setTextColor(context.resources.getColor(R.color.title_blue))
+            }
+            if (canSelectPosition == position) {
+                holder.item_stepview_right.setBackgroundColor(context.resources.getColor(R.color.color_8d8d8d))
+            }
         }
+
         holder.item_stepview_time.setOnClickListener({
             taskStepItemClick?.OnItem(position)
         })
