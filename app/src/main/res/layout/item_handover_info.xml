@@ -27,6 +27,7 @@
             android:gravity="center">
 
             <CheckBox
+                android:theme="@style/My_CheckBox"
                 android:id="@+id/item_handover_complete_iv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
@@ -63,13 +64,13 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="16dp"
-                android:background="@drawable/border_white"
-                android:paddingBottom="5dp"
-                android:paddingLeft="14dp"
-                android:paddingRight="14dp"
-                android:paddingTop="5dp"
+                android:background="@drawable/border_blue"
+                android:paddingBottom="3dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:paddingTop="3dp"
                 android:text="+"
-                android:textColor="@color/mainColor"
+                android:textColor="@color/title_blue"
                 android:textStyle="bold" />
         </LinearLayout>
 
