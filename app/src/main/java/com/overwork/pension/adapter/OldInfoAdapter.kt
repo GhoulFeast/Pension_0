@@ -37,6 +37,11 @@ class OldInfoAdapter(fragment: Fragment, val context: FragmentActivity, val list
         title.setText(list[p0]["abnormalTitle"].toString())
         submit_time.setText(list[p0]["submitTime"].toString())
         submit_name.setText(list[p0]["submitName"].toString())
+        if(TextUtils.isEmpty(list[p0]["abnormalContent"].toString())){
+            icontent.visibility=View.GONE
+        }else{
+            icontent.visibility=View.VISIBLE
+        }
         icontent.setText(list[p0]["abnormalContent"].toString())
         var img = list[p0]["imageUrl"].toString()
         val images = ArrayList<String>()
