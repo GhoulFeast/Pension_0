@@ -149,8 +149,8 @@ class HandoverInfoFragment : Fragment() {
 //                bd.putString("time", showTime)
 //                taslDetalis.arguments = bd
                 CZLX = "02"
-                (activity as MenuActivity).putData(TodayTaskID, handoverInfos[id]["oldId"].toString())
-                (activity as MenuActivity).putData(zbpkId, handoverInfos[id]["zbpkid"].toString())
+                (activity as MenuActivity).putData(lrId, handoverInfos[id]["oldId"].toString())
+//                (activity as MenuActivity).putData(zbpkId, handoverInfos[id]["zbpkid"].toString())
                 (activity as MenuActivity).showFragment(taslDetalis)
                 taslDetalis.setSimple()
             }
