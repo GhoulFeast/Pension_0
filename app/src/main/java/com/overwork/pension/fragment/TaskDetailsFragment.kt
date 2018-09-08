@@ -274,7 +274,7 @@ class TaskDetailsFragment : Fragment() {
                             addSound(null, UP_SOUND + sound["wjmc"].toString(), sound["fb1id"].toString())
                         }
                     } else {
-                        (!"message").toast(menuActivity)
+//                        (!"message").toast(menuActivity)
                     }
                     isfjxxpkid = true
                 }
