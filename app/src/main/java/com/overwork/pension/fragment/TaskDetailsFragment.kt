@@ -140,7 +140,7 @@ class TaskDetailsFragment : Fragment() {
                 RECORD_TYPE_NEEDHELP -> {
                     abnormalType = RECORD_TYPE_NON
                     task_details_record_ll.visibility = View.GONE
-                    task_details_record_needhelp.isChecked = true
+                    task_details_record_needhelp.isChecked = false
                 }
                 RECORD_TYPE_HAVE -> {
                     abnormalType = RECORD_TYPE_NEEDHELP
@@ -158,7 +158,7 @@ class TaskDetailsFragment : Fragment() {
                 RECORD_TYPE_NON -> {
                     abnormalType = RECORD_TYPE_HAVE
                     task_details_record_ll.visibility = View.VISIBLE
-                    task_details_record_have.isChecked = true
+                    task_details_record_have.isChecked = false
                 }
                 RECORD_TYPE_NEEDHELP -> {
                     task_details_record_have.isChecked = true
@@ -508,13 +508,13 @@ class TaskDetailsFragment : Fragment() {
 
     fun addImage(file: File?, imageURL: String?, id: String): ImageView {
         val newImg = ImageView(menuActivity)
-        val lp = ViewGroup.LayoutParams(menuActivity.resources.getDimension(R.dimen.dp_48).toInt() + menuActivity.resources.getDimension(R.dimen.dp_16).toInt()
-                , menuActivity.resources.getDimension(R.dimen.dp_48).toInt() + menuActivity.resources.getDimension(R.dimen.dp_16).toInt())
+        val lp = ViewGroup.LayoutParams(menuActivity.resources.getDimension(R.dimen.dp_48).toInt()
+                , menuActivity.resources.getDimension(R.dimen.dp_48).toInt())
         newImg.setLayoutParams(lp);
-        newImg.setPadding(menuActivity.resources.getDimension(R.dimen.dp_8).toInt(),
-                menuActivity.resources.getDimension(R.dimen.dp_8).toInt(),
-                menuActivity.resources.getDimension(R.dimen.dp_8).toInt(),
-                menuActivity.resources.getDimension(R.dimen.dp_8).toInt())
+        newImg.setPadding(menuActivity.resources.getDimension(R.dimen.dp_4).toInt(),
+                menuActivity.resources.getDimension(R.dimen.dp_4).toInt(),
+                menuActivity.resources.getDimension(R.dimen.dp_4).toInt(),
+                menuActivity.resources.getDimension(R.dimen.dp_4).toInt())
         newImg.scaleType = ImageView.ScaleType.CENTER_INSIDE
         newImg.setTag(R.id.image_id, imageList.size)
         newImg.setOnClickListener {
