@@ -42,7 +42,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="30dp"
-                android:layout_marginTop="5dp"
                 android:text="asdas"
                 android:textColor="@color/color_8d8d8d"
                 android:textSize="14sp" />
@@ -52,7 +51,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
-                android:layout_marginTop="5dp"
                 android:text="asdas"
                 android:textColor="@color/color_8d8d8d"
                 android:textSize="14sp" />

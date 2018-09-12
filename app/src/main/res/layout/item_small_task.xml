@@ -10,7 +10,7 @@
         android:id="@+id/item_small_task"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="16dp"
+        android:layout_marginLeft="12dp"
         android:maxWidth="160dp"
         android:text="TextView"
         android:textColor="@color/blackPrimary"
@@ -35,6 +35,7 @@
     <!--android:layout_margin="4dp"-->
     <!--android:textColor="@color/white" />-->
     <CheckBox
+        android:theme="@style/green_CheckBox"
         android:id="@+id/item_small_complete"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -42,7 +43,7 @@
         android:clickable="false"
         android:paddingBottom="5dp"
         android:paddingLeft="16dp"
-        android:paddingRight="8dp"
+        android:paddingRight="4dp"
         android:paddingTop="5dp" />
 
     <TextView

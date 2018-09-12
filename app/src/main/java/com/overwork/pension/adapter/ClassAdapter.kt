@@ -2,6 +2,7 @@ package com.overwork.pension.adapter
 
 
 import android.content.Context
+import android.graphics.Typeface
 import android.text.TextUtils
 import android.text.method.ScrollingMovementMethod
 import android.util.TypedValue
@@ -47,6 +48,7 @@ class ClassAdapter(taskList: ArrayList<MutableMap<String, Any>>) : BaseAdapter()
         item_class_abnormal_needfollow_tv.setMovementMethod(ScrollingMovementMethod.getInstance())
         item_class_abnormal_serious_tv.setMovementMethod(ScrollingMovementMethod.getInstance())
         item_class_abnormal_name_tv.setText(abnormalList.get(p0)["name"].toString())
+        item_class_abnormal_name_tv.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
         var stringB = StringBuilder();
         stringB.append(abnormalList.get(p0)["age"].toString())
         stringB.append("周岁")

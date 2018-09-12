@@ -31,7 +31,7 @@
                     android:layout_height="wrap_content"
                     android:text="名字"
                     android:textColor="@color/mainColor"
-                    android:textSize="19sp"
+                    android:textSize="20sp"
                     android:textStyle="bold" />
 
                 <LinearLayout
@@ -127,7 +127,6 @@
                     android:id="@+id/old_info_mlv"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:dividerHeight="0dp"
                     android:divider="@color/color_00000000"
                     android:listSelector="@android:color/transparent"
                     android:scrollbars="none" />

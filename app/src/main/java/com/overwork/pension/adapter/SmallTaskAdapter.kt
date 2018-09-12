@@ -33,7 +33,7 @@ class SmallTaskAdapter(val activity: FragmentActivity, val taskList: ArrayList<M
         var complete = view.findViewById<CheckBox>(R.id.item_small_complete)
 
         task.setText(taskList[p0]["name"].toString())
-//        isNecessary(view, p0)
+        isNecessary(view, p0)
         isComplete(view, complete, p0)
         return view
     }
@@ -59,8 +59,7 @@ class SmallTaskAdapter(val activity: FragmentActivity, val taskList: ArrayList<M
     }
 
     fun isComplete(background: View, complete: CheckBox, p0: Int): Unit {
-        complete.setPadding(activity.dip2px(16F), activity.dip2px(5F), activity.dip2px(10F), activity.dip2px(5F))
-
+        complete.setPadding(activity.dip2px(12F), activity.dip2px(5F), activity.dip2px(4F), activity.dip2px(5F))
         if (taskList[p0]["isComplete"].toString().equals("Y")) {//是否完成
 //            complete.background = activity.resources?.getDrawable(R.drawable.text_green_raid)
 //            complete.setTextColor(activity.resources?.getColor(R.color.white)!!)
@@ -69,15 +68,15 @@ class SmallTaskAdapter(val activity: FragmentActivity, val taskList: ArrayList<M
                 "已完成任务".toast(activity)
             }
         } else {
-            upTask(complete, p0)
+            upTask(background,complete, p0)
         }
     }
 
-    fun upTask(complete: CheckBox, p0: Int): Unit {//完成任务
+    fun upTask(background: View,complete: CheckBox, p0: Int): Unit {//完成任务
 //        complete.background = activity.resources?.getDrawable(R.drawable.border_white)
 //        complete.setTextColor(activity.resources?.getColor(R.color.mainColor)!!)
 //        complete.setPadding(activity.dip2px(16F), activity.dip2px(5F), activity.dip2px(10F), activity.dip2px(5F))
-        complete.setOnClickListener {
+        background.setOnClickListener {
             Http.post {
                 url = BASEURL + OVER_TASK
                 "userId" - userId

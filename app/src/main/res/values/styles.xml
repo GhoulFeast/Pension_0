@@ -17,4 +17,8 @@
         <item name="android:colorControlActivated">@color/title_blue</item>
         <item name="android:colorControlNormal">@color/title_blue</item>
     </style>
+    <style name="green_CheckBox" parent="@android:style/Widget.Material.CompoundButton.CheckBox">
+        <item name="android:colorControlActivated">@color/mainColor</item>
+        <item name="android:colorControlNormal">@color/mainColor</item>
+    </style>
 </resources>

@@ -9,6 +9,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/page_bg"
         android:orientation="vertical">
 
         <LinearLayout
@@ -34,21 +35,24 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="8dp"
-                android:text="" />
+                android:text=""
+                android:textColor="@color/text_black" />
 
             <TextView
                 android:id="@+id/task_details_age"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="8dp"
-                android:text="" />
+                android:text=""
+                android:textColor="@color/text_black" />
 
             <TextView
                 android:id="@+id/task_details_room"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="8dp"
-                android:text="" />
+                android:text=""
+                android:textColor="@color/text_black" />
         </LinearLayout>
 
         <RelativeLayout
@@ -114,6 +118,11 @@
                     android:textStyle="bold" />
             </LinearLayout>
 
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                app:srcCompat="@color/page_bg" />
+
             <TextView
                 android:id="@+id/task_details_task_details"
                 android:layout_width="wrap_content"
@@ -134,6 +143,7 @@
             android:orientation="vertical">
 
             <com.overwork.pension.other.MyListView
+                android:padding="4dp"
                 android:id="@+id/task_details_list"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -341,7 +351,7 @@
                     android:layout_marginLeft="16dp"
                     android:text="@string/record_content"
                     android:textColor="@color/mainColor"
-                    android:textSize="18sp"
+                    android:textSize="16sp"
                     android:textStyle="bold" />
 
                 <RadioGroup
@@ -351,22 +361,24 @@
                     android:orientation="horizontal">
 
                     <RadioButton
+                        android:theme="@style/My_CheckBox"
                         android:id="@+id/task_details_record_needhelp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="@string/need_to_see"
                         android:textColor="@color/blue"
-                        android:textSize="18sp" />
+                        android:textSize="16sp" />
 
                     <RadioButton
+                        android:theme="@style/My_CheckBox"
                         android:id="@+id/task_details_record_have"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="@string/have_serious_abnormality"
                         android:textColor="@color/blue"
-                        android:textSize="18sp" />
+                        android:textSize="16sp" />
                 </RadioGroup>
 
                 <ImageView
@@ -391,7 +403,10 @@
                     android:id="@+id/task_details_context"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="16dp"
+                    android:layout_marginTop="6dp"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginBottom="6dp"
                     android:background="@drawable/editview_bg"
                     android:gravity="start"
                     android:inputType="text"
@@ -403,12 +418,13 @@
                     android:gravity="center"
                     android:orientation="horizontal"
                     android:paddingBottom="8dp"
-                    android:paddingTop="8dp">
+                    android:paddingTop="2dp">
 
                     <LinearLayout
+                        android:background="@drawable/border_page"
                         android:id="@+id/task_details_picll"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="match_parent"
+                        android:layout_height="48dp"
                         android:layout_weight="1"
                         android:orientation="horizontal">
 
@@ -434,12 +450,13 @@
                     android:gravity="center"
                     android:orientation="horizontal"
                     android:paddingBottom="8dp"
-                    android:paddingTop="8dp">
+                    android:paddingTop="2dp">
 
                     <LinearLayout
+                        android:background="@drawable/border_page"
                         android:id="@+id/task_details_soull"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="match_parent"
+                        android:layout_height="48dp"
                         android:layout_weight="1"
                         android:orientation="horizontal">
 
