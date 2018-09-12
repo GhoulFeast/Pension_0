@@ -2,19 +2,25 @@ package com.overwork.pension.adapter
 
 import android.app.Activity
 import android.os.Bundle
+import android.text.Editable
 import android.text.Html
+import android.text.TextWatcher
 import android.text.method.ScrollingMovementMethod
 import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
+import android.widget.EditText
 import android.widget.LinearLayout
 import android.widget.TextView
+import com.aisino.tool.toast
+import com.hq.kbase.network.Http
 import com.overwork.pension.R
 import com.overwork.pension.activity.MenuActivity
+import com.overwork.pension.activity.menuActivity
 import com.overwork.pension.fragment.*
-import com.overwork.pension.other.userType
+import com.overwork.pension.other.*
 
 /**
  * Created by feima on 2018/7/7.
@@ -33,18 +39,16 @@ class HandoverDirectorAdapter(taskList: ArrayList<MutableMap<String, Any>>, acti
     }
 
     override fun getView(p0: Int, p1: View?, p2: ViewGroup): View {
-        var p1 = LayoutInflater.from(p2.context).inflate(R.layout.item_class_abnormal, p2, false)
+        var p1 = LayoutInflater.from(p2.context).inflate(R.layout.item_class_director, p2, false)
         var item_class_abnormal_name_tv = p1.findViewById<TextView>(R.id.item_class_abnormal_name_tv)
         var item_class_abnormal_age_tv = p1.findViewById<TextView>(R.id.item_class_abnormal_age_tv)
         var item_class_abnormal_sex_tv = p1.findViewById<TextView>(R.id.item_class_abnormal_sex_tv)
         var item_class_abnormal_room_tv = p1.findViewById<TextView>(R.id.item_class_abnormal_room_tv)
-        var item_class_abnormal_needfollow_tv = p1.findViewById<TextView>(R.id.item_class_abnormal_needfollow_tv)
+        var item_class_abnormal_needfollow_ll = p1.findViewById<LinearLayout>(R.id.item_class_abnormal_needfollow_ll)
         var item_class_abnormal_needfollow_ll_ll = p1.findViewById<LinearLayout>(R.id.item_class_abnormal_needfollow_ll_ll)
-        var item_class_abnormal_serious_tv = p1.findViewById<TextView>(R.id.item_class_abnormal_serious_tv)
+        var item_class_abnormal_serious_ll = p1.findViewById<LinearLayout>(R.id.item_class_abnormal_serious_ll)
         var item_class_abnormal_serious_ll_ll = p1.findViewById<LinearLayout>(R.id.item_class_abnormal_serious_ll_ll)
         var item_class_add_abnormal_tv = p1.findViewById<TextView>(R.id.item_class_add_abnormal_tv)
-        item_class_abnormal_needfollow_tv.setMovementMethod(ScrollingMovementMethod.getInstance())
-        item_class_abnormal_serious_tv.setMovementMethod(ScrollingMovementMethod.getInstance())
         item_class_abnormal_name_tv.setText(abnormalList.get(p0)["name"].toString())
         var stringB = StringBuilder();
         stringB.append(abnormalList.get(p0)["age"].toString())
@@ -56,48 +60,70 @@ class HandoverDirectorAdapter(taskList: ArrayList<MutableMap<String, Any>>, acti
         stringRoom.append(abnormalList.get(p0)["romeNo"].toString())
         item_class_abnormal_room_tv.setText(stringRoom)
         var mutables: List<MutableMap<String, Any>> = abnormalList.get(p0)["informationList"] as List<MutableMap<String, Any>>
-
-        var needfollows = ArrayList<String>()
-        var seriouss = ArrayList<String>()
         for (map: MutableMap<String, Any> in mutables) {//方法多调用一次
+//            map["messageContent"] = "来自吴佳佳：\\n\\n来自吴佳佳：\\nadssajdhaskdhksaasdasdddddddddddddddddddddddddddddhdkahskdahd"
+            var str = map["messageContent"].toString().split("\n")
+            var lin = LinearLayout(activity)
+            lin.orientation = LinearLayout.VERTICAL
+            for (content: String in str) {
+                if (content.contains("来自") && content.contains("：")) {
+                    var text = TextView(activity)
+                    text.setText(content)
+                    text.setTextColor(activity.resources.getColor(R.color.title_blue))
+                    lin.addView(text)
+                } else {
+                    var editext = EditText(activity)
+                    editext.layoutParams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT)
+                    editext.setText(content)
+                    editext.setPadding(0, 0, 0, 0)
+                    editext.setBackgroundColor(activity.resources.getColor(R.color.page_bg))
+                    editext.setTextColor(activity.resources.getColor(R.color.text_black))
+                    editext.addTextChangedListener(object : TextWatcher {
+                        override fun afterTextChanged(p0: Editable?) {
+                        }
+                        override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                        }
+                        override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                            Http.post {
+                                url = BASEURL + Z_UPDATE_ABNORMAL
+                                "zgjbpkid" - map["zgjbpkid"].toString()
+                                "userId" - userId
+                                var stb = StringBuffer()
+                                var i = 0;
+                                while (i < lin.childCount) {
+                                    if (lin.getChildAt(i) is EditText) {
+                                        stb.append((lin.getChildAt(i) as EditText).text.toString())
+                                    } else if (lin.getChildAt(i) is TextView) {
+                                        stb.append((lin.getChildAt(i) as TextView).text.toString())
+                                    }
+                                    stb.append("\n")
+                                    i++
+                                }
+                                if (stb.length != 0) {
+                                    stb.delete(stb.length - 2, stb.length)
+                                    "ycnr" - stb.toString()
+                                }
+                                success {
+
+                                }
+                            }
+                        }
+                    })
+                    lin.addView(editext)
+                }
+
+            }
             if (map["type"].toString().equals(INFORMATIONTYPE_NEEDFOLLOW)) {
-                var handoverName = "<font color=\"#22a3e6\">" + "来自" + map.get("handoverName").toString() + "</font>"
-                if (!needfollows.contains(handoverName)) {
-                    needfollows.add(handoverName)
-                }
-                needfollows.add(needfollows.indexOf(handoverName) + 1, String.format(p2.context.resources.getString(R.string.needfollow), map.get("messageContent").toString()))
+                item_class_abnormal_needfollow_ll.addView(lin)
             } else if (map["type"].toString().equals(INFORMATIONTYPE_SERIOUS)) {
-                var handoverName = "<font color=\"#22a3e6\">" + "来自" + map.get("handoverName").toString() + "</font>"
-                if (!seriouss.contains(handoverName)) {
-                    seriouss.add(handoverName)
-                }
-                seriouss.add(seriouss.indexOf(handoverName) + 1, String.format(p2.context.resources.getString(R.string.needfollow), map.get("messageContent").toString()))
+                item_class_abnormal_serious_ll.addView(lin)
             }
         }
-        var needFollowsStringB = StringBuilder()
-        for (map: String in needfollows) {
-//            needFollowsStringB.append(String.format(p2.context.resources.getString(R.string.next_line), map))
-            needFollowsStringB.append(map)
-            needFollowsStringB.append("<br />")
-        }
-        if (needFollowsStringB.length > 0) {
-            needFollowsStringB.delete(needFollowsStringB.length - "<br />".length, needFollowsStringB.length)
-            item_class_abnormal_needfollow_tv.setText(Html.fromHtml(needFollowsStringB.toString()))
-        }
-        var serioussStringB = StringBuilder()
-        for (map: String in seriouss) {
-//            serioussStringB.append(String.format(p2.context.resources.getString(R.string.next_line), map))
-            serioussStringB.append(map)
-            serioussStringB.append("<br />")
-        }
-        if (serioussStringB.length > 0) {
-            serioussStringB.delete(serioussStringB.length - "<br />".length, serioussStringB.length)
-            item_class_abnormal_serious_tv.setText(Html.fromHtml(serioussStringB.toString()))
-        }
-        if (needfollows.size == 0) {
+
+        if (item_class_abnormal_needfollow_ll.childCount == 0) {
             item_class_abnormal_needfollow_ll_ll.visibility = View.GONE
         }
-        if (seriouss.size == 0) {
+        if (item_class_abnormal_serious_ll.childCount == 0) {
             item_class_abnormal_serious_ll_ll.visibility = View.GONE
         }
         if (userType.toInt() == 1) {

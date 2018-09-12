@@ -33,7 +33,7 @@ val DELET_FILE = "/deleteFj.action"//删除文件
 val IS_HANDOVER = "/ifjbwc.action"//是否交班成功
 val J_HANDOVERDIRECTOR = "/zgsmjb.action"//提交交班
 val SIMPLE_THIS_TIME_TASK = "/fjxx.action"//19异常内容
-val Z_UPDATE_ABNORMAL="zgxgjbbg.action"//24主管修改汇总记录
+val Z_UPDATE_ABNORMAL="/zgxgjbbg.action"//24主管修改汇总记录
 
 //val BASEURL = "http://www.mockhttp.cn/mock/"//基本
 ////val LOGIN = "loginm"//登陆
