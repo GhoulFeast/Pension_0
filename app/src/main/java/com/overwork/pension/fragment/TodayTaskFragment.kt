@@ -81,7 +81,7 @@ class TodayTaskFragment : Fragment() {
                     var i = 0
                     while (i < taskTimeList.size) {
                         var times = taskTimeList.get(i).split(":")
-                        var tTimeLok = times.get(0).toInt() * 60 + times.get(1).toInt() - tTime
+                        var tTimeLok = times.get(0)?.toInt() * 60 + times.get(1)?.toInt() - tTime
                         if ((timelok == -1 || timelok > tTimeLok) && tTimeLok > 0) {
                             timelok = tTimeLok
                             position = i

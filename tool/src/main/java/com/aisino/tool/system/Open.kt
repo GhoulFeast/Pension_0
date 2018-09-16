@@ -17,6 +17,7 @@ import android.util.Log
 import android.view.WindowManager
 import java.io.File
 import android.content.pm.PackageManager.NameNotFoundException
+import com.aisino.tool.log
 
 /**
  * Created by lenovo on 2018/2/26.

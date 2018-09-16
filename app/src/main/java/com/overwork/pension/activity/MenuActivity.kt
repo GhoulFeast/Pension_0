@@ -190,8 +190,10 @@ class MenuActivity : AppCompatActivity(), ServiceConnection {
 //            }
             if (requestCode == QRCODE) {//二维码处理
                 var qr = data.getStringExtra("result")
+                if (qr.length<4){
+                    return
+                }
                 val code = qr.substring(4, qr.length)
-                qr.log("code")
                 var qrFrgment: Fragment? = null
                 when (qr.substring(0, 1)) {
                     "F" -> {
