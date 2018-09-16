@@ -309,7 +309,7 @@ class TaskDetailsFragment : Fragment() {
                     if ((!"status").equals("200")) {
                         val mut = getAny<ArrayList<MutableMap<String, Any>>>("result")[0]
                         val name: String = mut["name"].toString()
-                        if (!((activity as MenuActivity).showFragment is TaskDetailsFragment)) {
+                        if (!(menuActivity.showFragment is TaskDetailsFragment)) {
                             return@runOnUiThread
                         }
                         task_details_name.setText(name)
@@ -438,7 +438,7 @@ class TaskDetailsFragment : Fragment() {
                     upImage = saveBitmapFile(img!!, menuActivity.filesDir.absolutePath + "imgcamera.jpg")
 //                    upImage = saveBitmap(img!!, menuActivity.filesDir.absolutePath + "imgcamera.jpg")
                     addImage(upImage, "", "").setImageBitmap(img)
-                    upLoadImage(upImage, 1)
+                    saveAll(upImage, 1)
                 } else {
                     "uri==null".log("uuu")
                 }
@@ -454,7 +454,7 @@ class TaskDetailsFragment : Fragment() {
                 upImage = saveBitmapFile(img!!, menuActivity.filesDir.absolutePath + "imggallery.jpg")
 //                upImage = saveBitmap(img!!, menuActivity.filesDir.absolutePath + "imggallery.jpg")
                 addImage(upImage, "", "").setImageBitmap(img)
-                upLoadImage(upImage, 1)
+                saveAll(upImage, 1)
             }
             SOUND -> {
                 val uri = data?.data
@@ -462,7 +462,7 @@ class TaskDetailsFragment : Fragment() {
                     return
                 }
                 addSound(uri, null, "")
-                upLoadImage(uri?.toFile(menuActivity), 2)
+                saveAll(uri?.toFile(menuActivity), 2)
             }
         }
     }
@@ -654,7 +654,7 @@ class TaskDetailsFragment : Fragment() {
         }
     }
 
-    fun saveAll(): Unit {
+    fun saveAll(path: File? = null, type: Int = -1): Unit {
         if (TextUtils.isEmpty(abnormal) && imageList.size == 0 && soundList.size == 0) {
             return
         }
@@ -704,12 +704,16 @@ class TaskDetailsFragment : Fragment() {
             "zbpkid" - zbpkids
             success {
                 menuActivity.runOnUiThread {
-                    if (fjxxpkid.equals("")) {//如果没有附件信息id上传后刷新
-                        isOnce = true
-                        if (isSimple) {
-                            initSimpleList()
-                        } else {
-                            initList()
+                    if (type != -1 && path != null) {
+                        upLoadImage(path, type)
+                    } else {
+                        if (fjxxpkid.equals("")) {//如果没有附件信息id上传后刷新
+                            isOnce = true
+                            if (isSimple) {
+                                initSimpleList()
+                            } else {
+                                initList()
+                            }
                         }
                     }
                 }
