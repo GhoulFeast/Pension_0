@@ -137,9 +137,9 @@ class TaskDetailsFragment : Fragment() {
                     task_details_record_ll.visibility = View.VISIBLE
                 }
                 RECORD_TYPE_NEEDHELP -> {
-                    abnormalType = RECORD_TYPE_NON
-                    task_details_record_ll.visibility = View.GONE
-                    task_details_record_needhelp.isChecked = false
+//                    abnormalType = RECORD_TYPE_NON
+//                    task_details_record_ll.visibility = View.GONE
+//                    task_details_record_needhelp.isChecked = false
                 }
                 RECORD_TYPE_HAVE -> {
                     abnormalType = RECORD_TYPE_NEEDHELP
@@ -166,9 +166,9 @@ class TaskDetailsFragment : Fragment() {
                     task_details_record_ll.visibility = View.VISIBLE
                 }
                 RECORD_TYPE_HAVE -> {
-                    abnormalType = RECORD_TYPE_NON
-                    task_details_record_ll.visibility = View.GONE
-                    task_details_record_have.isChecked = false
+//                    abnormalType = RECORD_TYPE_NON
+//                    task_details_record_ll.visibility = View.GONE
+//                    task_details_record_have.isChecked = false
                 }
             }
             if (isfjxxpkid) {
