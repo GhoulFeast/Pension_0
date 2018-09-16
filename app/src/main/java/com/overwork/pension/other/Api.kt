@@ -1,11 +1,12 @@
 package com.overwork.pension.other
 
-val IP = "110.249.218.70"
-//val IP = "192.168.43.175"
-val BASEURL = "http://" + IP + ":8081/appall"//基本
-val UP_HEAD = "http://" + IP + ":8081/upload/"
-val UP_IMAGE = "http://" + IP + ":8081/upload/tpwj/"
-val UP_SOUND = "http://" + IP + ":8081/upload/ypwj/"
+val IP = "110.249.218.70:8081"
+//val IP = "care.cuncaochunhui.com"
+//val IP = "192.168.43.175:8081"
+val BASEURL = "http://" + IP + "/appall"//基本
+val UP_HEAD = "http://" + IP + "/upload/"
+val UP_IMAGE = "http://" + IP + "/upload/tpwj/"
+val UP_SOUND = "http://" + IP + "/upload/ypwj/"
 
 //val BASEURL = "http://" + IP + ":8081/yly/appall"//基本
 //val UP_HEAD = "http://" + IP + ":8081/yly/upload/"

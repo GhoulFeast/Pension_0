@@ -11,6 +11,7 @@ import com.aisino.tool.DEBUG
 import com.aisino.tool.ani.LoadingDialog
 import com.aisino.tool.log
 import com.aisino.tool.system.getAllPermissions
+import com.aisino.tool.system.getIMEICode
 import com.aisino.tool.system.signPermissions
 import com.hq.kbase.network.Http
 import com.overwork.pension.activity.MenuActivity
@@ -113,6 +114,7 @@ class MainActivity : AppCompatActivity() {
             url = BASEURL + LOGIN
             "userAccount" - lg_name.text.toString()
             "userPassword" - lg_pwd.text.toString()
+            "IMEI"-getIMEICode()
             success {
                 if ((!"status").toInt() == 200) {
                     userId = "result".."userId"

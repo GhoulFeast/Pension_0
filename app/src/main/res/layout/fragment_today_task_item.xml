@@ -1,77 +1,81 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal"
-    android:gravity="center_vertical">
+    android:gravity="center_vertical"
+    android:orientation="horizontal">
 
     <LinearLayout
-        android:gravity="center_vertical"
+        android:layout_width="74dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
         android:layout_marginLeft="12dp"
         android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"
         android:background="@drawable/border_white"
-        android:layout_width="84dp"
-        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
         android:orientation="vertical">
 
         <TextView
-            android:gravity="center"
-            android:paddingLeft="8dp"
-            android:paddingRight="8dp"
-            android:paddingTop="2dp"
-            android:textSize="16sp"
             android:id="@+id/item_todaytask_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="氯化钠"
+            android:gravity="center"
+            android:paddingTop="2dp"
+            android:text="氯化钠氢"
+            android:maxLines="1"
             android:textColor="@color/mainColor"
+            android:textSize="16sp"
             android:textStyle="bold" />
 
         <TextView
-            android:gravity="center"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            android:paddingBottom="2dp"
             android:id="@+id/item_todaytask_room"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="center"
+            android:paddingBottom="2dp"
             android:text="101"
             android:textColor="@color/mainColor" />
     </LinearLayout>
 
     <TextView
-        android:layout_marginLeft="8dp"
         android:id="@+id/item_todaytask_task"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
         android:text=""
         android:textColor="@android:color/black"
         android:textSize="14sp" />
+
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:layout_weight="1"/>
+        android:layout_weight="1" />
 
-    <TextView
-        android:textSize="15sp"
-        android:paddingLeft="8dp"
-        android:paddingRight="8dp"
-        android:paddingBottom="4dp"
-        android:paddingTop="4dp"
-        android:background="@drawable/text_green_raid"
-        android:textColor="@color/white"
+    <CheckBox
         android:id="@+id/item_todaytask_state"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/complete" />
+        android:clickable="false"
+        android:theme="@style/green_CheckBox" />
+    <!--<TextView-->
+    <!--android:textSize="15sp"-->
+    <!--android:paddingLeft="8dp"-->
+    <!--android:paddingRight="8dp"-->
+    <!--android:paddingBottom="4dp"-->
+    <!--android:paddingTop="4dp"-->
+    <!--android:background="@drawable/text_green_raid"-->
+    <!--android:textColor="@color/white"-->
+    <!--android:id="@+id/item_todaytask_state"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:text="@string/complete" />-->
 
     <TextView
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="16dp"
         android:id="@+id/item_todaytask_add"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="16dp"
         android:background="@drawable/border_white"
         android:paddingBottom="3dp"
         android:paddingLeft="10dp"
