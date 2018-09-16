@@ -78,6 +78,7 @@ class HandoverDirectorAdapter(taskList: ArrayList<MutableMap<String, Any>>, acti
                     editext.setPadding(0, 0, 0, 0)
                     editext.setBackgroundColor(activity.resources.getColor(R.color.page_bg))
                     editext.setTextColor(activity.resources.getColor(R.color.text_black))
+                    editext.setTextSize(14f)
                     editext.addTextChangedListener(object : TextWatcher {
                         override fun afterTextChanged(p0: Editable?) {
                         }
@@ -100,7 +101,7 @@ class HandoverDirectorAdapter(taskList: ArrayList<MutableMap<String, Any>>, acti
                                     i++
                                 }
                                 if (stb.length != 0) {
-                                    stb.delete(stb.length - 2, stb.length)
+                                    stb.delete(stb.length - 1, stb.length)
                                     "ycnr" - stb.toString()
                                 }
                                 success {

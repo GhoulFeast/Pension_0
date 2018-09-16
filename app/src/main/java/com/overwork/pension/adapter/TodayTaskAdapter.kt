@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
+import android.widget.CheckBox
 import android.widget.TextView
 import com.aisino.tool.system.dip2px
 import com.aisino.tool.toast
@@ -27,23 +28,25 @@ class TodayTaskAdapter(val activity: FragmentActivity, val taskList: ArrayList<M
         var name = view.findViewById<TextView>(R.id.item_todaytask_name)
         var room = view.findViewById<TextView>(R.id.item_todaytask_room)
         var task = view.findViewById<TextView>(R.id.item_todaytask_task)
-        var state = view.findViewById<TextView>(R.id.item_todaytask_state)
+        var state = view.findViewById<CheckBox>(R.id.item_todaytask_state)
         var add = view.findViewById<TextView>(R.id.item_todaytask_add)
         name.setText(taskList[p0]["name"].toString())
         room.setText(taskList[p0]["wardNumber"].toString())
         task.setText(taskList[p0]["task"].toString())
         if (taskList[p0]["state"].toString() .equals("Y") ) {
-            state.background = activity.resources?.getDrawable(R.drawable.text_green_raid)
-            state.setTextColor(activity.resources?.getColor(R.color.white)!!)
-            state.setPadding(activity.dip2px(12F), activity.dip2px(5F), activity.dip2px(12F), activity.dip2px(5F))
-            state.setOnClickListener {
+//            state.background = activity.resources?.getDrawable(R.drawable.text_green_raid)
+//            state.setTextColor(activity.resources?.getColor(R.color.white)!!)
+//            state.setPadding(activity.dip2px(12F), activity.dip2px(5F), activity.dip2px(12F), activity.dip2px(5F))
+            state.isChecked=true
+            view.setOnClickListener {
                 "已完成任务".toast(activity)
             }
         } else {
-            state.background = activity.resources?.getDrawable(R.drawable.border_white)
-            state.setTextColor(activity.resources?.getColor(R.color.mainColor)!!)
-            state.setPadding(activity.dip2px(12F), activity.dip2px(5F), activity.dip2px(12F), activity.dip2px(5F))
-            state.setOnClickListener{
+//            state.background = activity.resources?.getDrawable(R.drawable.border_white)
+//            state.setTextColor(activity.resources?.getColor(R.color.mainColor)!!)
+//            state.setPadding(activity.dip2px(12F), activity.dip2px(5F), activity.dip2px(12F), activity.dip2px(5F))
+            state.isChecked=false
+            view.setOnClickListener{
                 jump(p0)
 
             }
