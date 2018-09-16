@@ -130,7 +130,6 @@ class TaskDetailsFragment : Fragment() {
             }
         })
         task_details_record_needhelp.setOnClickListener {
-
             when (abnormalType) {
                 RECORD_TYPE_NON -> {
                     abnormalType = RECORD_TYPE_NEEDHELP
@@ -145,12 +144,12 @@ class TaskDetailsFragment : Fragment() {
                 RECORD_TYPE_HAVE -> {
                     abnormalType = RECORD_TYPE_NEEDHELP
                     task_details_record_needhelp.isChecked = true
+                    task_details_record_have.isChecked = false
                     task_details_record_ll.visibility = View.VISIBLE
                 }
             }
             if (isfjxxpkid) {
                 saveAll()
-
             }
         }
         task_details_record_have.setOnClickListener {
@@ -158,10 +157,11 @@ class TaskDetailsFragment : Fragment() {
                 RECORD_TYPE_NON -> {
                     abnormalType = RECORD_TYPE_HAVE
                     task_details_record_ll.visibility = View.VISIBLE
-                    task_details_record_have.isChecked = false
+                    task_details_record_have.isChecked = true
                 }
                 RECORD_TYPE_NEEDHELP -> {
                     task_details_record_have.isChecked = true
+                    task_details_record_needhelp.isChecked = false
                     abnormalType = RECORD_TYPE_HAVE
                     task_details_record_ll.visibility = View.VISIBLE
                 }
@@ -309,6 +309,9 @@ class TaskDetailsFragment : Fragment() {
                     if ((!"status").equals("200")) {
                         val mut = getAny<ArrayList<MutableMap<String, Any>>>("result")[0]
                         val name: String = mut["name"].toString()
+                        if (!((activity as MenuActivity).showFragment is TaskDetailsFragment)) {
+                            return@runOnUiThread
+                        }
                         task_details_name.setText(name)
                         val sex: String = mut["sex"].toString()
                         task_details_sex.setText(sex)
@@ -652,6 +655,9 @@ class TaskDetailsFragment : Fragment() {
     }
 
     fun saveAll(): Unit {
+        if (TextUtils.isEmpty(abnormal) && imageList.size == 0 && soundList.size == 0) {
+            return
+        }
 //        var imageString = ""
 //        var soundString = ""
 //        var measurementString = ""
