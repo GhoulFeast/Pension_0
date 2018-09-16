@@ -101,7 +101,7 @@ class TodayTaskFragment : Fragment() {
                     taskStepViewRvAdapter.selectPosion = position
                     taskStepViewRvAdapter.notifyDataSetChanged()
                     showTime = taskTimeList.get(position)
-                    todaytask_rv.post {
+                    todaytask_rv?.post {
                         if (taskStepViewRvAdapter.selectPosion - 2 < 0) {
                             linearLayoutManager.scrollToPositionWithOffset(0, 0)
                         } else {

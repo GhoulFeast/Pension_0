@@ -354,7 +354,7 @@
                     android:textSize="16sp"
                     android:textStyle="bold" />
 
-                <RadioGroup
+                <LinearLayout
                     android:id="@+id/task_details_record_needhelp_rg"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
@@ -379,7 +379,7 @@
                         android:text="@string/have_serious_abnormality"
                         android:textColor="@color/blue"
                         android:textSize="16sp" />
-                </RadioGroup>
+                </LinearLayout>
 
                 <ImageView
                     android:visibility="gone"
