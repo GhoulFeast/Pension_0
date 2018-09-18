@@ -25,7 +25,7 @@ class MainActivity : AppCompatActivity() {
 
     var hasName = false
     var hasPwd = false
-    var isExit=false
+    var isExit = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,8 +37,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun initViewAndEvent(): Unit {
-        isExit= intent.getBooleanExtra("exit",false)
-        if (isExit){
+        isExit = intent.getBooleanExtra("exit", false)
+        if (isExit) {
             var share = getPreferences(Context.MODE_PRIVATE)
             var edio = share.edit()
             edio.putString("yhmc", "")
@@ -55,7 +55,7 @@ class MainActivity : AppCompatActivity() {
         lg_login.alpha = 0.3f
         lg_name.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(ed: Editable?) {
-                hasName=!ed.isNullOrBlank()
+                hasName = !ed.isNullOrBlank()
                 if (hasName && hasPwd) {
                     lg_login.alpha = 1.0f
                 } else {
@@ -71,7 +71,7 @@ class MainActivity : AppCompatActivity() {
         })
         lg_pwd.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(ed: Editable?) {
-                hasPwd=!ed.isNullOrBlank()
+                hasPwd = !ed.isNullOrBlank()
                 if (hasName && hasPwd) {
                     lg_login.alpha = 1.0f
                 } else {
@@ -114,7 +114,8 @@ class MainActivity : AppCompatActivity() {
             url = BASEURL + LOGIN
             "userAccount" - lg_name.text.toString()
             "userPassword" - lg_pwd.text.toString()
-            "IMEI"-getIMEICode()
+//            "IMEI"-getIMEICode()
+            "IMEI" - "868517030880912"
             success {
                 if ((!"status").toInt() == 200) {
                     userId = "result".."userId"
