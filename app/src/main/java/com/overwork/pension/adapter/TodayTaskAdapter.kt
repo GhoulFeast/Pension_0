@@ -94,11 +94,11 @@ class TodayTaskAdapter(val activity: FragmentActivity, val taskList: ArrayList<M
         }else{
 
         }
-        if (userType.equals("1")){
+//        if (userType.equals("1")){
             CZLX="01"
-        }else{
-            CZLX="03"
-        }
+//        }else{
+//            CZLX="03"
+//        }
         (activity as MenuActivity).showFragment(taskDetailsFragment)
     }
 }

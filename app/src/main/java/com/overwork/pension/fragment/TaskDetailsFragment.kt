@@ -34,6 +34,8 @@ import com.aisino.tool.log
 import com.aisino.tool.system.*
 import com.aisino.tool.toast
 import com.aisino.tool.widget.ToastAdd
+import com.aisino.tool.widget.openCenterViewListWindow
+import com.aisino.tool.widget.openUnterTheViewListWindow
 import com.aisino.tool.widget.showFullWindow
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.SimpleTarget
@@ -72,6 +74,7 @@ class TaskDetailsFragment : Fragment() {
 
     var isSimple = false
     var imgPopupWindow: PopupWindow? = null
+    var ablPopupWindow: PopupWindow? = null//异常提示列表pop
     var isDear = false
     lateinit var overDialog: LoadingDialog
     var isOnce = true//是否第一次调研异常文本
@@ -215,6 +218,32 @@ class TaskDetailsFragment : Fragment() {
             } else {
                 initList()
             }
+        }
+        task_details_context_list.setOnClickListener {
+            Http.post {
+                url = BASEURL + ABNORMAL_LIST
+                success {
+                    menuActivity.runOnUiThread {
+                        try {
+                            if ((!"status").equals("200")) {
+                                val list = ArrayList<String>()
+                                val abl = getAny<ArrayList<MutableMap<String, Any>>>("result")
+                                for (l in abl) {
+                                    list.add(l["cyyj"].toString())
+                                }
+                                ablPopupWindow = menuActivity.openCenterViewListWindow(it, list, {
+                                    task_details_context.setText(list[it])
+                                })
+                            } else {
+                                (!"message").toast(menuActivity)
+                            }
+                        } catch (e: Exception) {
+                            e.printStackTrace()
+                        }
+                    }
+                }
+            }
+
         }
     }
 
@@ -807,6 +836,9 @@ class TaskDetailsFragment : Fragment() {
             if (imgPopupWindow != null) {
                 imgPopupWindow?.dismiss()
             }
+            if (ablPopupWindow != null) {
+                ablPopupWindow?.dismiss()
+            }
 
         }
         if (isSimple) {
@@ -828,6 +860,9 @@ class TaskDetailsFragment : Fragment() {
         saveAll()
         if (imgPopupWindow != null) {
             imgPopupWindow?.dismiss()
+        }
+        if (ablPopupWindow != null) {
+            ablPopupWindow?.dismiss()
         }
 //        overDialog.setCanceledOnTouchOutside(false);
 //        overDialog.show();

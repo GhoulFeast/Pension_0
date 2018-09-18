@@ -409,8 +409,19 @@
                     android:layout_marginBottom="6dp"
                     android:background="@drawable/editview_bg"
                     android:gravity="start"
-                    android:inputType="text"
+                    android:inputType="textMultiLine"
                     android:minHeight="64dp" />
+                <TextView
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
+                    android:id="@+id/task_details_context_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:padding="2dp"
+                    android:background="@drawable/text_8d8d8d_raid"
+                    android:textColor="@color/page_bg"
+                    android:text="常用异常说明"/>
 
                 <LinearLayout
                     android:layout_width="match_parent"

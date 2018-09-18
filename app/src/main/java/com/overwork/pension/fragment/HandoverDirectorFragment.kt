@@ -41,6 +41,7 @@ class HandoverDirectorFragment : Fragment() {
         } else {
             getData()
         }
+        CZLX="03"
 
     }
 
