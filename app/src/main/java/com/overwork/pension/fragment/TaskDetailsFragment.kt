@@ -223,7 +223,7 @@ class TaskDetailsFragment : Fragment() {
      * 简单页面加载
      * 19接口
      */
-    fun initSimpleList(): Unit {
+    fun initSimpleList(path: File? = null, type: Int = -1): Unit {
         Http.post {
             url = BASEURL + SIMPLE_THIS_TIME_TASK
 //            if (!CZLX.equals("02")) {
@@ -277,12 +277,15 @@ class TaskDetailsFragment : Fragment() {
 //                        (!"message").toast(menuActivity)
                     }
                     isfjxxpkid = true
+                    if (type != -1 && path != null) {
+                        upLoadImage(path, type)
+                    }
                 }
             }
         }
     }
 
-    fun initList(): Unit {
+    fun initList(path: File? = null, type: Int = -1): Unit {
         Http.post {
             url = BASEURL + THIS_TIME_TASK
 //            if (!CZLX.equals("02")) {
@@ -387,18 +390,20 @@ class TaskDetailsFragment : Fragment() {
                                 }
                             }
                         }
-
-                        task_details_picll.removeAllViews()//重置图片数据
-                        imageList.clear()
-
-                        for (img in mut["imageUrl"] as List<MutableMap<String, Any>>) {
-                            Log.i("asd", img.toString())
-                            addImage(null, UP_IMAGE + img["wjmc"].toString(), img["fb1id"].toString())
-                        }
-                        task_details_soull.removeAllViews()
-                        soundList.clear()
-                        for (sound in mut["soundUrl"] as List<MutableMap<String, Any>>) {
-                            addSound(null, UP_SOUND + sound["wjmc"].toString(), sound["fb1id"].toString())
+                        if (type != -1 && path != null) {
+                            upLoadImage(path, type)
+                        } else {
+                            task_details_picll.removeAllViews()//重置图片数据
+                            imageList.clear()
+                            for (img in mut["imageUrl"] as List<MutableMap<String, Any>>) {
+                                Log.i("asd", img.toString())
+                                addImage(null, UP_IMAGE + img["wjmc"].toString(), img["fb1id"].toString())
+                            }
+                            task_details_soull.removeAllViews()
+                            soundList.clear()
+                            for (sound in mut["soundUrl"] as List<MutableMap<String, Any>>) {
+                                addSound(null, UP_SOUND + sound["wjmc"].toString(), sound["fb1id"].toString())
+                            }
                         }
                     } else {
                         (!"message").toast(menuActivity)
@@ -565,9 +570,9 @@ class TaskDetailsFragment : Fragment() {
                     dialog.dismiss()
                     view.visibility = View.GONE
                     if (type == 1) {
-                        imageList.removeAt(view.getTag(R.id.image_id).toString().toInt())
+                        imageList.set(view.getTag(R.id.image_id).toString().toInt(), FileInfo(null, null, ""))
                     } else {
-                        soundList.removeAt(view.getTag(R.id.image_id).toString().toInt())
+                        soundList.set(view.getTag(R.id.image_id).toString().toInt(), FileInfo(null, null, ""))
                     }
                 }
 
@@ -595,10 +600,11 @@ class TaskDetailsFragment : Fragment() {
             success {
                 menuActivity.runOnUiThread {
                     "上传成功".toast(menuActivity)
+                    var url: String = "result".."scmc"
                     if (type == 1) {
-                        theFileInfoData(path, imageList, "result".."url", "result".."fb1pkid")
+                        theFileInfoData(path, imageList, UP_IMAGE + url, "result".."fb1pkid")
                     } else {
-                        theFileInfoData(path, soundList, "result".."url", "result".."fb1pkid")
+                        theFileInfoData(path, soundList, UP_SOUND + url, "result".."fb1pkid")
                     }
                     dialog.dismiss()
                 }
@@ -655,8 +661,24 @@ class TaskDetailsFragment : Fragment() {
     }
 
     fun saveAll(path: File? = null, type: Int = -1): Unit {
-        if (TextUtils.isEmpty(abnormal) && imageList.size == 0 && soundList.size == 0) {
-            return
+        if (type == -1) {
+            var hasImage = false
+            for (fileinfo: FileInfo in imageList) {
+                if (!TextUtils.isEmpty(fileinfo.fileId)) {
+                    hasImage = true
+                    break
+                }
+            }
+            var hasSound = false
+            for (fileinfo: FileInfo in soundList) {
+                if (!TextUtils.isEmpty(fileinfo.fileId)) {
+                    hasSound = true
+                    break
+                }
+            }
+            if (TextUtils.isEmpty(abnormal) && !hasImage && !hasSound) {
+                return
+            }
         }
 //        var imageString = ""
 //        var soundString = ""
@@ -704,18 +726,17 @@ class TaskDetailsFragment : Fragment() {
             "zbpkid" - zbpkids
             success {
                 menuActivity.runOnUiThread {
-                    if (type != -1 && path != null) {
-                        upLoadImage(path, type)
-                    } else {
-                        if (fjxxpkid.equals("")) {//如果没有附件信息id上传后刷新
-                            isOnce = true
-                            if (isSimple) {
-                                initSimpleList()
-                            } else {
-                                initList()
-                            }
+                    if (fjxxpkid.equals("")) {//如果没有附件信息id上传后刷新
+                        isOnce = true
+                        if (isSimple) {
+                            initSimpleList(path, type)
+                        } else {
+                            initList(path, type)
                         }
+                    } else if (type != -1 && path != null) {
+                        upLoadImage(path, type)
                     }
+
                 }
 
             }
