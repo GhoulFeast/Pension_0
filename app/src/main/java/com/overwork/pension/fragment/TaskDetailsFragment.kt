@@ -83,7 +83,7 @@ class TaskDetailsFragment : Fragment() {
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        overDialog = LoadingDialog(activity).apply { text = "上传中，请稍等" }
+        overDialog = LoadingDialog(menuActivity).apply { text = "上传中，请稍等" }
         taskStepViewRvAdapter = TaskStepViewRvAdapter(activity, taskStepList)
         todaytask_rv.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
         todaytask_rv.adapter = taskStepViewRvAdapter;
