@@ -2,6 +2,7 @@ package com.overwork.pension.adapter
 
 import android.app.Activity
 import android.content.Context
+import android.media.AudioManager.STREAM_MUSIC
 import android.media.MediaPlayer
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentActivity
@@ -15,7 +16,9 @@ import com.aisino.tool.toast
 import com.aisino.tool.widget.showFullWindow
 import com.bumptech.glide.Glide
 import com.overwork.pension.R
+import com.overwork.pension.activity.menuActivity
 import com.overwork.pension.fragment.OldInfoFragment
+import com.overwork.pension.other.AudioMngHelper
 import com.overwork.pension.other.ImageFull
 import com.overwork.pension.other.UP_IMAGE
 import com.overwork.pension.other.UP_SOUND
@@ -47,6 +50,9 @@ class ImageAdapter(fragment: Fragment, activity: Context, taskList: ArrayList<St
                     (fragment as OldInfoFragment).popwindows = ImageFull.showFullWindowViewPage(context as Activity, image, list!!, p0)
 //                    image.showFullWindow()
                 } else {
+                    val aution=AudioMngHelper(menuActivity)
+                    aution.setAudioType(AudioMngHelper.TYPE_MUSIC)
+                    aution.setVoice100(100)
                     val mediaPlayer = MediaPlayer()
                     mediaPlayer.reset()
                     mediaPlayer.setDataSource(UP_SOUND + list!![p0])
