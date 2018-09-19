@@ -54,7 +54,7 @@ fun Activity.openCenterViewListWindow(view: View, data: ArrayList<String>, itemR
     // 点击popuwindow外让其消失
     mPopupWindow.setOutsideTouchable(true)
     val list = mPopView.findViewById<ListView>(R.id.under_the_view_list)
-    list.adapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, data)
+    list.adapter = ArrayAdapter(this, R.layout.item_text, data)
 
     mPopupWindow.setOnDismissListener {
         val params = this.getWindow().getAttributes()

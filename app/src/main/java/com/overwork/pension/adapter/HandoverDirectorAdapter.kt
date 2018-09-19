@@ -137,8 +137,8 @@ class HandoverDirectorAdapter(taskList: ArrayList<MutableMap<String, Any>>, acti
         } else {
             item_class_abnormal_age_tv.setTextColor(p2.context.resources.getColor(R.color.mainColor))
             item_class_abnormal_sex_tv.setTextColor(p2.context.resources.getColor(R.color.mainColor))
-            item_class_abnormal_age_tv.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18f)
-            item_class_abnormal_age_tv.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18f)
+            item_class_abnormal_age_tv.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14f)
+            item_class_abnormal_sex_tv.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14f)
             item_class_add_abnormal_tv.visibility = View.VISIBLE
             item_class_abnormal_room_tv.visibility = View.GONE
         }
