@@ -503,8 +503,12 @@ class TaskDetailsFragment : Fragment() {
 
     fun addSound(uri: Uri?, soundUrl: String?, id: String): Unit {
         val newImg = ImageView(menuActivity)
+        val lp = ViewGroup.LayoutParams(menuActivity.resources.getDimension(R.dimen.dp_36).toInt()
+                , menuActivity.resources.getDimension(R.dimen.dp_36).toInt())
+        newImg.setLayoutParams(lp);
         newImg.setImageResource(R.mipmap.voice)
-        newImg.setPadding(24, 24, 24, 24)
+                newImg.scaleType = ImageView.ScaleType.FIT_XY
+        newImg.setPadding(12, 12, 12, 12)
         newImg.setOnClickListener {
             val mediaPlayer = MediaPlayer()
             mediaPlayer.reset()

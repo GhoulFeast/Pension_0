@@ -129,7 +129,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="8dp"
                 android:text=""
-                android:textSize="18sp" />
+                android:textSize="16sp" />
         </LinearLayout>
 
         <LinearLayout
@@ -419,8 +419,8 @@
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:padding="2dp"
-                    android:background="@drawable/text_8d8d8d_raid"
-                    android:textColor="@color/page_bg"
+                    android:background="@drawable/text_title_blue_raid"
+                    android:textColor="@color/white"
                     android:text="常用异常说明"/>
 
                 <LinearLayout
