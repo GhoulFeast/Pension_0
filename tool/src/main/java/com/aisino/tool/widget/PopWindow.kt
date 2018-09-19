@@ -3,6 +3,7 @@ package com.aisino.tool.widget
 import android.app.Activity
 import android.support.v4.view.PagerAdapter
 import android.support.v4.view.ViewPager
+import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
@@ -38,6 +39,46 @@ fun Activity.openUnterTheViewListWindow(view: View, data: ArrayList<String>, ite
     list.setOnItemClickListener { adapterView: AdapterView<*>, view1: View, i: Int, l: Long ->
         itemRun(i)
         mPopupWindow.dismiss()
+    }
+    return mPopupWindow
+}
+
+fun Activity.openCenterViewListWindow(view: View, data: ArrayList<String>, itemRun: (i: Int) -> Unit): PopupWindow {
+    // 将布局文件转换成View对象，popupview 内容视图
+    val mPopView = this.layoutInflater.inflate(R.layout.center_the_view_window, null)
+    // 将转换的View放置到 新建一个popuwindow对象中
+
+    val mPopupWindow = PopupWindow(mPopView,
+            LinearLayout.LayoutParams.WRAP_CONTENT,
+            LinearLayout.LayoutParams.WRAP_CONTENT)
+    // 点击popuwindow外让其消失
+    mPopupWindow.setOutsideTouchable(true)
+    val list = mPopView.findViewById<ListView>(R.id.under_the_view_list)
+    list.adapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, data)
+
+    mPopupWindow.setOnDismissListener {
+        val params = this.getWindow().getAttributes()
+        params.alpha = 1f
+        this.getWindow().setAttributes(params)
+    }
+    if (mPopupWindow.isShowing()) {
+        mPopupWindow.dismiss();
+    } else {
+        val params = this.getWindow().getAttributes()
+        params.alpha = 0.7f
+        this.getWindow().setAttributes(params)
+        // 设置PopupWindow 显示的形式 底部或者下拉等
+        // 在某个位置显示
+        mPopupWindow.showAtLocation(view, Gravity.CENTER, 0, 0)
+        // 作为下拉视图显示
+        // mPopupWindow.showAsDropDown(mPopView, Gravity.CENTER, 200, 300);
+    }
+    list.setOnItemClickListener { adapterView: AdapterView<*>, view1: View, i: Int, l: Long ->
+        itemRun(i)
+        mPopupWindow.dismiss()
+        val params = this.getWindow().getAttributes()
+        params.alpha = 1f
+        this.getWindow().setAttributes(params)
     }
     return mPopupWindow
 }

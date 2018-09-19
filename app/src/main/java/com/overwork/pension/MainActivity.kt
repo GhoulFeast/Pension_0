@@ -114,8 +114,8 @@ class MainActivity : AppCompatActivity() {
             url = BASEURL + LOGIN
             "userAccount" - lg_name.text.toString()
             "userPassword" - lg_pwd.text.toString()
-//            "IMEI"-getIMEICode()
-            "IMEI" - "868517030880912"
+            "IMEI"-getIMEICode()
+//            "IMEI" - "868517030880912"
             success {
                 if ((!"status").toInt() == 200) {
                     userId = "result".."userId"

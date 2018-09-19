@@ -305,6 +305,13 @@ class MenuActivity : AppCompatActivity(), ServiceConnection {
                     (showFragment as TaskDetailsFragment).imgPopupWindow?.dismiss()
                     return
                 }
+
+            }
+            if((showFragment as TaskDetailsFragment).ablPopupWindow!=null) {
+                if ((showFragment as TaskDetailsFragment).ablPopupWindow!!.isShowing) {
+                    (showFragment as TaskDetailsFragment).ablPopupWindow?.dismiss()
+                    return
+                }
             }
         }
         if (showFragment is OldInfoFragment){//护理详情图片消除
