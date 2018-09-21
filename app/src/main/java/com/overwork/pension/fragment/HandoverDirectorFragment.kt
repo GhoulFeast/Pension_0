@@ -89,9 +89,11 @@ class HandoverDirectorFragment : Fragment() {
     }
 
     fun getData(): Unit {
-        val dialog = LoadingDialog(menuActivity);
-        dialog.setCanceledOnTouchOutside(false);
-        dialog.show()
+        val dialog = LoadingDialog(menuActivity)
+        dialog.setCanceledOnTouchOutside(false)
+        if (!menuActivity.isDestroyed){
+            dialog.show()
+        }
         Http.post {
             url = BASEURL + J_HANDOVERDIRECTOR
             "userId" - menuActivity.getData<String>("jbrid")
