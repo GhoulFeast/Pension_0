@@ -5,6 +5,16 @@
     android:background="@color/primary_light"
     android:layout_height="match_parent">
 
+    <TextView
+        android:background="@color/bluePrimary"
+        android:gravity="center"
+        android:padding="4dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="常用异常说明"
+        android:textColor="@color/primary_light"
+        android:textStyle="bold"
+        android:textSize="16sp"/>
     <ListView
         android:id="@+id/under_the_view_list"
         android:dividerHeight="0.5dp"

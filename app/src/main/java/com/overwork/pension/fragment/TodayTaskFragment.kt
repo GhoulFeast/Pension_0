@@ -122,11 +122,11 @@ class TodayTaskFragment : Fragment() {
             url = BASEURL + T_TASK
             "userId" - userId
             "kssj" - showTime
-            if ((activity as MenuActivity).hasData(lrId)) {
+            if (menuActivity.hasData(lrId)) {
                 "lrpkid" - (activity as MenuActivity).getData<String>(lrId)
 //                (activity as MenuActivity).removeData(lrId)
             }
-            if ((activity as MenuActivity).hasData("cwpkid")) {//有cwpkid时加参
+            if (menuActivity.hasData("cwpkid")) {//有cwpkid时加参
                 "cwpkid" - (activity as MenuActivity).getData<String>("cwpkid")
 //                (activity as MenuActivity).removeData("cwpkid")
             }
