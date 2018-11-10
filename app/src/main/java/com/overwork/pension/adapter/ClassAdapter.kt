@@ -90,21 +90,12 @@ class ClassAdapter(taskList: ArrayList<MutableMap<String, Any>>) : BaseAdapter()
         if (TextUtils.isEmpty(item_class_abnormal_serious_tv.text.toString())) {
             item_class_abnormal_serious_ll_ll.visibility = View.GONE
         }
-        if (userType.toInt() == 1) {
-            item_class_abnormal_age_tv.setTextColor(p2.context.resources.getColor(R.color.text_black))
-            item_class_abnormal_sex_tv.setTextColor(p2.context.resources.getColor(R.color.text_black))
-            item_class_abnormal_age_tv.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14f)
-            item_class_abnormal_sex_tv.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14f)
-            item_class_add_abnormal_tv.visibility = View.GONE
-            item_class_abnormal_room_tv.visibility = View.VISIBLE
-        } else {
-            item_class_abnormal_age_tv.setTextColor(p2.context.resources.getColor(R.color.mainColor))
-            item_class_abnormal_sex_tv.setTextColor(p2.context.resources.getColor(R.color.mainColor))
-            item_class_abnormal_age_tv.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18f)
-            item_class_abnormal_age_tv.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18f)
-            item_class_add_abnormal_tv.visibility = View.VISIBLE
-            item_class_abnormal_room_tv.visibility = View.GONE
-        }
+        item_class_abnormal_age_tv.setTextColor(p2.context.resources.getColor(R.color.text_black))
+        item_class_abnormal_sex_tv.setTextColor(p2.context.resources.getColor(R.color.text_black))
+        item_class_abnormal_age_tv.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14f)
+        item_class_abnormal_sex_tv.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14f)
+        item_class_abnormal_room_tv.visibility = View.VISIBLE
+        item_class_add_abnormal_tv.visibility = View.GONE
         return p1
     }
 

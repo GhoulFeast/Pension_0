@@ -20,6 +20,7 @@ import com.aisino.tool.widget.openUnterTheViewListWindow
 import com.overwork.pension.R
 import com.overwork.pension.fragment.*
 import com.overwork.pension.other.UseFragmentManager
+import com.overwork.pension.other.userId
 import com.overwork.pension.other.userType
 import com.overwork.pension.service.AutoUpdateService
 import kotlinx.android.synthetic.main.activity_menu.*
@@ -68,7 +69,9 @@ class MenuActivity : AppCompatActivity(), ServiceConnection {
             fragments.clear()
             if (userType.toInt() == 2) {
                 var classFragment = HandoverDirectorFragment()
-                isZJ = true
+                if (!iszgjb) {
+                    isZJ = true
+                }
 //                        startActivityForResult(Intent(this, CaptureActivity::class.java), -1)
                 UseFragmentManager.displayFragment(showFragment, classFragment,
                         supportFragmentManager, R.id.main_ll)
@@ -190,7 +193,7 @@ class MenuActivity : AppCompatActivity(), ServiceConnection {
 //            }
             if (requestCode == QRCODE) {//二维码处理
                 var qr = data.getStringExtra("result")
-                if (qr.length<4){
+                if (qr.length < 4) {
                     return
                 }
                 val code = qr.substring(4, qr.length)
@@ -237,9 +240,17 @@ class MenuActivity : AppCompatActivity(), ServiceConnection {
         showFragment?.onActivityResult(requestCode, resultCode, data)
     }
 
-//    fun setTextView(title: Int): Unit {
+    //    fun setTextView(title: Int): Unit {
 //        title_text.setText(title)
 //    }
+
+
+    fun toDirectorHandover() {
+        isZJ = false
+        iszgjb = true
+        menuActivity.putData("jbrid", userId)
+        main_rb_class.performClick()
+    }
 
     fun showFragment(initFragment: Fragment): Unit {
         UseFragmentManager.displayFragment(showFragment, initFragment,
@@ -299,24 +310,24 @@ class MenuActivity : AppCompatActivity(), ServiceConnection {
 
     override fun onBackPressed() {
 //        super.onBackPressed()
-        if (showFragment is TaskDetailsFragment){//护理详情图片消除
-            if((showFragment as TaskDetailsFragment).imgPopupWindow!=null){
-                if ((showFragment as TaskDetailsFragment).imgPopupWindow!!.isShowing){
+        if (showFragment is TaskDetailsFragment) {//护理详情图片消除
+            if ((showFragment as TaskDetailsFragment).imgPopupWindow != null) {
+                if ((showFragment as TaskDetailsFragment).imgPopupWindow!!.isShowing) {
                     (showFragment as TaskDetailsFragment).imgPopupWindow?.dismiss()
                     return
                 }
 
             }
-            if((showFragment as TaskDetailsFragment).ablPopupWindow!=null) {
+            if ((showFragment as TaskDetailsFragment).ablPopupWindow != null) {
                 if ((showFragment as TaskDetailsFragment).ablPopupWindow!!.isShowing) {
                     (showFragment as TaskDetailsFragment).ablPopupWindow?.dismiss()
                     return
                 }
             }
         }
-        if (showFragment is OldInfoFragment){//护理详情图片消除
-            if((showFragment as OldInfoFragment).popwindows!=null){
-                if ((showFragment as OldInfoFragment).popwindows!!.isShowing){
+        if (showFragment is OldInfoFragment) {//护理详情图片消除
+            if ((showFragment as OldInfoFragment).popwindows != null) {
+                if ((showFragment as OldInfoFragment).popwindows!!.isShowing) {
                     (showFragment as OldInfoFragment).popwindows?.dismiss()
                     return
                 }
@@ -328,7 +339,7 @@ class MenuActivity : AppCompatActivity(), ServiceConnection {
         if (popupWindow != null) {
             popupWindow?.dismiss()
         }
-        if (showFragment is HomeFragment || showFragment is HandoverInfoFragment || showFragment is MsgFragment || showFragment is MineFragment||showFragment is HandoverEndFragment||showFragment is HandoverDirectorFragment) {
+        if (showFragment is HomeFragment || showFragment is HandoverInfoFragment || showFragment is MsgFragment || showFragment is MineFragment || showFragment is HandoverEndFragment || showFragment is HandoverDirectorFragment) {
             if (System.currentTimeMillis() - backPressTime < 1000) {
                 finish()
             } else {
