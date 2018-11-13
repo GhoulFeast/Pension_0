@@ -44,6 +44,8 @@ class ClassAdapter(taskList: ArrayList<MutableMap<String, Any>>) : BaseAdapter()
         var item_class_abnormal_needfollow_ll_ll = p1.findViewById<LinearLayout>(R.id.item_class_abnormal_needfollow_ll_ll)
         var item_class_abnormal_serious_tv = p1.findViewById<TextView>(R.id.item_class_abnormal_serious_tv)
         var item_class_abnormal_serious_ll_ll = p1.findViewById<LinearLayout>(R.id.item_class_abnormal_serious_ll_ll)
+        var item_class_abnormal_nothing_ll_ll = p1.findViewById<LinearLayout>(R.id.item_class_abnormal_nothing_ll_ll)
+        var item_class_abnormal_nothing_tv = p1.findViewById<TextView>(R.id.item_class_abnormal_nothing_tv)
         var item_class_add_abnormal_tv = p1.findViewById<TextView>(R.id.item_class_add_abnormal_tv)
         item_class_abnormal_needfollow_tv.setMovementMethod(ScrollingMovementMethod.getInstance())
         item_class_abnormal_serious_tv.setMovementMethod(ScrollingMovementMethod.getInstance())
@@ -61,11 +63,14 @@ class ClassAdapter(taskList: ArrayList<MutableMap<String, Any>>) : BaseAdapter()
         var mutables: List<MutableMap<String, Any>> = abnormalList.get(p0)["informationList"] as List<MutableMap<String, Any>>
         var needfollows = ArrayList<String>()
         var seriouss = ArrayList<String>()
+        var nothing = ArrayList<String>()
         for (map: MutableMap<String, Any> in mutables) {//方法多调用一次
             if (map["type"].toString().equals(INFORMATIONTYPE_NEEDFOLLOW)) {
                 needfollows.add(String.format(p2.context.resources.getString(R.string.needfollow), map["messageContent"].toString()))
             } else if (map["type"].toString().equals(INFORMATIONTYPE_SERIOUS)) {
                 seriouss.add(String.format(p2.context.resources.getString(R.string.have_serious_abnormality11), map["messageContent"].toString()))
+            }else if (map["type"].toString().equals(INFORMATIONTYPE_NORMAL)) {
+                nothing.add(map["messageContent"].toString())
             }
         }
         var needFollowsStringB = StringBuilder()
@@ -84,11 +89,22 @@ class ClassAdapter(taskList: ArrayList<MutableMap<String, Any>>) : BaseAdapter()
             serioussStringB.delete(serioussStringB.length - 1, serioussStringB.length)
             item_class_abnormal_serious_tv.setText(serioussStringB.toString())
         }
+        var nothingStringB = StringBuilder()
+        for (map: String in nothing) {
+            nothingStringB.append(String.format(p2.context.resources.getString(R.string.next_line), map))
+        }
+        if (nothingStringB.length > 0) {
+            nothingStringB.delete(nothingStringB.length - 1, nothingStringB.length)
+            item_class_abnormal_nothing_tv.setText(nothingStringB.toString())
+        }
         if (TextUtils.isEmpty(item_class_abnormal_needfollow_tv.text.toString())) {
             item_class_abnormal_needfollow_ll_ll.visibility = View.GONE
         }
         if (TextUtils.isEmpty(item_class_abnormal_serious_tv.text.toString())) {
             item_class_abnormal_serious_ll_ll.visibility = View.GONE
+        }
+        if (TextUtils.isEmpty(item_class_abnormal_nothing_tv.text.toString())) {
+            item_class_abnormal_nothing_ll_ll.visibility = View.GONE
         }
         item_class_abnormal_age_tv.setTextColor(p2.context.resources.getColor(R.color.text_black))
         item_class_abnormal_sex_tv.setTextColor(p2.context.resources.getColor(R.color.text_black))

@@ -10,10 +10,7 @@ import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.BaseAdapter
-import android.widget.EditText
-import android.widget.LinearLayout
-import android.widget.TextView
+import android.widget.*
 import com.aisino.tool.toast
 import com.hq.kbase.network.Http
 import com.overwork.pension.R
@@ -48,6 +45,8 @@ class HandoverDirectorAdapter(taskList: ArrayList<MutableMap<String, Any>>, acti
         var item_class_abnormal_needfollow_ll_ll = p1.findViewById<LinearLayout>(R.id.item_class_abnormal_needfollow_ll_ll)
         var item_class_abnormal_serious_ll = p1.findViewById<LinearLayout>(R.id.item_class_abnormal_serious_ll)
         var item_class_abnormal_serious_ll_ll = p1.findViewById<LinearLayout>(R.id.item_class_abnormal_serious_ll_ll)
+        var item_class_abnormal_nothing_ll = p1.findViewById<LinearLayout>(R.id.item_class_abnormal_nothing_ll)
+        var item_class_abnormal_nothing_ll_ll = p1.findViewById<LinearLayout>(R.id.item_class_abnormal_nothing_ll_ll)
         var item_class_add_abnormal_tv = p1.findViewById<TextView>(R.id.item_class_add_abnormal_tv)
         item_class_abnormal_name_tv.setText(abnormalList.get(p0)["name"].toString())
         var stringB = StringBuilder();
@@ -118,6 +117,8 @@ class HandoverDirectorAdapter(taskList: ArrayList<MutableMap<String, Any>>, acti
                 item_class_abnormal_needfollow_ll.addView(lin)
             } else if (map["type"].toString().equals(INFORMATIONTYPE_SERIOUS)) {
                 item_class_abnormal_serious_ll.addView(lin)
+            }else if (map["type"].toString().equals(INFORMATIONTYPE_NORMAL)) {
+                item_class_abnormal_nothing_ll.addView(lin)
             }
         }
 
@@ -126,6 +127,9 @@ class HandoverDirectorAdapter(taskList: ArrayList<MutableMap<String, Any>>, acti
         }
         if (item_class_abnormal_serious_ll.childCount == 0) {
             item_class_abnormal_serious_ll_ll.visibility = View.GONE
+        }
+        if (item_class_abnormal_nothing_ll.childCount == 0) {
+            item_class_abnormal_nothing_ll_ll.visibility = View.GONE
         }
         if (userType.toInt() == 1) {
             item_class_abnormal_age_tv.setTextColor(p2.context.resources.getColor(R.color.text_black))

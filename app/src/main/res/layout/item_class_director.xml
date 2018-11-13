@@ -135,6 +135,33 @@
                         android:padding="@dimen/dp_5"
                         android:textColor="@color/text_black" />
             </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/item_class_abnormal_nothing_ll_ll"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/ll_page_bg"
+                android:orientation="horizontal">
+
+                <View
+                    android:layout_width="3dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginTop="5dp"
+                    android:background="@color/colorAccent" />
+
+                <LinearLayout
+                    android:id="@+id/item_class_abnormal_nothing_ll"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:maxLines="3"
+                    android:nestedScrollingEnabled="true"
+                    android:orientation="vertical"
+                    android:padding="@dimen/dp_5"
+                    android:textColor="@color/text_black" />
+            </LinearLayout>
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>
