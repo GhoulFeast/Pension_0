@@ -38,7 +38,7 @@ class Submit {
     var method = Method.GET
     var returnType = ReturnType.JSON
     var downloadPath = System.currentTimeMillis().toString() + ".jpg"
-    var outTime = 5L//单位为秒
+    var outTime = 20L//单位为秒
 
     val _params: MutableMap<String, Any> = mutableMapOf()
     val _fileParams: MutableMap<String, String> = mutableMapOf()
