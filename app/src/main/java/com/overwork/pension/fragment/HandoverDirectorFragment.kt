@@ -23,7 +23,7 @@ import kotlinx.android.synthetic.main.fragment_handoverdirector.*
  * Created by feima on 2018/7/14.
  */
 var isZJ = false
-
+var iszgjb = false
 class HandoverDirectorFragment : Fragment() {
     lateinit var classAdapter: HandoverDirectorAdapter
     var classBeans: ArrayList<MutableMap<String, Any>> = ArrayList()
@@ -39,6 +39,7 @@ class HandoverDirectorFragment : Fragment() {
         if (isZJ) {
             getZG()
         } else {
+            iszgjb=false
             getData()
         }
         CZLX="03"
@@ -190,7 +191,7 @@ class HandoverDirectorFragment : Fragment() {
 
     fun initViewAndEvent(): Unit {
         (activity as MenuActivity).style {
-            textBar = "接班"
+            textBar = "交接班"
         }
         classAdapter = HandoverDirectorAdapter(classBeans,menuActivity)
         director_rlv.adapter = classAdapter
@@ -199,5 +200,31 @@ class HandoverDirectorFragment : Fragment() {
                     startActivityForResult(Intent(menuActivity, CaptureActivity::class.java), QRCODE)
             }
         })
+        director_review_handover_tv.setOnClickListener {
+            Http.post {
+                url = BASEURL + IS_HANDOVER
+
+                "userId" - userId
+
+                success {
+                    menuActivity.runOnUiThread {
+                        if ((!"status").equals("200")) {
+                            val w: Boolean = "result".."isHandove"
+                            if (w) {
+                                (activity as MenuActivity).showFragment(HandoverEndFragment())
+                            } else {
+                                var handoverInfo = HandoverInfoFragment()
+                                (activity as MenuActivity).showFragment(handoverInfo)
+                            }
+                        }else{
+                            var handoverInfo = HandoverInfoFragment()
+                            (activity as MenuActivity).showFragment(handoverInfo)
+                        }
+                    }
+                }
+                fail { }
+            }
+
+        }
     }
 }

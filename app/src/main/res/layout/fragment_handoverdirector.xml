@@ -26,7 +26,7 @@
             android:id="@+id/director_handover_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
+           android:layout_above="@+id/director_review_handover_tv"
             android:layout_centerHorizontal="true"
             android:layout_gravity="center"
             android:layout_marginBottom="15dp"
@@ -37,6 +37,23 @@
             android:paddingRight="55dp"
             android:paddingTop="15dp"
             android:text="继续接班"
+            android:textColor="@color/white"
+            android:textSize="16sp" />
+        <TextView
+            android:id="@+id/director_review_handover_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="center"
+            android:layout_marginBottom="15dp"
+            android:layout_marginTop="15dp"
+            android:background="@drawable/text_green_5_r"
+            android:paddingBottom="15dp"
+            android:paddingLeft="55dp"
+            android:paddingRight="55dp"
+            android:paddingTop="15dp"
+            android:text="复查交班"
             android:textColor="@color/white"
             android:textSize="16sp" />
     </RelativeLayout>

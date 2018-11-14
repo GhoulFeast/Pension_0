@@ -21,8 +21,8 @@ import com.overwork.pension.activity.menuActivity
 import com.overwork.pension.adapter.ClassAdapter
 import com.overwork.pension.other.*
 import com.overwork.pension.service.IsHandoverService
+import kotlinx.android.synthetic.main.activity_menu.*
 import kotlinx.android.synthetic.main.fragment_class.*
-import kotlinx.android.synthetic.main.fragment_handover.*
 
 
 class ClassFragment : Fragment(), ServiceConnection {
@@ -38,9 +38,13 @@ class ClassFragment : Fragment(), ServiceConnection {
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initViewAndEvent()
-        val intent = Intent(activity, IsHandoverService::class.java)
-        activity.bindService(intent, this@ClassFragment, Context.BIND_AUTO_CREATE)
-        activity.startService(intent)
+        if (userType.toInt() != 2) {
+            val intent = Intent(activity, IsHandoverService::class.java)
+            activity.bindService(intent, this@ClassFragment, Context.BIND_AUTO_CREATE)
+            activity.startService(intent)
+        } else {
+
+        }
         getData()
     }
 
@@ -51,6 +55,7 @@ class ClassFragment : Fragment(), ServiceConnection {
         Http.post {
             url = BASEURL + T_ABNORMAL
             "userId" - userId
+            "jblx" - userType
             success {
                 menuActivity.runOnUiThread {
                     if ((!"status").equals("200")) {
@@ -82,15 +87,21 @@ class ClassFragment : Fragment(), ServiceConnection {
 //        class_qrcode_ivv.viewTreeObserver.addOnDrawListener({
 //            class_qrcode_ivv.setImageBitmap(EncodingUtils.createQRCode("ZY||" + userId, class_qrcode_ivv.width, class_qrcode_ivv.height, null))
 //        })
-        val h = Handler()
-        h.postDelayed({
-            class_qrcode_ivv.setImageBitmap(EncodingUtils.createQRCode("ZY||" + userId, class_qrcode_ivv.width, class_qrcode_ivv.height, null))
-        }, 300)
-//        class_handover_tv.setOnClickListener(object : View.OnClickListener {
-//            override fun onClick(p0: View?) {
-//
-//            }
-//        })
+        if (userType.toInt() == 2) {
+            class_qrcode_ivv.visibility = View.GONE
+            class_handover_tv.visibility=View.VISIBLE
+        }else{
+            class_handover_tv.visibility=View.GONE
+            val h = Handler()
+            h.postDelayed({
+                class_qrcode_ivv.setImageBitmap(EncodingUtils.createQRCode("ZY||" + userId, class_qrcode_ivv.width, class_qrcode_ivv.height, null))
+            }, 300)
+        }
+        class_handover_tv.setOnClickListener(object : View.OnClickListener {
+            override fun onClick(p0: View?) {
+                menuActivity.toDirectorHandover()
+            }
+        })
     }
 
     override fun onHiddenChanged(hidden: Boolean) {
@@ -116,8 +127,10 @@ class ClassFragment : Fragment(), ServiceConnection {
         super.onDestroy()
         auBinder = null
     }
+
     override fun onServiceDisconnected(p0: ComponentName?) {
     }
+
     override fun onServiceConnected(p0: ComponentName?, p1: IBinder?) {
         auBinder = p1 as IsHandoverService.Binder
         auBinder?.setRun(true)

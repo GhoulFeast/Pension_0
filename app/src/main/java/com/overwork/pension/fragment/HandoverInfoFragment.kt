@@ -121,14 +121,29 @@ class HandoverInfoFragment : Fragment() {
 
     override fun onHiddenChanged(hidden: Boolean) {
         super.onHiddenChanged(hidden)
-        (activity as MenuActivity).style {
-            textBar = activity.resources.getString(R.string.ylyxt)
+        if (userType.toInt() == 2) {
+            (activity as MenuActivity).style {
+                textBar = ""
+                titleBar = "复查交班"
+            }
+        } else {
+            (activity as MenuActivity).style {
+                textBar = activity.resources.getString(R.string.ylyxt)
+            }
         }
     }
 
     fun initViewAndEvent(): Unit {
-        (activity as MenuActivity).style {
-            textBar = activity.resources.getString(R.string.ylyxt)
+        if (userType.toInt() == 2) {
+            (activity as MenuActivity).style {
+                textBar = ""
+                titleBar = "复查交班"
+            }
+            class_handover_tv.setText("生成交班报告")
+        } else {
+            (activity as MenuActivity).style {
+                textBar = activity.resources.getString(R.string.ylyxt)
+            }
         }
         handoverInfoAdapter = HandoverInfoAdapter(handoverInfos)
         class_rlv.adapter = handoverInfoAdapter
