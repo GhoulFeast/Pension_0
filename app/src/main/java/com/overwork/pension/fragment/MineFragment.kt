@@ -64,7 +64,6 @@ class MineFragment : Fragment() {
         (activity as MenuActivity).style {
             textBar = activity.resources.getString(R.string.ylyxt)
         }
-        getVersionNum();
     }
 
     override fun onHiddenChanged(hidden: Boolean) {
@@ -98,21 +97,21 @@ class MineFragment : Fragment() {
         }
     }
 
-    fun getVersionNum() {
-        Http.post {
-            url = BASEURL + VERSION_NUM
-            success {
-                activity.runOnUiThread {
-                    if ((!"status").toInt() == 200) {
-                        mine_checkupdata.setText("检查更新，最新版本" + (!"result"))
-                    }
-                }
-
-            }
-            fail {
-
-            }
-        }
-
-    }
+//    fun getVersionNum() {
+//        Http.post {
+//            url = BASEURL + VERSION_NUM
+//            success {
+//                activity.runOnUiThread {
+//                    if ((!"status").toInt() == 200) {
+//                        mine_checkupdata.setText("检查更新，最新版本" + (!"result"))
+//                    }
+//                }
+//
+//            }
+//            fail {
+//
+//            }
+//        }
+//
+//    }
 }
