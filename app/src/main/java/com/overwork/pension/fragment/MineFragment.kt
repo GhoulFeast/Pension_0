@@ -39,7 +39,7 @@ class MineFragment : Fragment() {
         mine_user_starttime.setText(String.format(resources.getString(R.string.text_entryTime, entryTime)))
         mine_user_overtime.setText(String.format(resources.getString(R.string.text_workingyears, workingYears)))
         mine_user_ld.setText(String.format(resources.getString(R.string.text_superiorName, superiorName)))
-        Glide.with(activity).load(UP_HEAD+userPortrait).error(R.mipmap.hs) .bitmapTransform(CropCircleTransformation(activity)).into(mine_user_icon)
+        Glide.with(activity).load(UP_HEAD + userPortrait).error(R.mipmap.hs).bitmapTransform(CropCircleTransformation(activity)).into(mine_user_icon)
         tomorrowTaskAdp.setTomorrow(object : TomorrowTaskAdapter.OnTomorrow {
             override fun OnHandoverClick(id: String) {
                 var old = OldInfoFragment()
@@ -50,22 +50,27 @@ class MineFragment : Fragment() {
             }
         })
 
-        mine_exit_user.setOnClickListener{
-            val intent=Intent(activity,MainActivity::class.java)
-            intent.putExtra("exit",true)
-            startActivity( intent)
+        mine_exit_user.setOnClickListener {
+            val intent = Intent(activity, MainActivity::class.java)
+            intent.putExtra("exit", true)
+            startActivity(intent)
             activity.finish()
         }
+        mine_checkupdata.setOnClickListener {
+            menuActivity.checkUpdata()
+        }
+
         getData()
         (activity as MenuActivity).style {
-            textBar=activity.resources.getString(R.string.ylyxt)
+            textBar = activity.resources.getString(R.string.ylyxt)
         }
+        getVersionNum();
     }
 
     override fun onHiddenChanged(hidden: Boolean) {
         super.onHiddenChanged(hidden)
         (activity as MenuActivity).style {
-            textBar=activity.resources.getString(R.string.ylyxt)
+            textBar = activity.resources.getString(R.string.ylyxt)
         }
     }
 
@@ -78,7 +83,7 @@ class MineFragment : Fragment() {
             "userId" - userId
             success {
                 menuActivity.runOnUiThread {
-                    if((!"status").equals("200")){
+                    if ((!"status").equals("200")) {
                         tomorrowTasks.clear()
                         var tomorrows: ArrayList<MutableMap<String, Any>> = "result".."tomorrow"
                         tomorrows.let { tomorrowTasks.addAll(tomorrows) }
@@ -91,5 +96,23 @@ class MineFragment : Fragment() {
                 dialog.dismiss()
             }
         }
+    }
+
+    fun getVersionNum() {
+        Http.post {
+            url = BASEURL + VERSION_NUM
+            success {
+                activity.runOnUiThread {
+                    if ((!"status").toInt() == 200) {
+                        mine_checkupdata.setText("检查更新，最新版本" + (!"result"))
+                    }
+                }
+
+            }
+            fail {
+
+            }
+        }
+
     }
 }

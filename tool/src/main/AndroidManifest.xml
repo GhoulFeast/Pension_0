@@ -1,20 +1,19 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.aisino.tool" >
+    package="com.aisino.tool">
     <!--<uses-permission android:name="android.permission.READ_PHONE_STATE"/>-->
     <!--<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>-->
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <application
-        android:allowBackup="true"
-         >
+    <uses-permission android:name="android.permission.INTERNET" />
+    <application android:allowBackup="true">
 
         <provider
             android:name="android.support.v4.content.FileProvider"
             android:authorities="com.aisino.tool.fileProvider"
-            android:grantUriPermissions="true"
-            android:exported="false">
+            android:exported="false"
+            android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/imgpaths" />
         </provider>
+        <service android:name=".model.update.DownloadService"></service>
     </application>
 </manifest>
