@@ -7,17 +7,23 @@ import android.content.DialogInterface
 import android.content.Intent
 
 import com.aisino.tool.R
+import com.aisino.tool.ani.LoadingDialog
 
 internal object UpdateDialog {
 
 
-    fun show(context: Context, content: String, downloadUrl: String) {
+    fun show(context: Activity, content: String, downloadUrl: String) {
         if (isContextValid(context)) {
             AlertDialog.Builder(context)
                     .setTitle(R.string.android_auto_update_dialog_title)
                     .setMessage(content)
-                    .setPositiveButton(R.string.android_auto_update_dialog_btn_download) { dialog, id -> goToDownload(context, downloadUrl) }
-                    .setNegativeButton(R.string.android_auto_update_dialog_btn_cancel) { dialog, id -> }
+                    .setPositiveButton(R.string.android_auto_update_dialog_btn_download) { dialog, id ->
+                        goToDownload(context, downloadUrl)
+                        var dialog = LoadingDialog(context)
+                        dialog.setCancelable(false)
+                        dialog.show()
+                    }
+                    .setNegativeButton(R.string.android_auto_update_dialog_btn_cancel) { dialog, id -> context.finish() }
                     .setCancelable(false)
                     .show()
         }

@@ -1,6 +1,7 @@
 package com.overwork.pension.activity
 
 import android.app.Activity
+import android.app.AlertDialog
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
@@ -9,20 +10,21 @@ import android.os.Bundle
 import android.os.IBinder
 import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
+import android.util.Log
 import android.view.View
-import android.widget.AdapterView
-import android.widget.PopupWindow
-import android.widget.RadioButton
+import android.widget.*
 import com.aisino.qrcode.activity.CaptureActivity
 import com.aisino.tool.log
+import com.aisino.tool.model.update.UpdateChecker
+import com.aisino.tool.system.getIMEICode
 import com.aisino.tool.toast
 import com.aisino.tool.widget.openUnterTheViewListWindow
+import com.hq.kbase.network.Http
 import com.overwork.pension.R
 import com.overwork.pension.fragment.*
-import com.overwork.pension.other.UseFragmentManager
-import com.overwork.pension.other.userId
-import com.overwork.pension.other.userType
+import com.overwork.pension.other.*
 import com.overwork.pension.service.AutoUpdateService
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.activity_menu.*
 
 val QRCODE = 999
@@ -48,6 +50,7 @@ class MenuActivity : AppCompatActivity(), ServiceConnection {
         setContentView(R.layout.activity_menu)
         menuActivity = this
         initViewAndEvent()
+        checkUpdata()
     }
 
     fun initViewAndEvent(): Unit {
@@ -368,4 +371,23 @@ class MenuActivity : AppCompatActivity(), ServiceConnection {
         }
     }
 
+    fun checkUpdata() {
+        Http.post {
+            url = BASEURL + VERSION_NUM
+            success {
+                runOnUiThread {
+                    if ((!"status").toInt() == 200) {
+                        var serverVersionNum = (!"result").toInt()
+                        if (serverVersionNum != packageManager.getPackageInfo(packageName, 0).versionCode) {
+                            UpdateChecker.checkForDialog(this@MenuActivity, "有更新！", APK_URL)
+                        }
+                    }
+                }
+            }
+            fail {
+
+            }
+        }
+
+    }
 }

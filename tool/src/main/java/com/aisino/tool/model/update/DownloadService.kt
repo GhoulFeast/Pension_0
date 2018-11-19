@@ -40,7 +40,7 @@ class DownloadService : IntentService("DownloadService") {
         var bytesum: Long = 0
         var byteread = 0
         ins = urlConnection.inputStream
-        val dir = cacheDir
+        val dir = filesDir.path
         val apkName = urlStr.substring(urlStr.lastIndexOf("/") + 1, urlStr.length)
         val apkFile = File(dir, apkName)
         out = FileOutputStream(apkFile)

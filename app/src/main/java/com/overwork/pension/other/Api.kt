@@ -1,13 +1,13 @@
 package com.overwork.pension.other
 
 //val IP = "110.249.218.70:8081"
-//val IP = "care.cuncaochunhui.com"
-val IP = "192.168.43.152:8081"
+val IP = "care.cuncaochunhui.com"
+//val IP = "192.168.43.152:8081"
 val BASEURL = "http://" + IP + "/appall"//基本
 val UP_HEAD = "http://" + IP + "/upload/"
 val UP_IMAGE = "http://" + IP + "/upload/tpwj/"
 val UP_SOUND = "http://" + IP + "/upload/ypwj/"
-
+val APK_URL = "http://" + IP + "/doc/app.apk"
 //val BASEURL = "http://" + IP + ":8081/yly/appall"//基本
 //val UP_HEAD = "http://" + IP + ":8081/yly/upload/"
 //val UP_IMAGE = "http://" + IP + ":8081/yly/upload/tpwj/"
@@ -34,9 +34,9 @@ val DELET_FILE = "/deleteFj.action"//删除文件
 val IS_HANDOVER = "/ifjbwc.action"//是否交班成功
 val J_HANDOVERDIRECTOR = "/zgsmjb.action"//提交交班
 val SIMPLE_THIS_TIME_TASK = "/fjxx.action"//19异常内容
-val Z_UPDATE_ABNORMAL="/zgxgjbbg.action"//24主管修改汇总记录
-val ABNORMAL_LIST="/cyyj.action"//24异常信息提示列表
-
+val Z_UPDATE_ABNORMAL = "/zgxgjbbg.action"//24主管修改汇总记录
+val ABNORMAL_LIST = "/cyyj.action"//24异常信息提示列表
+val VERSION_NUM = "/getVersionNum.action"//检查更新
 //val BASEURL = "http://www.mockhttp.cn/mock/"//基本
 ////val LOGIN = "loginm"//登陆
 //val LOGIN = "loginz"//登陆主管

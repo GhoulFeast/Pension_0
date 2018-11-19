@@ -134,6 +134,23 @@
     </LinearLayout>
 
     <TextView
+        android:id="@+id/mine_checkupdata"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="15dp"
+        android:layout_marginEnd="96dp"
+        android:layout_marginStart="96dp"
+        android:background="@drawable/text_green_raid"
+        android:gravity="center"
+        android:text="检查更新"
+        android:textColor="@color/white"
+        android:visibility="gone"
+        android:textSize="13sp"
+        app:layout_constraintBottom_toTopOf="@+id/mine_exit_user"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
         android:id="@+id/mine_exit_user"
         android:layout_width="0dp"
         android:layout_height="wrap_content"

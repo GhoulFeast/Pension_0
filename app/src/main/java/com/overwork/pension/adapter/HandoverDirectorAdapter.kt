@@ -144,7 +144,7 @@ class HandoverDirectorAdapter(taskList: ArrayList<MutableMap<String, Any>>, acti
             item_class_abnormal_age_tv.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14f)
             item_class_abnormal_sex_tv.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14f)
             item_class_add_abnormal_tv.visibility = View.VISIBLE
-            item_class_abnormal_room_tv.visibility = View.GONE
+            item_class_abnormal_room_tv.visibility = View.VISIBLE
         }
         item_class_add_abnormal_tv.setOnClickListener({
             var taskDetailsFragment = TaskDetailsFragment();
