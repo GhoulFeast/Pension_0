@@ -140,6 +140,7 @@ class MainActivity : AppCompatActivity() {
                 dialog.dismiss()
             }
             fail {
+                runOnUiThread { Toast.makeText(this@MainActivity, it, Toast.LENGTH_SHORT).show() }
                 dialog.dismiss()
             }
         }

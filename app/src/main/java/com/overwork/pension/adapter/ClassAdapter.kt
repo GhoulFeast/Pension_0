@@ -47,6 +47,22 @@ class ClassAdapter(taskList: ArrayList<MutableMap<String, Any>>) : BaseAdapter()
         var item_class_abnormal_nothing_ll_ll = p1.findViewById<LinearLayout>(R.id.item_class_abnormal_nothing_ll_ll)
         var item_class_abnormal_nothing_tv = p1.findViewById<TextView>(R.id.item_class_abnormal_nothing_tv)
         var item_class_add_abnormal_tv = p1.findViewById<TextView>(R.id.item_class_add_abnormal_tv)
+        var item_in_info=p1.findViewById<TextView>(R.id.item_in_info)
+        var item_out_info=p1.findViewById<TextView>(R.id.item_out_info)
+        var rl =abnormalList.get(p0)["rlhz"].toString()
+        if (rl.equals("0")||rl.equals("")){
+            rl="无入量数据"
+        }else{
+            rl="入量:"+rl
+        }
+        var cl =abnormalList.get(p0)["clhz"].toString()
+        if (cl.equals("0")||cl.equals("")){
+            cl="无入量数据"
+        }else{
+            cl="出量:"+cl
+        }
+        item_in_info.setText(rl)
+        item_out_info.setText(cl)
         item_class_abnormal_needfollow_tv.setMovementMethod(ScrollingMovementMethod.getInstance())
         item_class_abnormal_serious_tv.setMovementMethod(ScrollingMovementMethod.getInstance())
         item_class_abnormal_name_tv.setText(abnormalList.get(p0)["name"].toString())
